@@ -6,47 +6,47 @@ Eine interaktive, leichtgewichtige Offline-Webanwendung zur strukturierten Planu
 
 ## 📖 Übersicht
 
-**Ramonas Garten Anzucht** hilft dabei, den Überblick über die Aussaat- und Pflanzzeiten im Gartenjahr zu behalten. Das Tool bündelt alle relevanten Kulturen (Gemüse, Kräuter, Obst) in einer zentralen Datenbank, bietet klare Monats- und Saisonübersichten und lässt sich komplett lokal ohne Internetverbindung im Browser bedienen.
+**Ramonas Garten Anzucht** hilft dabei, den optimalen Überblick über Aussaat-, Pikier- und Erntezeiten im Gartenjahr zu behalten. Das Tool bündelt alle relevanten Kulturen (Gemüse, Kräuter, Nutzpflanzen) in einer übersichtlichen Oberfläche, lässt sich komplett offline bedienen und bietet praktische Export-Funktionen direkt für das Klemmbrett im Gewächshaus oder Gartenbeet.
 
 ---
 
 ## ✨ Features & Funktionen
 
 - **Umfassende Pflanzendatenbank:** 
-  - Integrierte Datenbank für Gemüse, Kräuter und Nutzpflanzen.
-  - Wichtige Eckdaten pro Kultur: Voranzucht, Direktsaat, Pflanzabstand, Saattiefe, Keimdauer und Erntefenster.
+  - Integrierte Übersicht für Gemüse, Kräuter und Nutzpflanzen.
+  - Wichtige Kennzahlen je Sorte: Voranzucht (Fensterbank/Gewächshaus), Direktsaat, Saattiefe, Pflanzabstand, Keimdauer und Erntezeitraum.
 - **Interaktiver Anzuchtkalender:**
-  - Übersichtliche Einteilung nach Monaten und Jahreszeiten.
-  - Schnelle Filterung: Was muss wann vorgezogen, pikiert oder ins Beet gesetzt werden?
-- **Individuelles Branding:**
-  - Personalisierte Oberfläche („Ramonas Garten Anzucht“) mit klar strukturiertem, modernem Layout.
+  - Schnelle Filterung und Monatsansichten für alle anstehenden Arbeiten.
+- **Druck- & PDF-Export:**
+  - Integrierte Funktion zum direkten Ausdrucken oder Speichern als PDF mit nur einem Klick.
+  - Speziell optimiertes Druck-Styling (`@media print`): Navigations- und Bedienelemente werden automatisch ausgeblendet, sodass nur saubere Tabellen und Listen auf Papier oder im PDF landen.
+- **Individuelles Design:**
+  - Personalisierte Oberfläche („Ramonas Garten Anzucht“) mit klar lesbarer Typografie und intuitiver Benutzerführung.
 - **100 % Offline-Fähig:**
-  - Als Standalone-HTML-Lösung konzipiert: Funktioniert direkt lokal auf PC, Tablet oder Smartphone, ohne externe Serverabhängigkeit.
-- **Responsive Oberfläche:**
-  - Optimiert für den Einsatz am Desktop-Monitor sowie mobil direkt im Gartenbeet oder Gewächshaus.
+  - Standalone-Lösung: Läuft direkt im Browser ohne Webserver, Cloud-Zwang oder externe Abhängigkeiten.
+- **Responsive Layout:**
+  - Saubere Darstellung auf dem Desktop, Tablet oder unterwegs auf dem Smartphone.
 
 ---
 
 ## 🛠️ Technische Details
 
-- **Frontend:** HTML5, Modernes CSS3 (Responsive Grid/Flexbox)
-- **Logik:** Reines JavaScript (Vanilla JS – keine externen Frameworks erforderlich)
-- **Datenspeicherung:** Lokale Datenhaltung (LocalStorage / embedded JSON)
-- **Kompatibilität:** Funktioniert in allen gängigen modernen Browsern (Chrome, Safari, Firefox, Edge)
+- **Frontend:** HTML5, CSS3 (inkl. Print-Stylesheets)
+- **Logik:** Reines JavaScript (Vanilla JS – `window.print()`-Integration)
+- **Kompatibilität:** Getestet und lauffähig in allen modernen Browsern (Chrome, Safari, Firefox, Edge)
 
 ---
 
-## 🚀 Schnellstart & Installation
+## 🚀 Schnellstart
 
-1. Projektordner herunterladen bzw. entpacken.
-2. Die Datei `index.html` per Doppelklick in einem beliebigen Webbrowser öffnen.
-3. *Optional auf Mobilgeräten:* Die Seite im Browser öffnen und über „Zum Home-Bildschirm hinzufügen“ wie eine native App installieren.
+1. Das Projektverzeichnis öffnen.
+2. Die Datei `index.html` per Doppelklick im Standard-Webbrowser starten.
+3. Über den Button **„Drucken / PDF erstellen“** den aktuellen Plan als PDF archivieren oder direkt für das Beet ausdrucken.
 
 ---
 
 ## 📂 Projektstruktur
 
 ```text
-├── index.html       # Hauptdatei (UI, Struktur & Logik)
-├── README.md        # Projektdokumentation & Anleitung
-└── assets/          # (Optional) Bilder, Icons oder separate Stylesheets
+├── index.html       # Gesamte Anwendung (Struktur, Styles & Anwendungslogik)
+└── README.md        # Projektdokumentation & Anleitung
