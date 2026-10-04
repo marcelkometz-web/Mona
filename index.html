@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
-  <title>Ramonas Garten Anzucht - Pro App</title>
+  <title>Ramonas Garten Anzucht</title>
   <style>
     :root {
       --bg: #f4f7f6;
@@ -231,6 +231,62 @@
     }
     .card-star:hover {
       transform: scale(1.2);
+    }
+
+    /* Smart-Search / Nicht gefunden Box */
+    .not-found-box {
+      background: #ffffff;
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+      margin: 20px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .not-found-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .not-found-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .not-found-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .action-pill.primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .action-pill.primary:hover {
+      background: var(--accent);
+    }
+    .action-pill.secondary {
+      background: var(--tag-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .action-pill.secondary:hover {
+      background: #e2e8f0;
     }
 
     /* Modal / Bottom-Sheet Design */
@@ -543,7 +599,7 @@
         background: #fff;
         color: #000;
       }
-      .top-bar, header, .search-box, .status-row, #cultureGrid, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section, .card-star {
+      .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section, .card-star {
         display: none !important;
       }
       #readmeOverlay, #impressumOverlay, .modal-overlay:not(#modalOverlay) {
@@ -593,7 +649,7 @@
   </div>
 
   <header>
-    <h1>🌱 Kleingarten Enzyklopädie - Pro App</h1>
+    <h1>🌱 Kleingarten Enzyklopädie</h1>
     <p class="subtitle">Mobile optimiert mit Favoriten, Notizen & Saison-Radar</p>
   </header>
 
@@ -1612,6 +1668,29 @@
 
       statusCount.innerText = `Gefundene Kulturen: ${gefiltert.length}`;
       cultureGrid.innerHTML = "";
+
+      // Smart-Search: Wenn nichts gefunden wurde, Entwickler-Hinweis & Web-Suche anzeigen
+      if (gefiltert.length === 0 && query !== "") {
+        const encodedQuery = encodeURIComponent(searchInput.value.trim());
+        const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${searchInput.value.trim()}`);
+        const mailBody = encodeURIComponent(`Hallo Marcel,\n\nmir ist aufgefallen, dass folgende Sorte/Pflanze in der App fehlt und nachgetragen werden sollte:\n\nSuchbegriff: "${searchInput.value.trim()}"\n\nViele Grüße!`);
+        
+        cultureGrid.innerHTML = `
+          <div class="not-found-box">
+            <div class="not-found-title">🔍 "${searchInput.value.trim()}" nicht gefunden</div>
+            <div class="not-found-text">Diese Sorte ist aktuell noch nicht in der Datenbank gespeichert. Du kannst sie direkt an den Entwickler melden oder im Web nachschlagen:</div>
+            <div class="not-found-actions">
+              <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">
+                ✉️ An Marcel melden (Nachragen)
+              </a>
+              <a href="https://www.google.com/search?q=${encodedQuery}+Garten+Anzucht" target="_blank" class="action-pill secondary">
+                🌐 Bei Google suchen
+              </a>
+            </div>
+          </div>
+        `;
+        return;
+      }
 
       const struktur = {
         "Gemüse": { icon: "🥦", items: [] },
