@@ -501,7 +501,7 @@
     .nav-item span.nav-icon { font-size: 1.3rem; }
 
     /* ==========================================
-       DRUCK- & PDF-OPTIMIERUNG (Modals absolut ausblenden)
+       DRUCK- & PDF-OPTIMIERUNG (Modals komplett ausschließen)
        ========================================== */
     @media print {
       body {
@@ -512,11 +512,14 @@
       .top-bar, header, .search-box, .status-row, #cultureGrid, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar {
         display: none !important;
       }
-      /* Verhindert zuverlässig, dass Read.txt oder Impressum mitgedruckt werden */
-      #readmeOverlay, #impressumOverlay, .modal-overlay:not(.open) {
+      /* Erzwingt, dass Read.txt und Impressum im Druck immer unsichtbar bleiben */
+      #readmeOverlay, #impressumOverlay {
         display: none !important;
       }
-      .modal-overlay.open {
+      .modal-overlay:not(#modalOverlay) {
+        display: none !important;
+      }
+      .modal-overlay#modalOverlay.open {
         position: static !important;
         display: block !important;
         background: none !important;
@@ -1689,7 +1692,7 @@
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
-            <strong>${sorte.name}</strong> <em>(${sorte.typ})</em><br><br>
+            **${sorte.name}** <em>(${sorte.typ})</em><br><br>
             ${sorte.eigenschaft}
           </div>
         </div>
@@ -1699,7 +1702,7 @@
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
           <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitVorzucht}</div></div>
-          <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</div></div>
+          <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</li></div>
           <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte}</div></div>
         </div>
 
@@ -1726,7 +1729,7 @@
       renderDetailModal();
     };
 
-    window.waehleSorton = function(idx) {
+    window.waehleSorte = function(idx) {
       gewaehlteSorteIdx = idx;
       renderDetailModal();
     };
@@ -1734,7 +1737,7 @@
     searchInput.addEventListener("input", filterUndRender);
 
     window.addEventListener("DOMContentLoaded", () => {
-      filterUndRender();
+      filterUndReport();
     });
   </script>
 </body>
