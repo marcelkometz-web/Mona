@@ -843,7 +843,7 @@
         ]
       },
       {
-        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
+        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️️",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [1, 2, 3, 5],
@@ -1285,7 +1285,7 @@
           { name: "Chicorée (Witloof)", typ: "Treibsalat", eigenschaft: "Wurzeln werden im Herbst geerntet und im dunklen Keller getrieben!" },
           { name: "Löwenzahn (Kulturform)", typ: "Wildsalat", eigenschaft: "Spezielle, aufrecht wachsende Züchtung mit großen Blättern für herben Salat." },
           { name: "Radicchio (Rosso di Chioggia)", typ: "Kopfsalat rot", eigenschaft: "Tiefrote, runde, feste Köpfe mit weißen Adern. Herrlich herb-bitter." },
-          { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher, spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
+          { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
         ]
       },
       {
@@ -1671,13 +1671,14 @@
 
       // Smart-Search: Wenn nichts gefunden wurde, Entwickler-Hinweis & Web-Suche anzeigen
       if (gefiltert.length === 0 && query !== "") {
-        const encodedQuery = encodeURIComponent(searchInput.value.trim());
-        const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${searchInput.value.trim()}`);
-        const mailBody = encodeURIComponent(`Hallo Marcel,\n\nmir ist aufgefallen, dass folgende Sorte/Pflanze in der App fehlt und nachgetragen werden sollte:\n\nSuchbegriff: "${searchInput.value.trim()}"\n\nViele Grüße!`);
+        const rawQuery = searchInput.value.trim();
+        const encodedQuery = encodeURIComponent(rawQuery);
+        const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${rawQuery}`);
+        const mailBody = encodeURIComponent(`Hallo Marcel,\n\nmir ist aufgefallen, dass folgende Sorte/Pflanze in der App fehlt und nachgetragen werden sollte:\n\nSuchbegriff: "${rawQuery}"\n\nViele Grüße!`);
         
         cultureGrid.innerHTML = `
           <div class="not-found-box">
-            <div class="not-found-title">🔍 "${searchInput.value.trim()}" nicht gefunden</div>
+            <div class="not-found-title">🔍 "${rawQuery}" nicht gefunden</div>
             <div class="not-found-text">Diese Sorte ist aktuell noch nicht in der Datenbank gespeichert. Du kannst sie direkt an den Entwickler melden oder im Web nachschlagen:</div>
             <div class="not-found-actions">
               <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">
