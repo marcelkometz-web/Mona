@@ -445,6 +445,21 @@
     .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
     .comp-title { font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
 
+    /* Text-Box für Read.txt */
+    .readme-content {
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      background: var(--tag-bg);
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      line-height: 1.5;
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+
     /* Footer Styling */
     footer.app-footer {
       text-align: center;
@@ -540,7 +555,7 @@
 
   <header>
     <h1>🌱 Kleingarten Enzyklopädie - Pro App</h1>
-    <p class="subtitle">Mobile optimiert mit Bottom-Sheet, Saison-Radar & Impressum</p>
+    <p class="subtitle">Mobile optimiert mit Bottom-Sheet, Saison-Radar & Info-Center</p>
   </header>
 
   <div class="search-box">
@@ -551,7 +566,7 @@
   <div class="status-row">
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
-      <a href="Read.txt" target="_blank" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</a>
+      <button onclick="openReadme()" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
       <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
     </div>
   </div>
@@ -561,12 +576,32 @@
   <!-- Footer & Copyright -->
   <footer class="app-footer">
     <p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
-    <p><a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">Impressum & Rechtliches</a></p>
+    <p>
+      <a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
+      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
+    </p>
   </footer>
 
   <!-- Detail-Fenster (Bottom-Sheet / Modal) für Pflanzen -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="detail-panel" id="detailPanel"></div>
+  </div>
+
+  <!-- Read.txt Modal (wie das Impressum) -->
+  <div class="modal-overlay" id="readmeOverlay">
+    <div class="detail-panel" style="max-width: 580px;">
+      <div class="sheet-handle"></div>
+      <div class="detail-header">
+        <div class="detail-title">📄 Read.txt</div>
+        <button class="close-btn" onclick="closeReadme()">✕</button>
+      </div>
+      <div id="readmeBody" class="readme-content">Lade Read.txt...</div>
+      <div style="text-align: right; margin-top: 16px;">
+        <button onclick="closeReadme()" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
+          Schließen
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Impressum-Modal -->
@@ -621,9 +656,9 @@
     <button class="nav-item" onclick="toggleRadar()">
       <span class="nav-icon">📅</span><span>Aussaat</span>
     </button>
-    <a href="Read.txt" target="_blank" class="nav-item">
+    <button class="nav-item" onclick="openReadme()">
       <span class="nav-icon">📄</span><span>Read.txt</span>
-    </a>
+    </button>
     <button class="nav-item" onclick="openImpressum()">
       <span class="nav-icon">⚖️</span><span>Recht</span>
     </button>
@@ -819,7 +854,6 @@
         guteNachbarn: "Dicke Bohnen, Tagetes, Spinat, Kohlrabi", schlechteNachbarn: "Tomaten, Sellerie, Kürbis, Sonnenblumen",
         filterGruppen: ["Festkochend", "Vorwiegend festkochend", "Mehligkochend", "Alte und besondere Sorten"],
         sorten: [
-          // Festkochend
           { name: "Allians", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Mittelgroße, langovale Knollen mit tiefgelbem Fleisch. Exzellenter Speisegeschmack." },
           { name: "Annabelle", typ: "Festkochend / Sehr früh", gruppe: "Festkochend", eigenschaft: "Feinschalige, längliche Frühkartoffel mit feinem, leicht süßlichem Geschmack." },
           { name: "Anuschka", typ: "Festkochend / Sehr früh", gruppe: "Festkochend", eigenschaft: "Feine, gelbfleischige Frühkartoffel mit glatter Schale und tollem Speisewert." },
@@ -835,8 +869,6 @@
           { name: "Salome", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Gleichmäßige Form, tiefgelb, sehr gute Lagereigenschaften bis ins späte Frühjahr." },
           { name: "Sieglinde", typ: "Festkochend / Tradition", gruppe: "Festkochend", eigenschaft: "Die älteste noch zugelassene deutsche Kartoffelsorte (1935). Feiner, speckiger Biss." },
           { name: "Ukama", typ: "Festkochend / Extrem früh", gruppe: "Festkochend", eigenschaft: "Sehr frühe Ernte möglich, große Knollen mit hellem Fleisch, ertragssicher." },
-
-          // Vorwiegend festkochend
           { name: "Agria", typ: "Vorw. Fest bis Mehlig", gruppe: "Vorwiegend festkochend", eigenschaft: "Der unangefochtene König für selbstgemachte Pommes frites und Kartoffelpüree!" },
           { name: "Arielle", typ: "Vorw. Fest / Sehr früh", gruppe: "Vorwiegend festkochend", eigenschaft: "Frühe Speisekartoffel mit schneller Schalenfestigkeit und gutem Ertragspotenzial." },
           { name: "Belmonda", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Sehr trockenheits- und hitzetolerant, bildet schöne gleichmäßige Speiseknollen." },
@@ -853,8 +885,6 @@
           { name: "Quarta", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Auffällige rote Augen auf gelber Schale! Kräftiger, herzhafter Kartoffelgeschmack." },
           { name: "Secura", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Robuste, ertragreiche Familiensorte mit guter Lagerfähigkeit und feiner Textur." },
           { name: "Selma", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Schöne ovale Knollen, zuverlässige Standardsorte für den Hausgartenanbau." },
-
-          // Mehligkochend
           { name: "Ackersegen", typ: "Mehlig / Historisch (1929)", gruppe: "Mehligkochend", eigenschaft: "Alte deutsche Sorte mit buttergelbem Fleisch und unvergleichlich reichem Geschmack." },
           { name: "Adretta", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Berühmte DDR-Züchtung mit fantastischem, aromatischem Geschmack. Perfekt für Püree." },
           { name: "Afra", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Dunkelgelbes Fleisch, zerfällt wunderbar locker beim Kochen, ideal für Klöße." },
@@ -864,8 +894,6 @@
           { name: "Marabel", typ: "Mehlig bis Vorw. Fest", gruppe: "Mehligkochend", eigenschaft: "Sehr frühe Speisekartoffel mit herrlich goldgelber Farbe und zartem Schmelz." },
           { name: "Russet Burbank", typ: "Mehlig / Riesenknolle", gruppe: "Mehligkochend", eigenschaft: "Die legendäre amerikanische Ofenkartoffel (Baked Potato) mit rauer Netzschale." },
           { name: "Saturna", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Sehr stärkereich und trocken kochend, ideal für Reibekuchen und Röstis." },
-
-          // Alte und besondere Sorten
           { name: "Bamberger Hörnchen", typ: "Historisch / Fingerling", gruppe: "Alte und besondere Sorten", eigenschaft: "Fränkische Spezialität von 1870. Krumm gewachsen, nussiger Gourmet-Geschmack." },
           { name: "Blauer Schwede", typ: "Besondere Sorte / Blau", gruppe: "Alte und besondere Sorten", eigenschaft: "Blaue Schale und blau marmoriertes Fleisch. Reich an Anthocyanen, tolles Püree." },
           { name: "Blaue St. Galler", typ: "Besondere Sorte / Blau", gruppe: "Alte und besondere Sorten", eigenschaft: "Schweizer Neuzüchtung mit durchgehend stabiler, tiefblauer Farbe beim Kochen." },
@@ -1226,7 +1254,7 @@
         abstandPflanze: "3m", abstandReihe: "4m", saattiefe: "Veredelung 5cm über Boden", bedarf: "Mittelzehrer",
         zeitVorzucht: "Baumkauf", zeitBeet: "Herbst (Okt-Nov)", zeitErnte: "Aug-Nov",
         monateAussaat: [10, 11, 3],
-        tipp: "Winterschnitt fördert Fruchtreife.",
+        tipp: "Winterschnitt fördern Fruchtreife.",
         guteNachbarn: "Kapuzinerkresse, Knoblauch", schlechteNachbarn: "Gras am Stamm",
         sorten: [
           { name: "Boskoop", typ: "Winterapfel", eigenschaft: "König zum Backen/Kompott." },
@@ -1449,6 +1477,8 @@
     const cultureGrid = document.getElementById("cultureGrid");
     const modalOverlay = document.getElementById("modalOverlay");
     const detailPanel = document.getElementById("detailPanel");
+    const readmeOverlay = document.getElementById("readmeOverlay");
+    const readmeBody = document.getElementById("readmeBody");
     const impressumOverlay = document.getElementById("impressumOverlay");
     const statusCount = document.getElementById("statusCount");
 
@@ -1551,6 +1581,36 @@
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) {
         closeDetailModal();
+      }
+    });
+
+    // Read.txt Öffnen & Schließen
+    function openReadme() {
+      readmeBody.innerText = "Lade Dokumentation Read.txt...";
+      readmeOverlay.classList.add("open");
+
+      fetch("Read.txt")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Datei Read.txt konnte nicht geladen werden.");
+          }
+          return response.text();
+        })
+        .then(text => {
+          readmeBody.innerText = text;
+        })
+        .catch(err => {
+          readmeBody.innerText = "Hinweis: Die Datei 'Read.txt' liegt noch nicht im selben Ordner wie diese index.html oder dein Browser blockiert lokale Dateizugriffe.\n\nErstelle einfach eine 'Read.txt' im Hauptverzeichnis mit deinen gewünschten Notizen!";
+        });
+    }
+
+    function closeReadme() {
+      readmeOverlay.classList.remove("open");
+    }
+
+    readmeOverlay.addEventListener("click", (e) => {
+      if (e.target === readmeOverlay) {
+        closeReadme();
       }
     });
 
