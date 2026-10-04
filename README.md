@@ -81,3 +81,22 @@ Die Entwicklung der Anwendung erfolgte iterativ mit dem Ziel, ein absolut praxis
 
 - **Idee, Konzept & Entwicklung:** Marcel Kometz
 - **Widmung:** Entwickelt für Ramona zur perfekten Organisation der jährlichen Garten- und Beetanzucht.
+---
+
+## ⚖️ Impressum & Rechtliche Hinweise
+
+**Angaben gemäß § 5 DDG:**
+
+Marcel Kometz  
+Manfredstr. 15  
+47178 Duisburg  
+
+**Kontakt:**  
+E-Mail: marcelkometz@icloud.com  
+
+**Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:**  
+Marcel Kometz  
+Manfredstr. 15  
+47178 Duisburg  
+
+*Hinweis: Dies ist ein privates, nicht-kommerzielles Web-Projekt zur Garten- und Anzuchtplanung.*
