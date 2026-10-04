@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Garten Anzucht">
+  <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
   <title>Ramonas Garten Anzucht - Pro App</title>
   <style>
     :root {
@@ -20,6 +20,7 @@
       --tag-bg: #f1f5f9;
       --good: #dcfce7;
       --bad: #fee2e2;
+      --star: #f59e0b;
     }
     
     * { 
@@ -195,6 +196,7 @@
       cursor: pointer; 
       transition: all 0.15s ease; 
       user-select: none; 
+      position: relative;
     }
     .item-card:hover, .item-card.selected { 
       border-color: var(--accent); 
@@ -212,6 +214,23 @@
       display: inline-block; 
       padding: 2px 6px; 
       border-radius: 8px; 
+    }
+
+    /* Favoriten-Stern auf der Karte */
+    .card-star {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .card-star.active {
+      color: var(--star);
+    }
+    .card-star:hover {
+      transform: scale(1.2);
     }
 
     /* Modal / Bottom-Sheet Design */
@@ -427,6 +446,38 @@
       line-height: 1.45; 
       color: #0c4a6e; 
     }
+
+    /* Notizbereich pro Pflanze */
+    .notes-section {
+      margin-top: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .notes-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .notes-textarea {
+      width: 100%;
+      min-height: 70px;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      resize: vertical;
+      outline: none;
+      background: #fff;
+    }
+    .notes-textarea:focus {
+      border-color: var(--accent);
+    }
     
     .companion-grid { 
       display: grid; 
@@ -444,21 +495,6 @@
     .good-box { background: var(--good); border: 1px solid #bbf7d0; color: #166534; }
     .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
     .comp-title { font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
-
-    /* Text-Box für Read.txt */
-    .readme-content {
-      white-space: pre-wrap;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.82rem;
-      background: var(--tag-bg);
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      line-height: 1.5;
-      max-height: 55vh;
-      overflow-y: auto;
-    }
 
     /* Footer Styling */
     footer.app-footer {
@@ -479,7 +515,7 @@
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
-      padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px)) 6px;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px)) 4px;
       z-index: 900;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
     }
@@ -489,7 +525,7 @@
       align-items: center;
       background: none;
       border: none;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
@@ -498,25 +534,19 @@
       transition: color 0.15s;
     }
     .nav-item.active { color: var(--primary); }
-    .nav-item span.nav-icon { font-size: 1.3rem; }
+    .nav-item span.nav-icon { font-size: 1.25rem; }
 
-    /* ==========================================
-       DRUCK- & PDF-OPTIMIERUNG (Modals komplett ausschließen)
-       ========================================== */
+    /* Druck- & PDF-Optimierung */
     @media print {
       body {
         padding: 0;
         background: #fff;
         color: #000;
       }
-      .top-bar, header, .search-box, .status-row, #cultureGrid, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar {
+      .top-bar, header, .search-box, .status-row, #cultureGrid, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section {
         display: none !important;
       }
-      /* Erzwingt, dass Read.txt und Impressum im Druck immer unsichtbar bleiben */
-      #readmeOverlay, #impressumOverlay {
-        display: none !important;
-      }
-      .modal-overlay:not(#modalOverlay) {
+      #readmeOverlay, #impressumOverlay, .modal-overlay:not(#modalOverlay) {
         display: none !important;
       }
       .modal-overlay#modalOverlay.open {
@@ -564,14 +594,14 @@
 
   <header>
     <h1>🌱 Kleingarten Enzyklopädie - Pro App</h1>
-    <p class="subtitle">Mobile optimiert mit Bottom-Sheet, Saison-Radar & Info-Center</p>
+    <p class="subtitle">Mobile optimiert mit Favoriten, Notizen & Saison-Radar</p>
   </header>
 
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="🔍 Schnellsuchlauf (z.B. Linda, Music, Presto, Matador)...">
   </div>
 
-  <!-- Statuszeile links und Read.txt sowie Impressum rechts am Kreuz -->
+  <!-- Statuszeile links und Read.txt / Impressum rechts -->
   <div class="status-row">
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
@@ -596,7 +626,7 @@
     <div class="detail-panel" id="detailPanel"></div>
   </div>
 
-  <!-- Read.txt Modal (wie das Impressum) -->
+  <!-- Read.txt Modal -->
   <div class="modal-overlay" id="readmeOverlay">
     <div class="detail-panel" style="max-width: 580px;">
       <div class="sheet-handle"></div>
@@ -648,7 +678,7 @@
     </div>
   </div>
 
-  <!-- Feste Daumen-Navigation unten -->
+  <!-- Feste Daumen-Navigation unten (inkl. Favoriten-Button) -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="setMainCategory('Alle')">
       <span class="nav-icon">🌐</span><span>Alle</span>
@@ -661,6 +691,9 @@
     </button>
     <button class="nav-item" onclick="setMainCategory('Kräuter')">
       <span class="nav-icon">🌿</span><span>Kräuter</span>
+    </button>
+    <button class="nav-item" onclick="setMainCategory('Favoriten')">
+      <span class="nav-icon">⭐</span><span>Favoriten</span>
     </button>
     <button class="nav-item" onclick="toggleRadar()">
       <span class="nav-icon">📅</span><span>Aussaat</span>
@@ -1466,6 +1499,48 @@
       }
     ];
 
+    // Favoriten-Laden & Speichern (localStorage)
+    const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
+    function getFavorites() {
+      try {
+        const stored = localStorage.getItem(FAVORITES_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    function toggleFavorite(id, event) {
+      if (event) event.stopPropagation();
+      let favs = getFavorites();
+      if (favs.includes(id)) {
+        favs = favs.filter(f => f !== id);
+      } else {
+        favs.push(id);
+      }
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+      } catch (e) {}
+      filterUndRender();
+    }
+
+    // Notizen-Laden & Speichern (localStorage)
+    const NOTES_KEY = "ramonas_garten_notizen_v1";
+    function getNotes() {
+      try {
+        const stored = localStorage.getItem(NOTES_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveNote(id, text) {
+      let notes = getNotes();
+      notes[id] = text;
+      try {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+      } catch (e) {}
+    }
+
     // Alphabetische Sortierung
     gartenDaten.sort((a, b) => a.name.localeCompare(b.name));
     gartenDaten.forEach(k => k.sorten.sort((a, b) => a.name.localeCompare(b.name)));
@@ -1502,7 +1577,7 @@
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
       if (radarAktiv) {
-        items[4].classList.add('active');
+        items[5].classList.add('active');
       } else if (aktiveKategorie === 'Alle') {
         items[0].classList.add('active');
       } else if (aktiveKategorie === 'Gemüse') {
@@ -1511,15 +1586,24 @@
         items[2].classList.add('active');
       } else if (aktiveKategorie === 'Kräuter') {
         items[3].classList.add('active');
+      } else if (aktiveKategorie === 'Favoriten') {
+        items[4].classList.add('active');
       }
     }
 
     function filterUndRender() {
       const query = searchInput.value.toLowerCase().trim();
       const currentMonth = new Date().getMonth() + 1;
+      const favs = getFavorites();
 
       const gefiltert = gartenDaten.filter(k => {
-        const katMatch = (aktiveKategorie === "Alle" || k.oberkategorie === aktiveKategorie);
+        let katMatch = true;
+        if (aktiveKategorie === "Favoriten") {
+          katMatch = favs.includes(k.id);
+        } else if (aktiveKategorie !== "Alle") {
+          katMatch = (k.oberkategorie === aktiveKategorie);
+        }
+
         const radarMatch = (!radarAktiv || (k.monateAussaat && k.monateAussaat.includes(currentMonth)));
         const namenMatch = k.name.toLowerCase().includes(query) || k.kategorie.toLowerCase().includes(query);
         const sortenMatch = k.sorten.some(s => s.name.toLowerCase().includes(query) || s.eigenschaft.toLowerCase().includes(query));
@@ -1553,12 +1637,14 @@
           const innerGrid = section.querySelector(".grid");
           
           gruppe.items.forEach(k => {
+            const isFav = favs.includes(k.id);
             const card = document.createElement("div");
             card.className = `item-card ${k.id === gewaehlteKulturId ? 'selected' : ''}`;
             card.onclick = () => {
               openKulturDetail(k.id);
             };
             card.innerHTML = `
+              <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)" title="Als Favorit merken">★</span>
               <div class="item-icon">${k.icon}</div>
               <div class="item-title">${k.name}</div>
               <div class="item-sub">${k.sorten.length} Sorten</div>
@@ -1650,6 +1736,8 @@
         gewaehlteSorteIdx = 0;
       }
       const sorte = sichtbareSorten[gewaehlteSorteIdx] || k.sorten[0];
+      const notes = getNotes();
+      const currentNote = notes[k.id] || "";
 
       let subFilterHtml = "";
       if (k.filterGruppen) {
@@ -1692,7 +1780,7 @@
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
-            **${sorte.name}** <em>(${sorte.typ})</em><br><br>
+            <strong>${sorte.name}</strong> <em>(${sorte.typ})</em><br><br>
             ${sorte.eigenschaft}
           </div>
         </div>
@@ -1702,12 +1790,17 @@
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
           <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitVorzucht}</div></div>
-          <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</li></div>
+          <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</div></div>
           <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte}</div></div>
         </div>
 
         <div class="tipp-box">
           💡 <strong>Profi-Gartentipp:</strong><br>${k.tipp}
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-title">📝 Meine Garten-Notizen</div>
+          <textarea class="notes-textarea" placeholder="Notizen hier eintragen (wird automatisch gespeichert)..." oninput="saveNote('${k.id}', this.value)">${currentNote}</textarea>
         </div>
 
         <div class="companion-grid">
@@ -1737,7 +1830,7 @@
     searchInput.addEventListener("input", filterUndRender);
 
     window.addEventListener("DOMContentLoaded", () => {
-      filterUndReport();
+      filterUndRender();
     });
   </script>
 </body>
