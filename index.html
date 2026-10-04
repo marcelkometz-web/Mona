@@ -471,7 +471,7 @@
     }
     footer.app-footer p { margin-bottom: 6px; }
 
-    /* Feste Daumen-Leiste unten (nur 5 Kern-Elemente ohne Read/Impressum) */
+    /* Feste Daumen-Leiste unten */
     .bottom-nav {
       position: fixed;
       bottom: 0; left: 0; width: 100%;
@@ -489,7 +489,7 @@
       align-items: center;
       background: none;
       border: none;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
@@ -500,7 +500,9 @@
     .nav-item.active { color: var(--primary); }
     .nav-item span.nav-icon { font-size: 1.3rem; }
 
-    /* Druck- & PDF-Optimierung */
+    /* ==========================================
+       DRUCK- & PDF-OPTIMIERUNG (Modals absolut ausblenden)
+       ========================================== */
     @media print {
       body {
         padding: 0;
@@ -510,7 +512,11 @@
       .top-bar, header, .search-box, .status-row, #cultureGrid, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar {
         display: none !important;
       }
-      .modal-overlay {
+      /* Verhindert zuverlässig, dass Read.txt oder Impressum mitgedruckt werden */
+      #readmeOverlay, #impressumOverlay, .modal-overlay:not(.open) {
+        display: none !important;
+      }
+      .modal-overlay.open {
         position: static !important;
         display: block !important;
         background: none !important;
@@ -578,7 +584,7 @@
     <p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
     <p>
       <a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
-      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️️ Impressum & Rechtliches</a>
+      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
     </p>
   </footer>
 
@@ -639,7 +645,7 @@
     </div>
   </div>
 
-  <!-- Feste Daumen-Navigation unten (aufgeräumt) -->
+  <!-- Feste Daumen-Navigation unten -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="setMainCategory('Alle')">
       <span class="nav-icon">🌐</span><span>Alle</span>
@@ -1720,7 +1726,7 @@
       renderDetailModal();
     };
 
-    window.waehleSorte = function(idx) {
+    window.waehleSorton = function(idx) {
       gewaehlteSorteIdx = idx;
       renderDetailModal();
     };
