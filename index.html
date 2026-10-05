@@ -832,7 +832,7 @@
     updateClock();
 
     // ==========================================
-    // DIE DATENBANK (Erweitert um zusätzliche Top-Sorten)
+    // DIE DATENBANK
     // ==========================================
     const gartenDaten = [
       // 🥦 GEMÜSE 🥦
@@ -1255,6 +1255,7 @@
         sorten: [
           { name: "Attraktion", typ: "Kopfsalat", eigenschaft: "Sehr bewährte, zarte Freilandsorte." },
           { name: "Eichblatt rot (Red Salad Bowl)", typ: "Pflücksalat", eigenschaft: "Tiefrote, gezackte Blätter. Sehr dekorativ und wüchsig." },
+          { name: "Lollo Bionda", typ: "Pflücksalat", eigenschaft: "Hellgrün, stark gekraust, bildet voluminöse Köpfe." },
           { name: "Lollo Rosso", typ: "Pflücksalat", eigenschaft: "Krause, rote Blätter. Wächst nach dem Schnitt wieder nach." },
           { name: "Maikönig", typ: "Kopfsalat", eigenschaft: "Der absolute Frühlingsklassiker für das erste Beet." },
           { name: "Romana Little Gem", typ: "Römersalat", eigenschaft: "Kleine, extrem knackige und süßliche Salatherzen." },
@@ -1332,7 +1333,9 @@
           { name: "Ochsenherz", typ: "Fleischtomate", eigenschaft: "Stark gerippt, riesig, wenig Kerne." },
           { name: "Rote Murmel", typ: "Wildtomate", eigenschaft: "Muss nicht ausgegeizt werden! 100% resistent." },
           { name: "San Marzano", typ: "Saucentomate", eigenschaft: "Festes Fleisch, wenig Wasser. Perfekt zum Einkochen." },
+          { name: "San Marzano Nano", typ: "Buschtomate", eigenschaft: "Kompakte San Marzano Variante, muss nicht ausgegeizt werden." },
           { name: "Schwarze Krim", typ: "Fleischtomate", eigenschaft: "Dunkelbraun-rot, würzig-süß, leicht salzige Note." },
+          { name: "Yellow Pearshaped", typ: "Cocktailtomate", eigenschaft: "Kleine gelbe Birnchen, extrem süß und dekorativ im Salat." },
           { name: "Zuckertraube", typ: "Cocktailtomate", eigenschaft: "Lange Rispen, kleine süße Früchte zum Naschen." }
         ]
       },
@@ -1349,6 +1352,7 @@
           { name: "Chicorée (Witloof)", typ: "Treibsalat", eigenschaft: "Wurzeln werden im Herbst geerntet und im dunklen Keller getrieben!" },
           { name: "Löwenzahn (Kulturform)", typ: "Wildsalat", eigenschaft: "Spezielle, aufrecht wachsende Züchtung mit großen Blättern für herben Salat." },
           { name: "Radicchio (Rosso di Chioggia)", typ: "Kopfsalat rot", eigenschaft: "Tiefrote, runde, feste Köpfe mit weißen Adern. Herrlich herb-bitter." },
+          { name: "Radicchio (Treviso)", typ: "Kopfsalat länglich", eigenschaft: "Längliche Blätter, etwas milder als Chioggia, ideal zum Grillen." },
           { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
         ]
       },
@@ -1587,6 +1591,7 @@
         guteNachbarn: "Tomaten, Gurken, Kohl", schlechteNachbarn: "Fenchel",
         sorten: [
           { name: "Basilikum Genoveser", typ: "Klassiker", eigenschaft: "Großblättrig, intensives Aroma, Pesto-Klassiker." },
+          { name: "Basilikum Thai", typ: "Spezialität", eigenschaft: "Süßlich-würziges Anisaroma, ideal für asiatische Gerichte." },
           { name: "Bohnenkraut (Sommer)", typ: "Gewürz", eigenschaft: "Perfekt neben Bohnen, hält die schwarze Bohnenlaus fern!" },
           { name: "Borretsch (Gurkenkraut)", typ: "Bienenweide", eigenschaft: "Wunderschöne blaue, essbare Blüten. Schmeckt nach Gurke." },
           { name: "Dill Elefant", typ: "Kraut", eigenschaft: "Sehr blattreich, schießt spät in die Blüte." },
@@ -1643,7 +1648,7 @@
       filterUndRender();
     }
 
-    // Notizen-Laden & Speichern (localStorage)
+    // Pflanzenspezifische Notizen-Laden & Speichern
     const NOTES_KEY = "ramonas_garten_notizen_v1";
     function getNotes() {
       try {
@@ -1664,6 +1669,31 @@
         localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
       } catch (e) {}
       updateNotesBadge();
+    }
+
+    // Allgemeines Garten-Notizbuch
+    const GENERAL_NOTE_KEY = "ramonas_garten_general_note_v1";
+    function getGeneralNote() {
+      try {
+        return localStorage.getItem(GENERAL_NOTE_KEY) || "";
+      } catch (e) {
+        return "";
+      }
+    }
+    window.saveGeneralNote = function(text) {
+      try {
+        localStorage.setItem(GENERAL_NOTE_KEY, text);
+      } catch (e) {}
+    }
+    window.sendGeneralNoteEmail = function() {
+      const text = getGeneralNote();
+      if (!text || text.trim() === "") {
+        alert("Das allgemeine Notizbuch ist aktuell leer!");
+        return;
+      }
+      const subject = encodeURIComponent("Allgemeine Garten-Notizen");
+      const body = encodeURIComponent(text + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
     // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter (nur echte, nicht-leere Notizen zählen)
@@ -1716,7 +1746,7 @@
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
       if (radarAktiv) {
-        items[5].classList.add('active');
+        items[6].classList.add('active'); // Aussaat ist jetzt Index 6
       } else if (aktiveKategorie === 'Alle') {
         items[0].classList.add('active');
       } else if (aktiveKategorie === 'Gemüse') {
@@ -1745,17 +1775,33 @@
         
         const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
         statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length}`;
-        cultureGrid.innerHTML = "";
+        
+        const generalText = getGeneralNote();
+
+        let html = `
+          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+              📝 Allgemeines Notizbuch
+            </div>
+            <textarea id="generalNoteInput" placeholder="Was steht allgemein im Garten an? (Erde kaufen, Beet umgraben, etc.)..." style="width: 100%; min-height: 120px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;" oninput="saveGeneralNote(this.value)">${escapeHtml(generalText)}</textarea>
+            <button onclick="sendGeneralNoteEmail()" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              ✉️ Diese Notiz per E-Mail weiterleiten
+            </button>
+          </div>
+        `;
 
         if (notedIds.length === 0) {
-          cultureGrid.innerHTML = `
-            <div class="not-found-box">
-              <div class="not-found-title">📝 Noch keine Notizen vorhanden</div>
-              <div class="not-found-text">Öffne eine Pflanze deiner Wahl und trage unten im Notizfeld deine Beobachtungen ein. Sie erscheinen dann automatisch hier!</div>
+          html += `
+            <div class="not-found-box" style="margin-top: 0;">
+              <div class="not-found-title">🌱 Keine Pflanzenspezifischen Notizen</div>
+              <div class="not-found-text">Öffne eine Pflanze deiner Wahl und trage dort Beobachtungen ein. Sie erscheinen dann automatisch hier als Liste.</div>
             </div>
           `;
+          cultureGrid.innerHTML = html;
           return;
         }
+
+        cultureGrid.innerHTML = html;
 
         const container = document.createElement("div");
         container.className = "notes-overview-container";
