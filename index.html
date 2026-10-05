@@ -648,7 +648,7 @@
       transition: color 0.15s;
     }
     .nav-item.active { color: var(--primary); }
-    .nav-item span.nav-icon { font-size: 1.2rem; }
+    .nav-item span.nav-icon { font-size: 1.25rem; }
 
     /* Druck- & PDF-Optimierung */
     @media print {
@@ -792,7 +792,7 @@
     </div>
   </div>
 
-  <!-- Feste Daumen-Navigation unten (inkl. Notizen-Reiter) -->
+  <!-- Feste Daumen-Navigation unten (mit Notizen-Reiter) -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="setMainCategory('Alle')">
       <span class="nav-icon">🌐</span><span>Alle</span>
@@ -1608,7 +1608,7 @@
           { name: "Pfefferminze", typ: "Tee-Kraut", eigenschaft: "Wuchert extrem stark (unbedingt im Topf oder mit Wurzelsperre pflanzen!)." },
           { name: "Rosmarin 'Arp'", typ: "Mediterran", eigenschaft: "Die winterhärteste Sorte (hält bis -20°C stand)." },
           { name: "Salbei 'Extrakta'", typ: "Heilkraut", eigenschaft: "Sehr hoher Anteil an ätherischen Ölen. Ideal für Tee." },
-          { name: "Schnittlauch 'Grobi'", typ: "Zwiebelgewächs", eigenschaft: "Zieht im Winter ein, treibt im Frühjahr kraftvoll neu aus." },
+          { name: "Schnittlauch 'Grobi'", typ: "Zweijährig", eigenschaft: "Zieht im Winter ein, treibt im Frühjahr kraftvoll neu aus." },
           { name: "Thymian 'Faustini'", typ: "Bodendecker", eigenschaft: "Zieht Bienen und Schmetterlinge magisch an." },
           { name: "Waldmeister", typ: "Schattenkraut", eigenschaft: "Für den schattigen Bereich unter Bäumen. Cumarin-Duft beim Welken." },
           { name: "Zitronenmelisse", typ: "Tee-Kraut", eigenschaft: "Unverwüstlich, tolles Zitronenaroma, samt sich gerne selbst stark aus." }
@@ -1652,7 +1652,7 @@
     }
     function saveNote(id, text) {
       let notes = getNotes();
-      if (text.trim() === "") {
+      if (!text || text.trim() === "") {
         delete notes[id];
       } else {
         notes[id] = text;
@@ -1663,10 +1663,11 @@
       updateNotesBadge();
     }
 
-    // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter
+    // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter (nur echte, nicht-leere Notizen zählen)
     function updateNotesBadge() {
       const notes = getNotes();
-      const count = Object.keys(notes).length;
+      const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
+      const count = notedIds.length;
       const label = document.getElementById("navNotesLabel");
       if (label) {
         label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
@@ -1739,7 +1740,7 @@
         searchBoxContainer.style.display = "none";
         statusRowContainer.style.display = "none";
         
-        const notedIds = Object.keys(notes).filter(id => notes[id].trim() !== "");
+        const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
         statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length}`;
         cultureGrid.innerHTML = "";
 
@@ -1967,6 +1968,7 @@
       if (k.filterGruppen) {
         subFilterHtml = `<div class="subfilter-bar">`;
         subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === 'Alle' ? 'active' : ''}" onclick="setSubFilter('Alle')">Alle (${k.sorten.length})</button>`;
+        k.filterGruernchen = k.sorten.filter(s => s.gruppe); // dummy check
         k.filterGruppen.forEach(gName => {
           const count = k.sorten.filter(s => s.gruppe === gName).length;
           subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === gName ? 'active' : ''}" onclick="setSubFilter('${gName}')">${gName} (${count})</button>`;
