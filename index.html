@@ -1685,6 +1685,25 @@
         localStorage.setItem(GENERAL_NOTE_KEY, text);
       } catch (e) {}
     }
+    
+    // Manuelles Speichern mit visuellem Feedback
+    window.triggerManualSave = function() {
+      const textarea = document.getElementById("generalNoteInput");
+      if (textarea) {
+        saveGeneralNote(textarea.value);
+        const btn = document.getElementById("saveNoteBtn");
+        if (btn) {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = "✅ Gespeichert!";
+          btn.style.background = "var(--accent)";
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = "var(--primary)";
+          }, 2000);
+        }
+      }
+    }
+
     window.sendGeneralNoteEmail = function() {
       const text = getGeneralNote();
       if (!text || text.trim() === "") {
@@ -1746,7 +1765,7 @@
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
       if (radarAktiv) {
-        items[6].classList.add('active'); // Aussaat ist jetzt Index 6
+        items[5].classList.add('active'); // Aussaat ist Index 5
       } else if (aktiveKategorie === 'Alle') {
         items[0].classList.add('active');
       } else if (aktiveKategorie === 'Gemüse') {
@@ -1784,9 +1803,15 @@
               📝 Allgemeines Notizbuch
             </div>
             <textarea id="generalNoteInput" placeholder="Was steht allgemein im Garten an? (Erde kaufen, Beet umgraben, etc.)..." style="width: 100%; min-height: 120px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;" oninput="saveGeneralNote(this.value)">${escapeHtml(generalText)}</textarea>
-            <button onclick="sendGeneralNoteEmail()" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-              ✉️ Diese Notiz per E-Mail weiterleiten
-            </button>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button id="saveNoteBtn" onclick="triggerManualSave()" style="flex: 1; min-width: 130px; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
+                💾 Notiz speichern
+              </button>
+              <button onclick="sendGeneralNoteEmail()" style="flex: 1; min-width: 130px; background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px;">
+                ✉️ Per E-Mail senden
+              </button>
+            </div>
           </div>
         `;
 
