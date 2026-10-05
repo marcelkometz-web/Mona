@@ -320,7 +320,12 @@
       align-items: center;
       gap: 6px;
     }
-    .note-card-title:hover {
+    .note-card-title.static {
+      cursor: default;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+    .note-card-title:not(.static):hover {
       text-decoration: underline;
     }
     .note-card-text {
@@ -639,7 +644,7 @@
       align-items: center;
       background: none;
       border: none;
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
@@ -720,7 +725,7 @@
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
       <button onclick="openReadme()" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
-      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
+      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️️ Impressum</button>
     </div>
   </div>
 
@@ -832,7 +837,7 @@
     updateClock();
 
     // ==========================================
-    // DIE DATENBANK
+    // DIE DATENBANK (Erweitert um zusätzliche Top-Sorten)
     // ==========================================
     const gartenDaten = [
       // 🥦 GEMÜSE 🥦
@@ -1671,55 +1676,85 @@
       updateNotesBadge();
     }
 
-    // Allgemeines Garten-Notizbuch
-    const GENERAL_NOTE_KEY = "ramonas_garten_general_note_v1";
-    function getGeneralNote() {
+    // Allgemeines Garten-Notizbuch (als Liste)
+    const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
+    function getGeneralNotes() {
       try {
-        return localStorage.getItem(GENERAL_NOTE_KEY) || "";
+        const stored = localStorage.getItem(GENERAL_NOTES_KEY);
+        return stored ? JSON.parse(stored) : [];
       } catch (e) {
-        return "";
+        return [];
       }
     }
-    window.saveGeneralNote = function(text) {
+    function saveGeneralNote(text) {
+      if(!text || text.trim() === "") return;
+      let notes = getGeneralNotes();
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('de-DE') + " " + String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
+      notes.unshift({ id: Date.now().toString(), text: text.trim(), date: dateStr });
       try {
-        localStorage.setItem(GENERAL_NOTE_KEY, text);
+        localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes));
       } catch (e) {}
+      updateNotesBadge();
+    }
+    window.deleteGeneralNote = function(id) {
+      let notes = getGeneralNotes();
+      notes = notes.filter(n => n.id !== id);
+      try {
+        localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes));
+      } catch (e) {}
+      updateNotesBadge();
+      filterUndRender();
     }
     
     // Manuelles Speichern mit visuellem Feedback
     window.triggerManualSave = function() {
       const textarea = document.getElementById("generalNoteInput");
-      if (textarea) {
+      if (textarea && textarea.value.trim() !== "") {
         saveGeneralNote(textarea.value);
-        const btn = document.getElementById("saveNoteBtn");
-        if (btn) {
-          const originalText = btn.innerHTML;
-          btn.innerHTML = "✅ Gespeichert!";
-          btn.style.background = "var(--accent)";
-          setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.background = "var(--primary)";
-          }, 2000);
-        }
+        filterUndRender(); // Rendert die Seite neu (leert das Feld und zeigt die neue Notiz)
+        
+        // Suche den Button im neu gerenderten DOM für das grüne Feedback
+        setTimeout(() => {
+          const btn = document.getElementById("saveNoteBtn");
+          if (btn) {
+            btn.innerHTML = "✅ Gespeichert!";
+            btn.style.background = "var(--accent)";
+            setTimeout(() => {
+              if(document.getElementById("saveNoteBtn")) {
+                document.getElementById("saveNoteBtn").innerHTML = "💾 Notiz speichern";
+                document.getElementById("saveNoteBtn").style.background = "var(--primary)";
+              }
+            }, 2000);
+          }
+        }, 50);
+      } else {
+        alert("Bitte gib zuerst einen Text ein.");
       }
     }
 
     window.sendGeneralNoteEmail = function() {
-      const text = getGeneralNote();
-      if (!text || text.trim() === "") {
-        alert("Das allgemeine Notizbuch ist aktuell leer!");
+      const general = getGeneralNotes();
+      if (general.length === 0) {
+        alert("Du hast noch keine allgemeinen Notizen gespeichert!");
         return;
       }
+      let text = "Meine Garten-Notizen:\n\n";
+      general.forEach(n => {
+        text += `[${n.date}]\n${n.text}\n\n`;
+      });
       const subject = encodeURIComponent("Allgemeine Garten-Notizen");
-      const body = encodeURIComponent(text + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
+      const body = encodeURIComponent(text + "---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
-    // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter (nur echte, nicht-leere Notizen zählen)
+    // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter (Pflanzennotizen + Allgemeine Notizen)
     function updateNotesBadge() {
       const notes = getNotes();
-      const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
-      const count = notedIds.length;
+      const plantNoteCount = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "").length;
+      const generalNoteCount = getGeneralNotes().length;
+      const count = plantNoteCount + generalNoteCount;
+      
       const label = document.getElementById("navNotesLabel");
       if (label) {
         label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
@@ -1765,7 +1800,7 @@
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
       if (radarAktiv) {
-        items[5].classList.add('active'); // Aussaat ist Index 5
+        items[6].classList.add('active'); // Aussaat ist Index 6
       } else if (aktiveKategorie === 'Alle') {
         items[0].classList.add('active');
       } else if (aktiveKategorie === 'Gemüse') {
@@ -1786,6 +1821,7 @@
       const currentMonth = new Date().getMonth() + 1;
       const favs = getFavorites();
       const notes = getNotes();
+      const generalNotes = getGeneralNotes();
 
       // Wenn die Notizen-Ansicht aktiv ist
       if (aktiveKategorie === "Notizen") {
@@ -1793,64 +1829,85 @@
         statusRowContainer.style.display = "none";
         
         const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
-        statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length}`;
+        statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + generalNotes.length}`;
         
-        const generalText = getGeneralNote();
-
         let html = `
           <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-              📝 Allgemeines Notizbuch
+              📝 Neues Notizbuch-Blatt
             </div>
-            <textarea id="generalNoteInput" placeholder="Was steht allgemein im Garten an? (Erde kaufen, Beet umgraben, etc.)..." style="width: 100%; min-height: 120px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;" oninput="saveGeneralNote(this.value)">${escapeHtml(generalText)}</textarea>
+            <textarea id="generalNoteInput" placeholder="Was steht allgemein im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
             
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
               <button id="saveNoteBtn" onclick="triggerManualSave()" style="flex: 1; min-width: 130px; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
                 💾 Notiz speichern
               </button>
               <button onclick="sendGeneralNoteEmail()" style="flex: 1; min-width: 130px; background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px;">
-                ✉️ Per E-Mail senden
+                ✉️ Alle per E-Mail senden
               </button>
             </div>
           </div>
         `;
 
-        if (notedIds.length === 0) {
-          html += `
-            <div class="not-found-box" style="margin-top: 0;">
-              <div class="not-found-title">🌱 Keine Pflanzenspezifischen Notizen</div>
-              <div class="not-found-text">Öffne eine Pflanze deiner Wahl und trage dort Beobachtungen ein. Sie erscheinen dann automatisch hier als Liste.</div>
-            </div>
-          `;
-          cultureGrid.innerHTML = html;
-          return;
-        }
-
         cultureGrid.innerHTML = html;
 
-        const container = document.createElement("div");
-        container.className = "notes-overview-container";
-
-        notedIds.forEach(id => {
-          const k = gartenDaten.find(item => item.id === id);
-          if (!k) return;
-          const noteText = notes[id];
-
-          const card = document.createElement("div");
-          card.className = "note-card-item";
-          card.innerHTML = `
-            <div class="note-card-header">
-              <div class="note-card-title" onclick="openKulturDetail('${k.id}')">
-                <span>${k.icon}</span> <span>${k.name}</span>
+        // Rendern der allgemeinen Notizen
+        if (generalNotes.length > 0) {
+          const genContainer = document.createElement("div");
+          genContainer.className = "notes-overview-container";
+          genContainer.innerHTML = `<div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">📌 Allgemeine Notizen</div>`;
+          generalNotes.forEach(note => {
+            const card = document.createElement("div");
+            card.className = "note-card-item";
+            card.innerHTML = `
+              <div class="note-card-header">
+                <div class="note-card-title static">
+                  📅 ${note.date}
+                </div>
+                <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')" title="Notiz löschen">🗑️ Löschen</button>
               </div>
-              <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️ Löschen</button>
-            </div>
-            <div class="note-card-text">${escapeHtml(noteText)}</div>
-          `;
-          container.appendChild(card);
-        });
+              <div class="note-card-text">${escapeHtml(note.text)}</div>
+            `;
+            genContainer.appendChild(card);
+          });
+          cultureGrid.appendChild(genContainer);
+        }
 
-        cultureGrid.appendChild(container);
+        // Rendern der Pflanzenspezifischen Notizen
+        if (notedIds.length > 0) {
+          const pflanzenContainer = document.createElement("div");
+          pflanzenContainer.className = "notes-overview-container";
+          pflanzenContainer.innerHTML = `<div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; margin-top: 10px;">🌱 Pflanzenspezifische Notizen</div>`;
+          
+          notedIds.forEach(id => {
+            const k = gartenDaten.find(item => item.id === id);
+            if (!k) return;
+            const noteText = notes[id];
+
+            const card = document.createElement("div");
+            card.className = "note-card-item";
+            card.innerHTML = `
+              <div class="note-card-header">
+                <div class="note-card-title" onclick="openKulturDetail('${k.id}')">
+                  <span>${k.icon}</span> <span>${k.name}</span>
+                </div>
+                <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️ Löschen</button>
+              </div>
+              <div class="note-card-text">${escapeHtml(noteText)}</div>
+            `;
+            pflanzenContainer.appendChild(card);
+          });
+          cultureGrid.appendChild(pflanzenContainer);
+        }
+
+        if (notedIds.length === 0 && generalNotes.length === 0) {
+          cultureGrid.innerHTML += `
+            <div class="not-found-box" style="margin-top: 0;">
+              <div class="not-found-title">Noch keine Notizen vorhanden</div>
+              <div class="not-found-text">Trage oben eine allgemeine Notiz ein oder öffne eine Pflanze, um spezifische Beobachtungen zu speichern.</div>
+            </div>
+          `;
+        }
         return;
       }
 
