@@ -832,7 +832,7 @@
     updateClock();
 
     // ==========================================
-    // DIE DATENBANK
+    // DIE DATENBANK (Erweitert um zusätzliche Top-Sorten)
     // ==========================================
     const gartenDaten = [
       // 🥦 GEMÜSE 🥦
@@ -858,7 +858,8 @@
         guteNachbarn: "Bohnen, Kohl, Spinat", schlechteNachbarn: "Kartoffeln, Tomaten, Paprika",
         sorten: [
           { name: "Black Beauty", typ: "Klassiker", eigenschaft: "Dicke, tiefviolette Früchte. Standard-Sorte." },
-          { name: "Violetta Lunga", typ: "Länglich", eigenschaft: "Schlanke, lange Früchte. Sehr zartes Fleisch." }
+          { name: "Violetta Lunga", typ: "Länglich", eigenschaft: "Schlanke, lange Früchte. Sehr zartes Fleisch." },
+          { name: "Rosa Bianca", typ: "Italienische Sorte", eigenschaft: "Hellviolett-weiß, mild und absolut bitterfrei." }
         ]
       },
       {
@@ -913,7 +914,9 @@
         sorten: [
           { name: "Cayenne", typ: "Scharf", eigenschaft: "Schlanke rote Schoten. Perfekt für Chilipulver." },
           { name: "Habanero", typ: "Extrem Scharf", eigenschaft: "Tropisches Fruchtaroma, bis 350.000 Scoville." },
+          { name: "Habanero Chocolate", typ: "Extrem Scharf", eigenschaft: "Tiefbraune Früchte mit rauchigem, intensivem Aroma." },
           { name: "Jalapeño", typ: "Mittelscharf", eigenschaft: "Der mexikanische Klassiker. Ideal zum Füllen/Grillen." },
+          { name: "Padrón (Pimientos)", typ: "Tapas-Chili", eigenschaft: "Meist mild, in Olivenöl & Meersalz gebraten eine Delikatesse." },
           { name: "Shishito", typ: "Tapas-Chili", eigenschaft: "Meist mild, in Öl angebraten ein Gedicht." }
         ]
       },
@@ -1346,7 +1349,7 @@
           { name: "Chicorée (Witloof)", typ: "Treibsalat", eigenschaft: "Wurzeln werden im Herbst geerntet und im dunklen Keller getrieben!" },
           { name: "Löwenzahn (Kulturform)", typ: "Wildsalat", eigenschaft: "Spezielle, aufrecht wachsende Züchtung mit großen Blättern für herben Salat." },
           { name: "Radicchio (Rosso di Chioggia)", typ: "Kopfsalat rot", eigenschaft: "Tiefrote, runde, feste Köpfe mit weißen Adern. Herrlich herb-bitter." },
-          { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher, spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
+          { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
         ]
       },
       {
@@ -1968,7 +1971,6 @@
       if (k.filterGruppen) {
         subFilterHtml = `<div class="subfilter-bar">`;
         subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === 'Alle' ? 'active' : ''}" onclick="setSubFilter('Alle')">Alle (${k.sorten.length})</button>`;
-        k.filterGruernchen = k.sorten.filter(s => s.gruppe); // dummy check
         k.filterGruppen.forEach(gName => {
           const count = k.sorten.filter(s => s.gruppe === gName).length;
           subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === gName ? 'active' : ''}" onclick="setSubFilter('${gName}')">${gName} (${count})</button>`;
