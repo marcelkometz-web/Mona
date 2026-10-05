@@ -23,6 +23,8 @@
       --good: #dcfce7;
       --bad: #fee2e2;
       --star: #f59e0b;
+      --highlight: #fef08a;
+      --highlight-text: #854d0e;
     }
     
     * { 
@@ -113,7 +115,7 @@
     
     input[type="text"], input[type="datetime-local"] { 
       width: 100%; 
-      padding: 13px 16px; 
+      padding: 13px 40px 13px 16px; 
       font-size: 1rem; 
       border-radius: 10px; 
       border: 2px solid var(--border); 
@@ -124,6 +126,26 @@
     }
     input[type="text"]:focus, input[type="datetime-local"]:focus { border-color: var(--accent); }
     
+    .clear-search-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #cbd5e1;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .clear-search-btn:hover { background: #94a3b8; }
+
     .status-row {
       display: flex;
       justify-content: space-between;
@@ -216,6 +238,30 @@
       display: inline-block; 
       padding: 2px 6px; 
       border-radius: 8px; 
+    }
+
+    .match-pill {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--highlight-text);
+      background: var(--highlight);
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid #fde047;
+      max-width: 95%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    mark.search-highlight {
+      background: var(--highlight);
+      color: var(--highlight-text);
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-weight: 800;
     }
 
     .card-star {
@@ -625,7 +671,8 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Schnellsuchlauf (z.B. Linda, Music, Presto, Matador)...">
+    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Linda, frosthart, festkochend)...">
+    <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
   </div>
 
   <div class="status-row" id="statusRowContainer">
@@ -1748,6 +1795,7 @@
     let aktiverSubFilter = "Alle";
 
     const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
     const cultureGrid = document.getElementById("cultureGrid");
     const modalOverlay = document.getElementById("modalOverlay");
     const detailPanel = document.getElementById("detailPanel");
@@ -1757,6 +1805,74 @@
     const statusCount = document.getElementById("statusCount");
     const searchBoxContainer = document.getElementById("searchBoxContainer");
     const statusRowContainer = document.getElementById("statusRowContainer");
+
+    function levenshtein(a, b) {
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
+    }
+
+    function isFuzzyMatch(target, query) {
+      if (!target || !query) return false;
+      target = target.toLowerCase();
+      query = query.toLowerCase();
+      if (target.includes(query)) return true;
+      if (query.length < 4) return false;
+      const words = target.split(/[\s,./\-\(\)]+/);
+      const maxDistance = query.length > 6 ? 2 : 1;
+      return words.some(w => {
+        if (Math.abs(w.length - query.length) > maxDistance) return false;
+        return levenshtein(w, query) <= maxDistance;
+      });
+    }
+
+    // Highlighting-Hilfsfunktion
+    function highlightMatch(text, query) {
+      if (!text) return "";
+      if (!query || query.trim() === "") return escapeHtml(text);
+      const q = query.trim();
+      
+      // Direkter Substring-Treffer
+      const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      if (regex.test(text)) {
+        return escapeHtml(text).replace(regex, '<mark class="search-highlight">$1</mark>');
+      }
+      
+      // Fuzzy-Treffer auf Wortebene
+      if (q.length >= 4) {
+        const words = text.split(/(\s+)/);
+        const maxDist = q.length > 6 ? 2 : 1;
+        return words.map(w => {
+          const clean = w.replace(/[^\w]/g, "");
+          if (clean && Math.abs(clean.length - q.length) <= maxDist && levenshtein(clean.toLowerCase(), q.toLowerCase()) <= maxDist) {
+            return `<mark class="search-highlight">${escapeHtml(w)}</mark>`;
+          }
+          return escapeHtml(w);
+        }).join("");
+      }
+
+      return escapeHtml(text);
+    }
+
+    window.clearSearch = function() {
+      searchInput.value = "";
+      clearSearchBtn.style.display = "none";
+      filterUndRender();
+    };
 
     function toggleRadar() {
       radarAktiv = !radarAktiv;
@@ -1798,6 +1914,10 @@
       const favs = getFavorites();
       const notes = getNotes();
       const generalNotes = getGeneralNotes();
+
+      if (clearSearchBtn) {
+        clearSearchBtn.style.display = query !== "" ? "flex" : "none";
+      }
 
       if (aktiveKategorie === "Notizen") {
         searchBoxContainer.style.display = "none";
@@ -1912,7 +2032,9 @@
       searchBoxContainer.style.display = "block";
       statusRowContainer.style.display = "flex";
 
-      const gefiltert = gartenDaten.filter(k => {
+      const matchedList = [];
+
+      gartenDaten.forEach(k => {
         let katMatch = true;
         if (aktiveKategorie === "Favoriten") {
           katMatch = favs.includes(k.id);
@@ -1921,15 +2043,48 @@
         }
 
         const radarMatch = (!radarAktiv || (k.monateAussaat && k.monateAussaat.includes(currentMonth)));
-        const namenMatch = k.name.toLowerCase().includes(query) || k.kategorie.toLowerCase().includes(query);
-        const sortenMatch = k.sorten.some(s => s.name.toLowerCase().includes(query) || s.eigenschaft.toLowerCase().includes(query));
-        return katMatch && radarMatch && (query === "" || namenMatch || sortenMatch);
+        if (!katMatch || !radarMatch) return;
+
+        if (query === "") {
+          matchedList.push({ kultur: k, matchHint: null });
+          return;
+        }
+
+        const nameMatch = isFuzzyMatch(k.name, query);
+        const katNameMatch = isFuzzyMatch(k.kategorie, query);
+        const bedarfMatch = isFuzzyMatch(k.bedarf, query);
+        const tippMatch = isFuzzyMatch(k.tipp, query);
+
+        // Findet die passenden Sorten für ein genaues Hint-Pill
+        const matchedSorten = k.sorten.filter(s => 
+          isFuzzyMatch(s.name, query) || 
+          isFuzzyMatch(s.typ, query) || 
+          isFuzzyMatch(s.gruppe, query) || 
+          isFuzzyMatch(s.eigenschaft, query)
+        );
+
+        let matchHint = null;
+        if (!nameMatch) {
+          if (matchedSorten.length > 0) {
+            matchHint = `Sorte: ${matchedSorten[0].name}`;
+          } else if (bedarfMatch) {
+            matchHint = k.bedarf;
+          } else if (katNameMatch) {
+            matchHint = k.kategorie;
+          } else if (tippMatch) {
+            matchHint = `Tipp-Treffer`;
+          }
+        }
+
+        if (nameMatch || katNameMatch || bedarfMatch || tippMatch || matchedSorten.length > 0) {
+          matchedList.push({ kultur: k, matchHint });
+        }
       });
 
-      statusCount.innerText = `Gefundene Kulturen: ${gefiltert.length}`;
+      statusCount.innerText = `Gefundene Kulturen: ${matchedList.length}`;
       cultureGrid.innerHTML = "";
 
-      if (gefiltert.length === 0 && query !== "") {
+      if (matchedList.length === 0 && query !== "") {
         const rawQuery = searchInput.value.trim();
         const encodedQuery = encodeURIComponent(rawQuery);
         const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${rawQuery}`);
@@ -1938,7 +2093,7 @@
         cultureGrid.innerHTML = `
           <div class="not-found-box">
             <div class="not-found-title">🔍 "${rawQuery}" nicht gefunden</div>
-            <div class="not-found-text">Diese Sorte ist aktuell noch nicht in der Datenbank gespeichert. Du kannst sie direkt an den Entwickler melden oder exakt im Web nachschlagen:</div>
+            <div class="not-found-text">Diese Sorte oder Eigenschaft ist aktuell noch nicht in der Datenbank gespeichert. Du kannst sie direkt an den Entwickler melden oder exakt im Web nachschlagen:</div>
             <div class="not-found-actions">
               <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">
                 ✉️ An Marcel melden (Nachragen)
@@ -1961,8 +2116,10 @@
         "Kräuter": { icon: "🌿", items: [] }
       };
 
-      gefiltert.forEach(k => {
-        if(struktur[k.oberkategorie]) struktur[k.oberkategorie].items.push(k);
+      matchedList.forEach(item => {
+        if(struktur[item.kultur.oberkategorie]) {
+          struktur[item.kultur.oberkategorie].items.push(item);
+        }
       });
 
       Object.keys(struktur).forEach(gName => {
@@ -1978,18 +2135,23 @@
 
           const innerGrid = section.querySelector(".grid");
           
-          gruppe.items.forEach(k => {
+          gruppe.items.forEach(({ kultur: k, matchHint }) => {
             const isFav = favs.includes(k.id);
             const card = document.createElement("div");
             card.className = `item-card ${k.id === gewaehlteKulturId ? 'selected' : ''}`;
             card.onclick = () => {
               openKulturDetail(k.id);
             };
+
+            const highlightedTitle = highlightMatch(k.name, query);
+            const hintBadgeHtml = matchHint ? `<div class="match-pill">${highlightMatch(matchHint, query)}</div>` : "";
+
             card.innerHTML = `
               <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)" title="Als Favorit merken">★</span>
               <div class="item-icon">${k.icon}</div>
-              <div class="item-title">${k.name}</div>
+              <div class="item-title">${highlightedTitle}</div>
               <div class="item-sub">${k.sorten.length} Sorten</div>
+              ${hintBadgeHtml}
             `;
             innerGrid.appendChild(card);
           });
@@ -2008,7 +2170,22 @@
 
     function openKulturDetail(id) {
       gewaehlteKulturId = id;
+      const k = gartenDaten.find(i => i.id === id);
+      const query = searchInput.value.toLowerCase().trim();
+      
+      // Automatisch auf die Sorte springen, die gesucht wurde
       gewaehlteSorteIdx = 0;
+      if (k && query !== "") {
+        const foundIdx = k.sorten.findIndex(s => 
+          isFuzzyMatch(s.name, query) || 
+          isFuzzyMatch(s.typ, query) || 
+          isFuzzyMatch(s.eigenschaft, query)
+        );
+        if (foundIdx !== -1) {
+          gewaehlteSorteIdx = foundIdx;
+        }
+      }
+
       aktiverSubFilter = "Alle";
       renderDetailModal();
       modalOverlay.classList.add("open");
@@ -2076,6 +2253,8 @@
       const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
       if (!k) return;
 
+      const query = searchInput.value.toLowerCase().trim();
+
       let sichtbareSorten = k.sorten;
       if (k.filterGruppen && aktiverSubFilter !== "Alle") {
         sichtbareSorten = k.sorten.filter(s => s.gruppe === aktiverSubFilter);
@@ -2101,21 +2280,28 @@
 
       let sortenChipsHtml = "";
       sichtbareSorten.forEach((s, idx) => {
+        const highlightedName = highlightMatch(s.name, query);
         sortenChipsHtml += `
           <button class="v-chip ${idx === gewaehlteSorteIdx ? 'active' : ''}" onclick="waehleSorte(${idx})">
-            ${s.name}
+            ${highlightedName}
           </button>
         `;
       });
+
+      const highlightedSorteName = highlightMatch(sorte.name, query);
+      const highlightedSorteTyp = highlightMatch(sorte.typ, query);
+      const highlightedSorteProp = highlightMatch(sorte.eigenschaft, query);
+      const highlightedTipp = highlightMatch(k.tipp, query);
+      const highlightedBedarf = highlightMatch(k.bedarf, query);
 
       detailPanel.innerHTML = `
         <div class="sheet-handle"></div>
         <div class="detail-header">
           <div>
-            <div class="detail-title">${k.icon} ${k.name}</div>
+            <div class="detail-title">${k.icon} ${highlightMatch(k.name, query)}</div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-              <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${k.kategorie}</span>
-              <span class="badge">${k.bedarf}</span>
+              <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
+              <span class="badge">${highlightedBedarf}</span>
             </div>
           </div>
           <div class="header-actions">
@@ -2129,8 +2315,8 @@
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
-            <strong>${sorte.name}</strong> <em>(${sorte.typ})</em><br><br>
-            ${sorte.eigenschaft}
+            <strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em><br><br>
+            ${highlightedSorteProp}
           </div>
         </div>
 
@@ -2144,7 +2330,7 @@
         </div>
 
         <div class="tipp-box">
-          💡 <strong>Profi-Gartentipp:</strong><br>${k.tipp}
+          💡 <strong>Profi-Gartentipp:</strong><br>${highlightedTipp}
         </div>
 
         <div class="notes-section">
