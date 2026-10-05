@@ -644,7 +644,7 @@
       align-items: center;
       background: none;
       border: none;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
@@ -725,7 +725,7 @@
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
       <button onclick="openReadme()" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
-      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️️ Impressum</button>
+      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
     </div>
   </div>
 
@@ -910,7 +910,7 @@
         ]
       },
       {
-        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
+        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️️",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [1, 2, 3, 5],
@@ -1733,17 +1733,30 @@
       }
     }
 
+    // Aktuelle Notiz versenden (ohne sie speichern zu müssen)
+    window.sendCurrentNoteEmail = function() {
+      const textarea = document.getElementById("generalNoteInput");
+      if (!textarea || textarea.value.trim() === "") {
+        alert("Bitte gib zuerst einen Text in das Notizfeld ein.");
+        return;
+      }
+      const subject = encodeURIComponent("Aktuelle Garten-Notiz");
+      const body = encodeURIComponent(textarea.value.trim() + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    // Alle gespeicherten allgemeinen Notizen versenden
     window.sendGeneralNoteEmail = function() {
       const general = getGeneralNotes();
       if (general.length === 0) {
         alert("Du hast noch keine allgemeinen Notizen gespeichert!");
         return;
       }
-      let text = "Meine Garten-Notizen:\n\n";
+      let text = "Meine gesammelten Garten-Notizen:\n\n";
       general.forEach(n => {
         text += `[${n.date}]\n${n.text}\n\n`;
       });
-      const subject = encodeURIComponent("Allgemeine Garten-Notizen");
+      const subject = encodeURIComponent("Alle Garten-Notizen");
       const body = encodeURIComponent(text + "---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
@@ -1836,14 +1849,17 @@
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
               📝 Neues Notizbuch-Blatt
             </div>
-            <textarea id="generalNoteInput" placeholder="Was steht allgemein im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
+            <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
             
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button id="saveNoteBtn" onclick="triggerManualSave()" style="flex: 1; min-width: 130px; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <button id="saveNoteBtn" onclick="triggerManualSave()" style="grid-column: span 2; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
                 💾 Notiz speichern
               </button>
-              <button onclick="sendGeneralNoteEmail()" style="flex: 1; min-width: 130px; background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px;">
-                ✉️ Alle per E-Mail senden
+              <button onclick="sendCurrentNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; text-align: center;">
+                ✉️ Aktuelle senden
+              </button>
+              <button onclick="sendGeneralNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; text-align: center;">
+                📚 Alle senden
               </button>
             </div>
           </div>
