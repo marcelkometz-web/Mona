@@ -291,6 +291,12 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
+      gap: 8px;
+    }
+    .note-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .note-card-title {
       font-weight: 800;
@@ -300,6 +306,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex: 1;
     }
     .note-card-title.static { cursor: default; font-size: 0.95rem; color: var(--text-muted); }
     .note-card-title:not(.static):hover { text-decoration: underline; }
@@ -313,14 +320,28 @@
       white-space: pre-wrap;
       line-height: 1.45;
     }
+    .single-send-btn {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .single-send-btn:hover { background: #e2e8f0; }
     .delete-note-btn {
       background: none;
       border: none;
       color: #ef4444;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
-      padding: 4px 8px;
+      padding: 4px 6px;
       border-radius: 4px;
     }
     .delete-note-btn:hover { background: #fee2e2; }
@@ -1628,9 +1649,22 @@
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
-    // ==========================================
-    // ERINNERUNGSFUNKTION (KALENDER-EXPORT .ICS)
-    // ==========================================
+    // Einzelne Pflanzennotiz per E-Mail versenden
+    window.sendSinglePlantNoteEmail = function(plantName, noteText) {
+      if (!noteText || noteText.trim() === "") return;
+      const subject = encodeURIComponent(`Garten-Notiz: ${plantName}`);
+      const body = encodeURIComponent(`Notiz zu ${plantName}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    };
+
+    // Einzelne allgemeine Chronik-Notiz per E-Mail versenden
+    window.sendSingleGeneralNoteEmail = function(dateStr, noteText) {
+      if (!noteText || noteText.trim() === "") return;
+      const subject = encodeURIComponent(`Garten-Notiz (${dateStr})`);
+      const body = encodeURIComponent(`Garten-Notiz vom ${dateStr}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    };
+
     window.createCalendarReminder = function() {
       const textarea = document.getElementById("generalNoteInput");
       const timeInput = document.getElementById("reminderTimeInput");
@@ -1656,7 +1690,7 @@
 
       const nowStr = formatDateToICS(new Date());
       const startStr = formatDateToICS(eventDate);
-      const endDate = new Date(eventDate.getTime() + 30 * 60 * 1000); // 30 Minuten Dauer
+      const endDate = new Date(eventDate.getTime() + 30 * 60 * 1000);
       const endStr = formatDateToICS(endDate);
 
       const summary = textarea.value.trim().split("\n")[0].substring(0, 50);
@@ -1812,14 +1846,20 @@
           generalNotes.forEach(note => {
             const card = document.createElement("div");
             card.className = "note-card-item";
+            const safeText = escapeHtml(note.text);
+            const jsNoteText = JSON.stringify(note.text);
+            const jsDateStr = JSON.stringify(note.date);
             card.innerHTML = `
               <div class="note-card-header">
                 <div class="note-card-title static">
                   📅 ${note.date}
                 </div>
-                <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')" title="Notiz löschen">🗑️ Löschen</button>
+                <div class="note-card-actions">
+                  <button class="single-send-btn" onclick='sendSingleGeneralNoteEmail(${jsDateStr}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️ Senden</button>
+                  <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')" title="Notiz löschen">🗑️ Löschen</button>
+                </div>
               </div>
-              <div class="note-card-text">${escapeHtml(note.text)}</div>
+              <div class="note-card-text">${safeText}</div>
             `;
             genContainer.appendChild(card);
           });
@@ -1835,6 +1875,9 @@
             const k = gartenDaten.find(item => item.id === id);
             if (!k) return;
             const noteText = notes[id];
+            const safeText = escapeHtml(noteText);
+            const jsPlantName = JSON.stringify(k.name);
+            const jsNoteText = JSON.stringify(noteText);
 
             const card = document.createElement("div");
             card.className = "note-card-item";
@@ -1843,9 +1886,12 @@
                 <div class="note-card-title" onclick="openKulturDetail('${k.id}')">
                   <span>${k.icon}</span> <span>${k.name}</span>
                 </div>
-                <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️ Löschen</button>
+                <div class="note-card-actions">
+                  <button class="single-send-btn" onclick='sendSinglePlantNoteEmail(${jsPlantName}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️ Senden</button>
+                  <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️️ Löschen</button>
+                </div>
               </div>
-              <div class="note-card-text">${escapeHtml(noteText)}</div>
+              <div class="note-card-text">${safeText}</div>
             `;
             pflanzenContainer.appendChild(card);
           });
