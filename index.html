@@ -6,6 +6,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
+  <meta name="theme-color" content="#1e4a31">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>Ramonas Garten Anzucht</title>
   <style>
     :root {
@@ -1649,7 +1651,6 @@
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
-    // Einzelne Pflanzennotiz per E-Mail versenden
     window.sendSinglePlantNoteEmail = function(plantName, noteText) {
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz: ${plantName}`);
@@ -1657,7 +1658,6 @@
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     };
 
-    // Einzelne allgemeine Chronik-Notiz per E-Mail versenden
     window.sendSingleGeneralNoteEmail = function(dateStr, noteText) {
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz (${dateStr})`);
@@ -1888,7 +1888,7 @@
                 </div>
                 <div class="note-card-actions">
                   <button class="single-send-btn" onclick='sendSinglePlantNoteEmail(${jsPlantName}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️ Senden</button>
-                  <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️️ Löschen</button>
+                  <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️ Löschen</button>
                 </div>
               </div>
               <div class="note-card-text">${safeText}</div>
@@ -2182,6 +2182,14 @@
       updateNotesBadge();
       filterUndRender();
     });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((err) => {
+          console.log('Service Worker Registrierung fehlgeschlagen:', err);
+        });
+      });
+    }
   </script>
 </body>
 </html>
