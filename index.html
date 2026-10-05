@@ -18,7 +18,7 @@
       --accent: #2e8b57;
       --text: #1f2933;
       --text-muted: #616e7c;
-      --border: #cbd5e1;
+      --border: #e2e8f0;
       --tag-bg: #f1f5f9;
       --good: #dcfce7;
       --bad: #fee2e2;
@@ -27,647 +27,194 @@
       --highlight-text: #854d0e;
     }
     
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     
     body { 
       background-color: var(--bg); 
       color: var(--text); 
       padding: 15px; 
       padding-top: calc(15px + env(safe-area-inset-top, 0px));
-      padding-bottom: 90px;
+      padding-bottom: 95px;
       max-width: 1200px; 
       margin: 0 auto; 
-      -webkit-tap-highlight-color: transparent; 
     }
     
+    /* UI: Glassmorphism für Bars */
     .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding: 12px 16px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      gap: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 15px; padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px; border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03); gap: 10px;
+      position: sticky; top: env(safe-area-inset-top, 10px); z-index: 100;
     }
     
-    .left-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--primary);
-      text-align: left;
-      letter-spacing: 0.2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 1;
-    }
+    .left-title { font-size: 1.05rem; font-weight: 800; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+    .clock { font-family: ui-monospace, monospace; background: var(--tag-bg); padding: 5px 10px; border-radius: 8px; font-size: 0.72rem; color: var(--text-muted); text-align: right; line-height: 1.25; flex-shrink: 0; }
     
-    .clock { 
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
-      background: var(--tag-bg); 
-      padding: 4px 8px; 
-      border-radius: 6px; 
-      border: 1px solid var(--border); 
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-align: right;
-      line-height: 1.25;
-      flex-shrink: 0;
-    }
+    header { text-align: center; margin-bottom: 20px; padding: 20px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    h1 { font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: -0.3px; }
+    p.subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
     
-    header { 
-      text-align: center; 
-      margin-bottom: 16px; 
-      padding: 18px; 
-      background: var(--card-bg); 
-      border-radius: 12px; 
-      border: 1px solid var(--border); 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
-    }
-    
-    h1 { 
-      font-size: 1.45rem; 
-      color: var(--primary); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 8px; 
-    }
-    
-    p.subtitle { 
-      font-size: 0.85rem; 
-      color: var(--text-muted); 
-      margin-top: 4px; 
-    }
-    
-    .search-box { 
-      position: relative; 
-      margin-bottom: 14px; 
-    }
-    
+    /* UI: Native Search Bar */
+    .search-box { position: relative; margin-bottom: 18px; }
     input[type="text"], input[type="datetime-local"] { 
-      width: 100%; 
-      padding: 13px 40px 13px 16px; 
-      font-size: 1rem; 
-      border-radius: 10px; 
-      border: 2px solid var(--border); 
-      outline: none; 
-      transition: border-color 0.2s; 
-      background: #fff; 
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+      width: 100%; padding: 14px 44px 14px 18px; font-size: 1.05rem; 
+      border-radius: 14px; border: none; background: #e2e8f0; 
+      outline: none; transition: background 0.2s, box-shadow 0.2s; 
     }
-    input[type="text"]:focus, input[type="datetime-local"]:focus { border-color: var(--accent); }
+    input[type="text"]:focus, input[type="datetime-local"]:focus { background: #fff; box-shadow: 0 0 0 2px var(--accent); }
     
     .clear-search-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #cbd5e1;
-      border: none;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: #94a3b8; border: none; border-radius: 50%;
+      width: 24px; height: 24px; color: #fff; font-size: 0.85rem; font-weight: 800;
+      cursor: pointer; display: none; align-items: center; justify-content: center;
     }
-    .clear-search-btn:hover { background: #94a3b8; }
+    @media (hover: hover) { .clear-search-btn:hover { background: #64748b; } }
 
-    .status-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .status-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 8px; flex-wrap: wrap; }
+    .status-bar { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status-actions { display: flex; gap: 8px; }
     
-    .status-bar { 
-      font-size: 0.8rem; 
-      color: var(--text-muted); 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
-    }
-
-    .status-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .row-btn { display: inline-flex; align-items: center; gap: 4px; background: var(--card-bg); color: var(--primary); font-size: 0.76rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; transition: 0.2s; }
+    @media (hover: hover) { .row-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); } }
+    .row-btn:active { transform: scale(0.95); }
     
-    .row-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--card-bg);
-      color: var(--primary);
-      text-decoration: none;
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 6px 11px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .row-btn:hover {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
+    .group-section { margin-bottom: 28px; }
+    .group-title { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 8px; }
     
-    .group-section { margin-bottom: 24px; }
-    .group-title { 
-      font-size: 1.25rem; 
-      font-weight: 800; 
-      color: var(--primary); 
-      margin-bottom: 10px; 
-      padding-bottom: 6px; 
-      border-bottom: 2px solid var(--border); 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
     
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); 
-      gap: 10px; 
-    }
+    /* UX: Card Feedback */
+    .item-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s, border-color 0.15s; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    @media (hover: hover) { .item-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); } }
+    .item-card:active { transform: scale(0.96); background: var(--tag-bg); }
+    .item-card.selected { border-color: var(--accent); background: var(--primary-light); }
     
-    .item-card { 
-      background: var(--card-bg); 
-      border: 2px solid var(--border); 
-      border-radius: 10px; 
-      padding: 12px 8px; 
-      text-align: center; 
-      cursor: pointer; 
-      transition: all 0.2s ease; 
-      user-select: none; 
-      position: relative;
-    }
-    .item-card:hover, .item-card.selected { 
-      border-color: var(--accent); 
-      background: var(--primary-light); 
-      transform: translateY(-2px); 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
-    }
-
-    /* Leuchtender Puls-Effekt bei aktiver Suche */
     @keyframes searchPulse {
       0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); border-color: #f59e0b; }
-      50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15); border-color: #d97706; }
+      50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); border-color: #d97706; }
       100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); border-color: #f59e0b; }
     }
-    .item-card.search-active-match {
-      animation: searchPulse 2s infinite ease-in-out;
-      background: #fffdf5;
-    }
+    .item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out; background: #fffdf5; }
 
-    .item-icon { font-size: 2rem; margin-bottom: 6px; }
-    .item-title { font-weight: 700; font-size: 0.9rem; color: var(--text); }
-    .item-sub { 
-      font-size: 0.72rem; 
-      color: var(--text-muted); 
-      margin-top: 4px; 
-      background: var(--tag-bg); 
-      display: inline-block; 
-      padding: 2px 6px; 
-      border-radius: 8px; 
-    }
+    .item-icon { font-size: 2.2rem; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+    .item-title { font-weight: 700; font-size: 0.95rem; color: var(--text); line-height: 1.2; margin-bottom: 4px; }
+    .item-sub { font-size: 0.72rem; color: var(--text-muted); background: var(--tag-bg); display: inline-block; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
 
-    .match-pill {
-      display: inline-block;
-      margin-top: 5px;
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: var(--highlight-text);
-      background: var(--highlight);
-      padding: 2px 6px;
-      border-radius: 6px;
-      border: 1px solid #fde047;
-      max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .match-pill { display: inline-block; margin-top: 6px; font-size: 0.7rem; font-weight: 800; color: var(--highlight-text); background: var(--highlight); padding: 3px 8px; border-radius: 8px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border: 1px solid #fde047; }
+    mark.search-highlight { background: var(--highlight); color: var(--highlight-text); padding: 0 3px; border-radius: 4px; font-weight: 800; }
 
-    mark.search-highlight {
-      background: var(--highlight);
-      color: var(--highlight-text);
-      padding: 1px 4px;
-      border-radius: 3px;
-      font-weight: 900;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
+    .card-star { position: absolute; top: 8px; right: 10px; font-size: 1.3rem; color: #cbd5e1; padding: 4px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-star.active { color: var(--star); filter: drop-shadow(0 0 4px rgba(245,158,11,0.4)); }
+    .card-star:active { transform: scale(1.4); }
 
-    .card-star {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      font-size: 1.2rem;
-      color: #cbd5e1;
-      cursor: pointer;
-      transition: color 0.15s, transform 0.15s;
-    }
-    .card-star.active { color: var(--star); }
-    .card-star:hover { transform: scale(1.2); }
-
-    .not-found-box {
-      background: #ffffff;
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 24px 20px;
-      text-align: center;
-      margin: 20px 0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    }
-    .not-found-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 6px;
-    }
-    .not-found-text {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-    .not-found-actions {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .action-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.15s, background 0.15s;
-    }
+    .not-found-box { background: var(--card-bg); border: 2px dashed #cbd5e1; border-radius: 16px; padding: 30px 20px; text-align: center; margin: 20px 0; }
+    .not-found-title { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+    .not-found-text { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+    .not-found-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .action-pill { display: inline-flex; align-items: center; gap: 6px; padding: 12px 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
     .action-pill.primary { background: var(--primary); color: #fff; }
-    .action-pill.primary:hover { background: var(--accent); }
-    .action-pill.secondary { background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); }
-    .action-pill.secondary:hover { background: #e2e8f0; }
+    .action-pill.primary:active { transform: scale(0.96); }
+    .action-pill.secondary { background: var(--tag-bg); color: var(--text); }
+    .action-pill.secondary:active { background: #e2e8f0; transform: scale(0.96); }
 
-    .notes-overview-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-    .note-card-item {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-left: 5px solid var(--accent);
-      border-radius: 10px;
-      padding: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .note-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 8px;
-    }
-    .note-card-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .note-card-title {
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: var(--primary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex: 1;
-    }
+    .notes-overview-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+    .note-card-item { background: var(--card-bg); border: 1px solid var(--border); border-left: 5px solid var(--accent); border-radius: 12px; padding: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .note-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 8px; }
+    .note-card-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end;}
+    .note-card-title { font-weight: 800; font-size: 1.1rem; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px; flex: 1; }
     .note-card-title.static { cursor: default; font-size: 0.95rem; color: var(--text-muted); }
-    .note-card-title:not(.static):hover { text-decoration: underline; }
-    .note-card-text {
-      font-size: 0.9rem;
-      color: var(--text);
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      padding: 10px 12px;
-      border-radius: 6px;
-      white-space: pre-wrap;
-      line-height: 1.45;
-    }
-    .single-send-btn {
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      color: var(--primary);
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .single-send-btn:hover { background: #e2e8f0; }
-    .delete-note-btn {
-      background: none;
-      border: none;
-      color: #ef4444;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 4px 6px;
-      border-radius: 4px;
-    }
-    .delete-note-btn:hover { background: #fee2e2; }
+    @media (hover: hover) { .note-card-title:not(.static):hover { text-decoration: underline; } }
+    .note-card-text { font-size: 0.95rem; color: var(--text); background: var(--bg); border: 1px solid var(--border); padding: 12px; border-radius: 8px; white-space: pre-wrap; line-height: 1.5; }
+    
+    .single-send-btn, .delete-note-btn { font-size: 0.8rem; font-weight: 700; padding: 6px 10px; border-radius: 8px; cursor: pointer; border: none; transition: 0.2s; }
+    .single-send-btn { background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); }
+    .single-send-btn:active { background: #e2e8f0; transform: scale(0.95); }
+    .delete-note-btn { background: #fee2e2; color: #ef4444; }
+    .delete-note-btn:active { background: #fca5a5; transform: scale(0.95); }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      align-items: flex-end;
-      justify-content: center;
-    }
+    /* Modal Animation Hardware Accelerated */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(6px); z-index: 1000; align-items: flex-end; justify-content: center; will-change: opacity; }
     @media (min-width: 850px) { .modal-overlay { align-items: center; } }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open { display: flex; animation: fadeBg 0.25s ease-out forwards; }
     
-    .detail-panel { 
-      background: var(--card-bg); 
-      width: 100%;
-      max-width: 650px;
-      max-height: 85vh;
-      border-radius: 20px 20px 0 0;
-      padding: 20px; 
-      box-shadow: 0 -8px 30px rgba(0,0,0,0.18); 
-      overflow-y: auto;
-      animation: slideUp 0.25s ease-out;
-    }
-    @media (min-width: 850px) {
-      .detail-panel { border-radius: 16px; animation: fadeIn 0.2s ease-out; }
-    }
+    .detail-panel { background: var(--card-bg); width: 100%; max-width: 650px; max-height: 88vh; border-radius: 24px 24px 0 0; padding: 24px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); overflow-y: auto; will-change: transform; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @media (min-width: 850px) { .detail-panel { border-radius: 20px; max-height: 85vh; animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; } }
+    
+    @keyframes fadeBg { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     
-    .sheet-handle {
-      width: 40px; height: 5px;
-      background: var(--border);
-      border-radius: 3px;
-      margin: -6px auto 14px auto;
-    }
+    .sheet-handle { width: 44px; height: 5px; background: #cbd5e1; border-radius: 3px; margin: -10px auto 18px auto; }
     @media (min-width: 850px) { .sheet-handle { display: none; } }
     
-    .detail-header { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: flex-start; 
-      border-bottom: 1px solid var(--border); 
-      padding-bottom: 10px; 
-      margin-bottom: 14px; 
-      gap: 10px;
-    }
-    .detail-title { 
-      font-size: 1.4rem; 
-      color: var(--primary); 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      font-weight: 800; 
-    }
-    .header-actions { display: flex; align-items: center; gap: 8px; }
-    .print-btn {
-      background: var(--primary-light);
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s;
-    }
-    .print-btn:hover { background: var(--primary); color: #fff; }
-    .close-btn {
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      font-size: 1.2rem;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-    }
+    .detail-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 18px; gap: 10px; }
+    .detail-title { font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; font-weight: 800; line-height: 1.2; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
     
-    .badge { 
-      display: inline-block; 
-      padding: 4px 8px; 
-      border-radius: 6px; 
-      font-size: 0.75rem; 
-      font-weight: 700; 
-      background: var(--tag-bg); 
-      margin-top: 6px; 
-      margin-right: 4px; 
-    }
+    .print-btn { background: var(--primary-light); color: var(--primary); padding: 8px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+    .print-btn:active { transform: scale(0.95); background: #d1e5d8; }
+    .close-btn { background: var(--tag-bg); color: var(--text); font-size: 1.2rem; width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 800; transition: 0.2s; }
+    .close-btn:active { transform: scale(0.9); background: #e2e8f0; }
     
-    .subfilter-bar {
-      display: flex;
-      overflow-x: auto;
-      gap: 6px;
-      margin-bottom: 10px;
-      scrollbar-width: none;
-    }
+    .badge { display: inline-block; padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; background: var(--tag-bg); margin-top: 8px; margin-right: 6px; border: 1px solid var(--border); }
+    
+    .subfilter-bar { display: flex; overflow-x: auto; gap: 8px; margin-bottom: 12px; padding-bottom: 4px; scrollbar-width: none; }
     .subfilter-bar::-webkit-scrollbar { display: none; }
-    .sub-btn {
-      padding: 4px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #f1f5f9;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
+    .sub-btn { padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: #fff; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: var(--text-muted); white-space: nowrap; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .sub-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    .variety-chips { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 6px; 
-      margin-bottom: 12px; 
-      max-height: 180px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-    .v-chip { 
-      padding: 6px 10px; 
-      border-radius: 8px; 
-      font-size: 0.78rem; 
-      font-weight: 600; 
-      border: 1px solid var(--border); 
-      background: #f8fafc; 
-      cursor: pointer; 
-      transition: all 0.15s; 
-    }
-    .v-chip:hover { border-color: var(--accent); }
-    .v-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .variety-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; max-height: 200px; overflow-y: auto; padding-right: 4px; }
+    .v-chip { padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg); cursor: pointer; transition: 0.2s; }
+    .v-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 4px 6px rgba(46,139,87,0.2); }
+    .v-chip:active { transform: scale(0.95); }
     
-    .v-info-box { 
-      background: #fffbeb; 
-      border: 1px solid #fde68a; 
-      border-radius: 8px; 
-      padding: 12px; 
-      font-size: 0.9rem; 
-      line-height: 1.45; 
-      color: #78350f; 
-    }
-    .v-info-box strong { font-size: 1rem; }
+    .v-info-box { background: #fffdf5; border: 1px solid #fde047; border-radius: 12px; padding: 16px; font-size: 0.95rem; line-height: 1.5; color: #78350f; box-shadow: 0 2px 4px rgba(253,224,71,0.1); }
+    .v-info-box strong { font-size: 1.05rem; display: block; margin-bottom: 4px; }
     
-    .info-metrics { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
-      gap: 8px; 
-      margin: 16px 0; 
-    }
-    .metric-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
-    .metric-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
-    .metric-val { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+    .info-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 20px 0; }
+    .metric-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+    .metric-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .metric-val { font-size: 0.9rem; font-weight: 700; color: var(--primary); }
     
-    .tipp-box { 
-      font-size: 0.85rem; 
-      background: #e0f2fe; 
-      border-left: 4px solid #0284c7; 
-      padding: 12px 15px; 
-      border-radius: 4px; 
-      margin: 14px 0; 
-      line-height: 1.45; 
-      color: #0c4a6e; 
-    }
-
-    .notes-section {
-      margin-top: 16px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .notes-title {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .notes-textarea {
-      width: 100%;
-      min-height: 70px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      resize: vertical;
-      outline: none;
-      background: #fff;
-    }
-    .notes-textarea:focus { border-color: var(--accent); }
+    .tipp-box { background: #f0f9ff; border-left: 5px solid #0284c7; padding: 16px; border-radius: 8px; margin: 18px 0; line-height: 1.5; color: #0c4a6e; font-size: 0.9rem; }
     
-    .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .companion-box { padding: 10px; border-radius: 8px; font-size: 0.8rem; line-height: 1.35; }
+    .notes-section { margin-top: 24px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .notes-title { font-size: 0.9rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .notes-textarea { width: 100%; min-height: 80px; padding: 12px; font-size: 0.9rem; border: 1px solid #cbd5e1; border-radius: 8px; resize: vertical; outline: none; background: #fff; transition: 0.2s; }
+    .notes-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(46,139,87,0.1); }
+    
+    .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .companion-box { padding: 12px; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; }
     .good-box { background: var(--good); border: 1px solid #bbf7d0; color: #166534; }
     .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
-    .comp-title { font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
+    .comp-title { font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
 
-    footer.app-footer {
-      text-align: center;
-      padding: 25px 15px 15px 15px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
-    }
-    footer.app-footer p { margin-bottom: 6px; }
+    footer.app-footer { text-align: center; padding: 30px 15px 15px 15px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 40px; }
+    footer.app-footer p { margin-bottom: 8px; }
 
+    /* UI: Glassmorphism Bottom Nav */
     .bottom-nav {
-      position: fixed;
-      bottom: 0; left: 0; width: 100%;
-      background: #ffffff;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px)) 4px;
-      z-index: 900;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-around;
+      padding: 10px 4px calc(10px + env(safe-area-inset-bottom, 0px)) 4px;
+      z-index: 900; box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
     }
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: none;
-      border: none;
-      font-size: 0.6rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      cursor: pointer;
-      gap: 2px;
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .nav-item.active { color: var(--primary); }
-    .nav-item span.nav-icon { font-size: 1.25rem; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; background: none; border: none; font-size: 0.65rem; font-weight: 700; color: var(--text-muted); cursor: pointer; gap: 4px; padding: 4px 8px; border-radius: 12px; transition: color 0.2s, background 0.2s; }
+    .nav-item.active { color: var(--primary); background: var(--primary-light); }
+    .nav-item span.nav-icon { font-size: 1.3rem; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .nav-item:active span.nav-icon { transform: scale(0.85); }
 
     @media print {
       body { padding: 0; background: #fff; color: #000; }
-      .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section, .card-star {
-        display: none !important;
-      }
+      .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section, .card-star { display: none !important; }
       #readmeOverlay, #impressumOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
-      .modal-overlay#modalOverlay.open {
-        position: static !important;
-        display: block !important;
-        background: none !important;
-        backdrop-filter: none !important;
-      }
-      .detail-panel { max-width: 100% !important; max-height: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
-      .detail-title { font-size: 1.8rem !important; }
-      .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
-      .v-info-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
-      .tipp-box { background: #f8fafc !important; border-left: 4px solid #333 !important; color: #000 !important; }
-      .companion-grid { grid-template-columns: 1fr 1fr !important; }
+      .modal-overlay#modalOverlay.open { position: static !important; display: block !important; background: none !important; backdrop-filter: none !important; }
+      .detail-panel { max-width: 100% !important; max-height: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; animation: none !important; }
     }
   </style>
 </head>
@@ -684,15 +231,15 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Linda, frosthart, festkochend)...">
+    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Linda, frosthart)...">
     <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
   </div>
 
   <div class="status-row" id="statusRowContainer">
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
-      <button onclick="openReadme()" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
-      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
+      <button onclick="openReadme()" class="row-btn">📄 Read.txt</button>
+      <button onclick="openImpressum()" class="row-btn">⚖️ Impressum</button>
     </div>
   </div>
 
@@ -701,8 +248,8 @@
   <footer class="app-footer">
     <p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
     <p>
-      <a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
-      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
+      <a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; margin-right: 12px;">📄 Read.txt</a>
+      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline;">⚖️ Impressum</a>
     </p>
   </footer>
 
@@ -717,11 +264,9 @@
         <div class="detail-title">📄 Read.txt</div>
         <button class="close-btn" onclick="closeReadme()">✕</button>
       </div>
-      <div id="readmeBody" class="readme-content">Lade Read.txt...</div>
-      <div style="text-align: right; margin-top: 16px;">
-        <button onclick="closeReadme()" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
-          Schließen
-        </button>
+      <div id="readmeBody" style="font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">Lade Read.txt...</div>
+      <div style="text-align: right; margin-top: 20px;">
+        <button onclick="closeReadme()" class="print-btn" style="background: var(--primary); color: #fff;">Schließen</button>
       </div>
     </div>
   </div>
@@ -733,28 +278,13 @@
         <div class="detail-title">⚖️ Impressum</div>
         <button class="close-btn" onclick="closeImpressum()">✕</button>
       </div>
-      <div style="font-size: 0.9rem; line-height: 1.5; color: var(--text);">
-        <p style="margin: 8px 0;"><strong>Angaben gemäß § 5 DDG:</strong><br>
-        Marcel Kometz<br>
-        Manfredstr. 15<br>
-        47178 Duisburg</p>
-
-        <p style="margin: 12px 0 8px 0;"><strong>Kontakt:</strong><br>
-        E-Mail: <a href="mailto:marcelkometz@icloud.com" style="color: var(--accent); font-weight: 700; text-decoration: none;">marcelkometz@icloud.com</a></p>
-
-        <p style="margin: 12px 0 8px 0;"><strong>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:</strong><br>
-        Marcel Kometz<br>
-        Manfredstr. 15<br>
-        47178 Duisburg</p>
-
-        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 14px; background: var(--tag-bg); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);">
-          ℹ️ Rein privates, nicht-kommerzielles Kleingarten-Projekt.
-        </p>
-
-        <div style="text-align: right; margin-top: 18px;">
-          <button onclick="closeImpressum()" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
-            Schließen
-          </button>
+      <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text);">
+        <p style="margin: 8px 0;"><strong>Angaben gemäß § 5 DDG:</strong><br>Marcel Kometz<br>Manfredstr. 15<br>47178 Duisburg</p>
+        <p style="margin: 16px 0 8px 0;"><strong>Kontakt:</strong><br>E-Mail: <a href="mailto:marcelkometz@icloud.com" style="color: var(--accent); font-weight: 700; text-decoration: none;">marcelkometz@icloud.com</a></p>
+        <p style="margin: 16px 0 8px 0;"><strong>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:</strong><br>Marcel Kometz<br>Manfredstr. 15<br>47178 Duisburg</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 20px; background: var(--tag-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">ℹ️ Rein privates, nicht-kommerzielles Kleingarten-Projekt.</p>
+        <div style="text-align: right; margin-top: 24px;">
+          <button onclick="closeImpressum()" class="print-btn" style="background: var(--primary); color: #fff;">Schließen</button>
         </div>
       </div>
     </div>
@@ -785,18 +315,21 @@
   </div>
 
   <script>
+    // Live-Uhr
     function updateClock() {
       const now = new Date();
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
       const dateStr = now.toLocaleDateString('de-DE', options);
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('liveClock').innerHTML = `${dateStr}<br>${hours}:${minutes}:${seconds} Uhr`;
+      document.getElementById('liveClock').innerHTML = `${dateStr}<br>${hours}:${minutes} Uhr`;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
+    // ==========================================
+    // DIE DATENBANK
+    // ==========================================
     const gartenDaten = [
       {
         id: "artischocke", name: "Artischocke & Kardone", oberkategorie: "Gemüse", kategorie: "Stängel- & Blütengemüse", icon: "🪷",
@@ -1588,57 +1121,32 @@
 
     const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
     function getFavorites() {
-      try {
-        const stored = localStorage.getItem(FAVORITES_KEY);
-        return stored ? JSON.parse(stored) : [];
-      } catch (e) {
-        return [];
-      }
+      try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
     }
     function toggleFavorite(id, event) {
       if (event) event.stopPropagation();
       let favs = getFavorites();
-      if (favs.includes(id)) {
-        favs = favs.filter(f => f !== id);
-      } else {
-        favs.push(id);
-      }
-      try {
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
-      } catch (e) {}
+      if (favs.includes(id)) favs = favs.filter(f => f !== id);
+      else favs.push(id);
+      try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs)); } catch (e) {}
       filterUndRender();
     }
 
     const NOTES_KEY = "ramonas_garten_notizen_v1";
     function getNotes() {
-      try {
-        const stored = localStorage.getItem(NOTES_KEY);
-        return stored ? JSON.parse(stored) : {};
-      } catch (e) {
-        return {};
-      }
+      try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
     }
     function saveNote(id, text) {
       let notes = getNotes();
-      if (!text || text.trim() === "") {
-        delete notes[id];
-      } else {
-        notes[id] = text;
-      }
-      try {
-        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
-      } catch (e) {}
+      if (!text || text.trim() === "") delete notes[id];
+      else notes[id] = text;
+      try { localStorage.setItem(NOTES_KEY, JSON.stringify(notes)); } catch (e) {}
       updateNotesBadge();
     }
 
     const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
     function getGeneralNotes() {
-      try {
-        const stored = localStorage.getItem(GENERAL_NOTES_KEY);
-        return stored ? JSON.parse(stored) : [];
-      } catch (e) {
-        return [];
-      }
+      try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
     }
     function saveGeneralNote(text) {
       if(!text || text.trim() === "") return;
@@ -1646,17 +1154,13 @@
       const now = new Date();
       const dateStr = now.toLocaleDateString('de-DE') + " " + String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
       notes.unshift({ id: Date.now().toString(), text: text.trim(), date: dateStr });
-      try {
-        localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes));
-      } catch (e) {}
+      try { localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes)); } catch (e) {}
       updateNotesBadge();
     }
     window.deleteGeneralNote = function(id) {
       let notes = getGeneralNotes();
       notes = notes.filter(n => n.id !== id);
-      try {
-        localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes));
-      } catch (e) {}
+      try { localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes)); } catch (e) {}
       updateNotesBadge();
       filterUndRender();
     }
@@ -1666,7 +1170,6 @@
       if (textarea && textarea.value.trim() !== "") {
         saveGeneralNote(textarea.value);
         filterUndRender();
-        
         setTimeout(() => {
           const btn = document.getElementById("saveNoteBtn");
           if (btn) {
@@ -1687,10 +1190,7 @@
 
     window.sendCurrentNoteEmail = function() {
       const textarea = document.getElementById("generalNoteInput");
-      if (!textarea || textarea.value.trim() === "") {
-        alert("Bitte gib zuerst einen Text in das Notizfeld ein.");
-        return;
-      }
+      if (!textarea || textarea.value.trim() === "") { alert("Bitte gib zuerst einen Text in das Notizfeld ein."); return; }
       const subject = encodeURIComponent("Aktuelle Garten-Notiz");
       const body = encodeURIComponent(textarea.value.trim() + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
@@ -1698,14 +1198,9 @@
 
     window.sendGeneralNoteEmail = function() {
       const general = getGeneralNotes();
-      if (general.length === 0) {
-        alert("Du hast noch keine allgemeinen Notizen gespeichert!");
-        return;
-      }
+      if (general.length === 0) { alert("Du hast noch keine allgemeinen Notizen gespeichert!"); return; }
       let text = "Meine gesammelten Garten-Notizen:\n\n";
-      general.forEach(n => {
-        text += `[${n.date}]\n${n.text}\n\n`;
-      });
+      general.forEach(n => { text += `[${n.date}]\n${n.text}\n\n`; });
       const subject = encodeURIComponent("Alle Garten-Notizen");
       const body = encodeURIComponent(text + "---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
@@ -1729,61 +1224,34 @@
       const textarea = document.getElementById("generalNoteInput");
       const timeInput = document.getElementById("reminderTimeInput");
 
-      if (!textarea || textarea.value.trim() === "") {
-        alert("Bitte gib zuerst eine Notiz ein, für die du eine Erinnerung erstellen möchtest!");
-        return;
-      }
-      if (!timeInput || !timeInput.value) {
-        alert("Bitte wähle ein Datum und eine Uhrzeit für die Erinnerung aus!");
-        return;
-      }
+      if (!textarea || textarea.value.trim() === "") { alert("Bitte gib zuerst eine Notiz ein, für die du eine Erinnerung erstellen möchtest!"); return; }
+      if (!timeInput || !timeInput.value) { alert("Bitte wähle ein Datum und eine Uhrzeit für die Erinnerung aus!"); return; }
 
       const eventDate = new Date(timeInput.value);
-      if (isNaN(eventDate.getTime())) {
-        alert("Ungültiges Datum gewählt!");
-        return;
-      }
+      if (isNaN(eventDate.getTime())) { alert("Ungültiges Datum gewählt!"); return; }
 
-      function formatDateToICS(d) {
-        return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-      }
+      function formatDateToICS(d) { return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z"; }
 
       const nowStr = formatDateToICS(new Date());
       const startStr = formatDateToICS(eventDate);
       const endDate = new Date(eventDate.getTime() + 30 * 60 * 1000);
       const endStr = formatDateToICS(endDate);
-
       const summary = textarea.value.trim().split("\n")[0].substring(0, 50);
       const description = textarea.value.trim().replace(/\n/g, "\\n");
 
       const icsContent = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//Ramonas Garten Anzucht//Erinnerung//DE",
-        "CALSCALE:GREGORIAN",
-        "BEGIN:VEVENT",
-        `UID:${Date.now()}@ramonas-garten.app`,
-        `DTSTAMP:${nowStr}`,
-        `DTSTART:${startStr}`,
-        `DTEND:${endStr}`,
-        `SUMMARY:🌱 Garten: ${summary}`,
-        `DESCRIPTION:${description}`,
-        "BEGIN:VALARM",
-        "TRIGGER:-PT15M",
-        "ACTION:DISPLAY",
-        "DESCRIPTION:Erinnerung: " + summary,
-        "END:VALARM",
-        "END:VEVENT",
-        "END:VCALENDAR"
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Ramonas Garten Anzucht//Erinnerung//DE", "CALSCALE:GREGORIAN",
+        "BEGIN:VEVENT", `UID:${Date.now()}@ramonas-garten.app`, `DTSTAMP:${nowStr}`, `DTSTART:${startStr}`, `DTEND:${endStr}`,
+        `SUMMARY:🌱 Garten: ${summary}`, `DESCRIPTION:${description}`,
+        "BEGIN:VALARM", "TRIGGER:-PT15M", "ACTION:DISPLAY", "DESCRIPTION:Erinnerung: " + summary, "END:VALARM",
+        "END:VEVENT", "END:VCALENDAR"
       ].join("\r\n");
 
       const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.setAttribute("download", `garten_erinnerung_${Date.now()}.ics`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
     function updateNotesBadge() {
@@ -1791,11 +1259,8 @@
       const plantNoteCount = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "").length;
       const generalNoteCount = getGeneralNotes().length;
       const count = plantNoteCount + generalNoteCount;
-      
       const label = document.getElementById("navNotesLabel");
-      if (label) {
-        label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
-      }
+      if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
     }
 
     gartenDaten.sort((a, b) => a.name.localeCompare(b.name));
@@ -1806,6 +1271,7 @@
     let gewaehlteKulturId = gartenDaten[0].id;
     let gewaehlteSorteIdx = 0;
     let aktiverSubFilter = "Alle";
+    let searchTimeout;
 
     const searchInput = document.getElementById("searchInput");
     const clearSearchBtn = document.getElementById("clearSearchBtn");
@@ -1813,9 +1279,7 @@
     const modalOverlay = document.getElementById("modalOverlay");
     const detailPanel = document.getElementById("detailPanel");
     const readmeOverlay = document.getElementById("readmeOverlay");
-    const readmeBody = document.getElementById("readmeBody");
     const impressumOverlay = document.getElementById("impressumOverlay");
-    const statusCount = document.getElementById("statusCount");
     const searchBoxContainer = document.getElementById("searchBoxContainer");
     const statusRowContainer = document.getElementById("statusRowContainer");
 
@@ -1825,15 +1289,8 @@
       for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
       for (let i = 1; i <= b.length; i++) {
         for (let j = 1; j <= a.length; j++) {
-          if (b.charAt(i - 1) === a.charAt(j - 1)) {
-            matrix[i][j] = matrix[i - 1][j - 1];
-          } else {
-            matrix[i][j] = Math.min(
-              matrix[i - 1][j - 1] + 1,
-              matrix[i][j - 1] + 1,
-              matrix[i - 1][j] + 1
-            );
-          }
+          if (b.charAt(i - 1) === a.charAt(j - 1)) matrix[i][j] = matrix[i - 1][j - 1];
+          else matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
         }
       }
       return matrix[b.length][a.length];
@@ -1841,8 +1298,7 @@
 
     function isFuzzyMatch(target, query) {
       if (!target || !query) return false;
-      target = target.toLowerCase();
-      query = query.toLowerCase();
+      target = target.toLowerCase(); query = query.toLowerCase();
       if (target.includes(query)) return true;
       if (query.length < 3) return false;
       const words = target.split(/[\s,./\-\(\)]+/);
@@ -1857,12 +1313,8 @@
       if (!text) return "";
       if (!query || query.trim() === "") return escapeHtml(text);
       const q = query.trim();
-      
       const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-      if (regex.test(text)) {
-        return escapeHtml(text).replace(regex, '<mark class="search-highlight">$1</mark>');
-      }
-      
+      if (regex.test(text)) return escapeHtml(text).replace(regex, '<mark class="search-highlight">$1</mark>');
       if (q.length >= 3) {
         const words = text.split(/(\s+)/);
         const maxDist = q.length > 5 ? 2 : 1;
@@ -1874,7 +1326,6 @@
           return escapeHtml(w);
         }).join("");
       }
-
       return escapeHtml(text);
     }
 
@@ -1887,35 +1338,24 @@
     function toggleRadar() {
       radarAktiv = !radarAktiv;
       if (radarAktiv && aktiveKategorie === "Notizen") aktiveKategorie = "Alle";
-      filterUndRender();
-      updateBottomNav();
+      filterUndRender(); updateBottomNav();
     }
 
     function setMainCategory(kat) {
-      radarAktiv = false;
-      aktiveKategorie = kat;
-      filterUndRender();
-      updateBottomNav();
+      radarAktiv = false; aktiveKategorie = kat;
+      filterUndRender(); updateBottomNav();
     }
 
     function updateBottomNav() {
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
-      if (radarAktiv) {
-        items[6].classList.add('active');
-      } else if (aktiveKategorie === 'Alle') {
-        items[0].classList.add('active');
-      } else if (aktiveKategorie === 'Gemüse') {
-        items[1].classList.add('active');
-      } else if (aktiveKategorie === 'Obst') {
-        items[2].classList.add('active');
-      } else if (aktiveKategorie === 'Kräuter') {
-        items[3].classList.add('active');
-      } else if (aktiveKategorie === 'Favoriten') {
-        items[4].classList.add('active');
-      } else if (aktiveKategorie === 'Notizen') {
-        items[5].classList.add('active');
-      }
+      if (radarAktiv) items[6].classList.add('active');
+      else if (aktiveKategorie === 'Alle') items[0].classList.add('active');
+      else if (aktiveKategorie === 'Gemüse') items[1].classList.add('active');
+      else if (aktiveKategorie === 'Obst') items[2].classList.add('active');
+      else if (aktiveKategorie === 'Kräuter') items[3].classList.add('active');
+      else if (aktiveKategorie === 'Favoriten') items[4].classList.add('active');
+      else if (aktiveKategorie === 'Notizen') items[5].classList.add('active');
     }
 
     function filterUndRender() {
@@ -1925,117 +1365,74 @@
       const notes = getNotes();
       const generalNotes = getGeneralNotes();
 
-      if (clearSearchBtn) {
-        clearSearchBtn.style.display = query !== "" ? "flex" : "none";
-      }
+      if (clearSearchBtn) clearSearchBtn.style.display = query !== "" ? "flex" : "none";
 
       if (aktiveKategorie === "Notizen") {
-        searchBoxContainer.style.display = "none";
-        statusRowContainer.style.display = "none";
-        
+        searchBoxContainer.style.display = "none"; statusRowContainer.style.display = "none";
         const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
-        statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + generalNotes.length}`;
+        document.getElementById("statusCount").innerText = `Gespeicherte Notizen: ${notedIds.length + generalNotes.length}`;
         
-        let html = `
-          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-              📝 Neues Notizbuch-Blatt
-            </div>
-            <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
-            
-            <div style="margin-bottom: 14px; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
-              <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">⏰ Erinnerung / Termin (optional):</label>
+        let htmlStr = `
+          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 6px 12px rgba(0,0,0,0.04);">
+            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">📝 Neues Notizbuch-Blatt</div>
+            <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 90px; padding: 14px; border-radius: 12px; border: 1px solid var(--border); font-size: 0.95rem; margin-bottom: 14px; resize: vertical; font-family: inherit; outline: none; transition: 0.2s;"></textarea>
+            <div style="margin-bottom: 18px; background: var(--bg); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);">
+              <label style="display: block; font-size: 0.8rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">⏰ Erinnerung / Termin (optional):</label>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <input type="datetime-local" id="reminderTimeInput" style="flex: 1; min-width: 180px; padding: 8px 12px; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border); outline: none;">
-                <button onclick="createCalendarReminder()" style="background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                  📅 Im Kalender eintragen
-                </button>
+                <input type="datetime-local" id="reminderTimeInput" style="flex: 1; min-width: 180px; padding: 10px 14px; font-size: 0.9rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
+                <button onclick="createCalendarReminder()" class="row-btn" style="background: var(--accent); color: #fff; border: none;">📅 Im Kalender eintragen</button>
               </div>
             </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <button id="saveNoteBtn" onclick="triggerManualSave()" style="grid-column: span 2; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
-                💾 Notiz speichern
-              </button>
-              <button onclick="sendCurrentNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; text-align: center;">
-                ✉️ Aktuelle senden
-              </button>
-              <button onclick="sendGeneralNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; text-align: center;">
-                📚 Alle senden
-              </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <button id="saveNoteBtn" onclick="triggerManualSave()" style="grid-column: span 2; background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); transition: 0.2s;">💾 Notiz speichern</button>
+              <button onclick="sendCurrentNoteEmail()" class="action-pill secondary" style="justify-content: center;">✉️ Aktuelle senden</button>
+              <button onclick="sendGeneralNoteEmail()" class="action-pill secondary" style="justify-content: center;">📚 Alle senden</button>
             </div>
           </div>
         `;
 
-        cultureGrid.innerHTML = html;
-
         if (generalNotes.length > 0) {
-          const genContainer = document.createElement("div");
-          genContainer.className = "notes-overview-container";
-          genContainer.innerHTML = `<div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">📌 Allgemeine Notizen</div>`;
-          generalNotes.forEach(note => {
-            const card = document.createElement("div");
-            card.className = "note-card-item";
-            const safeText = escapeHtml(note.text);
-            const jsNoteText = JSON.stringify(note.text);
-            const jsDateStr = JSON.stringify(note.date);
-            card.innerHTML = `
+          htmlStr += `<div class="notes-overview-container"><div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 12px;">📌 Allgemeine Notizen</div>`;
+          htmlStr += generalNotes.map(note => `
+            <div class="note-card-item">
               <div class="note-card-header">
-                <div class="note-card-title static">
-                  📅 ${note.date}
-                </div>
+                <div class="note-card-title static">📅 ${note.date}</div>
                 <div class="note-card-actions">
-                  <button class="single-send-btn" onclick='sendSingleGeneralNoteEmail(${jsDateStr}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️️ Senden</button>
-                  <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')" title="Notiz löschen">🗑️ Löschen</button>
+                  <button class="single-send-btn" onclick='sendSingleGeneralNoteEmail(${JSON.stringify(note.date)}, ${JSON.stringify(note.text)})'>✉️ Senden</button>
+                  <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')">🗑️ Löschen</button>
                 </div>
               </div>
-              <div class="note-card-text">${safeText}</div>
-            `;
-            genContainer.appendChild(card);
-          });
-          cultureGrid.appendChild(genContainer);
+              <div class="note-card-text">${escapeHtml(note.text)}</div>
+            </div>
+          `).join('');
+          htmlStr += `</div>`;
         }
 
         if (notedIds.length > 0) {
-          const pflanzenContainer = document.createElement("div");
-          pflanzenContainer.className = "notes-overview-container";
-          pflanzenContainer.innerHTML = `<div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; margin-top: 10px;">🌱 Pflanzenspezifische Notizen</div>`;
-          
-          notedIds.forEach(id => {
+          htmlStr += `<div class="notes-overview-container"><div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; margin-top: 10px;">🌱 Pflanzenspezifische Notizen</div>`;
+          htmlStr += notedIds.map(id => {
             const k = gartenDaten.find(item => item.id === id);
-            if (!k) return;
-            const noteText = notes[id];
-            const safeText = escapeHtml(noteText);
-            const jsPlantName = JSON.stringify(k.name);
-            const jsNoteText = JSON.stringify(noteText);
-
-            const card = document.createElement("div");
-            card.className = "note-card-item";
-            card.innerHTML = `
-              <div class="note-card-header">
-                <div class="note-card-title" onclick="openKulturDetail('${k.id}')">
-                  <span>${k.icon}</span> <span>${k.name}</span>
+            if (!k) return '';
+            return `
+              <div class="note-card-item">
+                <div class="note-card-header">
+                  <div class="note-card-title" onclick="openKulturDetail('${k.id}')"><span>${k.icon}</span> <span>${k.name}</span></div>
+                  <div class="note-card-actions">
+                    <button class="single-send-btn" onclick='sendSinglePlantNoteEmail(${JSON.stringify(k.name)}, ${JSON.stringify(notes[id])})'>✉️ Senden</button>
+                    <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')">🗑️ Löschen</button>
+                  </div>
                 </div>
-                <div class="note-card-actions">
-                  <button class="single-send-btn" onclick='sendSinglePlantNoteEmail(${jsPlantName}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️ Senden</button>
-                  <button class="delete-note-btn" onclick="deleteNoteFromOverview('${k.id}')" title="Notiz löschen">🗑️ Löschen</button>
-                </div>
+                <div class="note-card-text">${escapeHtml(notes[id])}</div>
               </div>
-              <div class="note-card-text">${safeText}</div>
             `;
-            pflanzenContainer.appendChild(card);
-          });
-          cultureGrid.appendChild(pflanzenContainer);
+          }).join('');
+          htmlStr += `</div>`;
         }
 
         if (notedIds.length === 0 && generalNotes.length === 0) {
-          cultureGrid.innerHTML += `
-            <div class="not-found-box" style="margin-top: 0;">
-              <div class="not-found-title">Noch keine Notizen vorhanden</div>
-              <div class="not-found-text">Trage oben eine allgemeine Notiz ein oder öffne eine Pflanze, um spezifische Beobachtungen zu speichern.</div>
-            </div>
-          `;
+          htmlStr += `<div class="not-found-box" style="margin-top: 0;"><div class="not-found-title">Noch keine Notizen vorhanden</div><div class="not-found-text">Trage oben eine allgemeine Notiz ein oder öffne eine Pflanze, um spezifische Beobachtungen zu speichern.</div></div>`;
         }
+        cultureGrid.innerHTML = htmlStr;
         return;
       }
 
@@ -2043,14 +1440,10 @@
       statusRowContainer.style.display = "flex";
 
       const matchedList = [];
-
       gartenDaten.forEach(k => {
         let katMatch = true;
-        if (aktiveKategorie === "Favoriten") {
-          katMatch = favs.includes(k.id);
-        } else if (aktiveKategorie !== "Alle") {
-          katMatch = (k.oberkategorie === aktiveKategorie);
-        }
+        if (aktiveKategorie === "Favoriten") katMatch = favs.includes(k.id);
+        else if (aktiveKategorie !== "Alle") katMatch = (k.oberkategorie === aktiveKategorie);
 
         const radarMatch = (!radarAktiv || (k.monateAussaat && k.monateAussaat.includes(currentMonth)));
         if (!katMatch || !radarMatch) return;
@@ -2064,25 +1457,14 @@
         const katNameMatch = isFuzzyMatch(k.kategorie, query);
         const bedarfMatch = isFuzzyMatch(k.bedarf, query);
         const tippMatch = isFuzzyMatch(k.tipp, query);
-
-        const matchedSorten = k.sorten.filter(s => 
-          isFuzzyMatch(s.name, query) || 
-          isFuzzyMatch(s.typ, query) || 
-          isFuzzyMatch(s.gruppe, query) || 
-          isFuzzyMatch(s.eigenschaft, query)
-        );
+        const matchedSorten = k.sorten.filter(s => isFuzzyMatch(s.name, query) || isFuzzyMatch(s.typ, query) || isFuzzyMatch(s.gruppe, query) || isFuzzyMatch(s.eigenschaft, query));
 
         let matchHint = null;
         if (!nameMatch) {
-          if (matchedSorten.length > 0) {
-            matchHint = `Sorte: ${matchedSorten[0].name}`;
-          } else if (bedarfMatch) {
-            matchHint = k.bedarf;
-          } else if (katNameMatch) {
-            matchHint = k.kategorie;
-          } else if (tippMatch) {
-            matchHint = `Tipp-Treffer`;
-          }
+          if (matchedSorten.length > 0) matchHint = `Sorte: ${matchedSorten[0].name}`;
+          else if (bedarfMatch) matchHint = k.bedarf;
+          else if (katNameMatch) matchHint = k.kategorie;
+          else if (tippMatch) matchHint = `Tipp-Treffer`;
         }
 
         if (nameMatch || katNameMatch || bedarfMatch || tippMatch || matchedSorten.length > 0) {
@@ -2090,198 +1472,91 @@
         }
       });
 
-      statusCount.innerText = `Gefundene Kulturen: ${matchedList.length}`;
-      cultureGrid.innerHTML = "";
-
+      document.getElementById("statusCount").innerText = `Gefundene Kulturen: ${matchedList.length}`;
+      
       if (matchedList.length === 0 && query !== "") {
-        const rawQuery = searchInput.value.trim();
-        const encodedQuery = encodeURIComponent(rawQuery);
-        const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${rawQuery}`);
-        const mailBody = encodeURIComponent(`Hallo Marcel,\n\nmir ist aufgefallen, dass folgende Sorte/Pflanze in der App fehlt und nachgetragen werden sollte:\n\nSuchbegriff: "${rawQuery}"\n\nViele Grüße!`);
-        
-        cultureGrid.innerHTML = `
-          <div class="not-found-box">
-            <div class="not-found-title">🔍 "${rawQuery}" nicht gefunden</div>
-            <div class="not-found-text">Diese Sorte oder Eigenschaft ist aktuell noch nicht in der Datenbank gespeichert. Du kannst sie direkt an den Entwickler melden oder exakt im Web nachschlagen:</div>
-            <div class="not-found-actions">
-              <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">
-                ✉️ An Marcel melden (Nachragen)
-              </a>
-              <a href="https://www.google.com/search?q=${encodedQuery}" target="_blank" class="action-pill secondary">
-                🌐 Exakte Websuche
-              </a>
-              <a href="https://www.google.com/search?q=${encodedQuery}+Sorte+kaufen" target="_blank" class="action-pill secondary">
-                🌱 Saatgut finden
-              </a>
-            </div>
-          </div>
-        `;
+        const encQuery = encodeURIComponent(searchInput.value.trim());
+        cultureGrid.innerHTML = `<div class="not-found-box"><div class="not-found-title">🔍 "${escapeHtml(searchInput.value.trim())}" nicht gefunden</div><div class="not-found-text">Diese Sorte oder Eigenschaft ist aktuell noch nicht in der Datenbank gespeichert.</div><div class="not-found-actions"><a href="mailto:marcelkometz@icloud.com?subject=Neue Sorte fehlt in App: ${encQuery}" class="action-pill primary">✉️ An Marcel melden</a><a href="https://www.google.com/search?q=${encQuery}" target="_blank" class="action-pill secondary">🌐 Exakte Websuche</a></div></div>`;
         return;
       }
 
-      const struktur = {
-        "Gemüse": { icon: "🥦", items: [] },
-        "Obst": { icon: "🍎", items: [] },
-        "Kräuter": { icon: "🌿", items: [] }
-      };
+      const struktur = { "Gemüse": { icon: "🥦", items: [] }, "Obst": { icon: "🍎", items: [] }, "Kräuter": { icon: "🌿", items: [] } };
+      matchedList.forEach(item => { if(struktur[item.kultur.oberkategorie]) struktur[item.kultur.oberkategorie].items.push(item); });
 
-      matchedList.forEach(item => {
-        if(struktur[item.kultur.oberkategorie]) {
-          struktur[item.kultur.oberkategorie].items.push(item);
-        }
-      });
-
+      let gridHtml = '';
       Object.keys(struktur).forEach(gName => {
         const gruppe = struktur[gName];
         if (gruppe.items.length > 0) {
-          const section = document.createElement("div");
-          section.className = "group-section";
-          section.innerHTML = `
-            <div class="group-title">${gruppe.icon} ${gName}</div>
-            <div class="grid" id="grid-${gName}"></div>
-          `;
-          cultureGrid.appendChild(section);
-
-          const innerGrid = section.querySelector(".grid");
-          
-          gruppe.items.forEach(({ kultur: k, matchHint }) => {
+          gridHtml += `<div class="group-section"><div class="group-title">${gruppe.icon} ${gName}</div><div class="grid">`;
+          gridHtml += gruppe.items.map(({ kultur: k, matchHint }) => {
             const isFav = favs.includes(k.id);
-            const card = document.createElement("div");
-            // Such-Puls-Effekt hinzufügen, wenn eine aktive Suche läuft
             const pulseClass = query !== "" ? "search-active-match" : "";
-            card.className = `item-card ${k.id === gewaehlteKulturId ? 'selected' : ''} ${pulseClass}`;
-            card.onclick = () => {
-              openKulturDetail(k.id);
-            };
-
-            const highlightedTitle = highlightMatch(k.name, query);
             const hintBadgeHtml = matchHint ? `<div class="match-pill">${highlightMatch(matchHint, query)}</div>` : "";
-
-            card.innerHTML = `
-              <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)" title="Als Favorit merken">★</span>
-              <div class="item-icon">${k.icon}</div>
-              <div class="item-title">${highlightedTitle}</div>
-              <div class="item-sub">${k.sorten.length} Sorten</div>
-              ${hintBadgeHtml}
+            return `
+              <div class="item-card ${k.id === gewaehlteKulturId ? 'selected' : ''} ${pulseClass}" onclick="openKulturDetail('${k.id}')">
+                <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)">★</span>
+                <div class="item-icon">${k.icon}</div>
+                <div class="item-title">${highlightMatch(k.name, query)}</div>
+                <div class="item-sub">${k.sorten.length} Sorten</div>
+                ${hintBadgeHtml}
+              </div>
             `;
-            innerGrid.appendChild(card);
-          });
+          }).join('');
+          gridHtml += `</div></div>`;
         }
       });
+      cultureGrid.innerHTML = gridHtml;
     }
 
-    function deleteNoteFromOverview(id) {
-      saveNote(id, "");
-      filterUndRender();
-    }
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(filterUndRender, 150);
+    });
 
-    function escapeHtml(text) {
-      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
+    function deleteNoteFromOverview(id) { saveNote(id, ""); filterUndRender(); }
     function openKulturDetail(id) {
       gewaehlteKulturId = id;
       const k = gartenDaten.find(i => i.id === id);
       const query = searchInput.value.toLowerCase().trim();
-      
       gewaehlteSorteIdx = 0;
       if (k && query !== "") {
-        const foundIdx = k.sorten.findIndex(s => 
-          isFuzzyMatch(s.name, query) || 
-          isFuzzyMatch(s.typ, query) || 
-          isFuzzyMatch(s.gruppe, query) || 
-          isFuzzyMatch(s.eigenschaft, query)
-        );
-        if (foundIdx !== -1) {
-          gewaehlteSorteIdx = foundIdx;
-        }
+        const foundIdx = k.sorten.findIndex(s => isFuzzyMatch(s.name, query) || isFuzzyMatch(s.typ, query) || isFuzzyMatch(s.gruppe, query) || isFuzzyMatch(s.eigenschaft, query));
+        if (foundIdx !== -1) gewaehlteSorteIdx = foundIdx;
       }
-
       aktiverSubFilter = "Alle";
-      renderDetailModal();
-      modalOverlay.classList.add("open");
+      renderDetailModal(); modalOverlay.classList.add("open");
     }
 
-    function closeDetailModal() {
-      modalOverlay.classList.remove("open");
-      if (aktiveKategorie === "Notizen") filterUndRender();
-    }
-
-    modalOverlay.addEventListener("click", (e) => {
-      if (e.target === modalOverlay) {
-        closeDetailModal();
-      }
-    });
+    function closeDetailModal() { modalOverlay.classList.remove("open"); if (aktiveKategorie === "Notizen") filterUndRender(); }
+    modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeDetailModal(); });
 
     function openReadme() {
-      readmeBody.innerText = "Lade Dokumentation Read.txt...";
-      readmeOverlay.classList.add("open");
-
-      fetch("Read.txt")
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Datei Read.txt konnte nicht geladen werden.");
-          }
-          return response.text();
-        })
-        .then(text => {
-          readmeBody.innerText = text;
-        })
-        .catch(err => {
-          readmeBody.innerText = "Hinweis: Die Datei 'Read.txt' liegt noch nicht im selben Ordner wie diese index.html oder dein Browser blockiert lokale Dateizugriffe.\n\nErstelle einfach eine 'Read.txt' im Hauptverzeichnis mit deinen gewünschten Notizen!";
-        });
+      document.getElementById("readmeBody").innerText = "Lade Dokumentation Read.txt...";
+      document.getElementById("readmeOverlay").classList.add("open");
+      fetch("Read.txt").then(res => { if (!res.ok) throw new Error(); return res.text(); }).then(text => { document.getElementById("readmeBody").innerText = text; }).catch(() => { document.getElementById("readmeBody").innerText = "Hinweis: Die Datei 'Read.txt' liegt noch nicht im selben Ordner."; });
     }
+    function closeReadme() { document.getElementById("readmeOverlay").classList.remove("open"); }
+    document.getElementById("readmeOverlay").addEventListener("click", (e) => { if (e.target === document.getElementById("readmeOverlay")) closeReadme(); });
 
-    function closeReadme() {
-      readmeOverlay.classList.remove("open");
-    }
+    function openImpressum() { document.getElementById("impressumOverlay").classList.add("open"); }
+    function closeImpressum() { document.getElementById("impressumOverlay").classList.remove("open"); }
+    document.getElementById("impressumOverlay").addEventListener("click", (e) => { if (e.target === document.getElementById("impressumOverlay")) closeImpressum(); });
 
-    readmeOverlay.addEventListener("click", (e) => {
-      if (e.target === readmeOverlay) {
-        closeReadme();
-      }
-    });
-
-    function openImpressum() {
-      impressumOverlay.classList.add("open");
-    }
-
-    function closeImpressum() {
-      impressumOverlay.classList.remove("open");
-    }
-
-    impressumOverlay.addEventListener("click", (e) => {
-      if (e.target === impressumOverlay) {
-        closeImpressum();
-      }
-    });
-
-    function printCurrentDetail() {
-      window.print();
-    }
+    function printCurrentDetail() { window.print(); }
 
     function renderDetailModal() {
       const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
       if (!k) return;
-
       const query = searchInput.value.toLowerCase().trim();
-
       let sichtbareSorten = k.sorten;
-      if (k.filterGruppen && aktiverSubFilter !== "Alle") {
-        sichtbareSorten = k.sorten.filter(s => s.gruppe === aktiverSubFilter);
-      }
-
-      if (!sichtbareSorten[gewaehlteSorteIdx]) {
-        gewaehlteSorteIdx = 0;
-      }
+      if (k.filterGruppen && aktiverSubFilter !== "Alle") sichtbareSorten = k.sorten.filter(s => s.gruppe === aktiverSubFilter);
+      if (!sichtbareSorten[gewaehlteSorteIdx]) gewaehlteSorteIdx = 0;
       const sorte = sichtbareSorten[gewaehlteSorteIdx] || k.sorten[0];
-      const notes = getNotes();
-      const currentNote = notes[k.id] || "";
+      const notes = getNotes(); const currentNote = notes[k.id] || "";
 
       let subFilterHtml = "";
       if (k.filterGruppen) {
-        subFilterHtml = `<div class="subfilter-bar">`;
-        subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === 'Alle' ? 'active' : ''}" onclick="setSubFilter('Alle')">Alle (${k.sorten.length})</button>`;
+        subFilterHtml = `<div class="subfilter-bar"><button class="sub-btn ${aktiverSubFilter === 'Alle' ? 'active' : ''}" onclick="setSubFilter('Alle')">Alle (${k.sorten.length})</button>`;
         k.filterGruppen.forEach(gName => {
           const count = k.sorten.filter(s => s.gruppe === gName).length;
           subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === gName ? 'active' : ''}" onclick="setSubFilter('${gName}')">${gName} (${count})</button>`;
@@ -2289,21 +1564,7 @@
         subFilterHtml += `</div>`;
       }
 
-      let sortenChipsHtml = "";
-      sichtbareSorten.forEach((s, idx) => {
-        const highlightedName = highlightMatch(s.name, query);
-        sortenChipsHtml += `
-          <button class="v-chip ${idx === gewaehlteSorteIdx ? 'active' : ''}" onclick="waehleSorte(${idx})">
-            ${highlightedName}
-          </button>
-        `;
-      });
-
-      const highlightedSorteName = highlightMatch(sorte.name, query);
-      const highlightedSorteTyp = highlightMatch(sorte.typ, query);
-      const highlightedSorteProp = highlightMatch(sorte.eigenschaft, query);
-      const highlightedTipp = highlightMatch(k.tipp, query);
-      const highlightedBedarf = highlightMatch(k.bedarf, query);
+      const sortenChipsHtml = sichtbareSorten.map((s, idx) => `<button class="v-chip ${idx === gewaehlteSorteIdx ? 'active' : ''}" onclick="waehleSorte(${idx})">${highlightMatch(s.name, query)}</button>`).join("");
 
       detailPanel.innerHTML = `
         <div class="sheet-handle"></div>
@@ -2311,23 +1572,23 @@
           <div>
             <div class="detail-title">${k.icon} ${highlightMatch(k.name, query)}</div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-              <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
-              <span class="badge">${highlightedBedarf}</span>
+              <span class="badge">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
+              <span class="badge">${highlightMatch(k.bedarf, query)}</span>
             </div>
           </div>
           <div class="header-actions">
-            <button class="print-btn" onclick="printCurrentDetail()" title="Als PDF speichern oder drucken">🖨️ PDF / Druck</button>
+            <button class="print-btn" onclick="printCurrentDetail()">🖨️ PDF / Druck</button>
             <button class="close-btn" onclick="closeDetailModal()">✕</button>
           </div>
         </div>
 
         <div class="varieties-section">
-          <div class="varieties-title">Verfügbare Sorten (${sichtbareSorten.length}):</div>
+          <div style="font-weight:800; color:var(--primary); margin-bottom:8px;">Verfügbare Sorten (${sichtbareSorten.length}):</div>
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
-            <strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em><br><br>
-            ${highlightedSorteProp}
+            <strong>${highlightMatch(sorte.name, query)}</strong> <em>(${highlightMatch(sorte.typ, query)})</em><br><br>
+            ${highlightMatch(sorte.eigenschaft, query)}
           </div>
         </div>
 
@@ -2340,53 +1601,24 @@
           <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte}</div></div>
         </div>
 
-        <div class="tipp-box">
-          💡 <strong>Profi-Gartentipp:</strong><br>${highlightedTipp}
-        </div>
+        <div class="tipp-box">💡 <strong>Profi-Gartentipp:</strong><br>${highlightMatch(k.tipp, query)}</div>
 
         <div class="notes-section">
           <div class="notes-title">📝 Meine Garten-Notizen</div>
-          <textarea class="notes-textarea" placeholder="Notizen hier eintragen (wird automatisch gespeichert)..." oninput="saveNote('${k.id}', this.value)">${currentNote}</textarea>
+          <textarea class="notes-textarea" placeholder="Notizen hier eintragen..." oninput="saveNote('${k.id}', this.value)">${currentNote}</textarea>
         </div>
 
         <div class="companion-grid">
-          <div class="companion-box good-box">
-            <div class="comp-title">✅ Gute Nachbarn</div>
-            <div>${k.guteNachbarn}</div>
-          </div>
-          <div class="companion-box bad-box">
-            <div class="comp-title">❌ Schlechte Nachbarn</div>
-            <div>${k.schlechteNachbarn}</div>
-          </div>
+          <div class="companion-box good-box"><div class="comp-title">✅ Gute Nachbarn</div><div>${k.guteNachbarn}</div></div>
+          <div class="companion-box bad-box"><div class="comp-title">❌ Schlechte Nachbarn</div><div>${k.schlechteNachbarn}</div></div>
         </div>
       `;
     }
 
-    window.setSubFilter = function(gName) {
-      aktiverSubFilter = gName;
-      gewaehlteSorteIdx = 0;
-      renderDetailModal();
-    };
+    window.setSubFilter = function(gName) { aktiverSubFilter = gName; gewaehlteSorteIdx = 0; renderDetailModal(); };
+    window.waehleSorte = function(idx) { gewaehlteSorteIdx = idx; renderDetailModal(); };
 
-    window.waehleSorte = function(idx) {
-      gewaehlteSorteIdx = idx;
-      renderDetailModal();
-    };
-
-    searchInput.addEventListener("input", filterUndRender);
-
-    window.addEventListener("DOMContentLoaded", () => {
-      updateNotesBadge();
-      filterUndRender();
-    });
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch((err) => {
-          console.log('Service Worker Registrierung fehlgeschlagen:', err);
-        });
-      });
-    }
+    window.addEventListener("DOMContentLoaded", () => { updateNotesBadge(); filterUndRender(); });
   </script>
 </body>
 </html>
