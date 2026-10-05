@@ -109,7 +109,7 @@
       margin-bottom: 14px; 
     }
     
-    input[type="text"] { 
+    input[type="text"], input[type="datetime-local"] { 
       width: 100%; 
       padding: 13px 16px; 
       font-size: 1rem; 
@@ -120,9 +120,8 @@
       background: #fff; 
       box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
     }
-    input[type="text"]:focus { border-color: var(--accent); }
+    input[type="text"]:focus, input[type="datetime-local"]:focus { border-color: var(--accent); }
     
-    /* Leiste mit Status links und Aktions-Buttons rechts */
     .status-row {
       display: flex;
       justify-content: space-between;
@@ -217,7 +216,6 @@
       border-radius: 8px; 
     }
 
-    /* Favoriten-Stern auf der Karte */
     .card-star {
       position: absolute;
       top: 6px;
@@ -227,14 +225,9 @@
       cursor: pointer;
       transition: color 0.15s, transform 0.15s;
     }
-    .card-star.active {
-      color: var(--star);
-    }
-    .card-star:hover {
-      transform: scale(1.2);
-    }
+    .card-star.active { color: var(--star); }
+    .card-star:hover { transform: scale(1.2); }
 
-    /* Smart-Search / Nicht gefunden Box */
     .not-found-box {
       background: #ffffff;
       border: 2px dashed var(--border);
@@ -274,23 +267,11 @@
       border: none;
       transition: transform 0.15s, background 0.15s;
     }
-    .action-pill.primary {
-      background: var(--primary);
-      color: #fff;
-    }
-    .action-pill.primary:hover {
-      background: var(--accent);
-    }
-    .action-pill.secondary {
-      background: var(--tag-bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .action-pill.secondary:hover {
-      background: #e2e8f0;
-    }
+    .action-pill.primary { background: var(--primary); color: #fff; }
+    .action-pill.primary:hover { background: var(--accent); }
+    .action-pill.secondary { background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); }
+    .action-pill.secondary:hover { background: #e2e8f0; }
 
-    /* Notizen-Ansicht (Zentraler Zettelkasten) */
     .notes-overview-container {
       display: flex;
       flex-direction: column;
@@ -320,14 +301,8 @@
       align-items: center;
       gap: 6px;
     }
-    .note-card-title.static {
-      cursor: default;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-    }
-    .note-card-title:not(.static):hover {
-      text-decoration: underline;
-    }
+    .note-card-title.static { cursor: default; font-size: 0.95rem; color: var(--text-muted); }
+    .note-card-title:not(.static):hover { text-decoration: underline; }
     .note-card-text {
       font-size: 0.9rem;
       color: var(--text);
@@ -348,11 +323,8 @@
       padding: 4px 8px;
       border-radius: 4px;
     }
-    .delete-note-btn:hover {
-      background: #fee2e2;
-    }
+    .delete-note-btn:hover { background: #fee2e2; }
 
-    /* Modal / Bottom-Sheet Design */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -363,11 +335,7 @@
       align-items: flex-end;
       justify-content: center;
     }
-    @media (min-width: 850px) {
-      .modal-overlay {
-        align-items: center;
-      }
-    }
+    @media (min-width: 850px) { .modal-overlay { align-items: center; } }
     .modal-overlay.open { display: flex; }
     
     .detail-panel { 
@@ -382,13 +350,8 @@
       animation: slideUp 0.25s ease-out;
     }
     @media (min-width: 850px) {
-      .detail-panel {
-        border-radius: 16px;
-        max-height: 85vh;
-        animation: fadeIn 0.2s ease-out;
-      }
+      .detail-panel { border-radius: 16px; animation: fadeIn 0.2s ease-out; }
     }
-    
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
     
@@ -417,11 +380,7 @@
       gap: 8px; 
       font-weight: 800; 
     }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
     .print-btn {
       background: var(--primary-light);
       border: 1px solid var(--primary);
@@ -436,10 +395,7 @@
       gap: 4px;
       transition: all 0.2s;
     }
-    .print-btn:hover {
-      background: var(--primary);
-      color: #fff;
-    }
+    .print-btn:hover { background: var(--primary); color: #fff; }
     .close-btn {
       background: var(--tag-bg);
       border: 1px solid var(--border);
@@ -483,11 +439,7 @@
       color: var(--text-muted);
       white-space: nowrap;
     }
-    .sub-btn.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
+    .sub-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
     .variety-chips { 
       display: flex; 
@@ -498,7 +450,6 @@
       overflow-y: auto;
       padding-right: 4px;
     }
-    
     .v-chip { 
       padding: 6px 10px; 
       border-radius: 8px; 
@@ -510,11 +461,7 @@
       transition: all 0.15s; 
     }
     .v-chip:hover { border-color: var(--accent); }
-    .v-chip.active { 
-      background: var(--accent); 
-      color: #fff; 
-      border-color: var(--accent); 
-    }
+    .v-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
     
     .v-info-box { 
       background: #fffbeb; 
@@ -533,27 +480,9 @@
       gap: 8px; 
       margin: 16px 0; 
     }
-    
-    .metric-card { 
-      background: #f8fafc; 
-      border: 1px solid var(--border); 
-      border-radius: 8px; 
-      padding: 8px 10px; 
-    }
-    
-    .metric-label { 
-      font-size: 0.62rem; 
-      color: var(--text-muted); 
-      text-transform: uppercase; 
-      font-weight: 700; 
-      margin-bottom: 2px; 
-    }
-    
-    .metric-val { 
-      font-size: 0.85rem; 
-      font-weight: 700; 
-      color: var(--primary); 
-    }
+    .metric-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    .metric-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
+    .metric-val { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
     
     .tipp-box { 
       font-size: 0.85rem; 
@@ -566,7 +495,6 @@
       color: #0c4a6e; 
     }
 
-    /* Notizbereich pro Pflanze */
     .notes-section {
       margin-top: 16px;
       background: #f8fafc;
@@ -594,28 +522,14 @@
       outline: none;
       background: #fff;
     }
-    .notes-textarea:focus {
-      border-color: var(--accent);
-    }
+    .notes-textarea:focus { border-color: var(--accent); }
     
-    .companion-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 10px; 
-      margin-top: 12px; 
-    }
-    
-    .companion-box { 
-      padding: 10px; 
-      border-radius: 8px; 
-      font-size: 0.8rem; 
-      line-height: 1.35; 
-    }
+    .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .companion-box { padding: 10px; border-radius: 8px; font-size: 0.8rem; line-height: 1.35; }
     .good-box { background: var(--good); border: 1px solid #bbf7d0; color: #166534; }
     .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
     .comp-title { font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
 
-    /* Footer Styling */
     footer.app-footer {
       text-align: center;
       padding: 25px 15px 15px 15px;
@@ -626,7 +540,6 @@
     }
     footer.app-footer p { margin-bottom: 6px; }
 
-    /* Feste Daumen-Leiste unten */
     .bottom-nav {
       position: fixed;
       bottom: 0; left: 0; width: 100%;
@@ -655,57 +568,29 @@
     .nav-item.active { color: var(--primary); }
     .nav-item span.nav-icon { font-size: 1.25rem; }
 
-    /* Druck- & PDF-Optimierung */
     @media print {
-      body {
-        padding: 0;
-        background: #fff;
-        color: #000;
-      }
+      body { padding: 0; background: #fff; color: #000; }
       .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box, .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn, .subfilter-bar, .notes-section, .card-star {
         display: none !important;
       }
-      #readmeOverlay, #impressumOverlay, .modal-overlay:not(#modalOverlay) {
-        display: none !important;
-      }
+      #readmeOverlay, #impressumOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
       .modal-overlay#modalOverlay.open {
         position: static !important;
         display: block !important;
         background: none !important;
         backdrop-filter: none !important;
       }
-      .detail-panel {
-        max-width: 100% !important;
-        max-height: none !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-      }
-      .detail-title {
-        font-size: 1.8rem !important;
-      }
-      .info-metrics {
-        grid-template-columns: repeat(3, 1fr) !important;
-      }
-      .v-info-box {
-        border: 1px solid #000 !important;
-        background: #fff !important;
-        color: #000 !important;
-      }
-      .tipp-box {
-        background: #f8fafc !important;
-        border-left: 4px solid #333 !important;
-        color: #000 !important;
-      }
-      .companion-grid {
-        grid-template-columns: 1fr 1fr !important;
-      }
+      .detail-panel { max-width: 100% !important; max-height: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+      .detail-title { font-size: 1.8rem !important; }
+      .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
+      .v-info-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
+      .tipp-box { background: #f8fafc !important; border-left: 4px solid #333 !important; color: #000 !important; }
+      .companion-grid { grid-template-columns: 1fr 1fr !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top-Bar mit einzeiligem Titel links und Uhr rechts -->
   <div class="top-bar">
     <div class="left-title">🌱 Ramonas Garten Anzucht</div>
     <div class="clock" id="liveClock">Lade Zeit...</div>
@@ -720,7 +605,6 @@
     <input type="text" id="searchInput" placeholder="🔍 Schnellsuchlauf (z.B. Linda, Music, Presto, Matador)...">
   </div>
 
-  <!-- Statuszeile links und Read.txt / Impressum rechts -->
   <div class="status-row" id="statusRowContainer">
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
@@ -731,7 +615,6 @@
 
   <div id="cultureGrid"></div>
 
-  <!-- Footer & Copyright -->
   <footer class="app-footer">
     <p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
     <p>
@@ -740,12 +623,10 @@
     </p>
   </footer>
 
-  <!-- Detail-Fenster (Bottom-Sheet / Modal) für Pflanzen -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="detail-panel" id="detailPanel"></div>
   </div>
 
-  <!-- Read.txt Modal -->
   <div class="modal-overlay" id="readmeOverlay">
     <div class="detail-panel" style="max-width: 580px;">
       <div class="sheet-handle"></div>
@@ -762,7 +643,6 @@
     </div>
   </div>
 
-  <!-- Impressum-Modal -->
   <div class="modal-overlay" id="impressumOverlay">
     <div class="detail-panel" style="max-width: 520px;">
       <div class="sheet-handle"></div>
@@ -797,7 +677,6 @@
     </div>
   </div>
 
-  <!-- Feste Daumen-Navigation unten (mit Notizen-Reiter) -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="setMainCategory('Alle')">
       <span class="nav-icon">🌐</span><span>Alle</span>
@@ -823,7 +702,6 @@
   </div>
 
   <script>
-    // Live-Uhr
     function updateClock() {
       const now = new Date();
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -836,11 +714,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // ==========================================
-    // DIE DATENBANK (Erweitert um zusätzliche Top-Sorten)
-    // ==========================================
     const gartenDaten = [
-      // 🥦 GEMÜSE 🥦
       {
         id: "artischocke", name: "Artischocke & Kardone", oberkategorie: "Gemüse", kategorie: "Stängel- & Blütengemüse", icon: "🪷",
         abstandPflanze: "100 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
@@ -910,7 +784,7 @@
         ]
       },
       {
-        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️️",
+        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [1, 2, 3, 5],
@@ -1629,7 +1503,6 @@
       }
     ];
 
-    // Favoriten-Laden & Speichern (localStorage)
     const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
     function getFavorites() {
       try {
@@ -1653,7 +1526,6 @@
       filterUndRender();
     }
 
-    // Pflanzenspezifische Notizen-Laden & Speichern
     const NOTES_KEY = "ramonas_garten_notizen_v1";
     function getNotes() {
       try {
@@ -1676,7 +1548,6 @@
       updateNotesBadge();
     }
 
-    // Allgemeines Garten-Notizbuch (als Liste)
     const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
     function getGeneralNotes() {
       try {
@@ -1707,14 +1578,12 @@
       filterUndRender();
     }
     
-    // Manuelles Speichern mit visuellem Feedback
     window.triggerManualSave = function() {
       const textarea = document.getElementById("generalNoteInput");
       if (textarea && textarea.value.trim() !== "") {
         saveGeneralNote(textarea.value);
-        filterUndRender(); // Rendert die Seite neu (leert das Feld und zeigt die neue Notiz)
+        filterUndRender();
         
-        // Suche den Button im neu gerenderten DOM für das grüne Feedback
         setTimeout(() => {
           const btn = document.getElementById("saveNoteBtn");
           if (btn) {
@@ -1733,7 +1602,6 @@
       }
     }
 
-    // Aktuelle Notiz versenden (ohne sie speichern zu müssen)
     window.sendCurrentNoteEmail = function() {
       const textarea = document.getElementById("generalNoteInput");
       if (!textarea || textarea.value.trim() === "") {
@@ -1745,7 +1613,6 @@
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
-    // Alle gespeicherten allgemeinen Notizen versenden
     window.sendGeneralNoteEmail = function() {
       const general = getGeneralNotes();
       if (general.length === 0) {
@@ -1761,7 +1628,70 @@
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
-    // Aktualisiert die Anzahl der Notizen im unteren Nav-Reiter (Pflanzennotizen + Allgemeine Notizen)
+    // ==========================================
+    // ERINNERUNGSFUNKTION (KALENDER-EXPORT .ICS)
+    // ==========================================
+    window.createCalendarReminder = function() {
+      const textarea = document.getElementById("generalNoteInput");
+      const timeInput = document.getElementById("reminderTimeInput");
+
+      if (!textarea || textarea.value.trim() === "") {
+        alert("Bitte gib zuerst eine Notiz ein, für die du eine Erinnerung erstellen möchtest!");
+        return;
+      }
+      if (!timeInput || !timeInput.value) {
+        alert("Bitte wähle ein Datum und eine Uhrzeit für die Erinnerung aus!");
+        return;
+      }
+
+      const eventDate = new Date(timeInput.value);
+      if (isNaN(eventDate.getTime())) {
+        alert("Ungültiges Datum gewählt!");
+        return;
+      }
+
+      function formatDateToICS(d) {
+        return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+      }
+
+      const nowStr = formatDateToICS(new Date());
+      const startStr = formatDateToICS(eventDate);
+      const endDate = new Date(eventDate.getTime() + 30 * 60 * 1000); // 30 Minuten Dauer
+      const endStr = formatDateToICS(endDate);
+
+      const summary = textarea.value.trim().split("\n")[0].substring(0, 50);
+      const description = textarea.value.trim().replace(/\n/g, "\\n");
+
+      const icsContent = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Ramonas Garten Anzucht//Erinnerung//DE",
+        "CALSCALE:GREGORIAN",
+        "BEGIN:VEVENT",
+        `UID:${Date.now()}@ramonas-garten.app`,
+        `DTSTAMP:${nowStr}`,
+        `DTSTART:${startStr}`,
+        `DTEND:${endStr}`,
+        `SUMMARY:🌱 Garten: ${summary}`,
+        `DESCRIPTION:${description}`,
+        "BEGIN:VALARM",
+        "TRIGGER:-PT15M",
+        "ACTION:DISPLAY",
+        "DESCRIPTION:Erinnerung: " + summary,
+        "END:VALARM",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+
+      const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute("download", `garten_erinnerung_${Date.now()}.ics`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
     function updateNotesBadge() {
       const notes = getNotes();
       const plantNoteCount = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "").length;
@@ -1774,7 +1704,6 @@
       }
     }
 
-    // Alphabetische Sortierung
     gartenDaten.sort((a, b) => a.name.localeCompare(b.name));
     gartenDaten.forEach(k => k.sorten.sort((a, b) => a.name.localeCompare(b.name)));
 
@@ -1813,7 +1742,7 @@
       const items = document.querySelectorAll('.bottom-nav .nav-item');
       items.forEach(el => el.classList.remove('active'));
       if (radarAktiv) {
-        items[6].classList.add('active'); // Aussaat ist Index 6
+        items[6].classList.add('active');
       } else if (aktiveKategorie === 'Alle') {
         items[0].classList.add('active');
       } else if (aktiveKategorie === 'Gemüse') {
@@ -1836,7 +1765,6 @@
       const notes = getNotes();
       const generalNotes = getGeneralNotes();
 
-      // Wenn die Notizen-Ansicht aktiv ist
       if (aktiveKategorie === "Notizen") {
         searchBoxContainer.style.display = "none";
         statusRowContainer.style.display = "none";
@@ -1851,6 +1779,16 @@
             </div>
             <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
             
+            <div style="margin-bottom: 14px; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
+              <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">⏰ Erinnerung / Termin (optional):</label>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <input type="datetime-local" id="reminderTimeInput" style="flex: 1; min-width: 180px; padding: 8px 12px; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border); outline: none;">
+                <button onclick="createCalendarReminder()" style="background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  📅 Im Kalender eintragen
+                </button>
+              </div>
+            </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <button id="saveNoteBtn" onclick="triggerManualSave()" style="grid-column: span 2; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
                 💾 Notiz speichern
@@ -1867,7 +1805,6 @@
 
         cultureGrid.innerHTML = html;
 
-        // Rendern der allgemeinen Notizen
         if (generalNotes.length > 0) {
           const genContainer = document.createElement("div");
           genContainer.className = "notes-overview-container";
@@ -1889,7 +1826,6 @@
           cultureGrid.appendChild(genContainer);
         }
 
-        // Rendern der Pflanzenspezifischen Notizen
         if (notedIds.length > 0) {
           const pflanzenContainer = document.createElement("div");
           pflanzenContainer.className = "notes-overview-container";
@@ -1927,7 +1863,6 @@
         return;
       }
 
-      // Normale Ansicht (Suche & Kategorien)
       searchBoxContainer.style.display = "block";
       statusRowContainer.style.display = "flex";
 
@@ -1948,7 +1883,6 @@
       statusCount.innerText = `Gefundene Kulturen: ${gefiltert.length}`;
       cultureGrid.innerHTML = "";
 
-      // Smart-Search: Wenn nichts gefunden wurde, Entwickler-Hinweis & exakte Websuche anzeigen
       if (gefiltert.length === 0 && query !== "") {
         const rawQuery = searchInput.value.trim();
         const encodedQuery = encodeURIComponent(rawQuery);
@@ -2045,7 +1979,6 @@
       }
     });
 
-    // Read.txt Öffnen & Schließen
     function openReadme() {
       readmeBody.innerText = "Lade Dokumentation Read.txt...";
       readmeOverlay.classList.add("open");
@@ -2075,7 +2008,6 @@
       }
     });
 
-    // Impressum Öffnen & Schließen
     function openImpressum() {
       impressumOverlay.classList.add("open");
     }
@@ -2090,7 +2022,6 @@
       }
     });
 
-    // Druck- & PDF-Funktion
     function printCurrentDetail() {
       window.print();
     }
