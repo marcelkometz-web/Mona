@@ -1,40 +1,40 @@
-# 🌱 Ramonas Garten Anzucht – Dokumentation & Read.txt
+🌱 Ramonas Garten Anzucht – Dokumentation & Read.txt
 
-## 📋 Projektübersicht
-Die Web-App **„Ramonas Garten Anzucht“** ist eine maßgeschneiderte, mobile-optimierte Kleingarten-Enzyklopädie und digitales Notizbuch. Sie wurde speziell für den praktischen Einsatz im Garten entwickelt, läuft komplett im Browser (Client-Side) und funktioniert dank PWA-Technologie (Progressive Web App) auch offline auf dem Smartphone (optimiert für iOS & Android).
-
----
-
-## ✨ Die neuesten Features & Neuerungen (Stand: Oktober 2026)
-
-### 1. 📝 Integriertes Notizbuch & Tagebuch
-* **Allgemeine Notizen:** Schnelles Festhalten von Garten-To-Dos, Beobachtungen oder Ideen direkt über den Notizen-Tab mit automatischem Zeitstempel.
-* **Pflanzenspezifische Notizen:** Jede Kultur bietet ein eigenes Textfeld im Detailfenster, um z. B. Keimzeiten, Erträge oder Besonderheiten direkt bei der jeweiligen Pflanze zu hinterlegen.
-* **Persistenter Speicher:** Alle Einträge werden sicher und lokal über `localStorage` im Browser gespeichert.
-
-### 2. 📅 Kalender-Export & Erinnerungen (.ics)
-* **Direkter ICS-Download:** Erstelle aus deinen Notizen mit nur einem Klick Kalender-Erinnerungen inklusive Wunschdatum und Uhrzeit.
-* **Kompatibilität:** Die generierte `.ics`-Datei lässt sich nahtlos in Apple Kalender, Google Calendar oder Outlook importieren.
-
-### 3. ✉️ E-Mail-Export-Funktion
-* **Direktversand:** Teile einzelne Notizen, Pflanzendetails oder deine gesammelten Garten-To-Dos blitzschnell per E-Mail-Link (`mailto:`).
-
-### 4. 🔍 Intelligente Suche mit Fuzzy-Matching & Levenshtein-Algorithmus
-* **Tolerante Suche:** Findet Sorten und Begriffe auch bei kleinen Tippfehlern.
-* **Such-Puls-Effekt:** Aktive Suchtreffer werden durch einen visuellen Puls-Effekt hervorgehoben.
-* **Fehlersuche & Support:** Wenn ein Suchbegriff gar nicht existiert, bietet die App direkt praktische Hilfen an (z. B. den direkten E-Mail-Weg zum Nachragen beim Entwickler oder eine direkte Google-Websuche).
-
-### 5. 🖨️ Optimierte Druck- und PDF-Ansicht
-* **Sauberer Export:** Über den „PDF / Druck“-Button in den Detailansichten wird die Seite so formatiert, dass unnötige Navigationselemente ausgeblendet werden – perfekt zum Ausdrucken von Steckbriefen oder zum Abspeichern als PDF auf dem iPhone/PC.
-
-### 6. 🌟 Favoriten & Saison-Radar
-* **Favoriten-Stern:** Markiere wichtige Kulturen mit einem Klick als Favoriten, um sie blitzschnell über die untere Navigation aufzurufen.
-* **Saison-Aussaat-Radar:** Zeigt auf einen Klick genau an, welche Pflanzen im aktuellen Monat ausgesät werden können.
+📋 Projektübersicht
+Die Web-App „Ramonas Garten Anzucht“ ist eine maßgeschneiderte, mobile-optimierte Kleingarten-Enzyklopädie und digitales Notizbuch. Sie wurde speziell für den praktischen Einsatz im Garten entwickelt, läuft komplett im Browser (Client-Side) und funktioniert dank PWA-Technologie (Progressive Web App) auch offline auf dem Smartphone (optimiert für iOS & Android).
 
 ---
 
-## 🛠️ Technische Details & Hosting
-* **Entwickelt von:** Marcel Kometz
-* **Technologien:** HTML5, CSS3 (mit CSS Custom Properties / Design Tokens), Vanilla JavaScript (ES6+).
-* **Hosting:** Bereitgestellt als statische Web-App über GitHub Pages.
-* **Mobile Features:** Volle Unterstützung für den iPhone-Homescreen (Add to Home Screen), Standalone-Modus, angepasste Statusleisten (`black-translucent`) und Unterstützung für die Notch / Safe Area (`env(safe-area-inset-top)`).
+✨ Die neuesten Features & Neuerungen (Stand: Oktober 2026)
+
+📝 1. Integriertes Notizbuch & Tagebuch
+• Allgemeine Notizen: Schnelles Festhalten von Garten-To-Dos, Beobachtungen oder Ideen direkt über den Notizen-Tab mit automatischem Zeitstempel.
+• Pflanzenspezifische Notizen: Jede Kultur bietet ein eigenes Textfeld im Detailfenster, um z. B. Keimzeiten, Erträge oder Besonderheiten direkt bei der jeweiligen Pflanze zu hinterlegen.
+• Persistenter Speicher: Alle Einträge werden sicher und lokal über localStorage im Browser gespeichert.
+
+📅 2. Kalender-Export & Erinnerungen (.ics)
+• Direkter ICS-Download: Erstelle aus deinen Notizen mit nur einem Klick Kalender-Erinnerungen inklusive Wunschdatum und Uhrzeit.
+• Kompatibilität: Die generierte .ics-Datei lässt sich nahtlos in Apple Kalender, Google Calendar oder Outlook importieren.
+
+✉️️ 3. E-Mail-Export-Funktion
+• Direktversand: Teile einzelne Notizen, Pflanzendetails oder deine gesammelten Garten-To-Dos blitzschnell per E-Mail-Link (mailto:).
+
+🔍 4. Intelligente Suche mit Fuzzy-Matching & Levenshtein-Algorithmus
+• Tolerante Suche: Findet Sorten und Begriffe auch bei kleinen Tippfehlern.
+• Such-Puls-Effekt: Aktive Suchtreffer werden durch einen visuellen Puls-Effekt hervorgehoben.
+• Fehlersuche & Support: Wenn ein Suchbegriff gar nicht existiert, bietet die App direkt praktische Hilfen an (z. B. den direkten E-Mail-Weg zum Nachragen beim Entwickler oder eine direkte Google-Websuche).
+
+🖨️ 5. Optimierte Druck- und PDF-Ansicht
+• Sauberer Export: Über den „PDF / Druck“-Button in den Detailansichten wird die Seite so formatiert, dass unnötige Navigationselemente ausgeblendet werden – perfekt zum Ausdrucken von Steckbriefen oder zum Abspeichern als PDF auf dem iPhone/PC.
+
+🌟 6. Favoriten & Saison-Radar
+• Favoriten-Stern: Markiere wichtige Kulturen mit einem Klick als Favoriten, um sie blitzschnell über die untere Navigation aufzurufen.
+• Saison-Aussaat-Radar: Zeigt auf einen Klick genau an, welche Pflanzen im aktuellen Monat ausgesät werden können.
+
+---
+
+🛠️ Technische Details & Hosting
+• Entwickelt von: Marcel Kometz
+• Technologien: HTML5, CSS3 (mit CSS Custom Properties / Design Tokens), Vanilla JavaScript (ES6+).
+• Hosting: Bereitgestellt als statische Web-App über GitHub Pages.
+• Mobile Features: Volle Unterstützung für den iPhone-Homescreen (Add to Home Screen), Standalone-Modus, angepasste Statusleisten (black-translucent) und Unterstützung für die Notch / Safe Area (env(safe-area-inset-top)).
