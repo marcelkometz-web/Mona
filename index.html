@@ -54,10 +54,10 @@
       display: none; align-items: center; justify-content: center; }
     .clear-search-btn:hover { background: #94a3b8; }
     .status-row { display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 14px; gap: 8px; flex-wrap: wrap; }
+      margin-bottom: 14px; gap: 8px; }
     .status-bar { font-size: 0.8rem; color: var(--text-muted); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.5px; }
-    .status-actions { display: flex; align-items: center; gap: 6px; }
+      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .status-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
     .row-btn { display: inline-flex; align-items: center; gap: 4px;
       background: var(--card-bg); color: var(--primary); text-decoration: none;
       font-size: 0.76rem; font-weight: 700; padding: 6px 11px; border-radius: 8px;
@@ -454,7 +454,7 @@
     };
 
     const gartenDaten = [
-		{
+      {
         id: "aubergine", name: "Aubergine", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍆",
         wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig & warm (Südwand / Gewächshaus)",
@@ -535,7 +535,7 @@
         filterGruppen: ["Buschbohnen", "Stangenbohnen", "Feuerbohnen", "Dicke Bohnen"],
         sorten: [
           { name: "Purple Teepee", typ: "Buschbohne", gruppe: "Buschbohnen", aussehen: "Tiefviolette Schoten, die über dem Laub hängen.", geschmack: "Knackig, saftig, feines Bohnenaroma; färbt sich beim Kochen dunkelgrün.", verwendung: "Leicht zu ernten, perfekt als Speckbohne oder im bunten Bohnensalat." },
-          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttriger Schmelz, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für süß-saure Einlegebohnen." },
+          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttriger Schmelz, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für sü-saure Einlegebohnen." },
           { name: "Berggold", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Goldgelbe fleischige Hülsen ohne störende Fäden.", geschmack: "Mild, süßlich-buttrig, sehr zarter Biss.", verwendung: "Der Klassiker für traditionellen Bohnensalat mit Zwiebeln und Bohnenkraut." },
           { name: "Delinel", typ: "Filet-Buschbohne", gruppe: "Buschbohnen", aussehen: "Lange, dünne, dunkelgrüne Schoten französischer Zucht.", geschmack: "Herausragend aromatisch, intensiv, knackig und fadenlos.", verwendung: "Gourmet-Bohne: Kurz blanchieren und mit Knoblauchbutter servieren." },
           { name: "Contender", typ: "Frühe Buschbohne", gruppe: "Buschbohnen", aussehen: "Mittelgrüne, fleischige Schoten mit hoher Ertragsfülle.", geschmack: "Sehr saftig mit kräftig-deftigem Aroma.", verwendung: "Sehr ertragreich für die erste frühe Ernte im Sommer; ideal für Suppen." },
@@ -1598,7 +1598,7 @@
         }
       });
 
-      statusCount.innerText = `Gefundene Kulturen: ${matchedList.length}`;
+      statusCount.innerText = `Kulturen: ${matchedList.length}`;
       cultureGrid.innerHTML = "";
 
       if (aktiveKategorie === "Mein Beet") {
@@ -1696,7 +1696,7 @@
       if (k && query !== "") {
         const foundIdx = k.sorten.findIndex(s =>
           isFuzzyMatch(s.name, query) || isFuzzyMatch(s.typ, query) || isFuzzyMatch(s.gruppe, query) ||
-          isFuzzyMatch(s.aussehen, query) || isFuzzyMatch(s.geschmack, query) ||
+          isFuzzyMatch(s.aussehen, query) || isFuzzyMatch(s.geschmerk, query) || isFuzzyMatch(s.geschmack, query) ||
           isFuzzyMatch(s.verwendung, query) || isFuzzyMatch(s.eigenschaft, query)
         );
         if (foundIdx !== -1) gewaehlteSorteIdx = foundIdx;
