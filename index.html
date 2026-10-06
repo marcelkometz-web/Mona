@@ -229,7 +229,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
     }
 
-    /* Leuchtender Puls-Effekt bei aktiver Suche */
     @keyframes searchPulse {
       0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); border-color: #f59e0b; }
       50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15); border-color: #d97706; }
@@ -435,7 +434,7 @@
       .detail-panel { border-radius: 16px; animation: fadeIn 0.2s ease-out; }
     }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; } }
     
     .sheet-handle {
       width: 40px; height: 5px;
@@ -452,43 +451,51 @@
       border-bottom: 1px solid var(--border); 
       padding-bottom: 10px; 
       margin-bottom: 14px; 
-      gap: 10px;
+      gap: 8px;
     }
     .detail-title { 
-      font-size: 1.4rem; 
+      font-size: 1.3rem; 
       color: var(--primary); 
       display: flex; 
       align-items: center; 
       gap: 8px; 
       font-weight: 800; 
     }
-    .header-actions { display: flex; align-items: center; gap: 8px; }
+    
+    .header-actions { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      flex-shrink: 0;
+    }
     .print-btn {
       background: var(--primary-light);
       border: 1px solid var(--primary);
       color: var(--primary);
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
       transition: all 0.2s;
     }
     .print-btn:hover { background: var(--primary); color: #fff; }
     .close-btn {
       background: var(--tag-bg);
       border: 1px solid var(--border);
-      font-size: 1.2rem;
-      width: 34px; height: 34px;
+      font-size: 1.1rem;
+      width: 32px; height: 32px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--text);
+      flex-shrink: 0;
     }
     
     .badge { 
@@ -508,18 +515,20 @@
       gap: 6px;
       margin-bottom: 10px;
       scrollbar-width: none;
+      padding: 2px 0;
     }
     .subfilter-bar::-webkit-scrollbar { display: none; }
     .sub-btn {
-      padding: 4px 10px;
+      padding: 6px 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
       background: #f1f5f9;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       color: var(--text-muted);
       white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
     .sub-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
@@ -558,7 +567,7 @@
     
     .info-metrics { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
       gap: 8px; 
       margin: 16px 0; 
     }
@@ -566,13 +575,35 @@
     .metric-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
     .metric-val { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
     
+    .boden-box {
+      font-size: 0.86rem;
+      background: #fefce8;
+      border-left: 4px solid #ca8a04;
+      padding: 12px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      line-height: 1.45;
+      color: #713f12;
+    }
+
+    .duenger-box {
+      font-size: 0.86rem;
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 12px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      line-height: 1.45;
+      color: #14532d;
+    }
+
     .tipp-box { 
       font-size: 0.85rem; 
       background: #e0f2fe; 
       border-left: 4px solid #0284c7; 
       padding: 12px 15px; 
       border-radius: 4px; 
-      margin: 14px 0; 
+      margin: 12px 0; 
       line-height: 1.45; 
       color: #0c4a6e; 
     }
@@ -666,6 +697,8 @@
       .detail-title { font-size: 1.8rem !important; }
       .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
       .v-info-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
+      .boden-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
+      .duenger-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
       .tipp-box { background: #f8fafc !important; border-left: 4px solid #333 !important; color: #000 !important; }
       .companion-grid { grid-template-columns: 1fr 1fr !important; }
     }
@@ -684,7 +717,7 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Linda, frosthart, festkochend)...">
+    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Hornspäne, Brennnesseljauche, Linda)...">
     <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
   </div>
 
@@ -799,63 +832,101 @@
 
     const gartenDaten = [
       {
-        id: "artischocke", name: "Artischocke & Kardone", oberkategorie: "Gemüse", kategorie: "Stängel- & Blütengemüse", icon: "🪷",
-        abstandPflanze: "100 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
-        zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Sept",
-        monateAussaat: [1, 2, 3, 5],
-        tipp: "Mehrjährig bei gutem Winterschutz! Bei Kardonen isst man die gebleichten Stiele, bei Artischocken die Blütenknospen.",
-        guteNachbarn: "Salat, Radieschen, Fenchel", schlechteNachbarn: "Tomaten, Kartoffeln",
-        sorten: [
-          { name: "Green Globe", typ: "Artischocke", eigenschaft: "Große, grüne Köpfe mit fleischigen Schuppen." },
-          { name: "Plein Blanc Inerme", typ: "Kardone", eigenschaft: "Stachellose Gemüseartischocke, gebleichte Blattstiele schmecken leicht bitter-nussig." },
-          { name: "Violet de Provence", typ: "Artischocke", eigenschaft: "Zarte, violette Gourmet-Knospen." }
-        ]
-      },
-      {
         id: "aubergine", name: "Aubergine", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍆",
+        standort: "Vollsonnig & warm (Südwand / Gewächshaus)",
+        boden: "Tiefgründig, locker, sehr humos und warm. Im Frühjahr reichlich reifen Kompost und Hornspäne einarbeiten; reagiert empfindlich auf verdichtete Böden.",
+        duenger: "Starkzehrer: Vor dem Pflanzen Kompost & Hornspäne einarbeiten. Ab Fruchtansatz alle 14 Tage mit verdünnter Brennnessel- oder Beinwelljauche düngen (hoher Kaliumbedarf).",
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "0.5 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-Feb", zeitBeet: "Ende Mai", zeitErnte: "Aug-Okt",
         monateAussaat: [1, 2, 5],
         tipp: "Wärmeliebend! Am besten ins Gewächshaus oder im Kübel an eine Südwand.",
         guteNachbarn: "Bohnen, Kohl, Spinat", schlechteNachbarn: "Kartoffeln, Tomaten, Paprika",
         sorten: [
-          { name: "Black Beauty", typ: "Klassiker", eigenschaft: "Dicke, tiefviolette Früchte. Standard-Sorte." },
-          { name: "Violetta Lunga", typ: "Länglich", eigenschaft: "Schlanke, lange Früchte. Sehr zartes Fleisch." },
-          { name: "Rosa Bianca", typ: "Italienische Sorte", eigenschaft: "Hellviolett-weiß, mild und absolut bitterfrei." }
+          { name: "Violetta di Firenze", typ: "Klassiker", eigenschaft: "Große, gerippte italienische Früchte, mild und aromatisch." },
+          { name: "Listada de Gandia", typ: "Zweifarbig", eigenschaft: "Hellviolett mit weißen Streifen, dekorativ und zart." },
+          { name: "Rosa Bianca", typ: "Italienische Sorte", eigenschaft: "Hellviolett-weiß, mild und absolut bitterfrei." },
+          { name: "Little Fingers", typ: "Mini-Aubergine", eigenschaft: "Schlanke, kleine Früchte, ideal für den Topfanbau." }
         ]
       },
       {
         id: "blumenkohl", name: "Blumenkohl & Spargelkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
+        standort: "Sonnig bis halbschattig, windgeschützt & gleichmäßig feucht",
+        boden: "Schwerer, lehmig-humoser Boden mit hohem Kalkgehalt (pH 6,8–7,5 gegen Kohlhernie). Boden vor dem Pflanzen fest antreten, reichlich Kompost zugeben.",
+        duenger: "Starkzehrer: Reifer Kompost und Hornmehl zur Pflanzung. Während der Kopfbildung alle 2–3 Wochen mit stickstoffreicher Brennnesseljauche und Gesteinsmehl versorgen.",
         abstandPflanze: "50 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [2, 3, 4, 5, 6],
         tipp: "Äußere Blätter umknicken, um den Kopf vor Vergilbung (Sonnenbrand) zu schützen.",
         guteNachbarn: "Sellerie, Bohnen, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch, Kartoffeln",
+        filterGruppen: ["Klassisch Weiß", "Farbige Sorten", "Spezialitäten"],
         sorten: [
-          { name: "Neckarperle", typ: "Blumenkohl Weiß", eigenschaft: "Zuverlässige, bewährte weiße Sorte." },
-          { name: "Romanesco", typ: "Türmchenkohl", eigenschaft: "Faszinierende fraktale Struktur. Nussiger Geschmack." },
-          { name: "Violet Queen", typ: "Violetter Blumenkohl", eigenschaft: "Tolle Farbe, wird beim Kochen grünlich." }
+          { name: "Snowball", typ: "Weiß", gruppe: "Klassisch Weiß", eigenschaft: "Klassische, bewährte weiße Sorte mit feinem Geschmack." },
+          { name: "Erfurter Zwerg", typ: "Weiß", gruppe: "Klassisch Weiß", eigenschaft: "Bekannte, kompakte Sorte mit kleineren Köpfen, ideal für kleinere Beete." },
+          { name: "Neckarperle", typ: "Weiß", gruppe: "Klassisch Weiß", eigenschaft: "Robuste, ertragreiche Sorte mit langem Erntezeitfenster." },
+          { name: "Herbstriesen", typ: "Weiß (Spät)", gruppe: "Klassisch Weiß", eigenschaft: "Große, feste Köpfe für den späten Anbau und hohe Erträge." },
+          { name: "Walcheren Winter", typ: "Winterblumenkohl", gruppe: "Spezialitäten", eigenschaft: "Besondere Sorte für überwinternden Anbau in milden Lagen." },
+          { name: "Graffiti", typ: "Violetter Blumenkohl", gruppe: "Farbige Sorten", eigenschaft: "Leuchtend violette Köpfe, reich an gesunden Anthocyanen." },
+          { name: "Di Sicilia Violetto", typ: "Violetter Blumenkohl", gruppe: "Farbige Sorten", eigenschaft: "Italienische Landsorte mit kräftiger violetter Farbe und intensivem Aroma." },
+          { name: "Cheddar", typ: "Oranger Blumenkohl", gruppe: "Farbige Sorten", eigenschaft: "Auffällige orange Köpfe, besonders reich an Beta-Carotin." },
+          { name: "Marches Green", typ: "Grüner Blumenkohl", gruppe: "Farbige Sorten", eigenschaft: "Intensive grüne Röschen, die auch nach dem Kochen grün bleiben." },
+          { name: "Romanesco Natalino", typ: "Türmchenkohl", gruppe: "Spezialitäten", eigenschaft: "Faszinierende fraktale Struktur zwischen Blumenkohl und Brokkoli. Nussiger Geschmack." }
+        ]
+      },
+      {
+        id: "wirsing", name: "Wirsing (Wirz)", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        standort: "Sonnig bis halbschattig, kühler, humusreicher Boden",
+        boden: "Nährstoffreich, humos, tiefgründig und gut wasserhaltend. Im Herbst vorab Mist oder im Frühjahr kräftig reifen Kompost und Gesteinsmehl einarbeiten.",
+        duenger: "Starkzehrer: Grunddüngung mit reichlich Kompost und Hornspänen. Im Sommer regelmäßig verdünnte Brennnesseljauche gießen; ab Spätsommer stickstoffärmer düngen.",
+        abstandPflanze: "40 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "Feb-Mai", zeitBeet: "Apr-Jul", zeitErnte: "Jul-Feb",
+        monateAussaat: [2, 3, 4, 5, 6],
+        tipp: "Wirsing ist frosthärter als Weißkohl. Späte Wintersorten schmecken nach den ersten Frösten besonders aromatisch!",
+        guteNachbarn: "Sellerie, Tomaten, Spinat, Bohnen", schlechteNachbarn: "Zwiebeln, Knoblauch, andere Kohlarten",
+        filterGruppen: ["Frühwirsing", "Herbstwirsing", "Winterwirsing"],
+        sorten: [
+          { name: "Vorbote 3", typ: "Frühwirsing", gruppe: "Frühwirsing", eigenschaft: "Sehr frühe Sorte mit hochrunden, zart gekrausten und milden Köpfen." },
+          { name: "Vertus 3", typ: "Herbstwirsing", gruppe: "Herbstwirsing", eigenschaft: "Der bewährte Klassiker mit feingekrausten, dunkelgrünen Blättern." },
+          { name: "Winterfürst 2", typ: "Winterwirsing", gruppe: "Winterwirsing", eigenschaft: "Hervorragende, extrem frostharte Spätsorte für die Ernte im Winter bis ins Frühjahr." },
+          { name: "Smaragd", typ: "Spätwirsing", gruppe: "Winterwirsing", eigenschaft: "Kompakte, feste Köpfe, ideal als Überwinterungswirsing im Beet." },
+          { name: "D'Aubervilliers", typ: "Herbst-/Wintersorte", gruppe: "Herbstwirsing", eigenschaft: "Kräftige Köpfe, robust und sehr guter Geschmack." }
         ]
       },
       {
         id: "bohnen", name: "Bohnen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫘",
+        standort: "Sonnig, warm & windgeschützt, lockerer Boden",
+        boden: "Lockerer, rasch erwärmbarer, sandig-lehmiger Boden. Keinen frischen Mist oder Stickstoffdünger geben! Boden vorher tief lockern, aber nicht überdüngen.",
+        duenger: "Schwachzehrer: Keinen Stickstoffdünger verwenden (bilden Knöllchenbakterien)! Etwas reifer Kompost oder Gesteinsmehl im Vorfeld genügt vollkommen.",
         abstandPflanze: "Busch: 8cm | Stange: 6 Korn", abstandReihe: "Busch: 40cm | Stange: 80cm", saattiefe: "3 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mitte Mai (Dicke Bohne: Feb)", zeitErnte: "Jul-Okt",
         monateAussaat: [2, 3, 5, 6, 7],
         tipp: "Bohnen sind Stickstoffsammler. Wurzeln nach der Ernte im Boden lassen!",
         guteNachbarn: "Gurken, Kartoffeln, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch, Erbsen",
+        filterGruppen: ["Buschbohnen", "Stangenbohnen", "Feuerbohnen", "Dicke Bohnen"],
         sorten: [
-          { name: "Berggold", typ: "Wachs-Buschbohne", eigenschaft: "Goldgelb, buttrig, fadenlos." },
-          { name: "Blauhilde", typ: "Stangenbohne", eigenschaft: "Tiefblau, wird beim Kochen grün. Widerstandsfähig." },
-          { name: "Hangdown", typ: "Dicke Bohne (Puffbohne)", eigenschaft: "Frosthart! Aussaat ab Ende Februar. Große fleischige Kerne." },
-          { name: "Maxi", typ: "Buschbohne", eigenschaft: "Gluckentyp: Schoten wachsen über dem Laub! Verhindert Fäulnis." },
-          { name: "Neckarkönigin", typ: "Stangenbohne", eigenschaft: "Der absolute Ertragskönig an der Stange." },
-          { name: "Preisgewinner", typ: "Feuerbohne", eigenschaft: "Rote Blüten, riesige fleischige Schoten, sehr windfest." },
-          { name: "Saxa", typ: "Buschbohne", eigenschaft: "Die bewährte, früheste Buschbohne für den Kleingarten." }
+          { name: "Purple Teepee", typ: "Buschbohne", gruppe: "Buschbohnen", eigenschaft: "Violetter Schoten, die beim Kochen grün werden. Erleichtert die Ernte." },
+          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", eigenschaft: "Zitronengelbe, zarte Schoten." },
+          { name: "Berggold", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", eigenschaft: "Goldgelb, buttrig, fadenlos." },
+          { name: "Delinel", typ: "Buschbohne", gruppe: "Buschbohnen", eigenschaft: "Feine, dunkelgrüne und ertragreiche Schoten." },
+          { name: "Contender", typ: "Buschbohne", gruppe: "Buschbohnen", eigenschaft: "Sehr früh reifende, robuste Buschbohne." },
+          { name: "Hinrichs Riesen", typ: "Stangenbohne", gruppe: "Stangenbohnen", eigenschaft: "Sehr wüchsig mit extralangen, fleischigen Schoten." },
+          { name: "Cobra", typ: "Stangenbohne", gruppe: "Stangenbohnen", eigenschaft: "Dunkelgrüne, runde, fadenlose Schoten." },
+          { name: "Neckargold", typ: "Stangenbohne", gruppe: "Stangenbohnen", eigenschaft: "Bewährte gelbe Wachsstangenbohne." },
+          { name: "Kentucky Wonder", typ: "Stangenbohne", gruppe: "Stangenbohnen", eigenschaft: "Klassische US-Sorte mit hervorragendem Ertrag." },
+          { name: "Borlotto Lingua di Fuoco", typ: "Kornbohne", gruppe: "Stangenbohnen", eigenschaft: "Rot geflammte Schoten, tolle Kerne zum Schmoren." },
+          { name: "Preisgewinner", typ: "Feuerbohne", gruppe: "Feuerbohnen", eigenschaft: "Rote Blüten, riesige fleischige Schoten, sehr windfest." },
+          { name: "Painted Lady", typ: "Feuerbohne", gruppe: "Feuerbohnen", eigenschaft: "Zweifarbige rot-weiße Blüten, sehr dekorativ." },
+          { name: "Scarlet Emperor", typ: "Feuerbohne", gruppe: "Feuerbohnen", eigenschaft: "Leuchtend rote Blüten und große Schoten." },
+          { name: "Hangdown Grünkernig", typ: "Dicke Bohne", gruppe: "Dicke Bohnen", eigenschaft: "Grüne Kerne, sehr aromatisch." },
+          { name: "Witkiem", typ: "Dicke Bohne", gruppe: "Dicke Bohnen", eigenschaft: "Frühreife, zuverlässige Puffbohne." },
+          { name: "Aquadulce", typ: "Dicke Bohne", gruppe: "Dicke Bohnen", eigenschaft: "Extrem frosthart für die Herbst- oder frühe Februaraussaat." },
+          { name: "Crimson Flowered", typ: "Dicke Bohne", gruppe: "Dicke Bohnen", eigenschaft: "Zarte Kerne und wunderschöne purpurrote Blüten." }
         ]
       },
       {
         id: "brokkoli", name: "Brokkoli", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
+        standort: "Sonnig bis leicht halbschattig, feuchter, nährstoffreicher Boden",
+        boden: "Tiefgründig, nährstoffreich und lehmig mit guter Wasserspeicherung. Vor dem Pflanzen kräftig kompostieren und bei sauren Böden kalken.",
+        duenger: "Starkzehrer: Hornmehl und Kompost beim Einpflanzen. Während des Wachstums alle 2 Wochen Brennnesseljauche; profitiert von Kalium (Holzasche / Beinwell).",
         abstandPflanze: "50 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jul", zeitErnte: "Jul-Nov",
         monateAussaat: [2, 3, 4, 5, 6, 7],
@@ -863,725 +934,692 @@
         guteNachbarn: "Sellerie, Buschbohnen, Salat", schlechteNachbarn: "Zwiebeln, andere Kohlarten",
         sorten: [
           { name: "Calabrese", typ: "Standard", eigenschaft: "Der klassische grüne Kopfbrokkoli." },
+          { name: "De Cicco", typ: "Früh", eigenschaft: "Bildet viele mittelgroße Nebentriebe nach dem Hauptkopf." },
+          { name: "Marathon", typ: "Herbstbrokkoli", eigenschaft: "Sehr witterungsbeständig und kältetolerant." },
+          { name: "Green Magic", typ: "Kompakt", eigenschaft: "Gleichmäßige Köpfe, hitzetolerant." },
+          { name: "Belstar", typ: "Hybrid", eigenschaft: "Zuverlässiger Ertrag und stabile Köpfe." },
           { name: "Purple Sprouting", typ: "Sprossenbrokkoli", eigenschaft: "Violette kleine Röschen, sehr kältetolerant." }
         ]
       },
       {
-        id: "chili", name: "Chili & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
+        id: "chili", name: "Chili, Paprika & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
+        standort: "Vollsonnig, heiß, geschützt vor Zugluft (Kübel/Gewächshaus ideal)",
+        boden: "Sehr lockere, warme, humose Blumenerde mit Perlit oder Sandanteil. Bei Beetanbau mit viel Kompost anreichern; keine kalten Lehmböden.",
+        duenger: "Starkzehrer: Bei Pflanzung Kompost und Langzeitdünger (Schafwollpellets/Hornspäne). Ab Blütenbildung regelmäßig organischen Tomaten- oder Kaliumdünger geben.",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [1, 2, 3, 5],
         tipp: "Lange Kulturzeit! Zwingend im Januar/Februar warm vorziehen.",
         guteNachbarn: "Basilikum, Tomaten", schlechteNachbarn: "Fenchel",
+        filterGruppen: ["Blockpaprika", "Spitzpaprika", "Spezial-Paprika", "Chili / Peperoni"],
         sorten: [
-          { name: "Cayenne", typ: "Scharf", eigenschaft: "Schlanke rote Schoten. Perfekt für Chilipulver." },
-          { name: "Habanero", typ: "Extrem Scharf", eigenschaft: "Tropisches Fruchtaroma, bis 350.000 Scoville." },
-          { name: "Habanero Chocolate", typ: "Extrem Scharf", eigenschaft: "Tiefbraune Früchte mit rauchigem, intensivem Aroma." },
-          { name: "Jalapeño", typ: "Mittelscharf", eigenschaft: "Der mexikanische Klassiker. Ideal zum Füllen/Grillen." },
-          { name: "Padrón (Pimientos)", typ: "Tapas-Chili", eigenschaft: "Meist mild, in Olivenöl & Meersalz gebraten eine Delikatesse." },
-          { name: "Shishito", typ: "Tapas-Chili", eigenschaft: "Meist mild, in Öl angebraten ein Gedicht." }
+          { name: "California Wonder", typ: "Blockpaprika", gruppe: "Blockpaprika", eigenschaft: "Groß, dickfleischig. Reift von grün zu rot." },
+          { name: "Yolo Wonder", typ: "Blockpaprika", gruppe: "Blockpaprika", eigenschaft: "Kompakte Pflanze, blockige dicke rote Früchte." },
+          { name: "Teodora", typ: "Blockpaprika", gruppe: "Blockpaprika", eigenschaft: "Großfruchtig, dickwandig und ertragreich." },
+          { name: "Lipstick", typ: "Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Früh reifende, sehr süße rote Früchte." },
+          { name: "Corno di Toro", typ: "Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Hornförmig, süß. Zum Braten/Grillen." },
+          { name: "Marconi Rosso", typ: "Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Große, extrem süße rote Früchte." },
+          { name: "Marconi Yellow", typ: "Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Leuchtend gelbe, aromatische Spitzpaprika." },
+          { name: "Palermo", typ: "Gourmet-Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Extrem süß, knackig und saftig. Sehr beliebt." },
+          { name: "Marconi Purple", typ: "Spitzpaprika", gruppe: "Spitzpaprika", eigenschaft: "Purpurfarbene Spitzpaprika mit fruchtiger Süße." },
+          { name: "Piquillo", typ: "Spezial-Paprika", gruppe: "Spezial-Paprika", eigenschaft: "Kleine, dreieckige Früchte mit tollem Aroma, ideal zum Füllen." },
+          { name: "Oda", typ: "Violetter Paprika", gruppe: "Spezial-Paprika", eigenschaft: "Auffällige violette Früchte, die später rot reifen, sehr mild." },
+          { name: "Sweet Chocolate", typ: "Brauner Paprika", gruppe: "Spezial-Paprika", eigenschaft: "Schokoladenbraune Schale, sehr süß und saftig." },
+          { name: "Pimiento de Padrón", typ: "Tapas-Chili", gruppe: "Chili / Peperoni", eigenschaft: "Meist mild, in Olivenöl & Meersalz gebraten eine Delikatesse." },
+          { name: "Jalapeño", typ: "Mittelscharf", gruppe: "Chili / Peperoni", eigenschaft: "Der mexikanische Klassiker. Ideal zum Füllen/Grillen." },
+          { name: "Cayenne", typ: "Scharf", gruppe: "Chili / Peperoni", eigenschaft: "Schlanke rote Schoten. Perfekt für Chilipulver." },
+          { name: "Hungarian Hot Wax", typ: "Pikant", gruppe: "Chili / Peperoni", eigenschaft: "Hellgelbe, scharfe Schoten, sehr ertragreich." },
+          { name: "Bulgarian Carrot", typ: "Chili", gruppe: "Chili / Peperoni", eigenschaft: "Leuchtend orange, fruchtig-scharfe Schoten." }
         ]
       },
       {
         id: "erbsen", name: "Erbsen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫛",
+        standort: "Sonnig bis halbschattig, nicht zu heiß, lockerer & feuchter Boden",
+        boden: "Tiefgründig gelockert, humos und feinkrümelig. Niemals frisch gedüngt (kein Mist). Mäßig feucht halten, Staunässe zwingend vermeiden.",
+        duenger: "Schwachzehrer: Keinerlei Stickstoffdünger nötig. Vor der Saat genügt eine feine Schicht reifer Kompost oder Holzasche/Urgesteinsmehl für Phosphat & Kalium.",
         abstandPflanze: "3-5 cm", abstandReihe: "40 cm", saattiefe: "3-4 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mär-Mai", zeitErnte: "Jun-Aug",
         monateAussaat: [3, 4, 5],
         tipp: "Brauchen Rankhilfen (Maschendraht/Reisig).",
         guteNachbarn: "Möhren, Kohl, Radieschen, Zucchini", schlechteNachbarn: "Bohnen, Kartoffeln, Zwiebeln",
         sorten: [
-          { name: "Norli", typ: "Zuckerschote", eigenschaft: "Sehr beliebte flache Zuckerschote, komplett mit Hülle essbar, zuckersüß." },
-          { name: "Telefon", typ: "Stangenerbse / Palmerbse", eigenschaft: "Wird bis zu 2 Meter hoch! Riesige Schoten, klassische Auspal-Erbse." },
-          { name: "Wunder von Kelvedon", typ: "Markerbse", eigenschaft: "Der Standard. Süße, schrumpelige Körner zum Einfrieren oder sofort Naschen." }
+          { name: "Kleine Rheinländerin", typ: "Markerbse", eigenschaft: "Frühe, niedrige Sorte ohne Riesen-Rankgerüst." },
+          { name: "Hurst Green Shaft", typ: "Markerbse", eigenschaft: "Enorm ertragreich, lange Schoten mit vielen süßen Körnern." },
+          { name: "Feltham First", typ: "Früh", eigenschaft: "Sehr frühe Erbse für den Hausgarten." },
+          { name: "Sugar Snap", typ: "Zuckerschote", eigenschaft: "Fleischige, dicke und süße Schoten." },
+          { name: "Carouby de Maussane", typ: "Zuckerschote", eigenschaft: "Lila Blüten, große schmackhafte Schoten." },
+          { name: "Golden Sweet", typ: "Zuckerschote", eigenschaft: "Historische Sorte mit leuchtend gelben Schoten und violetten Blüten." }
         ]
       },
       {
-        id: "exoten", name: "Exotische Knollen", oberkategorie: "Gemüse", kategorie: "Sondergemüse", icon: "🍠",
-        abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "Knollen pflanzen", bedarf: "Mittel- bis Starkzehrer",
-        zeitVorzucht: "April (Töpfe)", zeitBeet: "Mai", zeitErnte: "Okt-Dez",
-        monateAussaat: [4, 5],
-        tipp: "Topinambur wuchert extrem (Wurzelsperre!). Yacon bildet riesige süßliche Speicherwurzeln.",
-        guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Tomaten",
-        sorten: [
-          { name: "Erdmandel (Tigernuss)", typ: "Knolle", eigenschaft: "Grasartige Pflanze, bildet kleine, nach Mandel schmeckende süße Knollen in der Erde." },
-          { name: "Knolliger Ziest (Crosne)", typ: "Knolle", eigenschaft: "Sieht aus wie kleine Michelin-Männchen, extrem knackig, nussig, kann roh gegessen werden." },
-          { name: "Topinambur (Rote Zonenkugel)", typ: "Knolle", eigenschaft: "Süßlich-nussig, frosthart. Wird extrem hoch (blüht wie kleine Sonnenblumen)." },
-          { name: "Yacon", typ: "Riesenknolle", eigenschaft: "Inka-Wurzel. Wächst riesig, Knollen schmecken saftig-süß wie eine Mischung aus Apfel und Melone." }
-        ]
-      },
-      {
-        id: "fenchel", name: "Fenchel (Knollen)", oberkategorie: "Gemüse", kategorie: "Stängelgemüse", icon: "🥬",
+        id: "fenchel", name: "Fenchel", oberkategorie: "Gemüse", kategorie: "Stängelgemüse", icon: "🥬",
+        standort: "Vollsonnig & warm, tiefgründiger & gleichmäßig feuchter Boden",
+        boden: "Humusreich, kalkhaltig und sehr tiefgründig gelockert. Bei Trockenheit oder hartem Boden schießt er sofort unbrauchbar in die Blüte.",
+        duenger: "Mittelzehrer: Vor der Saat etwas Kompost und Hornmehl einharken. Während des Wachstums sparsam mit Pflanzenjauche gießen (kein übermäßiger Stickstoff).",
         abstandPflanze: "30 cm", abstandReihe: "40 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Mai-Juni", zeitBeet: "Jun-Jul", zeitErnte: "Sep-Nov",
         monateAussaat: [5, 6, 7],
         tipp: "Erst spät aussäen, schießt sonst bei zu langen Tagen sofort in die Blüte.",
         guteNachbarn: "Erbsen, Feldsalat, Gurken", schlechteNachbarn: "Bohnen, Tomaten",
         sorten: [
-          { name: "Fino", typ: "Knollenfenchel", eigenschaft: "Schossfest, große weiße Knollen, tolles Anis-Aroma." }
+          { name: "Zefa Fino", typ: "Knollenfenchel", eigenschaft: "Der Standard für kompakte, weiße und runde Knollen." },
+          { name: "Rondo", typ: "Knollenfenchel", eigenschaft: "Widerstandsfähig gegen das Schossen." },
+          { name: "Selma", typ: "Knollenfenchel", eigenschaft: "Glatte, formschöne Knollen mit feinem Anisgeschmack." },
+          { name: "Sirio", typ: "Knollenfenchel", eigenschaft: "Sehr gleichmäßige Entwicklung." }
         ]
       },
       {
-        id: "feldsalat", name: "Feldsalat & Winterportulak", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🌿",
-        abstandPflanze: "2-3 cm", abstandReihe: "15 cm", saattiefe: "1 cm", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Direktsaat", zeitBeet: "Aug-Okt", zeitErnte: "Okt-März",
-        monateAussaat: [8, 9, 10],
-        tipp: "Absolut frosthart, perfektes Winter-Vitamin.",
-        guteNachbarn: "Radieschen, Zwiebeln", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Coquille de Louviers", typ: "Feldsalat (Bio)", eigenschaft: "Muschelförmige dunkelgrüne Rosetten. Extrem frosthart." },
-          { name: "Miro", typ: "Feldsalat (Saatband)", eigenschaft: "Feste Blätter, sehr aufrecht wachsend, pflegeleicht." },
-          { name: "Postelein (Winterportulak)", typ: "Wintersalat", eigenschaft: "Fleischige, tellerförmige Blätter. Wächst den ganzen Winter über bei +4 Grad." },
-          { name: "Verte de Cambrai", typ: "Feldsalat", eigenschaft: "Klassiker für späte Herbstaussaat." }
-        ]
-      },
-      {
-        id: "gruenkohl", name: "Grünkohl & Pak Choi", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        id: "gruenkohl", name: "Grünkohl, Chinakohl & Weißkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        standort: "Sonnig bis halbschattig, toleriert Kälte und Wind",
+        boden: "Schwer, nährstoffreich, lehmig mit guter Wasserführung. Im Vorjahr oder Frühjahr mit reifem Mist/Kompost vorbereiten und bei Bedarf kalken.",
+        duenger: "Starkzehrer: Benötigt hohe Nährstoffmengen. Im Frühjahr Kompost und Hornspäne; ab Sommer regelmäßig Brennnesseljauche gießen.",
         abstandPflanze: "40 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mai-Jun", zeitBeet: "Jul-Aug", zeitErnte: "Sep-März",
         monateAussaat: [5, 6, 7, 8],
-        tipp: "Grünkohl wird durch Frost süß. Pak Choi schießt im Frühjahr schnell, daher als Asiasalat im Spätsommer anbauen.",
+        tipp: "Grünkohl wird durch Frost süß.",
         guteNachbarn: "Sellerie, Radieschen", schlechteNachbarn: "Kohlarten, Zwiebeln",
         sorten: [
-          { name: "Halbhoher Grüner Krauser", typ: "Grünkohl", eigenschaft: "Sehr winterharte, gekräuselte Traditions-Sorte." },
+          { name: "Winterbor", typ: "Grünkohl", eigenschaft: "Kräftig gekraust, extrem winterhart." },
+          { name: "Westländer Winter", typ: "Grünkohl", eigenschaft: "Dunkelgrün, bewährte Ertragssorte." },
           { name: "Nero di Toscana", typ: "Palmkohl", eigenschaft: "Lange, dunkle blasige Blätter. Italienischer Klassiker." },
-          { name: "Pak Choi (Tai Sai)", typ: "Stielkohl", eigenschaft: "Asiatischer Blattkohl mit dicken, saftig-weißen Blattstielen. Sehr schnellwüchsig." },
-          { name: "Stielmus (Rübstiel)", typ: "Frühjahrskohl", eigenschaft: "Typisch rheinische/westfälische Spezialität, extrem zarte säuerliche Stiele." }
+          { name: "Red Russian", typ: "Grünkohl", eigenschaft: "Rötliche, gezahnte Blätter, milder im Geschmack." },
+          { name: "Ostfriesische Palme", typ: "Grünkohl", eigenschaft: "Wird sehr hoch, traditionsreiche Sorte." },
+          { name: "Dithmarscher Früher", typ: "Weißkohl", eigenschaft: "Kompakte Köpfe, ideal für frühen Anbau." },
+          { name: "Golden Acre", typ: "Weißkohl", eigenschaft: "Frühreife, runde Köpfe." },
+          { name: "Braunschweiger", typ: "Weißkohl", eigenschaft: "Flachrunde, feste Köpfe." },
+          { name: "Quintal d'Alsace", typ: "Weißkohl", eigenschaft: "Traditionelle Sorte für Sauerkraut." },
+          { name: "Filderkraut", typ: "Spitzkohl", eigenschaft: "Spitz zulaufende Großköpfe, zartes Blatt." },
+          { name: "Caraflex", typ: "Spitzkohl", eigenschaft: "Kleinere, feste Köpfe, sehr schossfest." },
+          { name: "Kalibos", typ: "Rotkohl", eigenschaft: "Spitz zulaufender Rotkohl, extrem zart und süßlich." },
+          { name: "Rodima", typ: "Rotkohl", eigenschaft: "Tiefe Farbe, gut lagerfähig." },
+          { name: "Ruby Ball", typ: "Rotkohl", eigenschaft: "Kompakt, früh und rund." },
+          { name: "Granaat", typ: "Chinakohl", eigenschaft: "Zarte Köpfe, schnellwüchsig." },
+          { name: "Michihili", typ: "Chinakohl", eigenschaft: "Längliche Form, knackig." },
+          { name: "Yuki", typ: "Chinakohl", eigenschaft: "Kompakt und widerstandsfähig." },
+          { name: "Kasumi", typ: "Chinakohl", eigenschaft: "Gute Resistenzen gegen Schossen." }
         ]
       },
       {
         id: "gurke", name: "Gurke", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🥒",
+        standort: "Vollsonnig, warm, windstill & humos (feucht, aber keine Staunässe)",
+        boden: "Sehr locker, humusreich, schnell erwärmend mit hohem Kompostanteil. Mulchschicht (z.B. Stroh oder Rasenschnitt) hält die Feuchte stabil.",
+        duenger: "Starkzehrer: Verträgt gut abgelagerten Pferdemist oder reichlich Kompost im Pflanzloch. Während des Fruchtwachstums wöchentlich mit flüssigem Kräuterdünger/Schafwollpellets unterstützen.",
         abstandPflanze: "40 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
         tipp: "Nur mit lauwarmem Wasser gießen! Kaltes Wasser verursacht bittere Früchte.",
         guteNachbarn: "Dill, Bohnen, Zwiebeln", schlechteNachbarn: "Tomaten, Radieschen",
         sorten: [
-          { name: "Delikatesse", typ: "Einlegegurke", eigenschaft: "Bekannter Samentüten-Klassiker zum Einlegen oder Schmoren." },
-          { name: "Marketmore", typ: "Salatgurke", eigenschaft: "Dunkelgrüne Früchte. Äußerst widerstandsfähig gegen echten Mehltau." },
-          { name: "Schälgurke Gele Tros", typ: "Senfgurke", eigenschaft: "Wird gelb abgereift geerntet! Riesig und perfekt für Senfgurken." },
-          { name: "Tanja", typ: "Freiland", eigenschaft: "Der Standard aus dem Supermarkt. Robust und bitterfrei." },
-          { name: "Vorgebirgstrauben", typ: "Einlegegurke", eigenschaft: "Alte, extrem robuste Freilandsorte." }
+          { name: "Chinesische Schlange", typ: "Salatgurke", eigenschaft: "Sehr lange, leicht gerippte Früchte mit feinem Aroma." },
+          { name: "Passandra", typ: "Snackgurke", eigenschaft: "Kleine, bitterfreie Früchte, ideal für den Gewächshaus- und Kübelanbau." },
+          { name: "Tanja", typ: "Freilandgurke", eigenschaft: "Der Standard. Robust und bitterfrei." },
+          { name: "Picolino", typ: "Snackgurke", eigenschaft: "Parthenokarp (fruchtet auch ohne Bienen), extrem knackig." },
+          { name: "Telegraph Improved", typ: "Schlangengurke", eigenschaft: "Historische englische Gewächshausgurke." },
+          { name: "Zitronengurke", typ: "Spezialität", eigenschaft: "Runde, gelbe Früchte, die wie Zitronen aussehen – mild und saftig." }
         ]
       },
       {
-        id: "kartoffel", name: "Kartoffel & Süßkartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🥔",
+        id: "kartoffel", name: "Kartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🥔",
+        standort: "Sonnig bis halbschattig, lockerer, tiefgründiger & sandiger Boden",
+        boden: "Tiefgründig umgegraben, sandig-lehmig und locker. Keinen frischen Mist direkt vor dem Pflanzen (erhöht Schorfrisiko!), lieber reifen Kompost beim Anhäufeln nutzen.",
+        duenger: "Starkzehrer mit hohem Kaliumbedarf: Reifer Kompost und Holzasche oder Beinwelljauche. Zu viel Stickstoff führt zu viel Kraut und wässrigen Knollen.",
         abstandPflanze: "35 cm", abstandReihe: "70 cm", saattiefe: "10 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März vorkeimen", zeitBeet: "Apr-Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
-        tipp: "Kartoffeln regelmäßig anhäufeln! Schützt die Knollen vor Licht (verhindert Grünfärbung/Solanin) und verdoppelt den Ertrag.",
-        guteNachbarn: "Dicke Bohnen, Tagetes, Spinat, Kohlrabi", schlechteNachbarn: "Tomaten, Sellerie, Kürbis, Sonnenblumen",
+        tipp: "Regelmäßig anhäufeln, schützt vor Grünfärbung.",
+        guteNachbarn: "Dicke Bohnen, Tagetes, Spinat", schlechteNachbarn: "Tomaten, Sellerie, Kürbis",
         filterGruppen: ["Festkochend", "Vorwiegend festkochend", "Mehligkochend", "Alte und besondere Sorten"],
         sorten: [
-          { name: "Allians", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Mittelgroße, langovale Knollen mit tiefgelbem Fleisch. Exzellenter Speisegeschmack." },
-          { name: "Annabelle", typ: "Festkochend / Sehr früh", gruppe: "Festkochend", eigenschaft: "Feinschalige, längliche Frühkartoffel mit feinem, leicht süßlichem Geschmack." },
-          { name: "Anuschka", typ: "Festkochend / Sehr früh", gruppe: "Festkochend", eigenschaft: "Feine, gelbfleischige Frühkartoffel mit glatter Schale und tollem Speisewert." },
-          { name: "Belana", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Der Nachfolger der Linda! Glattschalig, tiefgelb, cremig und wunderbar lagerfähig." },
-          { name: "Charlotte", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Französische Feinschmeckersorte. Sehr feines, buttriges Fleisch, perfekt für Salate." },
-          { name: "Cherie", typ: "Festkochend / Rotschalig", gruppe: "Festkochend", eigenschaft: "Längliche Knollen mit leuchtend roter Schale und hellgelbem Fleisch. Sehr edel." },
-          { name: "Cilena", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Langovale Salatkartoffel mit kräftig gelber Fleischfarbe und feinem Aroma." },
-          { name: "Gala", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Sehr beliebte, runde bis ovale Speisekartoffel mit gleichmäßiger Knollenform." },
-          { name: "Linda", typ: "Festkochend / Kultsorte", gruppe: "Festkochend", eigenschaft: "Tiefgelber Kult-Erdapfel mit cremigem, intensiv buttrigem Geschmack. Unübertroffen." },
-          { name: "Linzer Delikatess", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Hörnchenförmig, feine glatte Schale, traditionelle Salatkartoffel aus Österreich." },
-          { name: "Nicola", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Sehr ertragreich, langovale Knollen mit milder Würze und feiner Konsistenz." },
-          { name: "Princess", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Sehr feine Schale, angenehm aromatischer Geschmack und gute Krautfäule-Toleranz." },
-          { name: "Salome", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Gleichmäßige Form, tiefgelb, sehr gute Lagereigenschaften bis ins späte Frühjahr." },
-          { name: "Sieglinde", typ: "Festkochend / Tradition", gruppe: "Festkochend", eigenschaft: "Die älteste noch zugelassene deutsche Kartoffelsorte (1935). Feiner, speckiger Biss." },
-          { name: "Ukama", typ: "Festkochend / Extrem früh", gruppe: "Festkochend", eigenschaft: "Sehr frühe Ernte möglich, große Knollen mit hellem Fleisch, ertragssicher." },
-          { name: "Agria", typ: "Vorw. Fest bis Mehlig", gruppe: "Vorwiegend festkochend", eigenschaft: "Der unangefochtene König für selbstgemachte Pommes frites und Kartoffelpüree!" },
-          { name: "Arielle", typ: "Vorw. Fest / Sehr früh", gruppe: "Vorwiegend festkochend", eigenschaft: "Frühe Speisekartoffel mit schneller Schalenfestigkeit und gutem Ertragspotenzial." },
-          { name: "Belmonda", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Sehr trockenheits- und hitzetolerant, bildet schöne gleichmäßige Speiseknollen." },
-          { name: "Bintje", typ: "Vorw. Fest / Historisch", gruppe: "Vorwiegend festkochend", eigenschaft: "Klassische holländische Traditionssorte. Cremig-mild, weltberühmt für Pommes." },
-          { name: "Christa", typ: "Vorw. Fest / Sehr früh", gruppe: "Vorwiegend festkochend", eigenschaft: "Traditionelle frühe Sorte mit kräftigem Geschmack und schneller Entwicklung." },
-          { name: "Désirée", typ: "Vorw. Fest / Rotschalig", gruppe: "Vorwiegend festkochend", eigenschaft: "Rote Schale, hellgelbes Fleisch. Sehr robust gegenüber Trockenheit und Krankheiten." },
-          { name: "Ditta", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Langovale Knollen, tiefgelbes Fleisch, sehr aromatischer Geschmack, vielseitig." },
-          { name: "Fontane", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Große ovale Knollen mit hohem Stärkeertrag, hervorragend zum Frittieren und Backen." },
-          { name: "Granola", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Bewährte, rauschalige Allround-Speisekartoffel mit extrem verlässlichen Erträgen." },
-          { name: "Hermes", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Runde Knollen mit fester Schale, wird besonders gerne für Chips und Röstis genutzt." },
-          { name: "Jelly", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Wunderbar goldgelbes Fruchtfleisch, sehr vollmundiger Geschmack, tolle Speisequalität." },
-          { name: "Laura", typ: "Vorw. Fest / Rotschalig", gruppe: "Vorwiegend festkochend", eigenschaft: "Attraktive rote Schale und tiefgelbes Fleisch. Hervorragend für Bratkartoffeln." },
-          { name: "Melody", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Glatte gelbe Schale, verfärbt sich nach dem Kochen nicht, sehr kinderfreundlich mild." },
-          { name: "Quarta", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Auffällige rote Augen auf gelber Schale! Kräftiger, herzhafter Kartoffelgeschmack." },
-          { name: "Secura", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Robuste, ertragreiche Familiensorte mit guter Lagerfähigkeit und feiner Textur." },
-          { name: "Selma", typ: "Vorw. Fest", gruppe: "Vorwiegend festkochend", eigenschaft: "Schöne ovale Knollen, zuverlässige Standardsorte für den Hausgartenanbau." },
-          { name: "Ackersegen", typ: "Mehlig / Historisch (1929)", gruppe: "Mehligkochend", eigenschaft: "Alte deutsche Sorte mit buttergelbem Fleisch und unvergleichlich reichem Geschmack." },
-          { name: "Adretta", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Berühmte DDR-Züchtung mit fantastischem, aromatischem Geschmack. Perfekt für Püree." },
-          { name: "Afra", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Dunkelgelbes Fleisch, zerfällt wunderbar locker beim Kochen, ideal für Klöße." },
-          { name: "Datura", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Klassische Wirtschaftssorte mit hohem Stärkegehalt, perfekt für Teige und Pürees." },
-          { name: "Karlena", typ: "Mehlig / Früh", gruppe: "Mehligkochend", eigenschaft: "Frühe mehligkochende Kartoffel mit rundovalen Knollen und angenehmer Milde." },
-          { name: "Likaria", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Kräftig gelb, sehr stärkereich, lockere Textur für Suppen, Gnocchi und Püree." },
-          { name: "Marabel", typ: "Mehlig bis Vorw. Fest", gruppe: "Mehligkochend", eigenschaft: "Sehr frühe Speisekartoffel mit herrlich goldgelber Farbe und zartem Schmelz." },
-          { name: "Russet Burbank", typ: "Mehlig / Riesenknolle", gruppe: "Mehligkochend", eigenschaft: "Die legendäre amerikanische Ofenkartoffel (Baked Potato) mit rauer Netzschale." },
-          { name: "Saturna", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Sehr stärkereich und trocken kochend, ideal für Reibekuchen und Röstis." },
-          { name: "Bamberger Hörnchen", typ: "Historisch / Fingerling", gruppe: "Alte und besondere Sorten", eigenschaft: "Fränkische Spezialität von 1870. Krumm gewachsen, nussiger Gourmet-Geschmack." },
-          { name: "Blauer Schwede", typ: "Besondere Sorte / Blau", gruppe: "Alte und besondere Sorten", eigenschaft: "Blaue Schale und blau marmoriertes Fleisch. Reich an Anthocyanen, tolles Püree." },
-          { name: "Blaue St. Galler", typ: "Besondere Sorte / Blau", gruppe: "Alte und besondere Sorten", eigenschaft: "Schweizer Neuzüchtung mit durchgehend stabiler, tiefblauer Farbe beim Kochen." },
-          { name: "Early Rose", typ: "Historisch (1861)", gruppe: "Alte und besondere Sorten", eigenschaft: "Uralte amerikanische Landsorte mit rosa Schale und weißem, zartem Fleisch." },
-          { name: "Heidi Rot", typ: "Besondere Sorte / Rot", gruppe: "Alte und besondere Sorten", eigenschaft: "Langovale Knollen mit kräftig roter Schale und durchgefärbtem rotem Fleisch." },
-          { name: "Highland Burgundy Red", typ: "Historisch / Rot", gruppe: "Alte und besondere Sorten", eigenschaft: "Schottische Landsorte von vor 1900. Innen burgunderrot marmoriert mit weißem Ring." },
-          { name: "Kipfler", typ: "Historisch / Hörnchen", gruppe: "Alte und besondere Sorten", eigenschaft: "Österreichischer Hörnchenklassiker, festfleischig und perfekt für echten Erdäpfelsalat." },
-          { name: "Mozart", typ: "Besondere Sorte", gruppe: "Alte und besondere Sorten", eigenschaft: "Gelbe Knollen mit markant roten Augen, festkochend und sehr lagerfähig." },
-          { name: "Ostara", typ: "Historisch / Sehr früh", gruppe: "Alte und besondere Sorten", eigenschaft: "Frühe Traditionssorte mit mildem Aroma und hoher Vitalität im Hausgarten." },
-          { name: "Ratte (La Ratte)", typ: "Gourmet / Fingerling", gruppe: "Alte und besondere Sorten", eigenschaft: "Die französische Starkoch-Kartoffel! Hörnchenform mit feinstem Kastanienaroma." },
-          { name: "Rosa Tannenzapfen", typ: "Historisch (1850)", gruppe: "Alte und besondere Sorten", eigenschaft: "Alte englische Zapfenkartoffel, wächst bizarr verzweigt, nussig-cremiger Geschmack." },
-          { name: "Rote Emma", typ: "Besondere Sorte / Rot", gruppe: "Alte und besondere Sorten", eigenschaft: "Vollständig rotfleischige, festkochende Kartoffel mit feiner, buttriger Konsistenz." },
-          { name: "Sarpo Mira", typ: "Extrem Krautfäuleresistent", gruppe: "Alte und besondere Sorten", eigenschaft: "Ungarische Züchtung mit der höchsten natürlichen Resistenz gegen Kraut- und Knollenfäule." },
-          { name: "Shetland Black", typ: "Historisch / Schwarz-Lila", gruppe: "Alte und besondere Sorten", eigenschaft: "Alte Sorte von den Shetland-Inseln. Dunkle Schale, innen mit violettem Farbring." },
-          { name: "Vitelotte Noire (Trüffelkartoffel)", typ: "Historisch / Schwarz-Violett", gruppe: "Alte und besondere Sorten", eigenschaft: "Uralte französische Trüffelkartoffel, tief dunkelviolett, nussig wie Maronen." },
-          { name: "Beauregard (Süßkartoffel)", typ: "Süßkartoffel / Orange", gruppe: "Alte und besondere Sorten", eigenschaft: "Tief-oranges Fleisch, sehr süß und ertragreich. Braucht sonnige Wärme." }
+          { name: "Linda", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Tiefgelber Kult-Erdapfel mit cremigem, intensiv buttrigem Geschmack." },
+          { name: "Annabelle", typ: "Festkochend / Früh", gruppe: "Festkochend", eigenschaft: "Feinschalige, längliche Frühkartoffel." },
+          { name: "Belana", typ: "Festkochend", gruppe: "Festkochend", eigenschaft: "Glattschalig, tiefgelb, wunderbar lagerfähig." },
+          { name: "Agria", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Der König für selbstgemachte Pommes frites und Püree." },
+          { name: "Adretta", typ: "Mehligkochend", gruppe: "Mehligkochend", eigenschaft: "Berühmte Züchtung mit fantastischem Geschmack für Püree." },
+          { name: "Blauer Schwede", typ: "Besondere Sorte", gruppe: "Alte und besondere Sorten", eigenschaft: "Blaue Schale und blau marmoriertes Fleisch." },
+          { name: "Bamberger Hörnchen", typ: "Gourmet", gruppe: "Alte und besondere Sorten", eigenschaft: "Krumm gewachsen, nussiger Gourmet-Geschmack." }
         ]
       },
       {
-        id: "knoblauch", name: "Knoblauch (Harthals & Weichhals)", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧄",
+        id: "knoblauch", name: "Knoblauch", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧄",
+        standort: "Vollsonnig, warm, trocken bis mäßig feucht (keine Staunässe!)",
+        boden: "Leicht, durchlässig, sandig und feinkrümelig. Bei schwerem Boden Sand einarbeiten, damit die Knollen im feuchten Winter nicht faulen.",
+        duenger: "Schwachzehrer: Keinen frischen Dünger verwenden. Etwas Holzasche (Kalium) oder reifer Kompost vor dem Stecken reicht für feste Zehen.",
         abstandPflanze: "15 cm", abstandReihe: "25 cm", saattiefe: "5 cm", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Stecken", zeitBeet: "Okt-Nov (Herbst) oder Feb-März", zeitErnte: "Jun-Jul",
+        zeitVorzucht: "Stecken", zeitBeet: "Okt-Nov oder Feb-März", zeitErnte: "Jun-Jul",
         monateAussaat: [2, 3, 10, 11],
-        tipp: "Harthals-Knoblauch bildet Blütenschäfte (Scapes - essbar!) und ist extrem frosthart. Weichhals hat keinen harten Stiel, lässt sich flechten und hält monatelang im Lager.",
-        guteNachbarn: "Erdbeeren, Tomaten, Möhren, Rosen", schlechteNachbarn: "Erbsen, Bohnen, Kohl",
-        filterGruppen: ["Harthals (Hardneck)", "Weichhals (Softneck)", "Besonderheit"],
+        tipp: "Harthals-Knoblauch bildet Blütenschäfte, Weichhals lässt sich flechten.",
+        guteNachbarn: "Erdbeeren, Tomaten, Möhren", schlechteNachbarn: "Erbsen, Bohnen, Kohl",
+        filterGruppen: ["Harthals (Hardneck)", "Weichhals (Softneck)"],
         sorten: [
-          { name: "Arno", typ: "Weichhals (Softneck)", gruppe: "Weichhals (Softneck)", eigenschaft: "Klassischer weißer Knoblauch, sehr ertragreich und extrem lange lagerfähig." },
-          { name: "Aulxito", typ: "Riesenknoblauch", gruppe: "Besonderheit", eigenschaft: "Bildet gigantische Einzelzehen, sehr leicht zu schälen." },
-          { name: "Bavarian Purple", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Lokale bayerische Landsorte mit wunderschön violetter Marmorierung. Extrem winterhart." },
-          { name: "Chesnok Red", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Berühmte lila Streifensorte aus Georgien. Behält auch beim Kochen und Backen ihr volles, süßes Aroma." },
-          { name: "Cristo", typ: "Weichhals (Softneck)", gruppe: "Weichhals (Softneck)", eigenschaft: "Weiße, gleichmäßige Zehen, zuverlässige Standard-Sorte mit hoher Anpassungsfähigkeit." },
-          { name: "Elefantenknoblauch", typ: "Riesen / Lauchart", gruppe: "Besonderheit", eigenschaft: "Botanisch ein Ackerlauch (Allium ampeloprasum). Bildet faustgroße Knollen mit sehr mildem Geschmack." },
-          { name: "Georgian Crystal", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Große, schneeweiße Knollen mit wenigen, sehr dicken Zehen. Angenehm kräftiges Aroma." },
-          { name: "German Red", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Traditions-Hardneck mit feurig-scharfem, erdigem Geschmack. Sehr kältetolerant." },
-          { name: "Germidour", typ: "Weichhals (Herbstsorte)", gruppe: "Weichhals (Softneck)", eigenschaft: "Violett gestreift, milder und feiner Geschmack. Perfekt für die Herbstanpflanzung." },
-          { name: "Killarney Red", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Sehr robust gegenüber nass-kalten Böden, bildet kräftig gefärbte lila Zehen." },
-          { name: "Lautrec Rose", typ: "Weichhals (Gourmet)", gruppe: "Weichhals (Softneck)", eigenschaft: "Das weltberühmte rosa Gourmet-Juwel aus Frankreich (Label Rouge). Feines, zartes Aroma." },
-          { name: "Messidrome", typ: "Weichhals (Herbstsorte)", gruppe: "Weichhals (Softneck)", eigenschaft: "Cremeweiße, feste Knollen. Ertragreich, vollaromatisch und hervorragend lagerbar." },
-          { name: "Music", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Die weltweite Königssorte unter den Hardnecks! Riesige Zehen, überragende Winterhärte und reiches Aroma." },
-          { name: "Persian Star", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Purpurrote Spitzen, sehr angenehme milde Schärfe, exzellent zum Rohverzehr." },
-          { name: "Rocambole (Schlangenknoblauch)", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Geringelte Blütenstiele (Scapes). Gilt unter Köchen als der geschmacksintensivste Knoblauch überhaupt." },
-          { name: "Siberian", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Hält tiefste Fröste problemlos aus. Hoher Allicin-Gehalt und kräftiger Biss." },
-          { name: "Solent Wight", typ: "Weichhals (Softneck)", gruppe: "Weichhals (Softneck)", eigenschaft: "Englische Züchtung von der Isle of Wight, perfekt an mitteleuropäisches feuchteres Klima angepasst." },
-          { name: "Spanish Roja", typ: "Harthals (Hardneck)", gruppe: "Harthals (Hardneck)", eigenschaft: "Klassischer Erbstück-Knoblauch mit echtem 'Old-World'-Knoblauchgeschmack." },
-          { name: "Sultop", typ: "Weichhals (Softneck)", gruppe: "Weichhals (Softneck)", eigenschaft: "Sehr robuste, lagerfähige Sorte für zuverlässigen Herbstanbau." },
-          { name: "Thermidrome", typ: "Weichhals (Herbstsorte)", gruppe: "Weichhals (Softneck)", eigenschaft: "Schneeweiß, widerstandsfähig gegen Kälte, große saftige Zehen." }
+          { name: "Arno", typ: "Weichhals", gruppe: "Weichhals (Softneck)", eigenschaft: "Klassischer weißer Knoblauch, lange lagerfähig." },
+          { name: "Music", typ: "Harthals", gruppe: "Harthals (Hardneck)", eigenschaft: "Riesige Zehen, exzellente Winterhärte." },
+          { name: "Chesnok Red", typ: "Harthals", gruppe: "Harthals (Hardneck)", eigenschaft: "Lila Streifensorte mit vollem Aroma beim Kochen." }
         ]
       },
       {
         id: "kohlrabi", name: "Kohlrabi", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        standort: "Sonnig bis halbschattig, gleichmäßig feucht (verhindert Platzen)",
+        boden: "Humos, gleichmäßig feucht, mittelschwer. Nicht zu stark düngen, da die Knolle sonst schwammig wird oder platzt.",
+        duenger: "Mittelzehrer: Reifer Kompost bei der Pflanzung. Während des Knollenwachstums alle 2–3 Wochen mit mäßig dosierter Brennnesseljauche gießen.",
         abstandPflanze: "30 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jul", zeitErnte: "Jun-Okt",
         monateAussaat: [2, 3, 4, 5, 6, 7],
-        tipp: "Nicht zu tief pflanzen, sonst bildet sich keine Knolle. Konstante Feuchte verhindert Aufplatzen.",
+        tipp: "Konstante Feuchte verhindert Aufplatzen.",
         guteNachbarn: "Kartoffeln, Erbsen, Spinat", schlechteNachbarn: "Kohlarten, Fenchel",
         sorten: [
-          { name: "Blauer Speck", typ: "Blauviolett", eigenschaft: "Sehr zart, schießt langsam in die Blüte." },
-          { name: "Lanro", typ: "Weiß", eigenschaft: "Schnellwüchsige Sorte, verholzt nicht schnell." },
-          { name: "Superschmelz", typ: "Riesen", eigenschaft: "Bis zu 5 Kilo schwer, bleibt butterzart!" }
+          { name: "Blauer Delikatess", typ: "Blau", eigenschaft: "Zarte blaue Knolle, verholzt langsam." },
+          { name: "Weißer Delikatess", typ: "Weiß", eigenschaft: "Klassische, zarte helle Knolle." },
+          { name: "Noriko", typ: "Weiß", eigenschaft: "Sehr schnellwüchsig, glatte Haut." },
+          { name: "Kossak", typ: "Riesen", eigenschaft: "Wird riesig schwer, bleibt innen butterzart." }
         ]
       },
       {
-        id: "kuerbis", name: "Kürbis & Sonderformen", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🎃",
-        abstandPflanze: "150 cm", abstandReihe: "150 cm", saattiefe: "3 cm", bedarf: "Starkzehrer",
+        id: "kraeuter_einj", name: "Einjährige Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌿",
+        standort: "Sonnig, warm & geschützt, locker-nährstoffreich",
+        boden: "Feinkrümelige, frische Kräuter- oder Gartenerde mit mäßigem Kompostanteil. Basilikum verlangt gut drainierten Boden ohne Staunässe.",
+        duenger: "Schwachzehrer: Sehr sparsam düngen. Etwas Kaffeesatz oder alle 4 Wochen organischer Flüssigdünger; zu viel Dünger schwächt das Aroma.",
+        abstandPflanze: "15-20 cm", abstandReihe: "30 cm", saattiefe: "Flach", bedarf: "Schwachzehrer",
+        zeitVorzucht: "März-Mai", zeitBeet: "Mai", zeitErnte: "Mai-Okt",
+        monateAussaat: [3, 4, 5],
+        tipp: "Einjährige Kräuter lieben sonnige Plätze und frische, nährstoffreiche Erde.",
+        guteNachbarn: "Tomaten, Gurken, Salat", schlechteNachbarn: "Fenchel",
+        filterGruppen: ["Basilikum", "Petersilie", "Dill", "Sonstige"],
+        sorten: [
+          { name: "Basilikum Genoveser", typ: "Basilikum", gruppe: "Basilikum", eigenschaft: "Großblättrig, intensives Pesto-Aroma." },
+          { name: "Dark Opal", typ: "Basilikum", gruppe: "Basilikum", eigenschaft: "Dunkelrotes Laub, würzig." },
+          { name: "Siam Queen", typ: "Thai-Basilikum", gruppe: "Basilikum", eigenschaft: "Süßlich-würziges Anisaroma." },
+          { name: "Lettuce Leaf", typ: "Basilikum", gruppe: "Basilikum", eigenschaft: "Salatblättriges, mildes Basilikum." },
+          { name: "Zitronenbasilikum", typ: "Basilikum", gruppe: "Basilikum", eigenschaft: "Erfrischender Zitrusduft." },
+          { name: "Gigante d'Italia", typ: "Petersilie", gruppe: "Petersilie", eigenschaft: "Glattblättrig, sehr kräftiges Aroma." },
+          { name: "Gigante di Napoli", typ: "Petersilie", gruppe: "Petersilie", eigenschaft: "Große glatte Blätter." },
+          { name: "Mooskrause 2", typ: "Petersilie", gruppe: "Petersilie", eigenschaft: "Klassische krause Petersilie." },
+          { name: "Grüne Perle", typ: "Petersilie", gruppe: "Petersilie", eigenschaft: "Feingekraust, widerstandsfähig." },
+          { name: "Titan", typ: "Petersilie", gruppe: "Petersilie", eigenschaft: "Wüchsig und ertragreich." },
+          { name: "Mammut", typ: "Dill", gruppe: "Dill", eigenschaft: "Sehr wüchsig, viele Spitzen." },
+          { name: "Hera", typ: "Dill", gruppe: "Dill", eigenschaft: "Dunkelgrün, langsam schossend." },
+          { name: "Tetra", typ: "Dill", gruppe: "Dill", eigenschaft: "Blattreicher Dill." },
+          { name: "Fernleaf", typ: "Dill", gruppe: "Dill", eigenschaft: "Kompakter Wuchs, ideal für Töpfe." },
+          { name: "Santo", typ: "Koriander", gruppe: "Sonstige", eigenschaft: "Verzögertes Schossen, frische Blätter." },
+          { name: "Leisure", typ: "Koriander", gruppe: "Sonstige", eigenschaft: "Kräftige Blattrosetten." },
+          { name: "Majoran", typ: "Majoran", gruppe: "Sonstige", eigenschaft: "Würzmittel für Kartoffelgerichte und Suppen." },
+          { name: "Borretsch", typ: "Borretsch", gruppe: "Sonstige", eigenschaft: "Gurkenkraut mit blauen Sternblüten." },
+          { name: "Kerbel", typ: "Kerbel", gruppe: "Sonstige", eigenschaft: "Feines Suppenkraut (Brussels Winter)." },
+          { name: "Kapuzinerkresse", typ: "Kresse", gruppe: "Sonstige", eigenschaft: "Scharfe Blüten und Blätter (Empress of India)." }
+        ]
+      },
+      {
+        id: "kraeuter_mehrj", name: "Mehrjährige & Mediterrane Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
+        standort: "Vollsonnig, mager, sandig & steinig (keine Winternässe!)",
+        boden: "Mager, kalkhaltig, kiesig oder sandig. Schwere Böden zwingend mit 30–50 % Bausand oder Lavasplitt abmagern, damit Wurzeln im Winter nicht faulen.",
+        duenger: "Schwachzehrer: Fast gar nicht düngen! Lediglich im Frühjahr eine Prise Urgesteinsmehl oder etwas Kalk geben. Nährstoffüberschuss mindert ätherische Öle.",
+        abstandPflanze: "30-40 cm", abstandReihe: "40 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Aussaat ab März", zeitBeet: "Mitte Mai", zeitErnte: "Ganzjährig",
+        monateAussaat: [3, 4, 5],
+        tipp: "Mediterrane Kräuter brauchen mageren, wasserdurchlässigen Boden. Sand ins Pflanzloch mischen!",
+        guteNachbarn: "Rosen, Kohl, Lavendel", schlechteNachbarn: "Basilikum, Schnittlauch",
+        filterGruppen: ["Schnittlauch", "Thymian", "Salbei", "Minze", "Rosmarin", "Sonstige"],
+        sorten: [
+          { name: "Polyvert", typ: "Schnittlauch", gruppe: "Schnittlauch", eigenschaft: "Dunkelgrüne Röhren, standfest." },
+          { name: "Staro", typ: "Schnittlauch", gruppe: "Schnittlauch", eigenschaft: "Kräftiger Wuchs, breite Röhren." },
+          { name: "Grolau", typ: "Schnittlauch", gruppe: "Schnittlauch", eigenschaft: "Feines Zwiebelaroma." },
+          { name: "Deutscher Winter", typ: "Thymian", gruppe: "Thymian", eigenschaft: "Extrem winterharter Klassiker." },
+          { name: "Zitronenthymian", typ: "Thymian", gruppe: "Thymian", eigenschaft: "Duftet herrlich nach Zitrone." },
+          { name: "Kriechthymian", typ: "Thymian", gruppe: "Thymian", eigenschaft: "Ideal als Bodendecker." },
+          { name: "Silver Posie", typ: "Thymian", gruppe: "Thymian", eigenschaft: "Weißbuntes Laub, dekorativ." },
+          { name: "Berggarten", typ: "Salbei", gruppe: "Salbei", eigenschaft: "Große, silbrige Blätter, robust." },
+          { name: "Purpurascens", typ: "Salbei", gruppe: "Salbei", eigenschaft: "Purpurfarbenes Laub." },
+          { name: "Tricolor", typ: "Salbei", gruppe: "Salbei", eigenschaft: "Buntblättriger Salbei." },
+          { name: "Icterina", typ: "Salbei", gruppe: "Salbei", eigenschaft: "Gelb-grün geflammte Blätter." },
+          { name: "Ananassalbei", typ: "Salbei", gruppe: "Salbei", eigenschaft: "Duftet nach Ananas, rote Blüten." },
+          { name: "Mitcham", typ: "Pfefferminze", gruppe: "Minze", eigenschaft: "Klassische, ätherisch reiche Minze." },
+          { name: "Marokkanische Minze", typ: "Minze", gruppe: "Minze", eigenschaft: "Der Favorit für marokkanischen Minztee." },
+          { name: "Ananasminze", typ: "Minze", gruppe: "Minze", eigenschaft: "Buntlaubig mit feiner Frucht note." },
+          { name: "Erdbeerminze", typ: "Minze", gruppe: "Minze", eigenschaft: "Feiner Duft nach Erdbeeren." },
+          { name: "Schokominze", typ: "Minze", gruppe: "Minze", eigenschaft: "Schmeckt und duftet nach After Eight." },
+          { name: "Arp", typ: "Rosmarin", gruppe: "Rosmarin", eigenschaft: "Die winterhärteste Rosmarinsorte." },
+          { name: "Veitshöchheim", typ: "Rosmarin", gruppe: "Rosmarin", eigenschaft: "Aufrechter Wuchs, blühfreudig." },
+          { name: "Blue Winter", typ: "Rosmarin", gruppe: "Rosmarin", eigenschaft: "Kältetoleranter Rosmarin." },
+          { name: "Tuscan Blue", typ: "Rosmarin", gruppe: "Rosmarin", eigenschaft: "Kräftiges Aroma, dunkelblaue Blüten." },
+          { name: "Liebstöckel", typ: "Maggikraut", gruppe: "Sonstige", eigenschaft: "Wird sehr groß, intensiver Geschmack." },
+          { name: "Oregano", typ: "Oregano", gruppe: "Sonstige", eigenschaft: "Pizza-Gewürz, mehrjährig und winterhart." },
+          { name: "Französischer Estragon", typ: "Estragon", gruppe: "Sonstige", eigenschaft: "Feines Anis-Aroma für Saucen." },
+          { name: "Sommer- und Winterbohnenkraut", typ: "Bohnenkraut", gruppe: "Sonstige", eigenschaft: "Perfekt zu Bohnengerichten." },
+          { name: "Zitronenmelisse", typ: "Melisse", gruppe: "Sonstige", eigenschaft: "Erfrischender Tee (Quedlinburger Niederliegende)." },
+          { name: "Sauerampfer", typ: "Ampfer", gruppe: "Sonstige", eigenschaft: "Säuerliche Blätter (Blonde de Lyon)." }
+        ]
+      },
+      {
+        id: "kuerbis", name: "Kürbis & Zucchini", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🎃",
+        standort: "Vollsonnig, windgeschützt & warm (gerne direkt am Kompost)",
+        boden: "Extrem nährstoffreich, locker, humos und gut durchfeuchtet. Ideal direkt auf halbreifen Kompost setzen oder das Pflanzloch mit reichlich Pferdemist/Kompost füllen.",
+        duenger: "Sehr starker Zehrer: Reichlich reifer Kompost oder Stallmist vorab. Während des Rankens alle 1–2 Wochen mit Brennnessel- oder Beinwelljauche versorgen.",
+        abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "2-3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Sep-Okt",
         monateAussaat: [4, 5],
-        tipp: "Direkt auf oder an den Kompost pflanzen.",
+        tipp: "Brauchen viel Platz, Nährstoffe und Sonne.",
         guteNachbarn: "Mais, Bohnen", schlechteNachbarn: "Gurken, Kartoffeln",
         sorten: [
-          { name: "Butternut Waltham", typ: "Flaschenkürbis", eigenschaft: "Birnenförmig, nussig, extrem kleines Kerngehäuse." },
-          { name: "Hokkaido (Red Kuri)", typ: "Hokkaido", eigenschaft: "Die Schale kann mitgegessen werden! Nussiger Geschmack." },
-          { name: "Muscade de Provence", typ: "Muskatkürbis", eigenschaft: "Tief gerippt, spektakuläre Optik, intensives Marzipan/Muskat-Aroma." },
-          { name: "Patisson (Ufo-Kürbis)", typ: "Sommerkürbis", eigenschaft: "Sieht aus wie ein kleines Ufo. Wird wie Zucchini jung geerntet." },
-          { name: "Spaghettikürbis", typ: "Spezialkürbis", eigenschaft: "Das Fruchtfleisch zerfällt nach dem Kochen in spaghettiartige Fäden!" }
+          { name: "Black Beauty", typ: "Zucchini", eigenschaft: "Dunkelgrüne, klassische Zucchini." },
+          { name: "Diamant", typ: "Zucchini", eigenschaft: "Frühreife, glänzende Zucchini." },
+          { name: "Costata Romanesco", typ: "Zucchini", eigenschaft: "Gerippte italienische Zucchini mit tollem Nusstorn." },
+          { name: "Cocozelle von Tripolis", typ: "Zucchini", eigenschaft: "Hell-dunkel gestreifte, buschige Zucchini." },
+          { name: "Gold Rush", typ: "Zucchini", eigenschaft: "Leuchtend gelbe, zarte Früchte." },
+          { name: "Tondo di Piacenza", typ: "Zucchini", eigenschaft: "Runde grüne Zucchini, perfekt zum Füllen." },
+          { name: "Uchiki Kuri", typ: "Hokkaido", eigenschaft: "Klassischer Hokkaido mit schalenfressbarem, nussigem Fruchtfleisch." },
+          { name: "Rouge vif d'Etampes", typ: "Muskatkürbis", eigenschaft: "Großer, flachrunder, leuchtend orange-roter Kürbis." },
+          { name: "Marina di Chioggia", typ: "Turban-Kürbis", eigenschaft: "Grün-blaue, stark gewulstete Schale, exzellentes Aroma." },
+          { name: "Crown Prince", typ: "Kürbis", eigenschaft: "Graublaue Schale, feines, süßliches orangenes Fruchtfleisch." },
+          { name: "Sweet Dumpling", typ: "Portionskürbis", eigenschaft: "Weiß-grün gestreift, sehr süß, ideal zum Füllen." },
+          { name: "Gelber Zentner", typ: "Riesenkürbis", eigenschaft: "Wird gigantisch schwer, gut für Suppen und Einwecken." },
+          { name: "Lange von Neapel", typ: "Moschuskürbis", eigenschaft: "Längliche Riesenfrüchte mit fruchtigem Aroma." }
         ]
       },
       {
-        id: "lauch", name: "Lauch / Porree", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
+        id: "lauch", name: "Lauch & Frühlingszwiebeln", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
+        standort: "Sonnig bis halbschattig, tiefgründiger & nährstoffreicher Boden",
+        boden: "Tiefgründig gelockert, lehmig-humos und gleichmäßig feucht. Vorab mit reifem Kompost versorgen; in tiefe Furchen setzen zum späteren Anhäufeln.",
+        duenger: "Starkzehrer: Benötigt im Gegensatz zu Speisezwiebeln reichlich Nahrung. Reifer Kompost und Hornspäne im Frühjahr; im Sommer 2x Brennnesseljauche.",
         abstandPflanze: "15 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Mai-Jul", zeitErnte: "Aug-März",
         monateAussaat: [2, 3, 4, 5, 6, 7],
-        tipp: "In 15 cm tiefe Rillen setzen. Später anhäufeln für lange weiße Schäfte.",
+        tipp: "Später anhäufeln für lange weiße Schäfte.",
         guteNachbarn: "Möhren, Sellerie, Erdbeeren", schlechteNachbarn: "Zwiebeln, Erbsen, Bohnen",
         sorten: [
-          { name: "Blaugrüner Winter", typ: "Winterporree", eigenschaft: "Extrem frosthart, Ernte den ganzen Winter aus dem Schnee." },
-          { name: "Herbstriesen", typ: "Herbstporree", eigenschaft: "Lange, dicke weiße Schäfte für den Herbst." }
+          { name: "Blauer Winter", typ: "Winterlauch", eigenschaft: "Frosthart, ertragreich." },
+          { name: "Musselburgh", typ: "Porree", eigenschaft: "Dickschäftiger Klassiker aus Schottland." },
+          { name: "Bleu de Solaise", typ: "Porree", eigenschaft: "Bläuliche Blätter, frosttolerant." },
+          { name: "Carentan", typ: "Herbstlauch", eigenschaft: "Kurzer, dicker weißer Schaft." },
+          { name: "Bandit", typ: "Winterporree", eigenschaft: "Sehr widerstandsfähig gegen Kälte." },
+          { name: "White Lisbon", typ: "Frühlingszwiebel", eigenschaft: "Schnellwüchsig, mild." },
+          { name: "Ishikura", typ: "Lauchzwiebel", eigenschaft: "Bildet kaum Knollen, lange weiße Stängel." },
+          { name: "Parade", typ: "Frühlingszwiebel", eigenschaft: "Gleichmäßig, aufrecht, sehr zart." }
         ]
       },
       {
-        id: "mais", name: "Mais", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌽",
+        id: "mais", name: "Zuckermais", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌽",
+        standort: "Vollsonnig, warm & windgeschützt, tiefgründig und humos",
+        boden: "Tiefgründiger, warmer, rasch erwärmbarer Boden mit hohem Humusgehalt. Vor dem Auspflanzen 3–4 Liter Kompost pro Quadratmeter einarbeiten.",
+        duenger: "Starkzehrer: Vor dem Pflanzen Kompost und Hornspäne. Bei Kniehöhe einmal kräftig mit Brennnesseljauche nachdüngen, um das Kolbenwachstum zu fördern.",
         abstandPflanze: "20 cm", abstandReihe: "50 cm", saattiefe: "3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Ende April", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Okt",
         monateAussaat: [4, 5],
-        tipp: "Im Block pflanzen (z. B. 4x4) statt in Reihe (Windbestäubung ist essenziell).",
+        tipp: "Im Block pflanzen für perfekte Bestäubung.",
         guteNachbarn: "Bohnen, Kürbis, Kartoffeln", schlechteNachbarn: "Sellerie, Rote Bete",
         sorten: [
-          { name: "Golden Bantam", typ: "Samenfest", eigenschaft: "Traditioneller Zuckermais. Süß und aromatisch." },
-          { name: "Tramunt", typ: "Zuckermais", eigenschaft: "Wüchsige, robuste Sorte, pralle Kolben." }
+          { name: "Golden Bantam", typ: "Zuckermais", eigenschaft: "Traditioneller, sehr süßer Zuckermais." },
+          { name: "Early Sunglow", typ: "Früh", eigenschaft: "Reift sehr früh aus, zarte Körner." },
+          { name: "Damaun", typ: "Zuckermais", eigenschaft: "Robuste Sorte mit goldgelben Kolben." },
+          { name: "Sweet Nugget", typ: "Super-Sweet", eigenschaft: "Sehr zuckerreich und knackig." },
+          { name: "Kandy Korn", typ: "Zuckermais", eigenschaft: "Zweifarbige Kolben, extrem süß." }
         ]
       },
       {
         id: "mangold", name: "Mangold", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        standort: "Sonnig bis halbschattig, feuchter, humusreicher Gartenboden",
+        boden: "Tiefgründiger, humoser, nährstoffreicher Boden mit guter Wasserspeicherung. Regelmäßige Kompostgaben im Frühjahr fördern breite, saftige Stiele.",
+        duenger: "Mittelzehrer: Vorab Kompost einharken. Nach den ersten Ernten mit etwas verdünnter Pflanzenjauche oder Hornmehl nachdüngen, um Neuaustrieb anzuregen.",
         abstandPflanze: "30 cm", abstandReihe: "40 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Mär-Apr", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Nov",
         monateAussaat: [3, 4, 5, 6],
-        tipp: "Nur äußere Blätter abdrehen, dann wächst er monatelang nach.",
+        tipp: "Nur äußere Blätter abdrehen, wächst permanent nach.",
         guteNachbarn: "Möhren, Radieschen, Bohnen", schlechteNachbarn: "Spinat, Rote Bete",
         sorten: [
+          { name: "Lucullus", typ: "Stielmangold", eigenschaft: "Breite, fleischige weiße Stiele." },
           { name: "Bright Lights", typ: "Bunter Stielmangold", eigenschaft: "Stiele leuchten gelb, orange, rot, pink." },
-          { name: "Lucullus", typ: "Stielmangold", eigenschaft: "Breite, fleischige weiße Stiele." }
+          { name: "Feurio", typ: "Rot", eigenschaft: "Dunkelrote Stiele und leicht gerötete Blätter." },
+          { name: "Fordhook Giant", typ: "Stielmangold", eigenschaft: "Riesige Blätter, sehr ertragreich." },
+          { name: "Verde da Taglio", typ: "Schnittmangold", eigenschaft: "Wird wie Schnittsalat beerntet." }
         ]
       },
       {
-        id: "moehre", name: "Möhre / Karotte", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
+        id: "moehre", name: "Möhren", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
+        standort: "Vollsonnig, sandig-lockerer, steinfreier Boden (keine Staunässe)",
+        boden: "Sehr tiefgründig gelockert, sandig, vollkommen frei von Steinen und absolut ohne frischen Mist (führt sonst zu krummen, gespaltenen Rüben).",
+        duenger: "Mittelzehrer: Keinen frischen Mist oder frischen Kompost! Bei Bedarf etwas Holzasche (Kalium) vor der Aussaat einharken; zu viel Stickstoff lockt Möhrenfliegen an.",
         abstandPflanze: "4 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Jun", zeitErnte: "Jun-Nov",
         monateAussaat: [3, 4, 5, 6],
-        tipp: "Möhren keimen sehr langsam. Mit Radieschen in gleicher Rille säen (Markiersaat).",
+        tipp: "Keimen langsam. Mit Radieschen als Markiersaat kombinieren.",
         guteNachbarn: "Zwiebeln, Lauch, Dill", schlechteNachbarn: "Pastinaken, Sellerie",
         sorten: [
-          { name: "Gelbe Pfälzer (Gelbe Rübe)", typ: "Gelb", eigenschaft: "Historische Sorte, mild-süß, toll für Eintöpfe." },
-          { name: "Nantaise 2", typ: "Sommer", eigenschaft: "Standardsorte. Knackig und süß." },
-          { name: "Pariser Markt", typ: "Kugelmöhre", eigenschaft: "Kleine runde Karotten. Gut für flache/schwere Böden." },
-          { name: "Purple Haze", typ: "Lila Möhre", eigenschaft: "Außen tiefviolett, innen oranger Kern. Sehr gesund (Anthocyane)." },
-          { name: "Rodelika", typ: "Lager", eigenschaft: "Hoher Zuckergehalt, idealer Winterspeicher." }
+          { name: "Flakkeer 2", typ: "Lagerkarotte", eigenschaft: "Große, lange Möhre für die Winterlagerung." },
+          { name: "Rothild", typ: "Speisemöhre", eigenschaft: "Tieforange, süß und saftig." },
+          { name: "Bolero", typ: "Standard", eigenschaft: "Widerstandsfähig gegen Möhrenfliegen." },
+          { name: "Nerac", typ: "Waschmöhre", eigenschaft: "Glatt, gleichmäßig geformt." },
+          { name: "Chantenay", typ: "Kurz & Dick", eigenschaft: "Ideal für schwerere Böden." },
+          { name: "Jaune du Doubs", typ: "Gelbe Möhre", eigenschaft: "Historische gelbe Sorte, mild-süß." },
+          { name: "White Satin", typ: "Weiße Möhre", eigenschaft: "Reinweiße, sehr saftige und milde Karotte." }
         ]
       },
       {
-        id: "paprika", name: "Paprika", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🫑",
-        abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
-        zeitVorzucht: "Feb-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
-        monateAussaat: [2, 3, 5],
-        tipp: "Ausbrechen der ersten 'Königsblüte' in der Gabelung regt starken Fruchtansatz an.",
-        guteNachbarn: "Tomaten, Karotten, Basilikum", schlechteNachbarn: "Fenchel, Erbsen",
+        id: "obst_beeren", name: "Beerenobst & Exoten", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        standort: "Sonnig bis halbschattig (Heidelbeeren: unbedingt saurer Boden pH 4-5)",
+        boden: "Humusreich, feucht und locker. Ausnahme Heidelbeere: Braucht zwingend saure Moorbeeterde/Rhododendronerde ohne Kalk! Brombeeren/Himbeeren mulchen.",
+        duenger: "Mittelzehrer: Im zeitigen Frühjahr reifen Kompost und Hornspäne um die Sträucher verteilen. Heidelbeeren nur mit speziellem saurem Beerendünger und Kaffeesatz versorgen.",
+        abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Pflanzung", zeitBeet: "Herbst / Frühjahr", zeitErnte: "Jun-Okt",
+        monateAussaat: [3, 4, 10, 11],
+        tipp: "Regelmäßig auslichten für reiche Ernten. Auf saure Erde bei Heidelbeeren achten!",
+        guteNachbarn: "Knoblauch, Kräuter", schlechteNachbarn: "Keine",
+        filterGruppen: ["Erdbeeren", "Himbeeren", "Johannisbeeren", "Stachelbeeren", "Brombeeren", "Heidelbeeren", "Wein & Feigen"],
         sorten: [
-          { name: "California Wonder", typ: "Block", eigenschaft: "Groß, dickfleischig. Reift von grün zu rot." },
-          { name: "Corno di Torro", typ: "Spitzpaprika", eigenschaft: "Hornförmig, süß. Zum Braten/Grillen." },
-          { name: "Feher", typ: "Tomatenpaprika", eigenschaft: "Flachrund, süß und fruchtig. Perfekt zum Einlegen." },
-          { name: "Hungarian Wax", typ: "Ungarisch", eigenschaft: "Hellgelb, leicht pikant." }
+          { name: "Senga Sengana", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Der absolute Klassiker für Konfitüre und Kuchen, sehr aroma- und farbintensiv." },
+          { name: "Mieze Schindler", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Gourmet-Erdbeere mit absolut intensivem Walderdbeergeschmack (braucht Befruchter)." },
+          { name: "Elsanta", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Feste, große Früchte, glänzend rot und gut transportfähig." },
+          { name: "Korona", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Sehr saftig, viel Zucker und hoher Ertrag." },
+          { name: "Mara des Bois", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Immertragend mit unvergleichlichem Walderdbeer-Aroma bis zum Frost." },
+          { name: "Rügen", typ: "Monatserdbeere", gruppe: "Erdbeeren", eigenschaft: "Trägt kleine, hocharomatische Beeren komplett ohne Ranken." },
+          { name: "Clery", typ: "Erdbeere (Früh)", gruppe: "Erdbeeren", eigenschaft: "Sehr frühe Sorte, gleichmäßig kegelförmig und sehr süß." },
+          { name: "Darselect", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Große, feste Früchte mit kräftig süßem Aroma." },
+          { name: "Asia", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Großfruchtig, sehr süß und unempfindlich gegen Regen." },
+          { name: "Salsa", typ: "Erdbeere (Spät)", gruppe: "Erdbeeren", eigenschaft: "Sehr große Beeren, reift spät im Jahr, unempfindlich gegen Spätfröste." },
+          { name: "Gorella", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Bewährte, sehr saftige und aromatische Standardsorte." },
+          { name: "Diamante", typ: "Erdbeere (Remontierend)", gruppe: "Erdbeeren", eigenschaft: "Trägt kontinuierlich von Juni bis Oktober." },
+          { name: "Giga", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Besonders riesige, saftige Früchte." },
+          { name: "Sonata", typ: "Erdbeere", eigenschaft: "Glänzende, aromatische Beeren mit tollem Geschmack." },
+          { name: "Malwina", typ: "Erdbeere", eigenschaft: "Sehr späte Erdbeere, dunkelrote und zuckersüße Früchte." },
+          { name: "Florence", typ: "Erdbeere", eigenschaft: "Spät tragende, robuste Sorte mit sehr hohem Ertrag." },
+          
+          { name: "Tulameen", typ: "Sommerhimbeere", gruppe: "Himbeeren", eigenschaft: "Große, helle Früchte, reifen am zweijährigen Holz mit edlem Aroma." },
+          { name: "Meeker", typ: "Sommerhimbeere", gruppe: "Himbeeren", eigenschaft: "Sehr fest, tolles Aroma ideal für Weiterverarbeitung." },
+          { name: "Autumn Bliss", typ: "Herbsthimbeere", gruppe: "Himbeeren", eigenschaft: "Sehr robust, madenfrei, dicke Früchte bis in den November." },
+          { name: "Schönemann", typ: "Himbeere", gruppe: "Himbeeren", eigenschaft: "Späte, ertragreiche Sorte mit langen Ruten." },
+          { name: "Polka", typ: "Herbsthimbeere", gruppe: "Himbeeren", eigenschaft: "Sehr große, tiefrote Früchte mit hervorragendem Geschmack." },
+          { name: "Zefa Herbstgold", typ: "Himbeere", gruppe: "Himbeeren", eigenschaft: "Auffällige, goldgelbe und sehr süße Früchte." },
+          { name: "Glen Ample", typ: "Sommerhimbeere", gruppe: "Himbeeren", eigenschaft: "Dornenlose Ruten, sehr große und feste Beeren, ertragssicher." },
+          { name: "Himbo-Top", typ: "Herbsthimbeere", gruppe: "Himbeeren", eigenschaft: "Enorm wüchsig, riesige Früchte, extrem hoher Ertrag." },
+          { name: "Sugana", typ: "Zweimaltragende Himbeere", gruppe: "Himbeeren", eigenschaft: "Trägt im Sommer am Vorjahresholz und im Herbst am einjährigen Holz." },
+          { name: "Fallgold", typ: "Gelbe Herbsthimbeere", gruppe: "Himbeeren", eigenschaft: "Wunderschöne goldgelbe Beeren mit sehr feinem, mildem Geschmack." },
+
+          { name: "Jonkheer van Tets", typ: "Rote Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Frühe rote Trauben mit angenehmer Säure." },
+          { name: "Rovada", typ: "Rote Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Bildet extrem lange rote Rispen, ideal für Gelee und Saft." },
+          { name: "Red Lake", typ: "Rote Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Traditionelle, sehr zuverlässige Sorte mit großen Beeren." },
+          { name: "White Pearl", typ: "Weiße Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Milde, süße weiße Beeren, die weniger sauer schmecken." },
+          { name: "Blanka", typ: "Weiße Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Sehr ertragreiche weiße Sorte mit langen Trauben." },
+          { name: "Titania", typ: "Schwarze Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Vollständig resistent gegen Mehltau, starkes Cassis-Aroma." },
+          { name: "Ben Nevis", typ: "Schwarze Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Kompakter Strauch, hohe und sichere Erträge." },
+          { name: "Ötscherland", typ: "Schwarze Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Großfrüchtige, sehr robuste Sorte aus Österreich." },
+          { name: "Noir de Bourgogne", typ: "Schwarze Johannisbeere", gruppe: "Johannisbeeren", eigenschaft: "Die edelste französische Sorte für Likör und Cassis." },
+
+          { name: "Invicta", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Grüne Früchte, robust gegen echten Mehltau." },
+          { name: "Hinnonmäki Rot", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Dunkelrote, süße Beeren mit feinem Aroma." },
+          { name: "Hinnonmäki Gelb", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Frühreife, aromatische gelbe Beeren." },
+          { name: "Hinnonmäki Grün", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Kompakter Wuchs, widerstandsfähig und sehr süß." },
+          { name: "Pax", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Weitgehend stachellose Sorte, rote Früchte." },
+          { name: "Captivator", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Nahezu stachellose rote Stachelbeere, sehr aromatisch." },
+          { name: "Remarka", typ: "Stachelbeere", gruppe: "Stachelbeeren", eigenschaft: "Sehr widerstandsfähig gegen Pilzkrankheiten, süße rote Beeren." },
+
+          { name: "Navaho", typ: "Brombeere", gruppe: "Brombeeren", eigenschaft: "Aufrecht wachsend, dornenlos, sehr süß." },
+          { name: "Loch Ness", typ: "Brombeere", gruppe: "Brombeeren", eigenschaft: "Dornenlose, große glänzende Beeren." },
+          { name: "Triple Crown", typ: "Brombeere", gruppe: "Brombeeren", eigenschaft: "Enorm ertragreiche, sehr süße und saftige dornenlose Brombeere." },
+          { name: "Chester Thornless", typ: "Brombeere", gruppe: "Brombeeren", eigenschaft: "Späte dornenlose Sorte, sehr robust und witterungsfest." },
+          { name: "Thornless Evergreen", typ: "Brombeere", gruppe: "Brombeeren", eigenschaft: "Klassische dornenlose Sorte mit tiefgeschlitztem Laub." },
+
+          { name: "Bluecrop", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Der Klassiker für saure Moorbeeterde, große, hellblaue Beeren." },
+          { name: "Duke", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Sehr früh reifende Heidelbeere mit festen Früchten." },
+          { name: "Reka", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Enorm ertragreich, robust und anpassungsfähig." },
+          { name: "Chandler", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Bildet gigantische, münzgroße Beeren mit tollem Geschmack." },
+          { name: "Patriot", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Sehr frosthart, kommt gut mit schwereren Böden klar." },
+          { name: "Elizabeth", typ: "Heidelbeere", gruppe: "Heidelbeeren", eigenschaft: "Späte Sorte, gilt geschmacklich als eine der süßesten Heidelbeeren." },
+          { name: "Pink Lemonade", typ: "Heidelbeere (Pink)", gruppe: "Heidelbeeren", eigenschaft: "Besondere Sorte mit leuchtend pinkfarbenen Beeren und mild-süßem Aroma." },
+
+          { name: "Birstaler Muscat", typ: "Weinrebe", gruppe: "Wein & Feigen", eigenschaft: "Pilzresistente Tafeltraube mit tollem Muskatton." },
+          { name: "Brown Turkey", typ: "Freilandfeige", gruppe: "Wein & Feigen", eigenschaft: "Die bewährteste und frosthärteste Freilandfeige für Deutschland." },
+          { name: "Vanessa", typ: "Weinrebe", gruppe: "Wein & Feigen", eigenschaft: "Kernlose, rosa süße und widerstandsfähige Rosinenrebe." },
+          { name: "Muscat Bleu", typ: "Weinrebe", gruppe: "Wein & Feigen", eigenschaft: "Dunkelblaue Trauben mit intensivem Muskatgeschmack, extrem robust." },
+          { name: "Palatina", typ: "Weinrebe", gruppe: "Wein & Feigen", eigenschaft: "Goldgelbe, sehr frühe und süße Muskat-Tafeltraube." },
+          { name: "Regent", typ: "Weinrebe", gruppe: "Wein & Feigen", eigenschaft: "Klassische blaue Rebsorte, absolut pilzfest." },
+          { name: "Ronde de Bordeaux", typ: "Freilandfeige", gruppe: "Wein & Feigen", eigenschaft: "Frühe, extrem schmackhafte kleine dunkle Feigen." },
+          { name: "Negronne", typ: "Freilandfeige", gruppe: "Wein & Feigen", eigenschaft: "Sehr aromatische schwarze Feige, ideal für den Kübel oder geschützte Ecken." }
+        ]
+      },
+      {
+        id: "pastinake", name: "Pastinake & Schwarzwurzel", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
+        standort: "Sonnig bis halbschattig, tiefgründiger, steinfreier Boden",
+        boden: "Sehr tiefgründig und feinkrümelig gelockert, sandig-humos. Keine frischen organischen Dünger oder Steine, damit die Pfahlwurzeln gerade und glatt wachsen.",
+        duenger: "Mittelzehrer: Im Herbst vorher Kompost geben; niemals direkt zur Aussaat düngen. Bei Bedarf im Sommer etwas verdünnte Pflanzenjauche für Kaliumzufuhr.",
+        abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "2-3 cm", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Apr", zeitErnte: "Okt-März",
+        monateAussaat: [3, 4],
+        tipp: "Frost verbessert den süßlichen Geschmack von Pastinaken enorm.",
+        guteNachbarn: "Zwiebeln, Salat", schlechteNachbarn: "Möhren",
+        sorten: [
+          { name: "Halblange Weiße", typ: "Pastinake", eigenschaft: "Bewährte Sorte mit nussigem Aroma." },
+          { name: "Hollow Crown", typ: "Pastinake", eigenschaft: "Klassische englische Sorte, tiefgründige Wurzeln." },
+          { name: "Gladiator", typ: "Pastinake", eigenschaft: "Gleichmäßige, glatte Wurzeln." },
+          { name: "Tender and True", typ: "Pastinake", eigenschaft: "Feines, süßes Fleisch." },
+          { name: "Javelin", typ: "Pastinake", eigenschaft: "Widerstandsfähig gegen Pilzkrankheiten." },
+          { name: "Hoffmanns Schwarze Pfahl", typ: "Schwarzwurzel", eigenschaft: "Der Spargel des kleinen Mannes. Feiner Geschmack." },
+          { name: "Meres", typ: "Schwarzwurzel", eigenschaft: "Gleichmäßiger Wuchs." },
+          { name: "Duplex", typ: "Schwarzwurzel", eigenschaft: "Sehr ertragreich." },
+          { name: "Russischer Riese", typ: "Schwarzwurzel", eigenschaft: "Lange, dicke Stangen." }
         ]
       },
       {
         id: "radieschen", name: "Radieschen & Rettich", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🪴",
-        abstandPflanze: "5-10 cm", abstandReihe: "20 cm", saattiefe: "1-2 cm", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Sep", zeitErnte: "Apr-Nov",
+        standort: "Sonnig bis leicht halbschattig (im Hochsommer Halbschatten bevorzugt)",
+        boden: "Locker, humusreich, gleichmäßig feucht und feinkrümelig. Niemals frisch mit Mist düngen (macht schwammig und scharf).",
+        duenger: "Schwachzehrer: Keinerlei zusätzliche Düngung nötig! Zehrt von den Nährstoffresten der Vorkultur. Zu viel Stickstoff führt zu Riesenblättern und winzigen Knollen.",
+        abstandPflanze: "5 cm", abstandReihe: "20 cm", saattiefe: "1 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Sep", zeitErnte: "Apr-Okt",
         monateAussaat: [3, 4, 5, 6, 7, 8, 9],
-        tipp: "Radieschen brauchen gleichmäßig Wasser, sonst werden sie pelzig und scharf. Daikon-Rettich braucht extrem lockeren Boden.",
+        tipp: "Gleichmäßig gießen gegen Pelzigkeit.",
         guteNachbarn: "Möhren, Salat", schlechteNachbarn: "Gurken, Kohl",
         sorten: [
-          { name: "Daikon (Minowase)", typ: "Japan-Rettich", eigenschaft: "Wird bis zu 50 cm lang! Reinweiß, sehr mild und saftig. Für die Herbstaussaat." },
-          { name: "French Breakfast", typ: "Radieschen", eigenschaft: "Länglich, rot mit weißer Spitze. Sehr mild und zart." },
-          { name: "Mairübe (Navet)", typ: "Frühlingsrübe", eigenschaft: "Weißes, zartes Rübchen mit mildem Geschmack, wächst blitzschnell." },
-          { name: "Münchner Bier", typ: "Radi", eigenschaft: "Der klassische weiße Bierrettich. Knackig und scharf." },
-          { name: "Schwarzer Winterrettich", typ: "Lager-Rettich", eigenschaft: "Schwarze, raue Schale, weißes extrem gesundes Fleisch (Hustensaft!). Sehr lagerfähig." },
-          { name: "Teltower Rübchen", typ: "Edelrübe", eigenschaft: "Brandenburger Spezialität. Klein, spitz zulaufend, fein-würzig." }
-        ]
-      },
-      {
-        id: "rhabarber", name: "Rhabarber", oberkategorie: "Gemüse", kategorie: "Stauden", icon: "🥬",
-        abstandPflanze: "100 cm", abstandReihe: "100 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
-        zeitVorzucht: "Staude pflanzen", zeitBeet: "März o. Oktober", zeitErnte: "April - 24. Juni (Johanni)",
-        monateAussaat: [3, 10],
-        tipp: "Ernte strikt am 24. Juni beenden (Oxalsäure steigt danach stark an). Stangen abdrehen, nicht abschneiden!",
-        guteNachbarn: "Kohl, Spinat, Salat", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Goliath", typ: "Riesen", eigenschaft: "Riesige grüne Stangen, enormer Ertrag, säuerlich." },
-          { name: "Holsteiner Blut", typ: "Rotstielig", eigenschaft: "Rote Stiele, grünes Fleisch. Sehr mild und beliebt zum Backen." }
-        ]
-      },
-      {
-        id: "rosenkohl", name: "Rosenkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
-        abstandPflanze: "50 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
-        zeitVorzucht: "April - Mai", zeitBeet: "Mai - Juni", zeitErnte: "Nov - März",
-        monateAussaat: [4, 5, 6],
-        tipp: "Braucht Frost! Im September die Triebspitze kappen (entspitzen) für dickere Röschen.",
-        guteNachbarn: "Sellerie, Buschbohnen, Spinat", schlechteNachbarn: "Zwiebeln, Knoblauch, Tomaten",
-        sorten: [
-          { name: "Groninger", typ: "Standard", eigenschaft: "Bewährte Sorte, gute Frosthärte." },
-          { name: "Red Ball", typ: "Rot", eigenschaft: "Rötliche Röschen, optisches Highlight im Schnee." }
+          { name: "Cherry Belle", typ: "Radieschen", eigenschaft: "Klassisch rund, leuchtend rot, platzfest." },
+          { name: "French Breakfast", typ: "Radieschen", eigenschaft: "Länglich, rot mit weißer Spitze, mild." },
+          { name: "Eiszapfen", typ: "Radieschen", eigenschaft: "Lange weiße Stangen, pikant." },
+          { name: "Sora", typ: "Radieschen", eigenschaft: "Hitzetolerant, schießt nicht so schnell." },
+          { name: "Parat", typ: "Radieschen", eigenschaft: "Sehr gleichmäßig, fleischig." },
+          { name: "Riesenbutter", typ: "Radieschen", eigenschaft: "Wird groß ohne pelzig zu werden." },
+          { name: "München Bier", typ: "Rettich", eigenschaft: "Der klassische weißer Bierrettich." },
+          { name: "Neckarruhm", typ: "Rettich", eigenschaft: "Mild und knackig." },
+          { name: "Runder Schwarzer Winter", typ: "Rettich", eigenschaft: "Lagerrettich mit schwarzer Schale, gesund." },
+          { name: "Minowase", typ: "Daikon-Rettich", eigenschaft: "Lange weiße Japan-Rettiche, mild." },
+          { name: "Mantanghong", typ: "Rettich", eigenschaft: "Innen leuchtend rot, süß-scharf." }
         ]
       },
       {
         id: "rotebete", name: "Rote Bete", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🍠",
+        standort: "Sonnig bis halbschattig, tiefgründiger & feuchter Boden",
+        boden: "Tiefgründig gelockert, lehmig-sandig und humos. Boden gut feucht halten; verträgt keinen frischen Mist, aber mäßig Kompost.",
+        duenger: "Mittelzehrer: Vor der Aussaat mäßig reifen Kompost einarbeiten. Ein wenig Holzasche (Kalium) fördert die Knollenbildung und Farbintensität.",
         abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "3 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
-        tipp: "Hervorragend zum Einwecken oder zur Winterlagerung in Sand.",
+        tipp: "Ideal zum Einwecken und Lagern in Sand.",
         guteNachbarn: "Bohnen, Zwiebeln, Gurken", schlechteNachbarn: "Mangold, Spinat",
         sorten: [
-          { name: "Burpees Golden", typ: "Gelbe Bete", eigenschaft: "Süß, mild, blutet beim Kochen nicht aus. Tolle gelbe Farbe!" },
-          { name: "Detroit", typ: "Klassiker Rot", eigenschaft: "Tiefrot, rund, sehr ertragssicher und perfekt zum Einkochen." },
-          { name: "Tondo di Chioggia", typ: "Geringelt", eigenschaft: "Innen wunderschön rot-weiß geringelt. Ein Highlight roh im Salat." }
+          { name: "Ägyptische Plattrunde", typ: "Rote Bete", eigenschaft: "Flachrunde Knollen, sehr früh." },
+          { name: "Forono", typ: "Rote Bete", eigenschaft: "Zylindrische Form, lässt sich perfekt in Scheiben schneiden." },
+          { name: "Cylindra", typ: "Rote Bete", eigenschaft: "Lange walzenförmige Knollen." },
+          { name: "Boldor", typ: "Gelbe Bete", eigenschaft: "Leuchtend gelbes Fleisch, mild, färbt nicht ab." },
+          { name: "Albina Vereduna", typ: "Weiße Bete", eigenschaft: "Reinweiße Knollen, sehr mild." }
+        ]
+      },
+      {
+        id: "rosenkohl", name: "Rosenkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        standort: "Sonnig, windfest & standfest, schwerer, nährstoffreicher Boden",
+        boden: "Schwer, lehmig und fest. Den Boden vor der Pflanzung festtreten, damit die schweren Pflanzen Wind und Schnee trotzen. Bei Bedarf kalken.",
+        duenger: "Starkzehrer: Vor der Pflanzung Hornspäne und Kompost. Ab Spätsommer (August) das Düngen komplett einstellen, damit die Röschen fest werden und nicht aufplatzen.",
+        abstandPflanze: "50 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "April - Mai", zeitBeet: "Mai - Juni", zeitErnte: "Nov - März",
+        monateAussaat: [4, 5, 6],
+        tipp: "Frost verbessert den Geschmack.",
+        guteNachbarn: "Sellerie, Buschbohnen, Spinat", schlechteNachbarn: "Zwiebeln, Tomaten",
+        sorten: [
+          { name: "Hilds Ideal", typ: "Rosenkohl", eigenschaft: "Gleichmäßige, feste Röschen." },
+          { name: "Rubine", typ: "Roter Rosenkohl", eigenschaft: "Dekorative rötliche Röschen." },
+          { name: "Falstaff", typ: "Roter Rosenkohl", eigenschaft: "Intensive Purpurfarbe, milder Geschmack." },
+          { name: "Long Island Improved", typ: "Rosenkohl", eigenschaft: "Bewährte Sorte mit dichtem Behang." }
         ]
       },
       {
         id: "salate", name: "Salate & Rucola", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥗",
+        standort: "Sonnig bis halbschattig (im Sommer Halbschatten schützt vor Schossen)",
+        boden: "Locker, humos und durchlässig mit gleichmäßiger Feuchtigkeit. Keine Überdüngung mit Stickstoff (führt zu hoher Nitratanreicherung in den Blättern).",
+        duenger: "Schwachzehrer: Etwas reifer Kompost vor der Pflanzung reicht völlig aus. Keine frischen tierischen Dünger verwenden; mäßig mit verdünntem Kräutertee gießen.",
         abstandPflanze: "25 cm", abstandReihe: "30 cm", saattiefe: "0,5 cm (Lichtkeimer)", bedarf: "Schwachzehrer",
         zeitVorzucht: "Feb-Mär", zeitBeet: "Mär-Aug", zeitErnte: "Mai-Okt",
         monateAussaat: [2, 3, 4, 5, 6, 7, 8],
-        tipp: "Lichtkeimer! Samen nur andrücken. Keimt über 20°C extrem schlecht.",
+        tipp: "Lichtkeimer, Samen nur leicht andrücken.",
         guteNachbarn: "Erdbeeren, Kohl, Radieschen", schlechteNachbarn: "Petersilie",
         sorten: [
-          { name: "Attraktion", typ: "Kopfsalat", eigenschaft: "Sehr bewährte, zarte Freilandsorte." },
-          { name: "Eichblatt rot (Red Salad Bowl)", typ: "Pflücksalat", eigenschaft: "Tiefrote, gezackte Blätter. Sehr dekorativ und wüchsig." },
-          { name: "Lollo Bionda", typ: "Pflücksalat", eigenschaft: "Hellgrün, stark gekraust, bildet voluminöse Köpfe." },
-          { name: "Lollo Rosso", typ: "Pflücksalat", eigenschaft: "Krause, rote Blätter. Wächst nach dem Schnitt wieder nach." },
-          { name: "Maikönig", typ: "Kopfsalat", eigenschaft: "Der absolute Frühlingsklassiker für das erste Beet." },
-          { name: "Romana Little Gem", typ: "Römersalat", eigenschaft: "Kleine, extrem knackige und süßliche Salatherzen." },
-          { name: "Rouge d'Hiver", typ: "Römersalat (Winter)", eigenschaft: "Rötlicher Romana-Salat, verträgt Kälte enorm gut." },
-          { name: "Rucola (Salatrauke)", typ: "Würzkraut", eigenschaft: "Wächst extrem schnell, nussig-scharf." },
-          { name: "Winterbutterhead", typ: "Kopfsalat", eigenschaft: "Ein Kopfsalat, der im Herbst/Winter in milden Lagen durchhält." }
+          { name: "Dynamite", typ: "Kopfsalat", eigenschaft: "Robuste Köpfe, widerstandsfähig." },
+          { name: "Merveille de Quatre Saisons", typ: "Kopfsalat", eigenschaft: "Vierjahreszeiten-Salat mit bronzefarbenen Blättern." },
+          { name: "Kagraner Sommer", typ: "Kopfsalat", eigenschaft: "Schießt nicht so schnell bei Hitze." },
+          { name: "Hilde II", typ: "Kopfsalat", eigenschaft: "Große, schwere Köpfe." },
+          { name: "Brauner Trotzkopf", typ: "Kopfsalat", eigenschaft: "Sehr kältetoleranter Herbst-Kopfsalat." },
+          { name: "Salad Bowl", typ: "Pflücksalat", eigenschaft: "Grüner, tief geschlitzter Eichblatt-Typ." },
+          { name: "Red Salad Bowl", typ: "Pflücksalat", eigenschaft: "Dunkelroter Eichblatt-Pflücksalat." },
+          { name: "Forellenschluss", typ: "Römischer Salat", eigenschaft: "Grüne Blätter mit roten Sprenkeln (Forellenmuster)." },
+          { name: "Black Seeded Simpson", typ: "Pflücksalat", eigenschaft: "Hellgrüne, gekrauste Blätter." },
+          { name: "Great Lakes", typ: "Eissalat", eigenschaft: "Knackige, eiskalte Köpfe." },
+          { name: "Saladin", typ: "Eissalat", eigenschaft: "Widerstandsfähig gegen Botrytis." },
+          { name: "Lobjoits Grüner", typ: "Römersalat", eigenschaft: "Klassischer Romana-Salat." },
+          { name: "Pinokkio", typ: "Mini-Romana", eigenschaft: "Kleine knackige Salatherzen." },
+          { name: "Winter Density", typ: "Romana", eigenschaft: "Sehr frostharter Mini-Romana." },
+          { name: "Vit", typ: "Feldsalat", eigenschaft: "Der Standard-Feldsalat für Herbst/Winter." },
+          { name: "Verte de Cambrai", typ: "Feldsalat", eigenschaft: "Klassische französische Sorte." },
+          { name: "Dunkelgrüner Vollherziger", typ: "Feldsalat", eigenschaft: "Große Rosetten, kältetolerant." },
+          { name: "Holländischer Breitblättriger", typ: "Feldsalat", eigenschaft: "Breite Blätter, ertragreich." },
+          { name: "Rucola Coltivata", typ: "Rucola", eigenschaft: "Klassische Kultur-Salatrauke, nussig-scharf." },
+          { name: "Sylvetta", typ: "Wildes Rucola", eigenschaft: "Fein gezahnt, extrem würzig und mehrjährig." },
+          { name: "Bubikopf", typ: "Endivie", eigenschaft: "Gezahnte Blätter, feinherb." },
+          { name: "Natacha", typ: "Endivie", eigenschaft: "Gute Kopfbildung, weniger Fäulnisneigung." },
+          { name: "Palla Rossa", typ: "Radicchio", eigenschaft: "Kompakte rote Köpfe." },
+          { name: "Rosso di Treviso", typ: "Radicchio", eigenschaft: "Längliche rote Stangen." },
+          { name: "Castelfranco", typ: "Radicchio", eigenschaft: "Cremeweiß mit roten Flecken, milder." },
+          { name: "Pan di Zucchero", typ: "Zuckerhut", eigenschaft: "Spitzkegeliger Kopf, exzellenter Wintersalat." }
         ]
       },
       {
-        id: "sellerie", name: "Sellerie & Pastinake", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
-        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "0 cm (Lichtkeimer)", bedarf: "Starkzehrer",
+        id: "sellerie", name: "Knollensellerie & Stangensellerie", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
+        standort: "Sonnig bis halbschattig, feucht, schwerer & nährstoffreicher Boden",
+        boden: "Schwerer, lehmiger, tiefgründiger Boden mit sehr viel reifem Kompost und Hornspänen. Braucht kontinuierlich Feuchtigkeit und profitiert von etwas Kochsalz/Gesteinsmehl.",
+        duenger: "Extremer Starkzehrer: Hornmehl und reichlich Kompost zur Pflanzung. Alle 2–3 Wochen mit Brennnesseljauche düngen; eine Prise Meersalz im Gießwasser stärkt die Knolle.",
+        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "Lichtkeimer", bedarf: "Starkzehrer",
         zeitVorzucht: "März", zeitBeet: "Mitte Mai", zeitErnte: "Okt-Nov",
         monateAussaat: [3, 4, 5],
-        tipp: "Knollensellerie nicht zu tief pflanzen, das Herz muss über der Erde bleiben! Pastinaken keimen am besten mit frischem Saatgut.",
+        tipp: "Herz nicht mit Erde bedecken.",
         guteNachbarn: "Kohl, Tomaten, Lauch", schlechteNachbarn: "Kartoffeln, Mais",
         sorten: [
-          { name: "Halblange Weiße", typ: "Pastinake", eigenschaft: "Breite Schultern, nussiges, süßliches Aroma. Frost macht sie besser!" },
-          { name: "Petersilienwurzel (Halblange)", typ: "Wurzelpetersilie", eigenschaft: "Sieht aus wie Pastinake, schmeckt intensiv nach Petersilie. Toll für Suppen." },
-          { name: "Prinz", typ: "Knollensellerie", eigenschaft: "Bildet große, glatte und feste Knollen." },
-          { name: "Tall Utah", typ: "Staudensellerie", eigenschaft: "Fleischige knackige grüne Stiele. Sehr aromatisch für Salate." }
+          { name: "Prager Riesen", typ: "Knollensellerie", eigenschaft: "Große, schwere Knollen mit weißem Fleisch." },
+          { name: "Alba", typ: "Knollensellerie", eigenschaft: "Glatte Unterseite, wenig Wurzelbart." },
+          { name: "Ibis", typ: "Knollensellerie", eigenschaft: "Sehr widerstandsfähig gegen Blattflecken." },
+          { name: "Monarch", typ: "Knollensellerie", eigenschaft: "Kompakte Knollen mit tollem Aroma." },
+          { name: "Diamant", typ: "Knollensellerie", eigenschaft: "Gleichmäßige, feste Knollen." },
+          { name: "Tango", typ: "Stangensellerie", eigenschaft: "Gut gefüllte, zarte Stängel." },
+          { name: "Golden Self Blanching", typ: "Stangensellerie", eigenschaft: "Bleicht sich beim Wachsen fast von selbst aus." },
+          { name: "Utah", typ: "Stangensellerie", eigenschaft: "Fleischige, knackige grüne Stiele." },
+          { name: "Pascal", typ: "Stangensellerie", eigenschaft: "Dunkelgrüne, aromatische Stangen." }
         ]
       },
       {
-        id: "sondergemuese", name: "Sonder-Fruchtgemüse", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍈",
-        abstandPflanze: "60-100 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
-        zeitVorzucht: "März (Haus)", zeitBeet: "Ende Mai", zeitErnte: "Aug-Okt",
-        monateAussaat: [3, 4, 5],
-        tipp: "Melonen, Physalis und Okra brauchen extrem warme, sonnige und geschützte Standorte.",
-        guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Kartoffeln",
+        id: "spargel", name: "Spargel & Rhabarber", oberkategorie: "Gemüse", kategorie: "Mehrjährig", icon: "🌿",
+        standort: "Sonnig bis absonnig, tiefgründiger & humoser Boden (Rhabarber liebt feuchte Plätze)",
+        boden: "Spargel: Tiefgründig sandig, durchlässig und steinfrei. Rhabarber: Schwerer, tiefgründig mit sehr viel verrottetem Mist und Kompost angereicherter, dauerfeuchter Boden.",
+        duenger: "Starkzehrer (Dauerkulturen): Nach der Ernte (Ende Juni / Johanni) reichlich verrotteten Mist, Hornspäne und Kompost aufbringen, damit die Wurzelstöcke fürs Folgejahr Kraft tanken.",
+        abstandPflanze: "40-100 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
+        zeitVorzucht: "Rhizome / Wurzelstöcke", zeitBeet: "April", zeitErnte: "April - 24. Juni",
+        monateAussaat: [3, 4],
+        tipp: "Rhabarber-Ernte strikt am 24. Juni beenden.",
+        guteNachbarn: "Erdbeeren, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch",
         sorten: [
-          { name: "Andenbeere (Physalis)", typ: "Frucht", eigenschaft: "Wächst riesig (1,5m), liefert unzählige süß-säuerliche gelbe Beeren in Lampions." },
-          { name: "Clemson Spineless", typ: "Okra", eigenschaft: "Wunderschöne Blüten, liefert die klassischen grünen Schoten für Eintöpfe." },
-          { name: "Crimson Sweet", typ: "Wassermelone", eigenschaft: "Große Früchte, rotes süßes Fleisch. Braucht viel Hitze (Gewächshaus/Mulch)." },
-          { name: "Petit Gris de Rennes", typ: "Zuckermelone", eigenschaft: "Kleine französische Cantaloupe, sehr süß, kommt mit europäischem Sommer gut klar." }
-        ]
-      },
-      {
-        id: "spargel", name: "Spargel", oberkategorie: "Gemüse", kategorie: "Mehrjährig", icon: "🌿",
-        abstandPflanze: "40 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung 20 cm tief", bedarf: "Starkzehrer",
-        zeitVorzucht: "Rhizome pflanzen", zeitBeet: "April", zeitErnte: "April - 24. Juni",
-        monateAussaat: [4],
-        tipp: "Bleichspargel muss in Wällen angehäufelt werden, Grünspargel wächst flach und wird überirdisch geerntet.",
-        guteNachbarn: "Erdbeeren, Tomaten, Petersilie", schlechteNachbarn: "Zwiebeln, Knoblauch",
-        sorten: [
-          { name: "Huchels Leistung", typ: "Weißspargel", eigenschaft: "Der Klassiker für Bleichspargel, enorm ertragssicher." },
-          { name: "Pacific Purple", typ: "Violetter Spargel", eigenschaft: "Süßer und zarter als grüner Spargel. Kann roh im Salat gegessen werden!" },
-          { name: "Schneewittchen", typ: "Grünspargel", eigenschaft: "Darf grün geerntet werden, keine Dämme nötig. Sehr aromatisch." }
+          { name: "Ruhm von Braunschweig", typ: "Weißspargel", eigenschaft: "Klassische deutsche Sp Sorte." },
+          { name: "Huchels Alpha", typ: "Weißspargel", eigenschaft: "Früh reifend, dickere Stangen." },
+          { name: "Gijnlim", typ: "Weißer Spargel", eigenschaft: "Sehr ertragreich und früh." },
+          { name: "Backlim", typ: "Weißer Spargel", eigenschaft: "Für spätere Ernten, dicke Stangen." },
+          { name: "Thielim", typ: "Spargel", eigenschaft: "Widerstandsfähig und langlebig." },
+          { name: "Mary Washington", typ: "Grünspargel", eigenschaft: "Klassischer, aromatischer Grünspargel." },
+          { name: "Holsteiner Blut", typ: "Rhabarber", eigenschaft: "Rote Stiele, grünes Fleisch. Sehr mild." },
+          { name: "Frambozen Rood", typ: "Rhabarber", eigenschaft: "Himbeerfarbene, zarte Stangen." },
+          { name: "Victoria", typ: "Rhabarber", eigenschaft: "Sehr produktiv, mild im Geschmack." },
+          { name: "Timperley Early", typ: "Rhabarber", eigenschaft: "Liefert sehr frühe Erträge im Frühjahr." },
+          { name: "Goliath", typ: "Rhabarber", eigenschaft: "Riesige Stangen, enormer Ertrag." }
         ]
       },
       {
         id: "spinat", name: "Spinat", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        standort: "Halbschattig bis sonnig (im Sommer kühl und halbschattig halten)",
+        boden: "Lockerer, humoser, feuchter Gartenboden. Mäßig Kompost einarbeiten; keine frischen organischen Dünger verwenden.",
+        duenger: "Mittelzehrer: Vor der Aussaat eine dünne Schicht reifen Kompost einarbeiten. Keinen reinen Stickstoffdünger geben, um Nitratüberladung in den Blättern zu vermeiden.",
         abstandPflanze: "4 cm", abstandReihe: "20 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mär-Mai & Sep-Okt", zeitErnte: "Apr-Jun & Okt-März",
         monateAussaat: [3, 4, 5, 9, 10],
-        tipp: "Schießt bei Sommerhitze sofort in die Blüte (Langtagpflanze).",
+        tipp: "Schießt bei Hitze sofort in die Blüte.",
         guteNachbarn: "Erdbeeren, Kohl, Kartoffeln", schlechteNachbarn: "Rote Bete, Mangold",
         sorten: [
-          { name: "Butterflay", typ: "Zart", eigenschaft: "Aufrechter Wuchs (weniger Erde), zart." },
-          { name: "Matador", typ: "Herbst/Winter", eigenschaft: "Idealer Bio-Spinat für Herbstaussaat, frosthart." },
-          { name: "Monnopa", typ: "Gemüse", eigenschaft: "Schießt extrem spät in die Blüte." },
-          { name: "Winterriesen", typ: "Winter", eigenschaft: "Extrem frosthart." }
+          { name: "Matador", typ: "Spinat", eigenschaft: "Der klassische Bio-Spinat für Herbst und Frühjahr." },
+          { name: "Monnopa", typ: "Spinat", eigenschaft: "Schießt extrem spät in die Blüte." },
+          { name: "Lazio", typ: "Spinat", eigenschaft: "Dunkelgrüne Blätter, sehr robust." },
+          { name: "Winterriesen", typ: "Spinat", eigenschaft: "Extrem frosthart für die Überwinterung." },
+          { name: "Gigante d'Inverno", typ: "Spinat", eigenschaft: "Großblättriger Winterschneider." },
+          { name: "Viroflay", typ: "Spinat", eigenschaft: "Historische Sorte mit riesigen zarten Blättern." }
+        ]
+      },
+      {
+        id: "topinambur", name: "Topinambur & Exoten", oberkategorie: "Gemüse", kategorie: "Sondergemüse", icon: "🍠",
+        standort: "Sonnig bis halbschattig, sehr anspruchslos an den Boden",
+        boden: "Absolut anspruchslos, wächst in fast jeder Erde. Lockerer, sandiger Boden erleichtert im Herbst das Ausgraben der Knollen erheblich.",
+        duenger: "Mittelzehrer: Benötigt kaum Pflege. Eine Schaufel Kompost beim Stecken im Frühjahr reicht völlig aus; überdüngte Pflanzen bilden nur Blätter und kleine Knollen.",
+        abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "Knollen pflanzen", bedarf: "Mittelzehrer",
+        zeitVorzucht: "April", zeitBeet: "Mai", zeitErnte: "Okt-Dez",
+        monateAussaat: [4, 5],
+        tipp: "Topinambur wuchert extrem (Wurzelsperre einsetzen!).",
+        guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Tomaten",
+        sorten: [
+          { name: "Rote Zonenstern", typ: "Topinambur", eigenschaft: "Rötliche Knollen, nussiger Geschmack." },
+          { name: "Fuseau", typ: "Topinambur", eigenschaft: "Glatt, leicht zu schälen." },
+          { name: "Violet de Rennes", typ: "Topinambur", eigenschaft: "Violette Knollen, sehr aromatisch." },
+          { name: "Waldspindel", typ: "Topinambur", eigenschaft: "Längliche Knollenform." },
+          { name: "Gute Gelbe", typ: "Topinambur", eigenschaft: "Klassische helle Knolle." },
+          { name: "Bayerischer Meerrettich", typ: "Meerrettich", eigenschaft: "Die scharfe Stange aus Baiersdorf." },
+          { name: "Spreewälder Meerrettich", typ: "Meerrettich", eigenschaft: "Feurig-scharfe Traditionssorte." },
+          { name: "Teltower Rübchen", typ: "Edelrübe", eigenschaft: "Brandenburger Spezialität, fein-würzig." },
+          { name: "Purple Top Milan", typ: "Rübe", eigenschaft: "Flachrunde Herbstrübe mit violetter Platte." },
+          { name: "Goldball", typ: "Rübe", eigenschaft: "Leuchtend gelbe, milde Rübchen." },
+          { name: "Wilhelmsburger", typ: "Steckrübe", eigenschaft: "Klassische Winterspeise." }
         ]
       },
       {
         id: "tomate", name: "Tomate", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍅",
+        standort: "Vollsonnig, warm, regengeschützt (unter Dach oder im Tomatenhaus)",
+        boden: "Tiefgründig, humos, locker und nährstoffreich. Pflanzloch mit reichlich reifem Kompost, Hornspänen und einer Handvoll Urgesteinsmehl vorbereiten.",
+        duenger: "Starkzehrer mit hohem Kalium- & Magnesiumbedarf: Hornspäne ins Pflanzloch. Ab Fruchtansatz wöchentlich mit Beinwelljauche oder speziellem Tomatendünger gießen.",
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März-Apr", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
         tipp: "Pflanzen tief einsetzen, Regenschutz bieten.",
         guteNachbarn: "Basilikum, Knoblauch, Möhren", schlechteNachbarn: "Kartoffeln, Fenchel",
         sorten: [
-          { name: "Berner Rose", typ: "Fleischtomate", eigenschaft: "Rosa, dünne Schale, schmilzt auf der Zunge." },
-          { name: "De Berao", typ: "Freilandtomate", eigenschaft: "3m hoch, krautfäuleresistent." },
-          { name: "Harzfeuer F1", typ: "Strauchtomate/Stab", eigenschaft: "Frühe, rote Standardsorte, sehr ertragreich." },
-          { name: "Ochsenherz", typ: "Fleischtomate", eigenschaft: "Stark gerippt, riesig, wenig Kerne." },
-          { name: "Rote Murmel", typ: "Wildtomate", eigenschaft: "Muss nicht ausgegeizt werden! 100% resistent." },
+          { name: "Harzfeuer F1", typ: "Stabtomat", eigenschaft: "Frühe, rote Standardsorte, sehr ertragreich." },
           { name: "San Marzano", typ: "Saucentomate", eigenschaft: "Festes Fleisch, wenig Wasser. Perfekt zum Einkochen." },
-          { name: "San Marzano Nano", typ: "Buschtomate", eigenschaft: "Kompakte San Marzano Variante, muss nicht ausgegeizt werden." },
-          { name: "Schwarze Krim", typ: "Fleischtomate", eigenschaft: "Dunkelbraun-rot, würzig-süß, leicht salzige Note." },
-          { name: "Yellow Pearshaped", typ: "Cocktailtomate", eigenschaft: "Kleine gelbe Birnchen, extrem süß und dekorativ im Salat." },
-          { name: "Zuckertraube", typ: "Cocktailtomate", eigenschaft: "Lange Rispen, kleine süße Früchte zum Naschen." }
+          { name: "Ochsenherz", typ: "Fleischtomate", eigenschaft: "Stark gerippt, riesig, wenig Kerne." },
+          { name: "Berner Rose", typ: "Fleischtomate", eigenschaft: "Rosa, dünne Schale, schmilzt auf der Zunge." },
+          { name: "Schwarze Krim", typ: "Fleischtomate", eigenschaft: "Dunkelbraun-rot, würzig-süß." },
+          { name: "Zuckertraube", typ: "Cocktailtomate", eigenschaft: "Lange Rispen, kleine süße Früchte zum Naschen." },
+          { name: "Yellow Pearshaped", typ: "Cocktailtomate", eigenschaft: "Kleine gelbe Birnchen, extrem süß." },
+          { name: "Rote Murmel", typ: "Wildtomate", eigenschaft: "Muss nicht ausgegeizt werden! 100% resistent." }
         ]
       },
       {
-        id: "zichorien", name: "Zichorien & Wildsalate", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥗",
-        abstandPflanze: "25 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Jun-Aug", zeitBeet: "Jul-Sep", zeitErnte: "Sep-Dez",
-        monateAussaat: [6, 7, 8],
-        tipp: "Zichoriengewächse enthalten Bitterstoffe (gesund!). Wenn man sie kurz in warmes Wasser legt, werden sie milder.",
-        guteNachbarn: "Bohnen, Tomaten, Möhren", schlechteNachbarn: "Petersilie",
-        sorten: [
-          { name: "Asia-Salat (Mizuna/Mustard)", typ: "Winter-Schnittsalat", eigenschaft: "Senfkohl mit gezackten Blättern. Leicht scharfer Senfgeschmack. Frosthart!" },
-          { name: "Brunnenkresse", typ: "Wasserkraut", eigenschaft: "Braucht extrem feuchten/nassen Boden (Tümpel/Bachlauf). Pikant-scharf." },
-          { name: "Chicorée (Witloof)", typ: "Treibsalat", eigenschaft: "Wurzeln werden im Herbst geerntet und im dunklen Keller getrieben!" },
-          { name: "Löwenzahn (Kulturform)", typ: "Wildsalat", eigenschaft: "Spezielle, aufrecht wachsende Züchtung mit großen Blättern für herben Salat." },
-          { name: "Radicchio (Rosso di Chioggia)", typ: "Kopfsalat rot", eigenschaft: "Tiefrote, runde, feste Köpfe mit weißen Adern. Herrlich herb-bitter." },
-          { name: "Radicchio (Treviso)", typ: "Kopfsalat länglich", eigenschaft: "Längliche Blätter, etwas milder als Chioggia, ideal zum Grillen." },
-          { name: "Zuckerhut", typ: "Wintersalat", eigenschaft: "Hoher spitzkegeliger Kopf, extrem frosthart. Kann den ganzen Winter draußen bleiben." }
-        ]
-      },
-      {
-        id: "zwiebel", name: "Zwiebeln & Schalotten (Steck-, Saat- & Winterzwiebeln)", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
-        abstandPflanze: "10-15 cm", abstandReihe: "25 cm", saattiefe: "2-3 cm (Stecken) / 1-2 cm (Samen)", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Stecken im Herbst (Okt/Nov) oder Frühjahr (März/Apr) / Saat im Feb/März", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Juni - August",
+        id: "zwiebel", name: "Zwiebeln & Schalotten", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
+        standort: "Vollsonnig, warm, luftig & mäßig feucht (keine Staunässe)",
+        boden: "Lockerer, sandig-lehmiger Boden, der zügig abtrocknet. Auf keinen Fall frischen Mist geben; Boden vorab feinkrümelig harken und mäßig andrücken.",
+        duenger: "Schwachzehrer: Keinen frischen Dünger oder Stickstoff (führt zu Fäulnis bei der Lagerung)! Etwas reifer Kompost oder Gesteinsmehl im Vorjahr reicht aus.",
+        abstandPflanze: "10-15 cm", abstandReihe: "25 cm", saattiefe: "2-3 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Stecken / Saat", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Juni - August",
         monateAussaat: [2, 3, 4, 10, 11],
-        tipp: "Wintersteckzwiebeln (Radar, Troy, Senshyu, Hylander, Presto, Winteria) liefern schon ab Juni die erste Ernte! Schalotten teilen sich im Boden in Büschel auf. Saatzwiebeln lagern oft am allerbesten.",
-        guteNachbarn: "Möhren, Erdbeeren, Salat, Rote Bete", schlechteNachbarn: "Bohnen, Erbsen, Kohlarten",
+        tipp: "Regelmäßig jäten, Zwiebeln vertragen keine Unkrautkonkurrenz.",
+        guteNachbarn: "Möhren, Erdbeeren, Salat", schlechteNachbarn: "Bohnen, Erbsen, Kohlarten",
         filterGruppen: ["Steckzwiebeln", "Saatzwiebeln", "Schalotten", "Winterzwiebeln"],
         sorten: [
-          { name: "Ailsa Craig", typ: "Saatzwiebel / Riese", gruppe: "Saatzwiebeln", eigenschaft: "Traditionelle englische Ausstellungsauslese. Wird riesig, sehr mild und saftig." },
-          { name: "Akado", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Sehr widerstandsfähige, violett-rote Steckzwiebel mit fester Schale und guter Lagerung." },
-          { name: "Bamberger Birnenförmige", typ: "Schalotte / Landsorte", gruppe: "Schalotten", eigenschaft: "Alte fränkische Landsorte mit birnenförmiger Gestalt und feinem, delikatem Aroma." },
-          { name: "Borettana (Cipollini)", typ: "Saatzwiebel / Flachrund", gruppe: "Saatzwiebeln", eigenschaft: "Italienische Gourmet-Zwiebel, flach wie eine Scheibe. Traditionell für Balsamico-Zwiebeln." },
-          { name: "Centurion", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Frühreife, feste gelbe Zwiebel mit rundlicher Form und starker Schale. Sehr ertragsstabil." },
-          { name: "Conservor", typ: "Schalotte (Saat/Steck)", gruppe: "Schalotten", eigenschaft: "Schöne tropfenförmige Schalotte mit rosa-brauner Schale. Hohe Lagerfähigkeit." },
-          { name: "Etagenzwiebel", typ: "Luftzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Bildet anstatt Blüten kleine Zwiebelchen am oberen Stielende, die abfallen und neu anwachsen." },
-          { name: "Exhibition", typ: "Riesen-Gemüsezwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Wird bis zu 1 kg schwer! Äußerst mild, saftig, ideal für Zwiebelringe und Salate." },
-          { name: "Griselle (Graue Schalotte)", typ: "Echte französische Schalotte", gruppe: "Schalotten", eigenschaft: "Gilt in der Gourmetküche als Königin der Schalotten! Längliche graue Schale, unvergleichlich intensives Aroma." },
-          { name: "Grise de Bagnolet", typ: "Schalotte", gruppe: "Schalotten", eigenschaft: "Traditionelle französische Spezialität mit grau-violetter Schale und feinstem Schmelz." },
-          { name: "Hylander", typ: "Winter- & Sommerzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Weltweit erste Zwiebelsorte mit echter Falscher-Mehltau-Resistenz! Hervorragend gesund." },
-          { name: "Hystar", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Sehr wüchsige und ertragreiche Zwiebel mit gleichmäßigem Knollenansatz." },
-          { name: "Hytech", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Moderne Hochleistungssorte, festschalig und sehr unempfindlich gegen Schossen." },
-          { name: "Jaune Paille des Vertus", typ: "Alte Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Traditionelle französische Landsorte aus dem 19. Jahrhundert. Flachrund, gelb, sehr lange haltbar." },
-          { name: "Jermor", typ: "Schalotte", gruppe: "Schalotten", eigenschaft: "Kupferfarbene Schale, rosa Fleisch, längliche Form. Ausgezeichneter zarter Geschmack." },
-          { name: "Longor", typ: "Schalotte", gruppe: "Schalotten", eigenschaft: "Längliche, spitz zulaufende Schalotte. Das Profi-Aroma für feine französische Saucen." },
-          { name: "Perlzwiebel / Silberzwiebel", typ: "Einlegezwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Dicht gesät geerntet, schneeweiß und perfekt für den Weckautomaten." },
-          { name: "Pikant", typ: "Schalotte", gruppe: "Schalotten", eigenschaft: "Rundliche, dunkelbraune Schalotte mit scharf-würzigem Geschmack und gutem Ertrag." },
-          { name: "Piroska", typ: "Rote Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Mittelgroße, feste rote Zwiebel aus Osteuropa mit kräftigem Geschmack." },
-          { name: "Presto", typ: "Winter-Steckzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Die bewährte Sorte für das Herbstbeet (Oktober). Wächst im Schachmuster oder Reihe, reift im Juni." },
-          { name: "Radar", typ: "Winter-Steckzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Der absolute Goldstandard unter den Wintersteckzwiebeln. Enorm frosthart, extrem schossfest." },
-          { name: "Red Baron", typ: "Rote Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Kräftig rot durchgefärbte Zwiebel, knackig und saftig. Sehr schossfest im Sommer." },
-          { name: "Red Sun", typ: "Rote Schalotte", gruppe: "Schalotten", eigenschaft: "Rundliche, kupferrote Schalotte. Ertragreich und unkompliziert im Anbau." },
-          { name: "Rijnsburger", typ: "Traditionelle Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Holländischer Traditionsklassiker. Gelb-braun, extrem fest und der Maßstab für Winterlagerung." },
-          { name: "Rosa Aussat", typ: "Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Feine rosa gefärbte Speisezwiebel mit sanfter, milder Schärfe." },
-          { name: "Rote Braunschweiger", typ: "Rote Zwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Historische deutsche Sorte mit flachrunder Form und dunkelroter Färbung." },
-          { name: "Rote Karmen", typ: "Rote Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Sehr beliebte rote Steckzwiebel, süßlich-mild und herrlich bunt im Salat." },
-          { name: "Santero", typ: "Mehltauresistente Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Resistent gegen Falschen Mehltau! Perfekt für Bio-Gärten ohne Spritzmittel." },
-          { name: "Senshyu (Senshyu Yellow)", typ: "Winter-Steckzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Berühmte japanische Winterzwiebel. Übersteht härtesten Frost und liefert schon ab Mai/Juni." },
-          { name: "Sherpa", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Ertragsstarke, runde Speisezwiebel mit zäher Schale für problemloses Lagern." },
-          { name: "Sturon", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Rundliche, gelbe Profi-Sorte. Sehr hoher Ertrag und überragende Lagerfähigkeit bis ins Frühjahr." },
-          { name: "Stuttgarter Riesen", typ: "Klassiker Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Der unverwüstliche deutsche Hausgarten-Klassiker. Flachrund, würzig, extrem lange haltbar." },
-          { name: "Trio Zwiebel", typ: "Misch-Steckzwiebeln", gruppe: "Winterzwiebeln", eigenschaft: "Bunte Mischung (gelb, rot, weiß) für abwechslungsreiche Beetreihen im Herbst." },
-          { name: "Tropea", typ: "Italienische Gourmetzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Kalabrische rote Zwiebel, zuckersüß und ganz ohne Schärfe. Roh ein Genuss." },
-          { name: "Troy", typ: "Winter-Steckzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Frühreife gelbe Winterzwiebel, schossfest und ideal für die Herbstanpflanzung." },
-          { name: "Winterheckenzwiebel", typ: "Mehrjährige Lauchzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Wuchert in Horsten, überwintert unbeschadet und liefert ganzjährig frische Frühlingszwiebeln." },
-          { name: "Winteria", typ: "Winter-Steckzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Spezielle Züchtung für die Herbstanpflanzung, hohe Frosthärte." },
-          { name: "Wolska", typ: "Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Sehr beliebte polnische Landsorte mit dicker goldener Schale und exzellenter Haltbarkeit." },
-          { name: "Zebrune (Echalote Cuisse de Poulet)", typ: "Bananen-Schalotte", gruppe: "Schalotten", eigenschaft: "Längliche 'Hühnerschenkel'-Form. Lässt sich fantastisch schälen und schneiden. Süß-delikat." },
-          { name: "Zittauer Gelbe", typ: "Historische Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Alte sächsische Traditionssorte. Große, feste Zwiebeln mit riesigem Lagerpotenzial." }
-        ]
-      },
-
-      // 🍎 OBST (BÄUME) 🍎
-      {
-        id: "apfelbaum", name: "Apfelbaum", oberkategorie: "Obst", kategorie: "Obstbäume", icon: "🍎",
-        abstandPflanze: "3m", abstandReihe: "4m", saattiefe: "Veredelung 5cm über Boden", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Baumkauf", zeitBeet: "Herbst (Okt-Nov)", zeitErnte: "Aug-Nov",
-        monateAussaat: [10, 11, 3],
-        tipp: "Winterschnitt fördert Fruchtreife.",
-        guteNachbarn: "Kapuzinerkresse, Knoblauch", schlechteNachbarn: "Gras am Stamm",
-        sorten: [
-          { name: "Boskoop", typ: "Winterapfel", eigenschaft: "König zum Backen/Kompott." },
-          { name: "Cox Orange", typ: "Klassiker", eigenschaft: "Nussig-würziges Aroma." },
-          { name: "Elstar", typ: "Herbstapfel", eigenschaft: "Saftig, feinsäuerlich." },
-          { name: "Honeycrisp", typ: "Knack", eigenschaft: "Extrem knackig und saftig." },
-          { name: "Retina", typ: "Sommerapfel", eigenschaft: "Schorfresistent, früh." },
-          { name: "Topaz", typ: "Bio-Apfel", eigenschaft: "Schorfresistent, lagerfähig." }
-        ]
-      },
-      {
-        id: "aprikose", name: "Aprikose & Pfirsich", oberkategorie: "Obst", kategorie: "Obstbäume", icon: "🍑",
-        abstandPflanze: "3-4m", abstandReihe: "4m", saattiefe: "Veredelung über Boden", bedarf: "Starkzehrer",
-        zeitVorzucht: "Baumkauf", zeitBeet: "Frühjahr oder Herbst", zeitErnte: "Juli-August",
-        monateAussaat: [3, 10, 11],
-        tipp: "Extrem spätfrostgefährdet (blühen sehr früh). Benötigen eine geschützte, warme Südwand (als Spalier ideal).",
-        guteNachbarn: "Kapuzinerkresse, Knoblauch", schlechteNachbarn: "Kartoffeln",
-        sorten: [
-          { name: "Hargrand", typ: "Aprikose", eigenschaft: "Sehr große Früchte, robuster gegen Spätfrost als andere Aprikosen." },
-          { name: "Kuresia", typ: "Aprikose", eigenschaft: "Resistent gegen das Scharka-Virus, orangene süße Früchte." },
-          { name: "Red Haven", typ: "Pfirsich", eigenschaft: "Der weltweit bekannteste Pfirsich, gelbfleischig und sehr saftig." },
-          { name: "Revita", typ: "Pfirsich", eigenschaft: "Robusteste Sorte gegen die gefürchtete Kräuselkrankheit!" }
-        ]
-      },
-      {
-        id: "birnbaum", name: "Birnenbaum", oberkategorie: "Obst", kategorie: "Obstbäume", icon: "🍐",
-        abstandPflanze: "3m", abstandReihe: "4m", saattiefe: "Veredelung über Boden", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Baumkauf", zeitBeet: "Okt-Nov", zeitErnte: "Aug-Okt",
-        monateAussaat: [10, 11, 3],
-        tipp: "Birnen blühen sehr früh, vor Frost schützen.",
-        guteNachbarn: "Knoblauch", schlechteNachbarn: "Wacholder (Birnengitterrost)",
-        sorten: [
-          { name: "Abate Fetel", typ: "Winterbirne", eigenschaft: "Lang, feines Fruchtfleisch." },
-          { name: "Clapps Liebling", typ: "Sommerbirne", eigenschaft: "Schmelzend und süß." },
-          { name: "Conference", typ: "Allrounder", eigenschaft: "Der robuste Klassiker." },
-          { name: "Gute Luise", typ: "Tradition", eigenschaft: "Feinschmelzend, hocharomatisch." },
-          { name: "Williams Christ", typ: "Edelbirne", eigenschaft: "Intensives Muskat-Aroma." }
-        ]
-      },
-      {
-        id: "kirschbaum", name: "Kirschbaum", oberkategorie: "Obst", kategorie: "Obstbäume", icon: "🍒",
-        abstandPflanze: "4m", abstandReihe: "5m", saattiefe: "Veredelung über Boden", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Baumkauf", zeitBeet: "Herbst", zeitErnte: "Jun-Jul",
-        monateAussaat: [10, 11, 3],
-        tipp: "Vogelnetze sind bei Süßkirschen Pflicht.",
-        guteNachbarn: "Ringelblumen", schlechteNachbarn: "Tomaten",
-        sorten: [
-          { name: "Kordia", typ: "Süßkirsche", eigenschaft: "Herzförmig, platzfest." },
-          { name: "Regina", typ: "Späte Kirsche", eigenschaft: "Riesig, knackig, reift spät." },
-          { name: "Schattenmorelle", typ: "Sauerkirsche", eigenschaft: "Der Kuchen-Klassiker." },
-          { name: "Stellars", typ: "Süßkirsche", eigenschaft: "Selbstfruchtbar (braucht keinen 2. Baum)." },
-          { name: "Sylvia", typ: "Säule", eigenschaft: "Kompakt im Wuchs." }
-        ]
-      },
-      {
-        id: "pflaume", name: "Pflaumen & Mirabellen", oberkategorie: "Obst", kategorie: "Obstbäume", icon: "🍑",
-        abstandPflanze: "3m", abstandReihe: "4m", saattiefe: "Veredelung über Boden", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Baumkauf", zeitBeet: "Herbst", zeitErnte: "Jul-Sep",
-        monateAussaat: [10, 11, 3],
-        tipp: "Leichter Auslichtungsschnitt im Sommer gegen Gummifluss.",
-        guteNachbarn: "Knoblauch", schlechteNachbarn: "Nachtschatten",
-        sorten: [
-          { name: "Hauszwetsche", typ: "Tradition", eigenschaft: "Klassiker für Datschi. Steinlöslich." },
-          { name: "Jojo", typ: "Zwetschge", eigenschaft: "Resistent gegen Scharka." },
-          { name: "Mirabelle aus Metz", typ: "Mirabelle", eigenschaft: "Goldgelb, ideal für Brände." },
-          { name: "Mirabelle von Nancy", typ: "Edel-Mirabelle", eigenschaft: "Sehr saftig, zuckersüß." },
-          { name: "President", typ: "Riesen-Pflaume", eigenschaft: "Sehr groß, reift im September." },
-          { name: "Topset", typ: "Früh-Zwetschge", eigenschaft: "Frühe reiche Erträge." }
-        ]
-      },
-
-      // 🫐 OBST (STRÄUCHER & BEEREN) 🫐
-      {
-        id: "brombeere", name: "Brombeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        abstandPflanze: "150 cm", abstandReihe: "200 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Okt-Nov", zeitErnte: "Jul-Okt",
-        monateAussaat: [10, 11, 3],
-        tipp: "Brauchen zwingend ein starkes Rankgerüst. Abgeerntete Ruten im Herbst bodennah entfernen.",
-        guteNachbarn: "Tagetes, Ringelblumen", schlechteNachbarn: "Himbeeren",
-        sorten: [
-          { name: "Loch Ness", typ: "Stachellos", eigenschaft: "Große, glänzende schwarze Beeren, extrem ertragreich, dornenlos." },
-          { name: "Navaho", typ: "Aufrecht", eigenschaft: "Wächst straff aufrecht, benötigt kaum ein Gerüst, sehr süß." },
-          { name: "Theodor Reimers", typ: "Wildbrombeere", eigenschaft: "Mit Dornen! Aber unübertroffen intensives, wildes Waldaroma." }
-        ]
-      },
-      {
-        id: "erdbeere", name: "Erdbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🍓",
-        abstandPflanze: "30 cm", abstandReihe: "60 cm", saattiefe: "Herzknospe ebenerdig", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Setzlinge", zeitBeet: "Jul-Aug / Apr", zeitErnte: "Mai-Jul",
-        monateAussaat: [4, 7, 8],
-        tipp: "Zur Blüte Stroh unterlegen gegen Grauschimmel.",
-        guteNachbarn: "Knoblauch, Zwiebeln", schlechteNachbarn: "Kohlarten",
-        sorten: [
-          { name: "Korona", typ: "Einmaltragend", eigenschaft: "Sehr große, saftige Beeren, viel Zucker." },
-          { name: "Mara des Bois", typ: "Monatserdbeere", eigenschaft: "Hohes Walderdbeer-Aroma." },
-          { name: "Mieze Schindler", typ: "Gourmet", eigenschaft: "Braucht Befruchter, extrem süß." },
-          { name: "Ostara", typ: "Immertragend", eigenschaft: "Trägt bis zum Frost kontinuierlich." },
-          { name: "Senga Sengana", typ: "Einmaltragend", eigenschaft: "Der Liebling für Konfitüre." }
-        ]
-      },
-      {
-        id: "heidelbeere", name: "Heidelbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        abstandPflanze: "120 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Frühjahr/Herbst", zeitErnte: "Jul-Sep",
-        monateAussaat: [3, 4, 10, 11],
-        tipp: "Zwingend: Saurer Boden (Moorbeeterde / Rhododendronerde, pH-Wert 4-5)! Gießen nur mit Regenwasser (kein Kalk!).",
-        guteNachbarn: "Preiselbeeren, Rhododendron", schlechteNachbarn: "Kalkliebende Pflanzen",
-        sorten: [
-          { name: "Bluecrop", typ: "Klassiker", eigenschaft: "Sehr frosthart, robust, sichere und hohe Erträge hellblauer Beeren." },
-          { name: "Duke", typ: "Früh", eigenschaft: "Trägt sehr früh, mittelgroße Beeren, süß-säuerlich." },
-          { name: "Hortblue Petit", typ: "Zweimaltragend", eigenschaft: "Kompakt, liefert eine Ernte im Juli und eine im September." }
-        ]
-      },
-      {
-        id: "himbeere", name: "Himbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        abstandPflanze: "50 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Okt-Nov", zeitErnte: "Jun-Okt",
-        monateAussaat: [10, 11, 3],
-        tipp: "Herbsthimbeeren im Winter komplett abschneiden = keine Himbeerkäfer-Maden! Sommerhimbeeren nur die getragenen Ruten schneiden.",
-        guteNachbarn: "Knoblauch, Vergissmeinnicht", schlechteNachbarn: "Kartoffeln, Brombeeren",
-        sorten: [
-          { name: "Aroma Queen", typ: "Herbsthimbeere", eigenschaft: "Extrem gutes Wildaroma, trägt bis zum Frost." },
-          { name: "Autumn Bliss", typ: "Herbsthimbeere", eigenschaft: "Sehr robust, madenfrei, dicke Früchte." },
-          { name: "Tulameen", typ: "Sommerhimbeere", eigenschaft: "Große, helle Früchte, reifen schon im Juni/Juli am zweijährigen Holz." }
-        ]
-      },
-      {
-        id: "johannisbeere", name: "Johannisbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        abstandPflanze: "150 cm", abstandReihe: "150 cm", saattiefe: "Etwas tiefer pflanzen", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Okt-Nov", zeitErnte: "Jun-Aug",
-        monateAussaat: [10, 11, 3],
-        tipp: "Schwarze Johannisbeeren fruchten am einjährigen Holz, rote am zwei- bis dreijährigen! Schnitt demnach anpassen.",
-        guteNachbarn: "Wermut, Ringelblumen", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Jonkheer van Tets", typ: "Rot/Früh", eigenschaft: "Sehr früh reifend, lange rote Trauben, etwas säuerlich." },
-          { name: "Rovada", typ: "Rot/Spät", eigenschaft: "Bildet extrem lange, volle Rispen, leicht zu pflücken, ideal für Gelee." },
-          { name: "Titania", typ: "Schwarz", eigenschaft: "Völlig resistent gegen Mehltau und Rost, tolles Cassis-Aroma." }
-        ]
-      },
-      {
-        id: "stachelbeere", name: "Stachelbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        abstandPflanze: "120 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Okt-Nov", zeitErnte: "Jul-Aug",
-        monateAussaat: [10, 11, 3],
-        tipp: "Oft anfällig für den amerikanischen Mehltau. Ein luftiger Schnitt (Strauchmitte frei) ist absolut wichtig.",
-        guteNachbarn: "Tomaten, Knoblauch", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Hinnonmäki rot", typ: "Rot", eigenschaft: "Dunkelrote Früchte, feines süßes Aroma, wenig krankheitsanfällig." },
-          { name: "Invicta", typ: "Grün", eigenschaft: "Extrem ertragreich, sehr robust gegen Mehltau." },
-          { name: "Mucurines", typ: "Weiß/Grün", eigenschaft: "Große grüne Beeren, platzen bei Regen kaum auf." }
-        ]
-      },
-      {
-        id: "weinrebe", name: "Weinrebe & Feigen", oberkategorie: "Obst", kategorie: "Sondersträucher", icon: "🍇",
-        abstandPflanze: "150 cm", abstandReihe: "200 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Apr-Mai", zeitErnte: "Aug-Okt",
-        monateAussaat: [4, 5],
-        tipp: "Weinreben brauchen ein Spalier (z. B. Südwand). Feigen in den ersten Jahren mit Vlies vor hartem Frost schützen.",
-        guteNachbarn: "Rosen, Lavendel", schlechteNachbarn: "Direkte Starkwurzler",
-        sorten: [
-          { name: "Birstaler Muscat", typ: "Weiß", eigenschaft: "Hervorragende, pilzresistente Tafeltraube mit intensivem Muskatton." },
-          { name: "Brown Turkey (Feige)", typ: "Freilandfeige", eigenschaft: "Die bewährteste und frosthärteste Freilandfeige für Deutschland." },
-          { name: "Vanessa", typ: "Rosa, kernlos", eigenschaft: "Die beste kernlose Rebe für den Hausgarten. Sehr süß, pilzresistent." }
-        ]
-      },
-
-      // 🌿 KRÄUTER 🌿
-      {
-        id: "kraeuter_einj", name: "Einjährige Kräuter & Würzpflanzen", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌿",
-        abstandPflanze: "15-20 cm", abstandReihe: "30 cm", saattiefe: "Oft Lichtkeimer", bedarf: "Schwach- bis Mittelzehrer",
-        zeitVorzucht: "März-Mai", zeitBeet: "Mai (nach Frost)", zeitErnte: "Mai-Okt",
-        monateAussaat: [3, 4, 5],
-        tipp: "Basilikum mag keine Nässe von oben (Regen). Dill und Koriander schießen bei Hitze schnell in Blüte (Sätze säen).",
-        guteNachbarn: "Tomaten, Gurken, Kohl", schlechteNachbarn: "Fenchel",
-        sorten: [
-          { name: "Basilikum Genoveser", typ: "Klassiker", eigenschaft: "Großblättrig, intensives Aroma, Pesto-Klassiker." },
-          { name: "Basilikum Thai", typ: "Spezialität", eigenschaft: "Süßlich-würziges Anisaroma, ideal für asiatische Gerichte." },
-          { name: "Bohnenkraut (Sommer)", typ: "Gewürz", eigenschaft: "Perfekt neben Bohnen, hält die schwarze Bohnenlaus fern!" },
-          { name: "Borretsch (Gurkenkraut)", typ: "Bienenweide", eigenschaft: "Wunderschöne blaue, essbare Blüten. Schmeckt nach Gurke." },
-          { name: "Dill Elefant", typ: "Kraut", eigenschaft: "Sehr blattreich, schießt spät in die Blüte." },
-          { name: "Gartenkresse", typ: "Schnellkraut", eigenschaft: "Keimt innerhalb weniger Tage, scharf-würzig, perfekt für die Fensterbank." },
-          { name: "Kapuzinerkresse", typ: "Blüte/Blatt", eigenschaft: "Komplett essbar, zieht Blattläuse an (Opferpflanze für Obstbäume!)." },
-          { name: "Koriander Caribe", typ: "Asia-Kraut", eigenschaft: "Dichte Blattrosetten, sehr intensives Aroma." }
-        ]
-      },
-      {
-        id: "kraeuter_mehrj", name: "Mehrjährige & Mediterrane Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
-        abstandPflanze: "30-40 cm", abstandReihe: "40 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Aussaat ab März", zeitBeet: "Mitte Mai", zeitErnte: "Ganzjährig",
-        monateAussaat: [3, 4, 5],
-        tipp: "Mediterrane Kräuter brauchen mageren, wasserdurchlässigen Boden. Sand ins Pflanzloch mischen!",
-        guteNachbarn: "Rosen, Kohl, Lavendel", schlechteNachbarn: "Basilikum, Schnittlauch (brauchen mehr Wasser)",
-        sorten: [
-          { name: "Estragon (Französischer)", typ: "Gourmet", eigenschaft: "Wird vegetativ vermehrt. Sehr feines Anis-Aroma." },
-          { name: "Katzenminze", typ: "Staudenbeet", eigenschaft: "Silbriges Laub, lila Blüten, unverwüstlich und lockt Bienen/Katzen an." },
-          { name: "Liebstöckel", typ: "Maggikraut", eigenschaft: "Wird bis 2m hoch. Extrem intensiver Geschmack für Eintöpfe." },
-          { name: "Oregano 'Greek'", typ: "Mediterran", eigenschaft: "Intensivstes Pizza-Aroma, absolut winterhart." },
-          { name: "Petersilie Mooskrause", typ: "Zweijährig", eigenschaft: "Wächst kompakt, toll als Deko. Petersilie ist mit sich selbst unverträglich (Fruchtwechsel)!" },
-          { name: "Pfefferminze", typ: "Tee-Kraut", eigenschaft: "Wuchert extrem stark (unbedingt im Topf oder mit Wurzelsperre pflanzen!)." },
-          { name: "Rosmarin 'Arp'", typ: "Mediterran", eigenschaft: "Die winterhärteste Sorte (hält bis -20°C stand)." },
-          { name: "Salbei 'Extrakta'", typ: "Heilkraut", eigenschaft: "Sehr hoher Anteil an ätherischen Ölen. Ideal für Tee." },
-          { name: "Schnittlauch 'Grobi'", typ: "Zweijährig", eigenschaft: "Zieht im Winter ein, treibt im Frühjahr kraftvoll neu aus." },
-          { name: "Thymian 'Faustini'", typ: "Bodendecker", eigenschaft: "Zieht Bienen und Schmetterlinge magisch an." },
-          { name: "Waldmeister", typ: "Schattenkraut", eigenschaft: "Für den schattigen Bereich unter Bäumen. Cumarin-Duft beim Welken." },
-          { name: "Zitronenmelisse", typ: "Tee-Kraut", eigenschaft: "Unverwüstlich, tolles Zitronenaroma, samt sich gerne selbst stark aus." }
+          { name: "Stuttgarter Riesen", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Der deutsche Hausgarten-Klassiker." },
+          { name: "Red Baron", typ: "Rote Zwiebel", gruppe: "Steckzwiebeln", eigenschaft: "Kräftig rot durchgefärbt, saftig." },
+          { name: "Ailsa Craig", typ: "Saatzwiebel", gruppe: "Saatzwiebeln", eigenschaft: "Traditionelle große, milde Riesenzwiebel." },
+          { name: "Bamberger Birnenförmige", typ: "Schalotte", gruppe: "Schalotten", eigenschaft: "Alte fränkische Schalotte mit feinem Aroma." },
+          { name: "Radar", typ: "Winterzwiebel", gruppe: "Winterzwiebeln", eigenschaft: "Enorm frostharte Wintersteckzwiebel." }
         ]
       }
     ];
@@ -1985,7 +2023,7 @@
                   📅 ${note.date}
                 </div>
                 <div class="note-card-actions">
-                  <button class="single-send-btn" onclick='sendSingleGeneralNoteEmail(${jsDateStr}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉️️ Senden</button>
+                  <button class="single-send-btn" onclick='sendSingleGeneralNoteEmail(${jsDateStr}, ${jsNoteText})' title="Diese Notiz per E-Mail senden">✉ Senden</button>
                   <button class="delete-note-btn" onclick="deleteGeneralNote('${note.id}')" title="Notiz löschen">🗑️ Löschen</button>
                 </div>
               </div>
@@ -2063,6 +2101,9 @@
         const nameMatch = isFuzzyMatch(k.name, query);
         const katNameMatch = isFuzzyMatch(k.kategorie, query);
         const bedarfMatch = isFuzzyMatch(k.bedarf, query);
+        const standortMatch = isFuzzyMatch(k.standort, query);
+        const bodenMatch = isFuzzyMatch(k.boden, query);
+        const duengerMatch = isFuzzyMatch(k.duenger, query);
         const tippMatch = isFuzzyMatch(k.tipp, query);
 
         const matchedSorten = k.sorten.filter(s => 
@@ -2076,6 +2117,12 @@
         if (!nameMatch) {
           if (matchedSorten.length > 0) {
             matchHint = `Sorte: ${matchedSorten[0].name}`;
+          } else if (duengerMatch) {
+            matchHint = `Dünger-Treffer`;
+          } else if (bodenMatch) {
+            matchHint = `Boden-Treffer`;
+          } else if (standortMatch) {
+            matchHint = `Standort-Treffer`;
           } else if (bedarfMatch) {
             matchHint = k.bedarf;
           } else if (katNameMatch) {
@@ -2085,7 +2132,7 @@
           }
         }
 
-        if (nameMatch || katNameMatch || bedarfMatch || tippMatch || matchedSorten.length > 0) {
+        if (nameMatch || katNameMatch || bedarfMatch || standortMatch || bodenMatch || duengerMatch || tippMatch || matchedSorten.length > 0) {
           matchedList.push({ kultur: k, matchHint });
         }
       });
@@ -2147,7 +2194,6 @@
           gruppe.items.forEach(({ kultur: k, matchHint }) => {
             const isFav = favs.includes(k.id);
             const card = document.createElement("div");
-            // Such-Puls-Effekt hinzufügen, wenn eine aktive Suche läuft
             const pulseClass = query !== "" ? "search-active-match" : "";
             card.className = `item-card ${k.id === gewaehlteKulturId ? 'selected' : ''} ${pulseClass}`;
             card.onclick = () => {
@@ -2168,11 +2214,6 @@
           });
         }
       });
-    }
-
-    function deleteNoteFromOverview(id) {
-      saveNote(id, "");
-      filterUndRender();
     }
 
     function escapeHtml(text) {
@@ -2228,7 +2269,7 @@
           readmeBody.innerText = text;
         })
         .catch(err => {
-          readmeBody.innerText = "Hinweis: Die Datei 'Read.txt' liegt noch nicht im selben Ordner wie diese index.html oder dein Browser blockiert lokale Dateizugriffe.\n\nErstelle einfach eine 'Read.txt' im Hauptverzeichnis mit deinen gewünschten Notizen!";
+          readmeBody.innerText = "Hinweis: Die Datei 'Read.txt' liegt noch nicht im selben Ordner wie diese index.html oder dein Browser blockiert lokale Dateizugriffe.";
         });
     }
 
@@ -2257,7 +2298,11 @@
     });
 
     function printCurrentDetail() {
-      window.print();
+      try {
+        window.print();
+      } catch (e) {
+        alert("Drucken wird von diesem Browser blockiert. Tipp: Nutze die Teilen-Funktion deines Browsers (z.B. Safari), um die Seite als PDF zu sichern.");
+      }
     }
 
     function renderDetailModal() {
@@ -2304,6 +2349,9 @@
       const highlightedSorteProp = highlightMatch(sorte.eigenschaft, query);
       const highlightedTipp = highlightMatch(k.tipp, query);
       const highlightedBedarf = highlightMatch(k.bedarf, query);
+      const highlightedStandort = highlightMatch(k.standort, query);
+      const highlightedBoden = highlightMatch(k.boden, query);
+      const highlightedDuenger = highlightMatch(k.duenger, query);
 
       detailPanel.innerHTML = `
         <div class="sheet-handle"></div>
@@ -2322,7 +2370,7 @@
         </div>
 
         <div class="varieties-section">
-          <div class="varieties-title">Verfügbare Sorten (${sichtbareSorten.length}):</div>
+          <div class="varieties-title" style="font-size:0.82rem; font-weight:800; color:var(--text-muted); margin-bottom:6px;">Verfügbare Sorten (${sichtbareSorten.length}):</div>
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
@@ -2332,12 +2380,21 @@
         </div>
 
         <div class="info-metrics">
+          <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: #854d0e;">${highlightedStandort}</div></div>
           <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze}</div></div>
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
           <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitVorzucht}</div></div>
           <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</div></div>
           <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte}</div></div>
+        </div>
+
+        <div class="boden-box">
+          🌱 <strong>Bodenvorbereitung & Erde:</strong><br>${highlightedBoden}
+        </div>
+
+        <div class="duenger-box">
+          🧪 <strong>Empfohlener Dünger & Nährstoffe:</strong><br>${highlightedDuenger}
         </div>
 
         <div class="tipp-box">
@@ -2380,7 +2437,7 @@
       filterUndRender();
     });
 
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator)  {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch((err) => {
           console.log('Service Worker Registrierung fehlgeschlagen:', err);
