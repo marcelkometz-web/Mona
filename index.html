@@ -278,7 +278,7 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Hornspäne, täglich gießen, Linda)...">
+    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Elsanta, Hornspäne, Linda)...">
     <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
   </div>
 
@@ -535,7 +535,7 @@
         filterGruppen: ["Buschbohnen", "Stangenbohnen", "Feuerbohnen", "Dicke Bohnen"],
         sorten: [
           { name: "Purple Teepee", typ: "Buschbohne", gruppe: "Buschbohnen", aussehen: "Tiefviolette Schoten, die über dem Laub hängen.", geschmack: "Knackig, saftig, feines Bohnenaroma; färbt sich beim Kochen dunkelgrün.", verwendung: "Leicht zu ernten, perfekt als Speckbohne oder im bunten Bohnensalat." },
-          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttriger Schmelz, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für sü-saure Einlegebohnen." },
+          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttriger Schmelz, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für süß-saure Einlegebohnen." },
           { name: "Berggold", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Goldgelbe fleischige Hülsen ohne störende Fäden.", geschmack: "Mild, süßlich-buttrig, sehr zarter Biss.", verwendung: "Der Klassiker für traditionellen Bohnensalat mit Zwiebeln und Bohnenkraut." },
           { name: "Delinel", typ: "Filet-Buschbohne", gruppe: "Buschbohnen", aussehen: "Lange, dünne, dunkelgrüne Schoten französischer Zucht.", geschmack: "Herausragend aromatisch, intensiv, knackig und fadenlos.", verwendung: "Gourmet-Bohne: Kurz blanchieren und mit Knoblauchbutter servieren." },
           { name: "Contender", typ: "Frühe Buschbohne", gruppe: "Buschbohnen", aussehen: "Mittelgrüne, fleischige Schoten mit hoher Ertragsfülle.", geschmack: "Sehr saftig mit kräftig-deftigem Aroma.", verwendung: "Sehr ertragreich für die erste frühe Ernte im Sommer; ideal für Suppen." },
@@ -855,6 +855,7 @@
         guteNachbarn: "Knoblauch, Kräuter", schlechteNachbarn: "Keine",
         filterGruppen: ["Erdbeeren", "Himbeeren", "Johannisbeeren", "Stachelbeeren", "Brombeeren", "Heidelbeeren", "Wein & Feigen"],
         sorten: [
+          { name: "Elsanta", typ: "Erdbeer-Klassiker", gruppe: "Erdbeeren", aussehen: "Große, feste, kegelförmige, glänzend hellrote Früchte.", geschmack: "Sehr saftig, ausgewogen süß-säuerlich mit herrlichem Erdbeeraroma.", verwendung: "Perfekt zum Frischverzehr, für Torten, Desserts und feine Marmelade." },
           { name: "Senga Sengana", typ: "Kult-Erdbeere", gruppe: "Erdbeeren", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
           { name: "Mieze Schindler", typ: "Gourmet-Erdbeere", gruppe: "Erdbeeren", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Direkt naschen (braucht Befruchtersorte)." },
           { name: "Autumn Bliss", typ: "Herbsthimbeere", gruppe: "Himbeeren", aussehen: "Dicke, samtig rote Früchte bis zum Frost.", geschmack: "Aromatisch-süß, madenfrei.", verwendung: "Desserts, Einfrieren, Frischverzehr." },
@@ -1282,6 +1283,10 @@
     const searchBoxContainer = document.getElementById("searchBoxContainer");
     const statusRowContainer = document.getElementById("statusRowContainer");
 
+    function cleanStr(s) {
+      return (s || "").toLowerCase().replace(/[^a-z0-9äöüß]/gi, "");
+    }
+
     function levenshtein(a, b) {
       const matrix = [];
       for (let i = 0; i <= b.length; i++) matrix[i] = [i];
@@ -1295,18 +1300,20 @@
       return matrix[b.length][a.length];
     }
 
-    function isFuzzyMatch(target, query) {
+    function isCleanMatch(target, query) {
       if (!target || !query) return false;
-      target = target.toLowerCase();
-      query = query.toLowerCase();
-      if (target.includes(query)) return true;
-      if (query.length < 3) return false;
-      const words = target.split(/[\s,./\-\(\)]+/);
-      const maxDistance = query.length > 5 ? 2 : 1;
-      return words.some(w => {
-        if (Math.abs(w.length - query.length) > maxDistance) return false;
-        return levenshtein(w, query) <= maxDistance;
-      });
+      const tNorm = target.toLowerCase();
+      const qNorm = query.toLowerCase();
+      if (tNorm.includes(qNorm)) return true;
+      
+      const tClean = cleanStr(target);
+      const qClean = cleanStr(query);
+      if (qClean.length >= 3 && tClean.includes(qClean)) return true;
+      
+      if (qClean.length >= 5) {
+        return levenshtein(tClean, qClean) <= 1;
+      }
+      return false;
     }
 
     function jsStr(s) {
@@ -1331,7 +1338,6 @@
       const escaped = escapeHtml(raw);
       if (!query || query.trim() === "") return escaped;
       const q = query.trim();
-      if (q === "") return escaped;
       const lowerRaw = raw.toLowerCase();
       const lowerQ = q.toLowerCase();
       const idx = lowerRaw.indexOf(lowerQ);
@@ -1340,17 +1346,6 @@
         const match = raw.slice(idx, idx + q.length);
         const after = raw.slice(idx + q.length);
         return escapeHtml(before) + '<mark class="search-highlight">' + escapeHtml(match) + '</mark>' + escapeHtml(after);
-      }
-      if (q.length >= 3) {
-        const parts = raw.split(/(\s+)/);
-        const maxDist = q.length > 5 ? 2 : 1;
-        return parts.map(w => {
-          const clean = w.replace(/[^\w]/g, "");
-          if (clean && Math.abs(clean.length - q.length) <= maxDist && levenshtein(clean.toLowerCase(), lowerQ) <= maxDist) {
-            return '<mark class="search-highlight">' + escapeHtml(w) + '</mark>';
-          }
-          return escapeHtml(w);
-        }).join("");
       }
       return escaped;
     }
@@ -1564,36 +1559,40 @@
         if (!katMatch || !radarMatch) return;
         if (query === "") { matchedList.push({ kultur: k, matchHint: null }); return; }
 
-        const nameMatch = isFuzzyMatch(k.name, query);
-        const katNameMatch = isFuzzyMatch(k.kategorie, query);
-        const bedarfMatch = isFuzzyMatch(k.bedarf, query);
-        const standortMatch = isFuzzyMatch(k.standort, query);
-        const bodenMatch = isFuzzyMatch(k.boden, query);
-        const duengerMatch = isFuzzyMatch(k.duenger, query);
-        const giessenMatch = isFuzzyMatch(k.giessen, query);
-        const wasserMatch = isFuzzyMatch(k.wasser, query);
-        const tippMatch = isFuzzyMatch(k.tipp, query);
-
+        const nameMatch = isCleanMatch(k.name, query);
         const matchedSorten = k.sorten.filter(s =>
-          isFuzzyMatch(s.name, query) || isFuzzyMatch(s.typ, query) || isFuzzyMatch(s.gruppe, query) ||
-          isFuzzyMatch(s.aussehen, query) || isFuzzyMatch(s.geschmack, query) ||
-          isFuzzyMatch(s.verwendung, query) || isFuzzyMatch(s.eigenschaft, query)
+          isCleanMatch(s.name, query) || isCleanMatch(s.typ, query) || isCleanMatch(s.gruppe, query)
         );
 
         let matchHint = null;
-        if (!nameMatch) {
-          if (matchedSorten.length > 0) matchHint = `Sorte: ${matchedSorten[0].name}`;
-          else if (giessenMatch) matchHint = `Gießen-Treffer`;
-          else if (duengerMatch) matchHint = `Dünger-Treffer`;
-          else if (bodenMatch) matchHint = `Boden-Treffer`;
-          else if (wasserMatch) matchHint = `Wasser-Treffer`;
-          else if (standortMatch) matchHint = `Standort-Treffer`;
-          else if (bedarfMatch) matchHint = k.bedarf;
-          else if (katNameMatch) matchHint = k.kategorie;
-          else if (tippMatch) matchHint = `Tipp-Treffer`;
+        let isHit = false;
+
+        if (nameMatch) {
+          isHit = true;
+        } else if (matchedSorten.length > 0) {
+          isHit = true;
+          matchHint = `Sorte: ${matchedSorten[0].name}`;
+        } else {
+          // Zweite Stufe: Nachgeordnete Eigenschaften nur matchen, wenn kein Sorten-Treffer vorliegt
+          const propSorten = k.sorten.filter(s =>
+            isCleanMatch(s.aussehen, query) || isCleanMatch(s.geschmack, query) ||
+            isCleanMatch(s.verwendung, query) || isCleanMatch(s.eigenschaft, query)
+          );
+          if (propSorten.length > 0) {
+            isHit = true;
+            matchHint = `Sorte: ${propSorten[0].name}`;
+          } else if (isCleanMatch(k.giessen, query)) {
+            isHit = true; matchHint = "Gießen-Treffer";
+          } else if (isCleanMatch(k.duenger, query)) {
+            isHit = true; matchHint = "Dünger-Treffer";
+          } else if (isCleanMatch(k.boden, query)) {
+            isHit = true; matchHint = "Boden-Treffer";
+          } else if (isCleanMatch(k.tipp, query)) {
+            isHit = true; matchHint = "Tipp-Treffer";
+          }
         }
 
-        if (nameMatch || katNameMatch || bedarfMatch || standortMatch || bodenMatch || duengerMatch || giessenMatch || wasserMatch || tippMatch || matchedSorten.length > 0) {
+        if (isHit) {
           matchedList.push({ kultur: k, matchHint });
         }
       });
@@ -1695,9 +1694,7 @@
       gewaehlteSorteIdx = 0;
       if (k && query !== "") {
         const foundIdx = k.sorten.findIndex(s =>
-          isFuzzyMatch(s.name, query) || isFuzzyMatch(s.typ, query) || isFuzzyMatch(s.gruppe, query) ||
-          isFuzzyMatch(s.aussehen, query) || isFuzzyMatch(s.geschmerk, query) || isFuzzyMatch(s.geschmack, query) ||
-          isFuzzyMatch(s.verwendung, query) || isFuzzyMatch(s.eigenschaft, query)
+          isCleanMatch(s.name, query) || isCleanMatch(s.typ, query) || isCleanMatch(s.gruppe, query)
         );
         if (foundIdx !== -1) gewaehlteSorteIdx = foundIdx;
       }
