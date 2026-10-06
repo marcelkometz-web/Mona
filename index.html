@@ -46,18 +46,20 @@
     h1 { font-size: 1.45rem; color: var(--primary); display: flex;
       align-items: center; justify-content: center; gap: 8px; }
     p.subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    
     .search-box { position: relative; margin-bottom: 14px; }
     input[type="text"], input[type="datetime-local"], input[type="number"], select {
       width: 100%; padding: 13px 16px; font-size: 1rem; border-radius: 12px;
       border: 2px solid var(--border); outline: none; transition: border-color 0.2s;
       background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    input[type="text"] { padding-right: 40px; }
+    input[type="text"] { padding-right: 85px; } /* Platz für beide Buttons */
     input:focus, select:focus { border-color: var(--accent); }
-    .clear-search-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: #cbd5e1; border: none; border-radius: 50%; width: 24px; height: 24px;
+    
+    .clear-search-btn { background: #cbd5e1; border: none; border-radius: 50%; width: 24px; height: 24px;
       color: #fff; font-size: 0.85rem; font-weight: 800; cursor: pointer;
       display: none; align-items: center; justify-content: center; }
     .clear-search-btn:hover { background: #94a3b8; }
+    
     .status-row { display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; gap: 8px; }
     .status-bar { font-size: 0.8rem; color: var(--text-muted); font-weight: 700;
@@ -274,7 +276,7 @@
       .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box,
       .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn,
       .subfilter-bar, .notes-section, .card-star { display: none !important; }
-      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
+      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
       .modal-overlay#modalOverlay.open { position: static !important; display: block !important;
         background: none !important; backdrop-filter: none !important; }
       .detail-panel { max-width: 100% !important; max-height: none !important;
@@ -304,8 +306,11 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Elsanta, Hornspäne, Linda)...">
-    <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
+    <input type="text" id="searchInput" placeholder="🔍 Frage an KI oder Pflanze suchen...">
+    <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px;">
+      <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
+      <button id="askAiBtn" onclick="openAiMenu()" style="background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" title="Frag deine KI">🤖</button>
+    </div>
   </div>
 
   <div class="status-row" id="statusRowContainer">
@@ -334,6 +339,29 @@
   <!-- Schnellauswahl-Modal für "Mein Beet" -->
   <div class="modal-overlay" id="beetQuickOverlay">
     <div class="detail-panel" style="max-width: 520px;" id="beetQuickPanel"></div>
+  </div>
+
+  <!-- NEU: KI-Modal -->
+  <div class="modal-overlay" id="aiModalOverlay">
+    <div class="detail-panel" style="max-width: 420px; text-align: center;">
+      <div class="sheet-handle"></div>
+      <div class="detail-title" style="justify-content: center; margin-bottom: 8px;">🤖 Frag deine KI</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Sende deine Frage direkt an eine installierte KI-App auf deinem Handy (über das Teilen-Menü) oder öffne sie im Browser.</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button onclick="askAiShare()" style="background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">📤</span> An installierte App senden (Teilen)
+        </button>
+        <button onclick="askAiChatGPT()" style="background: #10a37f; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">🟢</span> In ChatGPT Web öffnen
+        </button>
+        <button onclick="askAiPerplexity()" style="background: #2dd4bf; color: #052e16; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">🧠</span> In Perplexity Web öffnen
+        </button>
+      </div>
+      
+      <button onclick="closeAiMenu()" style="margin-top: 16px; background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%;">Abbrechen</button>
+    </div>
   </div>
 
   <div class="modal-overlay" id="readmeOverlay">
@@ -779,11 +807,12 @@
         monateAussaat: [3, 4, 5],
         tipp: "Mediterrane Kräuter brauchen mageren, wasserdurchlässigen Boden. Sand ins Pflanzloch mischen!",
         guteNachbarn: "Rosen, Kohl, Lavendel", schlechteNachbarn: "Basilikum, Schnittlauch",
-        filterGruppen: ["Schnittlauch", "Thymian", "Salbei", "Minze", "Rosmarin", "Sonstige"],
+        filterGruppen: ["Schnittlauch", "Thymian", "Salbei", "Minze", "Rosmarin", "Lavendel"],
         sorten: [
           { name: "Deutscher Winter", typ: "Thymian", gruppe: "Thymian", aussehen: "Kompakter kleiner Strauch mit winzigen graugrünen Blättern.", geschmack: "Kräftig herb, balsamisch, extrem aromatisch.", verwendung: "Sehr winterhart; ideal zu Kartoffeln, Fleisch und Schmorgerichten." },
           { name: "Arp", typ: "Winterharter Rosmarin", gruppe: "Rosmarin", aussehen: "Nadelartige dunkelgrüne Blätter, aufrechter Wuchs.", geschmack: "Harzig-frisch, intensiv nach Wald und Mittelmeer.", verwendung: "Hält bis zu -17°C Frost aus; perfekt zu Grillfleisch und Kartoffeln." },
-          { name: "Marokkanische Minze", typ: "Minze", gruppe: "Minze", aussehen: "Gezahnte hellgrüne Blätter mit reichlich Wuchskraft.", geschmack: "Erfrischend kühl, weniger Menthol-Schärfe als Pfefferminze.", verwendung: "Bester Minztee (heiß oder eisgekühlt) und Cocktails." }
+          { name: "Marokkanische Minze", typ: "Minze", gruppe: "Minze", aussehen: "Gezahnte hellgrüne Blätter mit reichlich Wuchskraft.", geschmack: "Erfrischend kühl, weniger Menthol-Schärfe als Pfefferminze.", verwendung: "Bester Minztee (heiß oder eisgekühlt) und Cocktails." },
+          { name: "Hidcote Blue", typ: "Echter Lavendel", gruppe: "Lavendel", aussehen: "Dichtbuschig mit tiefblau-violetten Blütenähren.", geschmack: "Intensiv aromatisch, blumig, leicht herb.", verwendung: "Lockt Bienen an, trocknen für Duftsäckchen oder sparsam als Gewürz für Lamm." }
         ]
       },
       {
@@ -1414,6 +1443,43 @@
       if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
     }
 
+    // KI Assistenz Funktionen
+    function openAiMenu() {
+      trigVib();
+      const q = searchInput.value.trim();
+      if(!q) return;
+      document.getElementById('aiModalOverlay').classList.add('open');
+    }
+    
+    function closeAiMenu() {
+      document.getElementById('aiModalOverlay').classList.remove('open');
+    }
+    
+    function askAiShare() {
+      const q = searchInput.value.trim();
+      if(navigator.share) {
+        navigator.share({
+          title: 'Frage an KI',
+          text: q
+        }).catch(e => console.log(e));
+      } else {
+        alert("Dein Browser unterstützt das System-Teilen-Menü leider nicht direkt.");
+      }
+      closeAiMenu();
+    }
+    
+    function askAiChatGPT() {
+      const q = searchInput.value.trim();
+      window.open(`https://chatgpt.com/?q=${encodeURIComponent(q + ' (Antworte als professioneller Gärtner)')}`, '_blank');
+      closeAiMenu();
+    }
+    
+    function askAiPerplexity() {
+      const q = searchInput.value.trim();
+      window.open(`https://www.perplexity.ai/search?q=${encodeURIComponent(q + ' (Gartenbau und Anzucht)')}`, '_blank');
+      closeAiMenu();
+    }
+
     gartenDaten.sort((a, b) => a.name.localeCompare(b.name));
     gartenDaten.forEach(k => k.sorten.sort((a, b) => a.name.localeCompare(b.name)));
 
@@ -1426,6 +1492,7 @@
 
     const searchInput = document.getElementById("searchInput");
     const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const askAiBtn = document.getElementById("askAiBtn");
     const cultureGrid = document.getElementById("cultureGrid");
     const modalOverlay = document.getElementById("modalOverlay");
     const detailPanel = document.getElementById("detailPanel");
@@ -1437,6 +1504,10 @@
     const statusCount = document.getElementById("statusCount");
     const searchBoxContainer = document.getElementById("searchBoxContainer");
     const statusRowContainer = document.getElementById("statusRowContainer");
+    
+    document.getElementById('aiModalOverlay').addEventListener("click", (e) => {
+      if (e.target === document.getElementById('aiModalOverlay')) closeAiMenu();
+    });
 
     function cleanStr(s) {
       return (s || "").toLowerCase().replace(/[^a-z0-9äöüß]/gi, "");
@@ -1513,6 +1584,7 @@
     window.clearSearch = function() {
       searchInput.value = "";
       clearSearchBtn.style.display = "none";
+      askAiBtn.style.display = "none";
       filterUndRender();
     };
 
@@ -1556,6 +1628,7 @@
       const appSettings = getSettings();
 
       if (clearSearchBtn) clearSearchBtn.style.display = query !== "" ? "flex" : "none";
+      if (askAiBtn) askAiBtn.style.display = query !== "" ? "flex" : "none";
 
       if (aktiveKategorie === "Einstellungen") {
         searchBoxContainer.style.display = "none";
@@ -1664,7 +1737,7 @@
             actions.className = "note-card-actions";
             const sendBtn = document.createElement("button");
             sendBtn.className = "single-send-btn";
-            sendBtn.textContent = "✉️ Senden";
+            sendBtn.textContent = "✉️️ Senden";
             sendBtn.onclick = () => sendSinglePlantNoteEmail(k.name, noteText);
             const delBtn = document.createElement("button");
             delBtn.className = "delete-note-btn";
@@ -1765,7 +1838,6 @@
         let bedFilterHtml = `
           <div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🏡 Deine Beet-Übersicht</div>
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 16px; gap: 10px;">
-            
             <div style="position: relative; flex: 1;">
               <select onchange="setBeetFilter(this.value)" style="width: 100%; height: 100%; appearance: none; -webkit-appearance: none; background: var(--primary); color: #fff; border: none; padding: 12px 35px 12px 16px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 10px rgba(28, 59, 43, 0.2); outline: none;">
                 <option value="Alle" ${aktiverBeetFilter === 'Alle' ? 'selected' : ''}>🌱 Alle Beete anzeigen</option>
@@ -1777,27 +1849,20 @@
               </select>
               <div style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #fff; pointer-events: none; font-size: 0.8rem;">▼</div>
             </div>
-            
             <button class="clear-all-beets-btn" style="margin-left: 0; padding: 12px 16px; font-size: 0.85rem; border-radius: 12px; display: flex; align-items: center;" onclick="clearAllBeets()" title="Alle Beeteinträge löschen">🧹 Alle leeren</button>
           </div>
         `;
-        
         cultureGrid.innerHTML = bedFilterHtml;
       }
 
       if (matchedList.length === 0 && query !== "") {
         const rawQuery = searchInput.value.trim();
-        const encodedQuery = encodeURIComponent(rawQuery);
-        const mailSubject = encodeURIComponent(`Neue Sorte fehlt in App: ${rawQuery}`);
-        const mailBody = encodeURIComponent(`Hallo Marcel,\n\nmir ist aufgefallen, dass folgende Sorte/Pflanze in der App fehlt und nachgetragen werden sollte:\n\nSuchbegriff: "${rawQuery}"\n\nViele Grüße!`);
         cultureGrid.insertAdjacentHTML("beforeend", `
           <div class="not-found-box">
             <div class="not-found-title">🔍 "${escapeHtml(rawQuery)}" nicht gefunden</div>
-            <div class="not-found-text">Diese Sorte oder Eigenschaft ist aktuell noch nicht in der Datenbank gespeichert.</div>
+            <div class="not-found-text">Die Pflanze ist nicht in der Datenbank oder du hast eine spezielle Frage?</div>
             <div class="not-found-actions">
-              <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">✉️️ An Marcel melden</a>
-              <a href="https://www.google.com/search?q=${encodedQuery}" target="_blank" class="action-pill secondary">🌐 Websuche</a>
-              <a href="https://www.google.com/search?q=${encodedQuery}+Sorte+kaufen" target="_blank" class="action-pill secondary">🌱 Saatgut finden</a>
+              <a href="javascript:void(0)" onclick="openAiMenu()" class="action-pill primary">🤖 KI fragen</a>
             </div>
           </div>
         `);
@@ -2178,6 +2243,13 @@
       searchTimeout = setTimeout(() => {
         filterUndRender();
       }, 150);
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (searchInput.value.trim().length > 0) openAiMenu();
+      }
     });
 
     window.addEventListener("DOMContentLoaded", () => {
