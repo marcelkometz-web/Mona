@@ -182,6 +182,7 @@
       font-size: 0.75rem; font-weight: 700; background: var(--tag-bg);
       margin-top: 6px; margin-right: 4px; }
     .badge.wasser-badge { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+    .badge.anbau-badge { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
     .subfilter-bar { display: flex; overflow-x: auto; gap: 8px; margin-bottom: 12px;
       scrollbar-width: none; padding: 2px 0; align-items: center; }
     .subfilter-bar::-webkit-scrollbar { display: none; }
@@ -487,7 +488,7 @@
     const gartenDaten = [
       {
         id: "aubergine", name: "Aubergine", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍆",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig & warm (Südwand / Gewächshaus)",
         boden: "Tiefgründig, locker, sehr humos und warm. Im Frühjahr reichlich reifen Kompost und Hornspäne einarbeiten; reagiert empfindlich auf verdichtete Böden.",
         duenger: "Starkzehrer: Vor dem Pflanzen Kompost & Hornspäne einarbeiten. Ab Fruchtansatz alle 14 Tage mit verdünnter Brennnessel- oder Beinwelljauche düngen (hoher Kaliumbedarf).",
@@ -506,7 +507,7 @@
       },
       {
         id: "blumenkohl", name: "Blumenkohl & Spargelkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, windgeschützt & gleichmäßig feucht",
         boden: "Schwerer, lehmig-humoser Boden mit hohem Kalkgehalt (pH 6,8–7,5 gegen Kohlhernie). Boden vor dem Pflanzen fest antreten, reichlich Kompost zugeben.",
         duenger: "Starkzehrer: Reifer Kompost und Hornmehl zur Pflanzung. Während der Kopfbildung alle 2–3 Wochen mit stickstoffreicher Brennnesseljauche und Gesteinsmehl versorgen.",
@@ -532,7 +533,7 @@
       },
       {
         id: "wirsing", name: "Wirsing (Wirz)", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, kühler, humusreicher Boden",
         boden: "Nährstoffreich, humos, tiefgründig und gut wasserhaltend. Im Herbst vorab Mist oder im Frühjahr kräftig reifen Kompost und Gesteinsmehl einarbeiten.",
         duenger: "Starkzehrer: Grunddüngung mit reichlich Kompost und Hornspänen. Im Sommer regelmäßig verdünnte Brennnesseljauche gießen; ab Spätsommer stickstoffärmer düngen.",
@@ -553,7 +554,7 @@
       },
       {
         id: "bohnen", name: "Bohnen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫘",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
         standort: "Sonnig, warm & windgeschützt, lockerer Boden",
         boden: "Lockerer, rasch erwärmbarer, sandig-lehmiger Boden. Keinen frischen Mist oder Stickstoffdünger geben! Boden vorher tief lockern, aber nicht überdüngen.",
         duenger: "Schwachzehrer: Keinen Stickstoffdünger verwenden (bilden Knöllchenbakterien)! Etwas reifer Kompost oder Gesteinsmehl im Vorfeld genügt vollkommen.",
@@ -581,7 +582,7 @@
       },
       {
         id: "brokkoli", name: "Brokkoli", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis leicht halbschattig, feuchter, nährstoffreicher Boden",
         boden: "Tiefgründig, nährstoffreich und lehmig mit guter Wasserspeicherung. Vor dem Pflanzen kräftig kompostieren und bei sauren Böden kalken.",
         duenger: "Starkzehrer: Hornmehl und Kompost beim Einpflanzen. Während des Wachstums alle 2 Wochen Brennnesseljauche; profitiert von Kalium (Holzasche / Beinwell).",
@@ -600,7 +601,7 @@
       },
       {
         id: "chili", name: "Chili, Paprika & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
-        wasser: "💧💧 Mittel",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
         standort: "Vollsonnig, heiß, geschützt vor Zugluft (Kübel/Gewächshaus ideal)",
         boden: "Sehr lockere, warme, humose Blumenerde mit Perlit oder Sandanteil. Bei Beetanbau mit viel Kompost anreichern; keine kalten Lehmböden.",
         duenger: "Starkzehrer: Bei Pflanzung Kompost und Langzeitdünger (Schafwollpellets/Hornspäne). Ab Blütenbildung regelmäßig organischen Tomaten- oder Kaliumdünger geben.",
@@ -620,7 +621,7 @@
       },
       {
         id: "erbsen", name: "Erbsen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫛",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, nicht zu heiß, lockerer & feuchter Boden",
         boden: "Tiefgründig gelockert, humos und feinkrümelig. Niemals frisch gedüngt (kein Mist). Mäßig feucht halten, Staunässe zwingend vermeiden.",
         duenger: "Schwachzehrer: Keinerlei Stickstoffdünger nötig. Vor der Saat genügt eine feine Schicht reifer Kompost oder Holzasche/Urgesteinsmehl für Phosphat & Kalium.",
@@ -638,7 +639,7 @@
       },
       {
         id: "fenchel", name: "Fenchel", oberkategorie: "Gemüse", kategorie: "Stängelgemüse", icon: "🥬",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig & warm, tiefgründiger & gleichmäßig feuchter Boden",
         boden: "Humusreich, kalkhaltig und sehr tiefgründig gelockert. Bei Trockenheit oder hartem Boden schießt er sofort unbrauchbar in die Blüte.",
         duenger: "Mittelzehrer: Vor der Saat etwas Kompost und Hornmehl einharken. Während des Wachstums sparsam mit Pflanzenjauche gießen (kein übermäßiger Stickstoff).",
@@ -655,7 +656,7 @@
       },
       {
         id: "gruenkohl", name: "Grünkohl, Chinakohl & Weißkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
-        wasser: "💧💧 Mittel",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, toleriert Kälte und Wind",
         boden: "Schwer, nährstoffreich, lehmig mit guter Wasserführung. Im Vorjahr oder Frühjahr mit reifem Mist/Kompost vorbereiten und bei Bedarf kalken.",
         duenger: "Starkzehrer: Benötigt hohe Nährstoffmengen. Im Frühjahr Kompost und Hornspäne; ab Sommer regelmäßig Brennnesseljauche gießen.",
@@ -673,7 +674,7 @@
       },
       {
         id: "gurke", name: "Gurke", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🥒",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht (empfohlen)", wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig, warm, windstill & humos (feucht, aber keine Staunässe)",
         boden: "Sehr locker, humusreich, schnell erwärmend mit hohem Kompostanteil. Mulchschicht (z.B. Stroh oder Rasenschnitt) hält die Feuchte stabil.",
         duenger: "Starkzehrer: Verträgt gut abgelagerten Pferdemist oder reichlich Kompost im Pflanzloch. Während des Fruchtwachstums wöchentlich mit flüssigem Kräuterdünger/Schafwollpellets unterstützen.",
@@ -691,7 +692,7 @@
       },
       {
         id: "kartoffel", name: "Kartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🥔",
-        wasser: "💧💧 Mittel",
+        anbau: "🥔 Pflanzknollen stecken", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, lockerer, tiefgründiger & sandiger Boden",
         boden: "Tiefgründig umgegraben, sandig-lehmig und locker. Keinen frischen Mist direkt vor dem Pflanzen (erhöht Schorfrisiko!), lieber reifen Kompost beim Anhäufeln nutzen.",
         duenger: "Starkzehrer mit hohem Kaliumbedarf: Reifer Kompost und Holzasche oder Beinwelljauche. Zu viel Stickstoff führt zu viel Kraut und wässrigen Knollen.",
@@ -712,7 +713,7 @@
       },
       {
         id: "knoblauch", name: "Knoblauch", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧄",
-        wasser: "💧 Niedrig",
+        anbau: "🥔 Zehen stecken", wasser: "💧 Niedrig",
         standort: "Vollsonnig, warm, trocken bis mäßig feucht (keine Staunässe!)",
         boden: "Leicht, durchlässig, sandig und feinkrümelig. Bei schwerem Boden Sand einarbeiten, damit die Knollen im feuchten Winter nicht faulen.",
         duenger: "Schwachzehrer: Keinen frischen Dünger verwenden. Etwas Holzasche (Kalium) oder reifer Kompost vor dem Stecken reicht für feste Zehen.",
@@ -731,7 +732,7 @@
       },
       {
         id: "kohlrabi", name: "Kohlrabi", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, gleichmäßig feucht (verhindert Platzen)",
         boden: "Humos, gleichmäßig feucht, mittelschwer. Nicht zu stark düngen, da die Knolle sonst schwammig wird oder platzt.",
         duenger: "Mittelzehrer: Reifer Kompost bei der Pflanzung. Während des Knollenwachstums alle 2–3 Wochen mit mäßig dosierter Brennnesseljauche gießen.",
@@ -749,7 +750,7 @@
       },
       {
         id: "kraeuter_einj", name: "Einjährige Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌿",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat oder Vorzucht", wasser: "💧💧 Mittel",
         standort: "Sonnig, warm & geschützt, locker-nährstoffreich",
         boden: "Feinkrümelige, frische Kräuter- oder Gartenerde mit mäßigem Kompostanteil. Basilikum verlangt gut drainierten Boden ohne Staunässe.",
         duenger: "Schwachzehrer: Sehr sparsam düngen. Etwas Kaffeesatz oder alle 4 Wochen organischer Flüssigdünger; zu viel Dünger schwächt das Aroma.",
@@ -768,7 +769,7 @@
       },
       {
         id: "kraeuter_mehrj", name: "Mehrjährige & Mediterrane Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
-        wasser: "💧 Niedrig",
+        anbau: "🌿 Jungpflanze (Kauf empfohlen)", wasser: "💧 Niedrig",
         standort: "Vollsonnig, mager, sandig & steinig (keine Winternässe!)",
         boden: "Mager, kalkhaltig, kiesig oder sandig. Schwere Böden zwingend mit 30–50 % Bausand oder Lavasplitt abmagern, damit Wurzeln im Winter nicht faulen.",
         duenger: "Schwachzehrer: Fast gar nicht düngen! Lediglich im Frühjahr eine Prise Urgesteinsmehl oder etwas Kalk geben. Nährstoffüberschuss mindert ätherische Öle.",
@@ -786,8 +787,8 @@
         ]
       },
       {
-        id: "kuerbis", name: "Kürbis & Zucchini", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🎃",
-        wasser: "💧💧💧 Hoch",
+        id: "kuerbis", name: "Kürbis", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🎃",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig, windgeschützt & warm (gerne direkt am Kompost)",
         boden: "Extrem nährstoffreich, locker, humos und gut durchfeuchtet. Ideal direkt auf halbreifen Kompost setzen oder das Pflanzloch mit reichlich Pferdemist/Kompost füllen.",
         duenger: "Sehr starker Zehrer: Reichlich reifer Kompost oder Stallmist vorab. Während des Rankens alle 1–2 Wochen mit Brennnessel- oder Beinwelljauche versorgen.",
@@ -795,25 +796,43 @@
         abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "2-3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Sep-Okt",
         monateAussaat: [4, 5],
-        tipp: "Brauchen viel Platz, Nährstoffe und Sonne.",
+        tipp: "Brauchen extrem viel Platz, Nährstoffe und Sonne. Am besten direkt auf den Kompost.",
         guteNachbarn: "Mais, Bohnen", schlechteNachbarn: "Gurken, Kartoffeln",
         sorten: [
-          { name: "Black Beauty", typ: "Zucchini", aussehen: "Dunkelgrüne, glatte, walzenförmige Früchte.", geschmack: "Zart, mild, unaufdringlich saftig.", verwendung: "Braten, Füllen, Grillen oder roh raspeln." },
           { name: "Uchiki Kuri", typ: "Hokkaido-Kürbis", aussehen: "Zwiebelförmig, intensiv leuchtend orangerot.", geschmack: "Kräftig nussig, erinnert an Maronen und Süßkartoffeln.", verwendung: "Schale essbar! Ideal für samtige Kürbissuppe und Ofenspalten." },
-          { name: "Butternut", typ: "Moschuskürbis", aussehen: "Birnenförmig mit heller cremefarbener Schale.", geschmack: "Buttrig-weich, nussig-süß mit sehr kleiner Kernhöhle.", verwendung: "Püree, Kürbis-Gnocchi und Backen." }
+          { name: "Butternut", typ: "Moschuskürbis", aussehen: "Birnenförmig mit heller cremefarbener Schale.", geschmack: "Buttrig-weich, nussig-süß mit sehr kleiner Kernhöhle.", verwendung: "Püree, Kürbis-Gnocchi und Backen." },
+          { name: "Spaghetti-Kürbis", typ: "Gartenkürbis", aussehen: "Länglich, hellgelb, glatte Schale.", geschmack: "Mild, nimmt Saucen perfekt auf. Fleisch zerfällt beim Kochen zu 'Spaghetti'.", verwendung: "Im Ganzen kochen und wie Nudeln mit Bolognese servieren." }
+        ]
+      },
+      {
+        id: "zucchini", name: "Zucchini", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🥒",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Vollsonnig, warm, lockerer Boden",
+        boden: "Braucht extrem viel Humus und Nährstoffe. Pflanzloch großzügig mit reifem Kompost oder Pferdemist füllen.",
+        duenger: "Starkzehrer: Vor der Pflanzung sehr gut düngen. Während der Fruchtbildung 1x pro Woche organischen Flüssigdünger geben.",
+        giessen: "Pflanze verdunstet über die großen Blätter extrem viel Wasser. Täglich kräftig gießen, aber Blätter trocken halten!",
+        abstandPflanze: "100 cm", abstandReihe: "100 cm", saattiefe: "2-3 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Jul-Okt",
+        monateAussaat: [4, 5],
+        tipp: "Früchte nicht zu groß werden lassen! Bei 15-20 cm ernten, dann schmecken sie am besten und die Pflanze produziert endlos nach.",
+        guteNachbarn: "Mais, Bohnen, Zwiebeln", schlechteNachbarn: "Kartoffeln, Gurken",
+        sorten: [
+          { name: "Black Beauty", typ: "Dunkelgrün", aussehen: "Dunkelgrüne, glatte, walzenförmige Früchte.", geschmack: "Zart, mild, unaufdringlich saftig.", verwendung: "Braten, Füllen, Grillen oder roh raspeln." },
+          { name: "Gold Rush", typ: "Gelbe Zucchini", aussehen: "Leuchtend goldgelbe, schlanke Früchte.", geschmack: "Etwas süßer und zarter als grüne Sorten.", verwendung: "Optisches Highlight in der Gemüsepfanne." },
+          { name: "Tondo di Piacenza", typ: "Kugelzucchini", aussehen: "Kugelrund wie ein Apfel, dunkelgrün gesprenkelt.", geschmack: "Festes Fruchtfleisch, sehr nussig.", verwendung: "Perfekt zum Aushöhlen und Füllen mit Hackfleisch oder Feta." }
         ]
       },
       {
         id: "lauch", name: "Lauch & Frühlingszwiebeln", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, tiefgründiger & nährstoffreicher Boden",
-        boden: "Tiefgründig gelockert, lehmig-humos und gleichmäßig feucht. Vorab mit reifem Kompost versorgen; in tiefe Furchen setzen zum späteren Anhäufeln.",
+        boden: "Tiefgründiger, lehmig-humoser und feuchter Boden. In tiefe Furchen pflanzen, um den Schaft später anhäufeln zu können (bleibt dadurch weiß).",
         duenger: "Starkzehrer: Benötigt im Gegensatz zu Speisezwiebeln reichlich Nahrung. Reifer Kompost und Hornspäne im Frühjahr; im Sommer 2x Brennnesseljauche.",
-        giessen: "Zwingend gleichmäßig feucht halten, besonders im Sommer. Alle 2-3 Tage durchdringend wässern. Eine Strohmulchschicht ist extrem vorteilhaft.",
+        giessen: "Zwingend gleichmäßig feucht halten, besonders im Sommer. Alle 2-3 Tage durchdringend wässern.",
         abstandPflanze: "15 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Mai-Jul", zeitErnte: "Aug-März",
         monateAussaat: [2, 3, 4, 5, 6, 7],
-        tipp: "Später anhäufeln für lange weiße Schäfte.",
+        tipp: "Später Erde um den Stiel anhäufeln für lange weiße Schäfte.",
         guteNachbarn: "Möhren, Sellerie, Erdbeeren", schlechteNachbarn: "Zwiebeln, Erbsen, Bohnen",
         sorten: [
           { name: "Blauer Winter", typ: "Winterporree", aussehen: "Dicker Schaft mit bläulich bereiften kräftigen Blättern.", geschmack: "Deftig-würzig mit schöner Lauchschärfe.", verwendung: "Absolut frostfest; für Eintöpfe und Quiche." },
@@ -822,15 +841,15 @@
       },
       {
         id: "mais", name: "Zuckermais", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌽",
-        wasser: "💧💧 Mittel",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
         standort: "Vollsonnig, warm & windgeschützt, tiefgründig und humos",
         boden: "Tiefgründiger, warmer, rasch erwärmbarer Boden mit hohem Humusgehalt. Vor dem Auspflanzen 3–4 Liter Kompost pro Quadratmeter einarbeiten.",
-        duenger: "Starkzehrer: Vor dem Pflanzen Kompost und Hornspäne. Bei Kniehöhe einmal kräftig mit Brennnesseljauche nachdüngen, um das Kolbenwachstum zu fördern.",
-        giessen: "In der normalen Wachstumsphase mäßig (alle 3-4 Tage). Wenn er anfängt zu blühen und die Kolben schiebt, sehr reichlich und durchdringend wässern.",
+        duenger: "Starkzehrer: Vor dem Pflanzen Kompost und Hornspäne. Bei Kniehöhe einmal kräftig mit Brennnesseljauche nachdüngen.",
+        giessen: "In der normalen Wachstumsphase mäßig (alle 3-4 Tage). Wenn er anfängt zu blühen und die Kolben schiebt, extrem reichlich und durchdringend wässern.",
         abstandPflanze: "20 cm", abstandReihe: "50 cm", saattiefe: "3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Ende April", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Okt",
         monateAussaat: [4, 5],
-        tipp: "Im Block pflanzen für perfekte Bestäubung.",
+        tipp: "Windbestäuber! Niemals in einer langen Reihe pflanzen, sondern immer im Block (z.B. 4x4 Pflanzen), sonst bleiben die Kolben leer.",
         guteNachbarn: "Bohnen, Kürbis, Kartoffeln", schlechteNachbarn: "Sellerie, Rote Bete",
         sorten: [
           { name: "Golden Bantam", typ: "Samenechter Zuckermais", aussehen: "Goldgelbe Kolben mit prallen Körnern.", geschmack: "Kräftig-süßer echter Maisgeschmack.", verwendung: "Gegrillt mit Butter und Salz." },
@@ -839,15 +858,15 @@
       },
       {
         id: "mangold", name: "Mangold", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat oder Vorzucht", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, feuchter, humusreicher Gartenboden",
         boden: "Tiefgründiger, humoser, nährstoffreicher Boden mit guter Wasserspeicherung. Regelmäßige Kompostgaben im Frühjahr fördern breite, saftige Stiele.",
-        duenger: "Mittelzehrer: Vorab Kompost einharken. Nach den ersten Ernten mit etwas verdünnter Pflanzenjauche oder Hornmehl nachdüngen, um Neuaustrieb anzuregen.",
+        duenger: "Mittelzehrer: Vorab Kompost einharken. Nach den ersten Ernten mit etwas verdünnter Pflanzenjauche oder Hornmehl nachdüngen.",
         giessen: "Regelmäßig wässern (etwa alle 2-3 Tage), damit die großen Blätter nicht hängen. Bei Trockenheit werden Stiele und Blätter zäh und faserig.",
         abstandPflanze: "30 cm", abstandReihe: "40 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Mär-Apr", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Nov",
         monateAussaat: [3, 4, 5, 6],
-        tipp: "Nur äußere Blätter abdrehen, wächst permanent nach.",
+        tipp: "Ernte wie beim Pflücksalat: Immer nur die äußeren Blätter abdrehen, das Herz unberührt lassen. So erntest du monatelang.",
         guteNachbarn: "Möhren, Radieschen, Bohnen", schlechteNachbarn: "Spinat, Rote Bete",
         sorten: [
           { name: "Lucullus", typ: "Stielmangold", aussehen: "Breite weiße Rippen mit gekraustem dunkelgrünem Blatt.", geschmack: "Stiele spargelähnlich, Blätter wie kräftiger Spinat.", verwendung: "Stiele dünsten, Blätter wie Spinat zubereiten." },
@@ -856,7 +875,7 @@
       },
       {
         id: "moehre", name: "Möhren", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat (Zwingend)", wasser: "💧💧 Mittel",
         standort: "Vollsonnig, sandig-lockerer, steinfreier Boden (keine Staunässe)",
         boden: "Sehr tiefgründig gelockert, sandig, vollkommen frei von Steinen und absolut ohne frischen Mist (führt sonst zu krummen, gespaltenen Rüben).",
         duenger: "Mittelzehrer: Keinen frischen Mist oder frischen Kompost! Bei Bedarf etwas Holzasche (Kalium) vor der Aussaat einharken; zu viel Stickstoff lockt Möhrenfliegen an.",
@@ -864,7 +883,7 @@
         abstandPflanze: "4 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Jun", zeitErnte: "Jun-Nov",
         monateAussaat: [3, 4, 5, 6],
-        tipp: "Keimen langsam. Mit Radieschen als Markiersaat kombinieren.",
+        tipp: "Keimen langsam (bis zu 3-4 Wochen). Mische ein paar Radieschensamen unter, diese keimen in 3 Tagen und 'markieren' die Reihe.",
         guteNachbarn: "Zwiebeln, Lauch, Dill", schlechteNachbarn: "Pastinaken, Sellerie",
         sorten: [
           { name: "Rothild", typ: "Aromamöhre", aussehen: "Große, kräftig dunkelorange durchgefärbte Karotte.", geschmack: "Hervorragend süß, hocharomatisch, voller Saft.", verwendung: "Frischsaft, Rohverzehr und Kochen." },
@@ -873,30 +892,113 @@
         ]
       },
       {
-        id: "obst_beeren", name: "Beerenobst & Exoten", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
-        wasser: "💧💧💧 Hoch (Heidelbeeren, Erdbeeren) / 💧💧 Mittel (Wein, Feige)",
-        standort: "Sonnig bis halbschattig (Heidelbeeren: unbedingt saurer Boden pH 4-5)",
-        boden: "Humusreich, feucht und locker. Ausnahme Heidelbeere: Braucht zwingend saure Moorbeeterde/Rhododendronerde ohne Kalk! Brombeeren/Himbeeren mulchen.",
-        duenger: "Mittelzehrer: Im zeitigen Frühjahr reifen Kompost und Hornspäne um die Sträucher verteilen. Heidelbeeren nur mit speziellem saurem Beerendünger und Kaffeesatz versorgen.",
-        giessen: "Bei Trockenheit (besonders zur Blüte und Fruchtbildung) alle 2-3 Tage durchdringend gießen. Heidelbeeren zwingend mit weichem Regenwasser (kalkfrei) wässern!",
-        abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Pflanzung", zeitBeet: "Herbst / Frühjahr", zeitErnte: "Jun-Okt",
-        monateAussaat: [3, 4, 10, 11],
-        tipp: "Regelmäßig auslichten für reiche Ernten. Auf saure Erde bei Heidelbeeren achten!",
-        guteNachbarn: "Knoblauch, Kräuter", schlechteNachbarn: "Keine",
-        filterGruppen: ["Erdbeeren", "Himbeeren", "Johannisbeeren", "Stachelbeeren", "Brombeeren", "Heidelbeeren", "Wein & Feigen"],
+        id: "obst_beeren", name: "Erdbeeren", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🍓",
+        anbau: "🌿 Jungpflanze (Kauf empfohlen)", wasser: "💧💧💧 Hoch",
+        standort: "Vollsonnig, humoser, lockerer Boden",
+        boden: "Lockerer, waldähnlicher Boden. Unbedingt Stroh unter die Pflanzen legen (Mulchen), damit die Früchte nicht faulen und der Boden feucht bleibt.",
+        duenger: "Mittelzehrer: Vor der Pflanzung organischen Beerendünger. Keine extrem stickstoffhaltigen Dünger, das macht nur Blätter und keine Blüten.",
+        giessen: "Besonders zur Zeit der Blüte und Fruchtbildung (Mai/Juni) viel gießen. Niemals die Früchte oder Blüten nass machen.",
+        abstandPflanze: "30 cm", abstandReihe: "60 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Pflanzung", zeitBeet: "Jul-Aug (fürs nächste Jahr)", zeitErnte: "Jun-Jul",
+        monateAussaat: [3, 4, 7, 8],
+        tipp: "Nach drei bis vier Jahren lässt der Ertrag stark nach, dann die Beete mit Ablegern komplett neu anlegen.",
+        guteNachbarn: "Knoblauch, Zwiebeln, Spinat", schlechteNachbarn: "Kohlarten",
         sorten: [
-          { name: "Elsanta", typ: "Erdbeer-Klassiker", gruppe: "Erdbeeren", aussehen: "Große, feste, kegelförmige, glänzend hellrote Früchte.", geschmack: "Sehr saftig, ausgewogen süß-säuerlich mit herrlichem Erdbeeraroma.", verwendung: "Perfekt zum Frischverzehr, für Torten, Desserts und feine Marmelade." },
-          { name: "Senga Sengana", typ: "Kult-Erdbeere", gruppe: "Erdbeeren", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
-          { name: "Mieze Schindler", typ: "Gourmet-Erdbeere", gruppe: "Erdbeeren", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Direkt naschen (braucht Befruchtersorte)." },
-          { name: "Autumn Bliss", typ: "Herbsthimbeere", gruppe: "Himbeeren", aussehen: "Dicke, samtig rote Früchte bis zum Frost.", geschmack: "Aromatisch-süß, madenfrei.", verwendung: "Desserts, Einfrieren, Frischverzehr." },
-          { name: "Bluecrop", typ: "Kultur-Heidelbeere", gruppe: "Heidelbeeren", aussehen: "Große, hellblau bereifte Beeren in dichten Trauben.", geschmack: "Süß, mild, festes Fruchtfleisch.", verwendung: "Müsli, Pfannkuchen, Muffins." },
-          { name: "Brown Turkey", typ: "Freilandfeige", gruppe: "Wein & Feigen", aussehen: "Braune bis blau-violette birnenförmige Früchte.", geschmack: "Honigsüß, saftig, schmilzt im Mund.", verwendung: "Sehr winterhart im Garten; frisch naschen." }
+          { name: "Elsanta", typ: "Erdbeer-Klassiker", aussehen: "Große, feste, kegelförmige, glänzend hellrote Früchte.", geschmack: "Sehr saftig, ausgewogen süß-säuerlich mit herrlichem Erdbeeraroma.", verwendung: "Perfekt zum Frischverzehr, für Torten, Desserts und feine Marmelade." },
+          { name: "Senga Sengana", typ: "Kult-Erdbeere", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
+          { name: "Mieze Schindler", typ: "Gourmet-Erdbeere", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Delikatesse! Naschen (braucht Befruchtersorte wie Senga Sengana)." }
+        ]
+      },
+      {
+        id: "strauchbeeren", name: "Johannis-, Him- & Brombeeren", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        anbau: "🌿 Jungpflanze (Strauchkauf)", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig",
+        boden: "Tiefgründig, humos. Himbeeren wachsen flach, daher den Boden um Himbeeren nicht hacken, sondern dick mit Rindenmulch oder Holzhäckseln mulchen.",
+        duenger: "Mittelzehrer: Im zeitigen Frühjahr reifen Kompost und Hornspäne um die Sträucher verteilen.",
+        giessen: "Bei Trockenheit, besonders wenn die Beeren reifen, alle paar Tage durchdringend gießen.",
+        abstandPflanze: "100-150 cm", abstandReihe: "200 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Strauch", zeitBeet: "Herbst", zeitErnte: "Jun-Okt",
+        monateAussaat: [10, 11],
+        tipp: "Johannisbeeren tragen am besten am 2- bis 3-jährigen Holz, ältere dunkle Triebe konsequent rausschneiden.",
+        guteNachbarn: "Knoblauch", schlechteNachbarn: "Keine",
+        sorten: [
+          { name: "Autumn Bliss", typ: "Herbsthimbeere", aussehen: "Dicke, samtig rote Früchte bis zum Frost.", geschmack: "Aromatisch-süß, madenfrei.", verwendung: "Desserts, Einfrieren, Frischverzehr. Alle Ruten im Winter radikal bodennah abschneiden!" },
+          { name: "Jonkheer van Tets", typ: "Rote Johannisbeere", aussehen: "Lange Trauben mit großen, leuchtend roten Beeren.", geschmack: "Angenehm erfrischend säuerlich.", verwendung: "Für Gelee, Saft und Rote Grütze." },
+          { name: "Titania", typ: "Schwarze Johannisbeere", aussehen: "Mattschwarze, große Beeren an robustem Strauch.", geschmack: "Intensives Cassis-Aroma, sehr gesund.", verwendung: "Likör, Sirup, Cassis-Marmelade." },
+          { name: "Navaho", typ: "Stachellose Brombeere", aussehen: "Große, schwarze, längliche Beeren.", geschmack: "Vollmundig, sehr süß.", verwendung: "Direkt vom Strauch naschen, brennt nicht an den Fingern da stachellos." }
+        ]
+      },
+      {
+        id: "suesskartoffel", name: "Süßkartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🍠",
+        anbau: "🌿 Jungpflanze (Stecklinge)", wasser: "💧💧 Mittel",
+        standort: "Vollsonnig, extrem heiß und windgeschützt (Gewächshaus oder schwarze Mulchfolie)",
+        boden: "Extrem locker, tiefgründig und sandig, der sich schnell erwärmt. Schwere Lehmböden sind ungeeignet. Am besten auf Dämmen anbauen.",
+        duenger: "Starkzehrer: Benötigt viel Kalium (wie normale Kartoffeln). Hornspäne, Kompost und Gesteinsmehl bei der Pflanzung. Stickstoff (Brennessel) sparsam einsetzen.",
+        giessen: "Regelmäßig feucht halten, besonders in der ersten Wachstumsphase. Später (ab August) sparsamer gießen, um Risse in den Knollen zu vermeiden.",
+        abstandPflanze: "40 cm", abstandReihe: "80 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
+        zeitVorzucht: "Jan-März (Glas Wasser)", zeitBeet: "Ende Mai", zeitErnte: "Sep-Okt",
+        monateAussaat: [1, 2, 3],
+        tipp: "Ziehe deine Pflanzen selbst: Ab Februar eine Bio-Süßkartoffel zur Hälfte in ein Glas Wasser hängen. Die Triebe abbrechen und wurzeln lassen.",
+        guteNachbarn: "Keine direkten, wuchert extrem", schlechteNachbarn: "Tomaten",
+        sorten: [
+          { name: "Beauregard", typ: "Klassiker", aussehen: "Hellrote bis rosa Schale mit orangefarbenem Fleisch.", geschmack: "Extrem süß, sehr cremig und butterweich beim Backen.", verwendung: "Süßkartoffel-Pommes, Püree, Ofenkartoffel." },
+          { name: "Erato White", typ: "Weiße Süßkartoffel", aussehen: "Helle Schale, weißes cremiges Fleisch.", geschmack: "Leicht nussig, weniger süß, eher an Esskastanien erinnernd.", verwendung: "Schmeckt herrlich in herzhaften Pfannengerichten." }
+        ]
+      },
+      {
+        id: "physalis", name: "Physalis (Andenbeere)", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍒",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
+        standort: "Vollsonnig, heiß, im Topf oder an der Hauswand",
+        boden: "Durchlässig, nicht zu nährstoffreich. Wenn der Boden zu stark gedüngt ist, bildet die Pflanze riesige Blätter, aber kaum Blüten und Beeren.",
+        duenger: "Schwachzehrer: Wenig düngen! Auf keinen Fall frischen Mist oder viel Stickstoff geben, das verhindert die Fruchtbildung.",
+        giessen: "Regelmäßig, aber Staunässe zwingend vermeiden. Die Pflanze zeigt schnell an, wenn sie Durst hat (lässt Blätter hängen).",
+        abstandPflanze: "80 cm", abstandReihe: "100 cm", saattiefe: "0.5 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Januar - Februar", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Okt",
+        monateAussaat: [1, 2],
+        tipp: "Muss zwingend schon im Januar/Februar auf der Fensterbank ausgesät werden, sonst reifen die Früchte im Herbst draußen nicht mehr ab!",
+        guteNachbarn: "Basilikum, Bohnen", schlechteNachbarn: "Tomaten, Kartoffeln",
+        sorten: [
+          { name: "Schönbrunner Gold", typ: "Riesen-Physalis", aussehen: "Große, leuchtend orange Beeren in pergamentartiger Lampion-Hülle.", geschmack: "Herrlich süß-säuerlich, intensiv nach Ananas und Stachelbeere.", verwendung: "Direkt frisch aus der Hülle naschen, als Dessert-Deko." },
+          { name: "Kleine Laterne", typ: "Ananaskirsche", aussehen: "Deutlich kleinere Beeren, die reif von alleine abfallen.", geschmack: "Sehr süß, extreme Ananas-Note.", verwendung: "Muss oft schon im Juli aufgesammelt werden, super für Kinder." }
+        ]
+      },
+      {
+        id: "pakchoi", name: "Pak Choi", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        anbau: "🫘 Direktsaat", wasser: "💧💧💧 Hoch",
+        standort: "Sonnig bis halbschattig",
+        boden: "Nährstoffreich, locker und stets feucht. Ideal als Nachkultur im Spätsommer, wenn Beete frei werden.",
+        duenger: "Mittelzehrer: Vor der Aussaat etwas Kompost einarbeiten. Einmal im Wachstum mit verdünnter Pflanzenjauche gießen.",
+        giessen: "Braucht extrem viel Wasser! Trockenheit führt sofort dazu, dass der Pak Choi schießt (in die Blüte geht) und zäh wird.",
+        abstandPflanze: "25 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Juli", zeitBeet: "Jul-Aug", zeitErnte: "Sep-Nov",
+        monateAussaat: [7, 8],
+        tipp: "Aussaat erst ab Juli! Wenn Pak Choi im Frühjahr gesät wird, schießt er durch die langen Tage sofort in die Blüte und ist ungenießbar.",
+        guteNachbarn: "Möhren, Zwiebeln, Salate", schlechteNachbarn: "Andere Kohlarten",
+        sorten: [
+          { name: "Taisai", typ: "Weißer Pak Choi", aussehen: "Reinweiße, dicke, fleischige Blattstiele mit dunkelgrünen Blättern.", geschmack: "Sehr mild, zart-knackig mit einem Hauch Senf-Aroma.", verwendung: "Kurz im Wok gebraten, behält extrem gut seinen Biss." },
+          { name: "Red Choi", typ: "Roter Pak Choi", aussehen: "Grüne Stiele, nach oben in ein tiefes Rot bis Violett übergehend.", geschmack: "Pikant-frisch, optisch ein Highlight.", verwendung: "Toll roh in Salaten oder als bunte Wok-Beilage." }
+        ]
+      },
+      {
+        id: "melone", name: "Wasser- & Zuckermelone", oberkategorie: "Obst", kategorie: "Fruchtgemüse", icon: "🍉",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Vollsonnig, windgeschützt, idealerweise im Gewächshaus",
+        boden: "Extrem tiefgründig gelockert, humos und stark erwärmbar. Eine Schicht Pferdemist unter der Pflanzstelle wirkt als natürliche 'Heizung'.",
+        duenger: "Starkzehrer: Braucht extrem viele Nährstoffe. Pflanzloch großzügig mit Kompost und Mist füllen; wöchentlich mit Tomatendünger (Kalium) flüssig nachdüngen.",
+        giessen: "Verdunstet viel Wasser, darf aber keine nassen Blätter haben. Täglich mit lauwarmem Wasser direkt an die Wurzel gießen.",
+        abstandPflanze: "100 cm", abstandReihe: "150 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "April", zeitBeet: "Ende Mai (nach Eisheiligen)", zeitErnte: "Aug-Sep",
+        monateAussaat: [4],
+        tipp: "Wenn die Früchte wachsen, leg ein Stück Holz oder Styropor darunter, damit sie nicht direkt auf der nassen Erde liegen und faulen.",
+        guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Gurken, Zucchini",
+        sorten: [
+          { name: "Sugar Baby", typ: "Wassermelone", aussehen: "Dunkelgrüne, runde Melone, kompakter Wuchs (ca. 2-3 kg).", geschmack: "Tiefrotes, knackiges, sehr süßes Fruchtfleisch.", verwendung: "Gelingt auch in Deutschland im Freiland sehr zuverlässig!" },
+          { name: "Petit Gris de Rennes", typ: "Zuckermelone (Cantaloupe)", aussehen: "Kleine, gerippte Frucht mit graugrüner Schale und orangem Fleisch.", geschmack: "Exorbitant süß, parfümartig aromatisch.", verwendung: "Eine bretonische Delikatesse; roh löffeln oder zu Schinken." }
         ]
       },
       {
         id: "pastinake", name: "Pastinake & Schwarzwurzel", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, tiefgründiger, steinfreier Boden",
         boden: "Sehr tiefgründig und feinkrümelig gelockert, sandig-humos. Keine frischen organischen Dünger oder Steine, damit die Pfahlwurzeln gerade und glatt wachsen.",
         duenger: "Mittelzehrer: Im Herbst vorher Kompost geben; niemals direkt zur Aussaat düngen. Bei Bedarf im Sommer etwas verdünnte Pflanzenjauche für Kaliumzufuhr.",
@@ -913,7 +1015,7 @@
       },
       {
         id: "radieschen", name: "Radieschen & Rettich", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🪴",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🫘 Direktsaat", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis leicht halbschattig (im Hochsommer Halbschatten bevorzugt)",
         boden: "Locker, humusreich, gleichmäßig feucht und feinkrümelig. Niemals frisch mit Mist düngen (macht schwammig und scharf).",
         duenger: "Schwachzehrer: Keinerlei zusätzliche Düngung nötig! Zehrt von den Nährstoffresten der Vorkultur. Zu viel Stickstoff führt zu Riesenblättern und winzigen Knollen.",
@@ -931,15 +1033,15 @@
       },
       {
         id: "rotebete", name: "Rote Bete", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🍠",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat oder Vorzucht", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, tiefgründiger & feuchter Boden",
         boden: "Tiefgründig gelockert, lehmig-sandig und humos. Boden gut feucht halten; verträgt keinen frischen Mist, aber mäßig Kompost.",
         duenger: "Mittelzehrer: Vor der Aussaat mäßig reifen Kompost einarbeiten. Ein wenig Holzasche (Kalium) fördert die Knollenbildung und Farbintensität.",
         giessen: "Boden sollte nicht austrocknen, da die Knolle sonst verholzt. Im Hochsommer alle 2-3 Tage durchdringend gießen.",
         abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "3 cm", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Direktsaat", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
+        zeitVorzucht: "Direktsaat / Vorzucht in Platten", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
-        tipp: "Ideal zum Einwecken und Lagern in Sand.",
+        tipp: "Die Rote Bete lässt sich in kleinen Multitopfplatten super vorziehen (ca. 3 Samen pro Töpfchen) und als kleiner Busch auspflanzen.",
         guteNachbarn: "Bohnen, Zwiebeln, Gurken", schlechteNachbarn: "Mangold, Spinat",
         sorten: [
           { name: "Rote Kugel 2", typ: "Rote Bete", aussehen: "Glattwandige, runde Knolle mit tief blutrotem Fleisch.", geschmack: "Süßlich, erdig-vollmundig.", verwendung: "Gekocht im Salat, Ofengemüse, Borschtsch." },
@@ -949,7 +1051,7 @@
       },
       {
         id: "rosenkohl", name: "Rosenkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
-        wasser: "💧💧 Mittel",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
         standort: "Sonnig, windfest & standfest, schwerer, nährstoffreicher Boden",
         boden: "Schwer, lehmig und fest. Den Boden vor der Pflanzung festtreten, damit die schweren Pflanzen Wind und Schnee trotzen. Bei Bedarf kalken.",
         duenger: "Starkzehrer: Vor der Pflanzung Hornspäne und Kompost. Ab Spätsommer (August) das Düngen komplett einstellen, damit die Röschen fest werden und nicht aufplatzen.",
@@ -966,7 +1068,7 @@
       },
       {
         id: "salate", name: "Salate & Rucola", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥗",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig (im Sommer Halbschatten schützt vor Schossen)",
         boden: "Locker, humos und durchlässig mit gleichmäßiger Feuchtigkeit. Keine Überdüngung mit Stickstoff (führt zu hoher Nitratanreicherung in den Blättern).",
         duenger: "Schwachzehrer: Etwas reifer Kompost vor der Pflanzung reicht völlig aus. Keine frischen tierischen Dünger verwenden; mäßig mit verdünntem Kräutertee gießen.",
@@ -985,7 +1087,7 @@
       },
       {
         id: "sellerie", name: "Knollensellerie & Stangensellerie", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
-        wasser: "💧💧💧 Hoch",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, feucht, schwerer & nährstoffreicher Boden",
         boden: "Schwerer, lehmiger, tiefgründiger Boden mit sehr viel reifem Kompost und Hornspänen. Braucht kontinuierlich Feuchtigkeit und profitiert von etwas Kochsalz/Gesteinsmehl.",
         duenger: "Extremer Starkzehrer: Hornmehl und reichlich Kompost zur Pflanzung. Alle 2–3 Wochen mit Brennnesseljauche düngen; eine Prise Meersalz im Gießwasser stärkt die Knolle.",
@@ -993,7 +1095,7 @@
         abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "Lichtkeimer", bedarf: "Starkzehrer",
         zeitVorzucht: "März", zeitBeet: "Mitte Mai", zeitErnte: "Okt-Nov",
         monateAussaat: [3, 4, 5],
-        tipp: "Herz nicht mit Erde bedecken.",
+        tipp: "Herz (Mitte der Pflanze) darf beim Einsetzen auf keinen Fall mit Erde bedeckt werden.",
         guteNachbarn: "Kohl, Tomaten, Lauch", schlechteNachbarn: "Kartoffeln, Mais",
         sorten: [
           { name: "Prager Riesen", typ: "Knollensellerie", aussehen: "Große, schwere, weißfleischige Knollen mit wenig Wurzelbart.", geschmack: "Würzig, erdig, intensiv aromatisch.", verwendung: "Suppengrün, Püree, Sellerieschnitzel." },
@@ -1002,7 +1104,7 @@
       },
       {
         id: "spargel", name: "Spargel & Rhabarber", oberkategorie: "Gemüse", kategorie: "Mehrjährig", icon: "🌿",
-        wasser: "💧💧 Mittel (Spargel) / 💧💧💧 Hoch (Rhabarber)",
+        anbau: "🥔 Wurzeln / Rhizome pflanzen", wasser: "💧💧 Mittel (Spargel) / 💧💧💧 Hoch (Rhabarber)",
         standort: "Sonnig bis absonnig, tiefgründiger & humoser Boden (Rhabarber liebt feuchte Plätze)",
         boden: "Spargel: Tiefgründig sandig, durchlässig und steinfrei. Rhabarber: Schwerer, tiefgründig mit sehr viel verrottetem Mist und Kompost angereicherter, dauerfeuchter Boden.",
         duenger: "Starkzehrer (Dauerkulturen): Nach der Ernte (Ende Juni / Johanni) reichlich verrotteten Mist, Hornspäne und Kompost aufbringen, damit die Wurzelstöcke fürs Folgejahr Kraft tanken.",
@@ -1010,7 +1112,7 @@
         abstandPflanze: "40-100 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
         zeitVorzucht: "Rhizome / Wurzelstöcke", zeitBeet: "April", zeitErnte: "April - 24. Juni",
         monateAussaat: [3, 4],
-        tipp: "Rhabarber-Ernte strikt am 24. Juni beenden.",
+        tipp: "Rhabarber-Ernte strikt am 24. Juni beenden, damit die Pflanze Kraft fürs nächste Jahr sammeln kann.",
         guteNachbarn: "Erdbeeren, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch",
         sorten: [
           { name: "Mary Washington", typ: "Grünspargel", aussehen: "Kräftig grüne Stangen mit purpurfarbenen Spitzen.", geschmack: "Nussig, kräftiger als weißer Spargel, muss nicht geschält werden.", verwendung: "Kurz braten, grillen oder dünsten." },
@@ -1019,7 +1121,7 @@
       },
       {
         id: "spinat", name: "Spinat", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
-        wasser: "💧💧 Mittel",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
         standort: "Halbschattig bis sonnig (im Sommer kühl und halbschattig halten)",
         boden: "Lockerer, humoser, feuchter Gartenboden. Mäßig Kompost einarbeiten; keine frischen organischen Dünger verwenden.",
         duenger: "Mittelzehrer: Vor der Aussaat eine dünne Schicht reifen Kompost einarbeiten. Keinen reinen Stickstoffdünger geben, um Nitratüberladung in den Blättern zu vermeiden.",
@@ -1027,7 +1129,7 @@
         abstandPflanze: "4 cm", abstandReihe: "20 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mär-Mai & Sep-Okt", zeitErnte: "Apr-Jun & Okt-März",
         monateAussaat: [3, 4, 5, 9, 10],
-        tipp: "Schießt bei Hitze sofort in die Blüte.",
+        tipp: "Schießt bei Hitze sofort in die Blüte. Im Hochsommer besser auf Mangold oder Neuseeländer Spinat ausweichen.",
         guteNachbarn: "Erdbeeren, Kohl, Kartoffeln", schlechteNachbarn: "Rote Bete, Mangold",
         sorten: [
           { name: "Matador", typ: "Allrounder", aussehen: "Große, dunkelgrüne fleischige Blätter.", geschmack: "Kräftig, mineralisch, frisch.", verwendung: "Frühjahrs- und Herbstanbau; dünsten oder roh." },
@@ -1035,16 +1137,16 @@
         ]
       },
       {
-        id: "topinambur", name: "Topinambur & Exoten", oberkategorie: "Gemüse", kategorie: "Sondergemüse", icon: "🍠",
-        wasser: "💧 Niedrig",
+        id: "topinambur", name: "Topinambur", oberkategorie: "Gemüse", kategorie: "Sondergemüse", icon: "🍠",
+        anbau: "🥔 Knollen stecken", wasser: "💧 Niedrig",
         standort: "Sonnig bis halbschattig, sehr anspruchslos an den Boden",
         boden: "Absolut anspruchslos, wächst in fast jeder Erde. Lockerer, sandiger Boden erleichtert im Herbst das Ausgraben der Knollen erheblich.",
         duenger: "Mittelzehrer: Benötigt kaum Pflege. Eine Schaufel Kompost beim Stecken im Frühjahr reicht völlig aus; überdüngte Pflanzen bilden nur Blätter und kleine Knollen.",
-        giessen: "Im Freilandbeet extrem pflegeleicht, sucht sich sein Wasser selbst. Nur im Hochsommer bei extremer Dürre (oder wenn in Töpfen gepflanzt) ab und zu wässern.",
+        giessen: "Im Freilandbeet extrem pflegeleicht, sucht sich sein Wasser selbst. Nur im Hochsommer bei extremer Dürre ab und zu wässern.",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "Knollen pflanzen", bedarf: "Mittelzehrer",
         zeitVorzucht: "April", zeitBeet: "Mai", zeitErnte: "Okt-Dez",
         monateAussaat: [4, 5],
-        tipp: "Topinambur wuchert extrem (Wurzelsperre einsetzen!).",
+        tipp: "Topinambur wuchert extrem (Wurzelsperre einsetzen oder strikt ernten!).",
         guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Tomaten",
         sorten: [
           { name: "Gute Gelbe", typ: "Topinambur", aussehen: "Hellbraune, knollige Wurzeln unter Sonnenblumen-ähnlichen Pflanzen.", geschmack: "Süßlich, nussig, erinnert an Artischocke.", verwendung: "Roh raspeln, als Suppe oder wie Bratkartoffeln." }
@@ -1052,7 +1154,7 @@
       },
       {
         id: "tomate", name: "Tomate", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍅",
-        wasser: "💧💧 Mittel",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
         standort: "Vollsonnig, warm, regengeschützt (unter Dach oder im Tomatenhaus)",
         boden: "Tiefgründig, humos, locker und nährstoffreich. Pflanzloch mit reichlich reifem Kompost, Hornspänen und einer Handvoll Urgesteinsmehl vorbereiten.",
         duenger: "Starkzehrer mit hohem Kalium- & Magnesiumbedarf: Hornspäne ins Pflanzloch. Ab Fruchtansatz wöchentlich mit Beinwelljauche oder speziellem Tomatendünger gießen.",
@@ -1060,7 +1162,7 @@
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März-Apr", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
-        tipp: "Pflanzen tief einsetzen, Regenschutz bieten.",
+        tipp: "Pflanzen tief einsetzen, sie bilden am Stamm zusätzliche Wurzeln.",
         guteNachbarn: "Basilikum, Knoblauch, Möhren", schlechteNachbarn: "Kartoffeln, Fenchel",
         sorten: [
           { name: "Harzfeuer F1", typ: "Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, leuchtend rote Früchte an kräftigen Rispen.", geschmack: "Sehr ausgewogenes Verhältnis von Süße und traditioneller Tomatensäure.", verwendung: "Der bewährte deutsche Allrounder für Brotzeit, Salat und Scheiben." },
@@ -1074,7 +1176,7 @@
       },
       {
         id: "zwiebel", name: "Zwiebeln & Schalotten", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
-        wasser: "💧 Niedrig",
+        anbau: "🥔 Steckzwiebeln stecken", wasser: "💧 Niedrig",
         standort: "Vollsonnig, warm, luftig & mäßig feucht (keine Staunässe)",
         boden: "Lockerer, sandig-lehmiger Boden, der zügig abtrocknet. Auf keinen Fall frischen Mist geben; Boden vorab feinkrümelig harken und mäßig andrücken.",
         duenger: "Schwachzehrer: Keinen frischen Dünger oder Stickstoff (führt zu Fäulnis bei der Lagerung)! Etwas reifer Kompost oder Gesteinsmehl im Vorjahr reicht aus.",
@@ -1664,7 +1766,6 @@
           <div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🏡 Deine Beet-Übersicht</div>
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 16px; gap: 10px;">
             
-            <!-- Neues iOS optimiertes Dropdown -->
             <div style="position: relative; flex: 1;">
               <select onchange="setBeetFilter(this.value)" style="width: 100%; height: 100%; appearance: none; -webkit-appearance: none; background: var(--primary); color: #fff; border: none; padding: 12px 35px 12px 16px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 10px rgba(28, 59, 43, 0.2); outline: none;">
                 <option value="Alle" ${aktiverBeetFilter === 'Alle' ? 'selected' : ''}>🌱 Alle Beete anzeigen</option>
@@ -1694,7 +1795,7 @@
             <div class="not-found-title">🔍 "${escapeHtml(rawQuery)}" nicht gefunden</div>
             <div class="not-found-text">Diese Sorte oder Eigenschaft ist aktuell noch nicht in der Datenbank gespeichert.</div>
             <div class="not-found-actions">
-              <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">✉️ An Marcel melden</a>
+              <a href="mailto:marcelkometz@icloud.com?subject=${mailSubject}&body=${mailBody}" class="action-pill primary">✉️️ An Marcel melden</a>
               <a href="https://www.google.com/search?q=${encodedQuery}" target="_blank" class="action-pill secondary">🌐 Websuche</a>
               <a href="https://www.google.com/search?q=${encodedQuery}+Sorte+kaufen" target="_blank" class="action-pill secondary">🌱 Saatgut finden</a>
             </div>
@@ -2013,7 +2114,7 @@
             <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">🏡 Beet-Status für ${highlightedSorteName}</div>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <button class="action-pill ${bStatus==='none' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem;" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'none')">✖️ Nicht im Beet</button>
-              <button class="action-pill ${bStatus==='sown' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='sown' ? '#16a34a' : ''}; color: ${bStatus==='sown' ? '#fff' : ''}; border-color: ${bStatus==='sown' ? '#16a34a' : ''};" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'sown')">🌱 Ausgesät</button>
+              <button class="action-pill ${bStatus==='sown' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='sown' ? '#16a34a' : ''}; color: ${bStatus==='sown' ? '#fff' : ''}; border-color: ${bStatus==='sown' ? '#16a34a' : ''};" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'sown')">🌱 Im Beet</button>
               <button class="action-pill ${bStatus==='harvested' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='harvested' ? '#ca8a04' : ''}; color: ${bStatus==='harvested' ? '#fff' : ''}; border-color: ${bStatus==='harvested' ? '#ca8a04' : ''};" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'harvested')">🧺 Geerntet</button>
             </div>
             <div style="margin-top: 12px; display: ${bStatus !== 'none' ? 'block' : 'none'};">
@@ -2027,6 +2128,7 @@
 
         <div class="info-metrics">
           <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: #854d0e;">${highlightedStandort}</div></div>
+          ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: #166534;">${k.anbau}</div></div>` : ''}
           <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze}</div></div>
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
