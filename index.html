@@ -6,19 +6,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
-  <meta name="theme-color" content="#1e4a31">
+  <meta name="theme-color" content="#1c3b2b">
   <link rel="manifest" href="manifest.webmanifest">
   <title>Ramonas Garten Anzucht</title>
   <style>
     :root {
-      --bg: #f4f7f6;
+      /* Organic Earth Palette */
+      --bg: #f5f7f5; 
       --card-bg: #ffffff;
-      --primary: #1e4a31;
-      --primary-light: #e6efe9;
-      --accent: #2e8b57;
-      --text: #1f2933;
-      --text-muted: #616e7c;
-      --border: #cbd5e1;
+      --primary: #1c3b2b; 
+      --primary-light: #e8f0ec; 
+      --accent: #c46c49; 
+      --text: #2d3748;
+      --text-muted: #718096;
+      --border: #e2e8f0;
       --tag-bg: #f1f5f9;
       --good: #dcfce7;
       --bad: #fee2e2;
@@ -45,16 +46,19 @@
       -webkit-tap-highlight-color: transparent; 
     }
     
+    /* Glassmorphism für Top-Bar */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
       padding: 12px 16px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
       gap: 10px;
     }
     
@@ -88,9 +92,9 @@
       margin-bottom: 16px; 
       padding: 18px; 
       background: var(--card-bg); 
-      border-radius: 12px; 
+      border-radius: 16px; 
       border: 1px solid var(--border); 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
     }
     
     h1 { 
@@ -117,7 +121,7 @@
       width: 100%; 
       padding: 13px 40px 13px 16px; 
       font-size: 1rem; 
-      border-radius: 10px; 
+      border-radius: 12px; 
       border: 2px solid var(--border); 
       outline: none; 
       transition: border-color 0.2s; 
@@ -213,30 +217,31 @@
     
     .item-card { 
       background: var(--card-bg); 
-      border: 2px solid var(--border); 
-      border-radius: 10px; 
-      padding: 12px 8px; 
+      border: 1px solid var(--border); 
+      border-radius: 16px; 
+      padding: 16px 10px; 
       text-align: center; 
       cursor: pointer; 
-      transition: all 0.2s ease; 
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
       user-select: none; 
       position: relative;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
     .item-card:hover, .item-card.selected { 
-      border-color: var(--accent); 
+      border-color: #8da89b; 
       background: var(--primary-light); 
-      transform: translateY(-2px); 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 20px rgba(28, 59, 43, 0.08); 
     }
 
     @keyframes searchPulse {
-      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); border-color: #f59e0b; }
-      50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.15); border-color: #d97706; }
-      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); border-color: #f59e0b; }
+      0% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); }
+      50% { box-shadow: 0 0 0 6px rgba(196, 108, 73, 0.15); border-color: #a85839; }
+      100% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); }
     }
     .item-card.search-active-match {
       animation: searchPulse 2s infinite ease-in-out;
-      background: #fffdf5;
+      background: #fffdfa;
     }
 
     .item-icon { font-size: 2rem; margin-bottom: 6px; }
@@ -278,8 +283,8 @@
 
     .card-star {
       position: absolute;
-      top: 6px;
-      right: 8px;
+      top: 8px;
+      right: 10px;
       font-size: 1.2rem;
       color: #cbd5e1;
       cursor: pointer;
@@ -291,11 +296,11 @@
     .not-found-box {
       background: #ffffff;
       border: 2px dashed var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 24px 20px;
       text-align: center;
       margin: 20px 0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
     }
     .not-found-title {
       font-size: 1.1rem;
@@ -342,9 +347,9 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-left: 5px solid var(--accent);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
     .note-card-header {
       display: flex;
@@ -376,7 +381,7 @@
       background: #f8fafc;
       border: 1px solid var(--border);
       padding: 10px 12px;
-      border-radius: 6px;
+      border-radius: 8px;
       white-space: pre-wrap;
       line-height: 1.45;
     }
@@ -388,7 +393,7 @@
       font-weight: 700;
       cursor: pointer;
       padding: 4px 8px;
-      border-radius: 4px;
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
       gap: 3px;
@@ -402,7 +407,7 @@
       font-weight: 700;
       cursor: pointer;
       padding: 4px 6px;
-      border-radius: 4px;
+      border-radius: 6px;
     }
     .delete-note-btn:hover { background: #fee2e2; }
 
@@ -410,8 +415,8 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
+      background: rgba(28, 59, 43, 0.6);
+      backdrop-filter: blur(5px);
       z-index: 1000;
       align-items: flex-end;
       justify-content: center;
@@ -424,14 +429,14 @@
       width: 100%;
       max-width: 650px;
       max-height: 85vh;
-      border-radius: 20px 20px 0 0;
-      padding: 20px; 
-      box-shadow: 0 -8px 30px rgba(0,0,0,0.18); 
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px; 
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.2); 
       overflow-y: auto;
-      animation: slideUp 0.25s ease-out;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @media (min-width: 850px) {
-      .detail-panel { border-radius: 16px; animation: fadeIn 0.2s ease-out; }
+      .detail-panel { border-radius: 20px; animation: fadeIn 0.2s ease-out; }
     }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; } }
@@ -440,7 +445,7 @@
       width: 40px; height: 5px;
       background: var(--border);
       border-radius: 3px;
-      margin: -6px auto 14px auto;
+      margin: -10px auto 18px auto;
     }
     @media (min-width: 850px) { .sheet-handle { display: none; } }
     
@@ -449,12 +454,12 @@
       justify-content: space-between; 
       align-items: flex-start; 
       border-bottom: 1px solid var(--border); 
-      padding-bottom: 10px; 
-      margin-bottom: 14px; 
+      padding-bottom: 12px; 
+      margin-bottom: 16px; 
       gap: 8px;
     }
     .detail-title { 
-      font-size: 1.3rem; 
+      font-size: 1.4rem; 
       color: var(--primary); 
       display: flex; 
       align-items: center; 
@@ -465,15 +470,15 @@
     .header-actions { 
       display: flex; 
       align-items: center; 
-      gap: 6px; 
+      gap: 8px; 
       flex-shrink: 0;
     }
     .print-btn {
       background: var(--primary-light);
       border: 1px solid var(--primary);
       color: var(--primary);
-      padding: 5px 10px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 10px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
@@ -487,8 +492,8 @@
     .close-btn {
       background: var(--tag-bg);
       border: 1px solid var(--border);
-      font-size: 1.1rem;
-      width: 32px; height: 32px;
+      font-size: 1.2rem;
+      width: 36px; height: 36px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
@@ -496,55 +501,59 @@
       justify-content: center;
       color: var(--text);
       flex-shrink: 0;
+      transition: background 0.2s;
     }
+    .close-btn:hover { background: #e2e8f0; }
     
     .badge { 
       display: inline-block; 
       padding: 4px 8px; 
-      border-radius: 6px; 
+      border-radius: 8px; 
       font-size: 0.75rem; 
       font-weight: 700; 
       background: var(--tag-bg); 
       margin-top: 6px; 
       margin-right: 4px; 
     }
+    .badge.wasser-badge { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
     
     .subfilter-bar {
       display: flex;
       overflow-x: auto;
-      gap: 6px;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 12px;
       scrollbar-width: none;
       padding: 2px 0;
     }
     .subfilter-bar::-webkit-scrollbar { display: none; }
     .sub-btn {
-      padding: 6px 12px;
-      border-radius: 12px;
+      padding: 8px 14px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       background: #f1f5f9;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
       color: var(--text-muted);
       white-space: nowrap;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.2s;
     }
     .sub-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
     .variety-chips { 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 6px; 
-      margin-bottom: 12px; 
+      gap: 8px; 
+      margin-bottom: 14px; 
       max-height: 180px;
       overflow-y: auto;
       padding-right: 4px;
     }
     .v-chip { 
-      padding: 6px 10px; 
-      border-radius: 8px; 
-      font-size: 0.78rem; 
+      padding: 8px 12px; 
+      border-radius: 10px; 
+      font-size: 0.8rem; 
       font-weight: 600; 
       border: 1px solid var(--border); 
       background: #f8fafc; 
@@ -557,91 +566,104 @@
     .v-info-box { 
       background: #fffbeb; 
       border: 1px solid #fde68a; 
-      border-radius: 8px; 
-      padding: 12px; 
+      border-radius: 12px; 
+      padding: 14px; 
       font-size: 0.9rem; 
-      line-height: 1.45; 
+      line-height: 1.5; 
       color: #78350f; 
+      box-shadow: 0 2px 6px rgba(253, 230, 138, 0.3);
     }
     .v-info-box strong { font-size: 1rem; }
     
     .info-metrics { 
       display: grid; 
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-      gap: 8px; 
-      margin: 16px 0; 
+      gap: 10px; 
+      margin: 20px 0; 
     }
-    .metric-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
-    .metric-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
-    .metric-val { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+    .metric-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .metric-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+    .metric-val { font-size: 0.88rem; font-weight: 700; color: var(--primary); }
     
     .boden-box {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       background: #fefce8;
       border-left: 4px solid #ca8a04;
-      padding: 12px 14px;
-      border-radius: 4px;
-      margin: 12px 0;
-      line-height: 1.45;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin: 14px 0;
+      line-height: 1.5;
       color: #713f12;
     }
 
     .duenger-box {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       background: #f0fdf4;
       border-left: 4px solid #16a34a;
-      padding: 12px 14px;
-      border-radius: 4px;
-      margin: 12px 0;
-      line-height: 1.45;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin: 14px 0;
+      line-height: 1.5;
       color: #14532d;
     }
 
+    /* NEU: Gieß-Box Design */
+    .giessen-box {
+      font-size: 0.88rem;
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin: 14px 0;
+      line-height: 1.5;
+      color: #1e3a8a;
+    }
+
     .tipp-box { 
-      font-size: 0.85rem; 
-      background: #e0f2fe; 
-      border-left: 4px solid #0284c7; 
-      padding: 12px 15px; 
-      border-radius: 4px; 
-      margin: 12px 0; 
-      line-height: 1.45; 
-      color: #0c4a6e; 
+      font-size: 0.88rem; 
+      background: #f8fafc; 
+      border-left: 4px solid #94a3b8; 
+      padding: 14px 16px; 
+      border-radius: 6px; 
+      margin: 14px 0; 
+      line-height: 1.5; 
+      color: #334155; 
     }
 
     .notes-section {
-      margin-top: 16px;
+      margin-top: 20px;
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
+      border-radius: 12px;
+      padding: 14px;
     }
     .notes-title {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: var(--primary);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
     .notes-textarea {
       width: 100%;
-      min-height: 70px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
+      min-height: 80px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 8px;
       resize: vertical;
       outline: none;
       background: #fff;
     }
     .notes-textarea:focus { border-color: var(--accent); }
     
-    .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .companion-box { padding: 10px; border-radius: 8px; font-size: 0.8rem; line-height: 1.35; }
+    .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+    .companion-box { padding: 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
     .good-box { background: var(--good); border: 1px solid #bbf7d0; color: #166534; }
     .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
-    .comp-title { font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
+    .comp-title { font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-size: 0.85rem; }
 
     footer.app-footer {
       text-align: center;
@@ -653,16 +675,19 @@
     }
     footer.app-footer p { margin-bottom: 6px; }
 
+    /* Glassmorphism für Bottom-Nav */
     .bottom-nav {
       position: fixed;
       bottom: 0; left: 0; width: 100%;
-      background: #ffffff;
-      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(226, 232, 240, 0.6);
       display: flex;
       justify-content: space-around;
       padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px)) 4px;
       z-index: 900;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
     }
     .nav-item {
       display: flex;
@@ -674,12 +699,12 @@
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
-      gap: 2px;
+      gap: 3px;
       text-decoration: none;
       transition: color 0.15s;
     }
     .nav-item.active { color: var(--primary); }
-    .nav-item span.nav-icon { font-size: 1.25rem; }
+    .nav-item span.nav-icon { font-size: 1.3rem; }
 
     @media print {
       body { padding: 0; background: #fff; color: #000; }
@@ -699,6 +724,7 @@
       .v-info-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
       .boden-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
       .duenger-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
+      .giessen-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
       .tipp-box { background: #f8fafc !important; border-left: 4px solid #333 !important; color: #000 !important; }
       .companion-grid { grid-template-columns: 1fr 1fr !important; }
     }
@@ -717,15 +743,15 @@
   </header>
 
   <div class="search-box" id="searchBoxContainer">
-    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Hornspäne, Brennnesseljauche, Linda)...">
+    <input type="text" id="searchInput" placeholder="🔍 Intelligente Suche (z.B. Hornspäne, täglich gießen, Linda)...">
     <button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
   </div>
 
   <div class="status-row" id="statusRowContainer">
     <div class="status-bar" id="statusCount">Lade Kulturen...</div>
     <div class="status-actions">
-      <button onclick="openReadme()" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
-      <button onclick="openImpressum()" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
+      <button onclick="openReadme(); trigVib();" class="row-btn" title="Dokumentation Read.txt öffnen">📄 Read.txt</button>
+      <button onclick="openImpressum(); trigVib();" class="row-btn" title="Impressum anzeigen">⚖️ Impressum</button>
     </div>
   </div>
 
@@ -735,7 +761,7 @@
     <p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
     <p>
       <a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
-      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
+      <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️️ Impressum & Rechtliches</a>
     </p>
   </footer>
 
@@ -748,11 +774,11 @@
       <div class="sheet-handle"></div>
       <div class="detail-header">
         <div class="detail-title">📄 Read.txt</div>
-        <button class="close-btn" onclick="closeReadme()">✕</button>
+        <button class="close-btn" onclick="closeReadme(); trigVib();">✕</button>
       </div>
       <div id="readmeBody" class="readme-content">Lade Read.txt...</div>
       <div style="text-align: right; margin-top: 16px;">
-        <button onclick="closeReadme()" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
+        <button onclick="closeReadme(); trigVib();" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
           Schließen
         </button>
       </div>
@@ -764,7 +790,7 @@
       <div class="sheet-handle"></div>
       <div class="detail-header">
         <div class="detail-title">⚖️ Impressum</div>
-        <button class="close-btn" onclick="closeImpressum()">✕</button>
+        <button class="close-btn" onclick="closeImpressum(); trigVib();">✕</button>
       </div>
       <div style="font-size: 0.9rem; line-height: 1.5; color: var(--text);">
         <p style="margin: 8px 0;"><strong>Angaben gemäß § 5 DDG:</strong><br>
@@ -785,7 +811,7 @@
         </p>
 
         <div style="text-align: right; margin-top: 18px;">
-          <button onclick="closeImpressum()" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
+          <button onclick="closeImpressum(); trigVib();" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
             Schließen
           </button>
         </div>
@@ -794,30 +820,39 @@
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-item active" onclick="setMainCategory('Alle')">
+    <button class="nav-item active" onclick="setMainCategory('Alle'); trigVib();">
       <span class="nav-icon">🌐</span><span>Alle</span>
     </button>
-    <button class="nav-item" onclick="setMainCategory('Gemüse')">
+    <button class="nav-item" onclick="setMainCategory('Gemüse'); trigVib();">
       <span class="nav-icon">🥦</span><span>Gemüse</span>
     </button>
-    <button class="nav-item" onclick="setMainCategory('Obst')">
+    <button class="nav-item" onclick="setMainCategory('Obst'); trigVib();">
       <span class="nav-icon">🍎</span><span>Obst</span>
     </button>
-    <button class="nav-item" onclick="setMainCategory('Kräuter')">
+    <button class="nav-item" onclick="setMainCategory('Kräuter'); trigVib();">
       <span class="nav-icon">🌿</span><span>Kräuter</span>
     </button>
-    <button class="nav-item" onclick="setMainCategory('Favoriten')">
+    <button class="nav-item" onclick="setMainCategory('Favoriten'); trigVib();">
       <span class="nav-icon">⭐</span><span>Favoriten</span>
     </button>
-    <button class="nav-item" onclick="setMainCategory('Notizen')">
+    <button class="nav-item" onclick="setMainCategory('Notizen'); trigVib();">
       <span class="nav-icon">📝</span><span id="navNotesLabel">Notizen</span>
     </button>
-    <button class="nav-item" onclick="toggleRadar()">
+    <button class="nav-item" onclick="toggleRadar(); trigVib();">
       <span class="nav-icon">📅</span><span>Aussaat</span>
     </button>
   </div>
 
   <script>
+    // Native Haptik-Funktion
+    function trigVib() {
+      try {
+        if (navigator.vibrate) {
+          navigator.vibrate(30); // Leichtes haptisches Feedback
+        }
+      } catch(e) {}
+    }
+
     function updateClock() {
       const now = new Date();
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -833,9 +868,11 @@
     const gartenDaten = [
       {
         id: "aubergine", name: "Aubergine", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍆",
+        wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig & warm (Südwand / Gewächshaus)",
         boden: "Tiefgründig, locker, sehr humos und warm. Im Frühjahr reichlich reifen Kompost und Hornspäne einarbeiten; reagiert empfindlich auf verdichtete Böden.",
         duenger: "Starkzehrer: Vor dem Pflanzen Kompost & Hornspäne einarbeiten. Ab Fruchtansatz alle 14 Tage mit verdünnter Brennnessel- oder Beinwelljauche düngen (hoher Kaliumbedarf).",
+        giessen: "Täglich durchdringend gießen, Erde darf im Kübel oder Beet nie komplett austrocknen. Wasser immer direkt an den Fuß geben, möglichst nicht über die Blätter gießen.",
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "0.5 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-Feb", zeitBeet: "Ende Mai", zeitErnte: "Aug-Okt",
         monateAussaat: [1, 2, 5],
@@ -850,9 +887,11 @@
       },
       {
         id: "blumenkohl", name: "Blumenkohl & Spargelkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, windgeschützt & gleichmäßig feucht",
         boden: "Schwerer, lehmig-humoser Boden mit hohem Kalkgehalt (pH 6,8–7,5 gegen Kohlhernie). Boden vor dem Pflanzen fest antreten, reichlich Kompost zugeben.",
         duenger: "Starkzehrer: Reifer Kompost und Hornmehl zur Pflanzung. Während der Kopfbildung alle 2–3 Wochen mit stickstoffreicher Brennnesseljauche und Gesteinsmehl versorgen.",
+        giessen: "Anfangs regelmäßig gießen, um die Anwurzelung zu sichern. Später bei Trockenheit 1-2x wöchentlich sehr tiefgründig wässern, damit sich große, feste Köpfe bilden.",
         abstandPflanze: "50 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [2, 3, 4, 5, 6],
@@ -874,9 +913,11 @@
       },
       {
         id: "wirsing", name: "Wirsing (Wirz)", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, kühler, humusreicher Boden",
         boden: "Nährstoffreich, humos, tiefgründig und gut wasserhaltend. Im Herbst vorab Mist oder im Frühjahr kräftig reifen Kompost und Gesteinsmehl einarbeiten.",
         duenger: "Starkzehrer: Grunddüngung mit reichlich Kompost und Hornspänen. Im Sommer regelmäßig verdünnte Brennnesseljauche gießen; ab Spätsommer stickstoffärmer düngen.",
+        giessen: "Besonders im Hochsommer bei den späten Sorten darf der Boden nicht austrocknen. 1-2x wöchentlich mit der Gießkanne kräftig einschlämmen.",
         abstandPflanze: "40 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Mai", zeitBeet: "Apr-Jul", zeitErnte: "Jul-Feb",
         monateAussaat: [2, 3, 4, 5, 6],
@@ -893,9 +934,11 @@
       },
       {
         id: "bohnen", name: "Bohnen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫘",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig, warm & windgeschützt, lockerer Boden",
         boden: "Lockerer, rasch erwärmbarer, sandig-lehmiger Boden. Keinen frischen Mist oder Stickstoffdünger geben! Boden vorher tief lockern, aber nicht überdüngen.",
         duenger: "Schwachzehrer: Keinen Stickstoffdünger verwenden (bilden Knöllchenbakterien)! Etwas reifer Kompost oder Gesteinsmehl im Vorfeld genügt vollkommen.",
+        giessen: "Vor der Blüte sehr mäßig gießen. Ab der Blüte und während der Hülsenbildung muss jedoch reichlich und regelmäßig (alle 2 Tage) gegossen werden.",
         abstandPflanze: "Busch: 8cm | Stange: 6 Korn", abstandReihe: "Busch: 40cm | Stange: 80cm", saattiefe: "3 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mitte Mai (Dicke Bohne: Feb)", zeitErnte: "Jul-Okt",
         monateAussaat: [2, 3, 5, 6, 7],
@@ -924,9 +967,11 @@
       },
       {
         id: "brokkoli", name: "Brokkoli", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥦",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis leicht halbschattig, feuchter, nährstoffreicher Boden",
         boden: "Tiefgründig, nährstoffreich und lehmig mit guter Wasserspeicherung. Vor dem Pflanzen kräftig kompostieren und bei sauren Böden kalken.",
         duenger: "Starkzehrer: Hornmehl und Kompost beim Einpflanzen. Während des Wachstums alle 2 Wochen Brennnesseljauche; profitiert von Kalium (Holzasche / Beinwell).",
+        giessen: "Boden muss immer gleichmäßig feucht gehalten werden. Alle 2-3 Tage durchdringend wässern; eine Mulchschicht (z.B. Rasenschnitt) hilft enorm.",
         abstandPflanze: "50 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jul", zeitErnte: "Jul-Nov",
         monateAussaat: [2, 3, 4, 5, 6, 7],
@@ -943,9 +988,11 @@
       },
       {
         id: "chili", name: "Chili, Paprika & Peperoni", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌶️",
+        wasser: "💧💧 Mittel",
         standort: "Vollsonnig, heiß, geschützt vor Zugluft (Kübel/Gewächshaus ideal)",
         boden: "Sehr lockere, warme, humose Blumenerde mit Perlit oder Sandanteil. Bei Beetanbau mit viel Kompost anreichern; keine kalten Lehmböden.",
         duenger: "Starkzehrer: Bei Pflanzung Kompost und Langzeitdünger (Schafwollpellets/Hornspäne). Ab Blütenbildung regelmäßig organischen Tomaten- oder Kaliumdünger geben.",
+        giessen: "Mäßig gießen. Erde an der Oberfläche leicht abtrocknen lassen (etwas Trockenstress fördert die Schärfe bei Chilis!), dann erst wieder durchdringend gießen.",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Jan-März", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [1, 2, 3, 5],
@@ -974,9 +1021,11 @@
       },
       {
         id: "erbsen", name: "Erbsen", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫛",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, nicht zu heiß, lockerer & feuchter Boden",
         boden: "Tiefgründig gelockert, humos und feinkrümelig. Niemals frisch gedüngt (kein Mist). Mäßig feucht halten, Staunässe zwingend vermeiden.",
         duenger: "Schwachzehrer: Keinerlei Stickstoffdünger nötig. Vor der Saat genügt eine feine Schicht reifer Kompost oder Holzasche/Urgesteinsmehl für Phosphat & Kalium.",
+        giessen: "In der Wachstumsphase sparsam gießen. Ab Beginn der Blüte und Hülsenbildung bei Trockenheit 1-2x pro Woche sehr reichlich gießen.",
         abstandPflanze: "3-5 cm", abstandReihe: "40 cm", saattiefe: "3-4 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mär-Mai", zeitErnte: "Jun-Aug",
         monateAussaat: [3, 4, 5],
@@ -993,9 +1042,11 @@
       },
       {
         id: "fenchel", name: "Fenchel", oberkategorie: "Gemüse", kategorie: "Stängelgemüse", icon: "🥬",
+        wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig & warm, tiefgründiger & gleichmäßig feuchter Boden",
         boden: "Humusreich, kalkhaltig und sehr tiefgründig gelockert. Bei Trockenheit oder hartem Boden schießt er sofort unbrauchbar in die Blüte.",
         duenger: "Mittelzehrer: Vor der Saat etwas Kompost und Hornmehl einharken. Während des Wachstums sparsam mit Pflanzenjauche gießen (kein übermäßiger Stickstoff).",
+        giessen: "Braucht als stark wasserliebendes Gemüse fast täglich (alle 1-2 Tage) Wasser. Bei Trockenstress schießt die Knolle in die Blüte oder platzt auf.",
         abstandPflanze: "30 cm", abstandReihe: "40 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Mai-Juni", zeitBeet: "Jun-Jul", zeitErnte: "Sep-Nov",
         monateAussaat: [5, 6, 7],
@@ -1010,9 +1061,11 @@
       },
       {
         id: "gruenkohl", name: "Grünkohl, Chinakohl & Weißkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, toleriert Kälte und Wind",
         boden: "Schwer, nährstoffreich, lehmig mit guter Wasserführung. Im Vorjahr oder Frühjahr mit reifem Mist/Kompost vorbereiten und bei Bedarf kalken.",
         duenger: "Starkzehrer: Benötigt hohe Nährstoffmengen. Im Frühjahr Kompost und Hornspäne; ab Sommer regelmäßig Brennnesseljauche gießen.",
+        giessen: "Ist gut im Boden verankert. Im Hochsommer bei anhaltender Trockenheit 1x wöchentlich stark und tiefgründig wässern. Ansonsten reicht Regen.",
         abstandPflanze: "40 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mai-Jun", zeitBeet: "Jul-Aug", zeitErnte: "Sep-März",
         monateAussaat: [5, 6, 7, 8],
@@ -1041,9 +1094,11 @@
       },
       {
         id: "gurke", name: "Gurke", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🥒",
+        wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig, warm, windstill & humos (feucht, aber keine Staunässe)",
         boden: "Sehr locker, humusreich, schnell erwärmend mit hohem Kompostanteil. Mulchschicht (z.B. Stroh oder Rasenschnitt) hält die Feuchte stabil.",
         duenger: "Starkzehrer: Verträgt gut abgelagerten Pferdemist oder reichlich Kompost im Pflanzloch. Während des Fruchtwachstums wöchentlich mit flüssigem Kräuterdünger/Schafwollpellets unterstützen.",
+        giessen: "Extremer Wasserbedarf! Täglich (bei Sommerhitze morgens und abends) mit lauwarmem Wasser direkt auf den Boden gießen. Nasse Blätter zwingend vermeiden.",
         abstandPflanze: "40 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
@@ -1060,9 +1115,11 @@
       },
       {
         id: "kartoffel", name: "Kartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🥔",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, lockerer, tiefgründiger & sandiger Boden",
         boden: "Tiefgründig umgegraben, sandig-lehmig und locker. Keinen frischen Mist direkt vor dem Pflanzen (erhöht Schorfrisiko!), lieber reifen Kompost beim Anhäufeln nutzen.",
         duenger: "Starkzehrer mit hohem Kaliumbedarf: Reifer Kompost und Holzasche oder Beinwelljauche. Zu viel Stickstoff führt zu viel Kraut und wässrigen Knollen.",
+        giessen: "Während des Knollenwachstums (Blütezeit) bei anhaltender Trockenheit 1-2x wöchentlich sehr tief und durchdringend wässern. Steigert den Ertrag extrem.",
         abstandPflanze: "35 cm", abstandReihe: "70 cm", saattiefe: "10 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März vorkeimen", zeitBeet: "Apr-Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
@@ -1081,9 +1138,11 @@
       },
       {
         id: "knoblauch", name: "Knoblauch", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧄",
+        wasser: "💧 Niedrig",
         standort: "Vollsonnig, warm, trocken bis mäßig feucht (keine Staunässe!)",
         boden: "Leicht, durchlässig, sandig und feinkrümelig. Bei schwerem Boden Sand einarbeiten, damit die Knollen im feuchten Winter nicht faulen.",
         duenger: "Schwachzehrer: Keinen frischen Dünger verwenden. Etwas Holzasche (Kalium) oder reifer Kompost vor dem Stecken reicht für feste Zehen.",
+        giessen: "Sehr sparsam gießen. Nur bei langen Dürreperioden im Frühjahr (Hauptwachstum) etwas wässern. Wochen vor der Ernte komplett trocken halten.",
         abstandPflanze: "15 cm", abstandReihe: "25 cm", saattiefe: "5 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Stecken", zeitBeet: "Okt-Nov oder Feb-März", zeitErnte: "Jun-Jul",
         monateAussaat: [2, 3, 10, 11],
@@ -1098,9 +1157,11 @@
       },
       {
         id: "kohlrabi", name: "Kohlrabi", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, gleichmäßig feucht (verhindert Platzen)",
         boden: "Humos, gleichmäßig feucht, mittelschwer. Nicht zu stark düngen, da die Knolle sonst schwammig wird oder platzt.",
         duenger: "Mittelzehrer: Reifer Kompost bei der Pflanzung. Während des Knollenwachstums alle 2–3 Wochen mit mäßig dosierter Brennnesseljauche gießen.",
+        giessen: "Zwingend gleichmäßig feucht halten (täglich oder alle 2 Tage). Trocknet der Boden aus und wird dann gewässert, platzt die Knolle sofort auf.",
         abstandPflanze: "30 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Apr-Jul", zeitErnte: "Jun-Okt",
         monateAussaat: [2, 3, 4, 5, 6, 7],
@@ -1115,9 +1176,11 @@
       },
       {
         id: "kraeuter_einj", name: "Einjährige Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌿",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig, warm & geschützt, locker-nährstoffreich",
         boden: "Feinkrümelige, frische Kräuter- oder Gartenerde mit mäßigem Kompostanteil. Basilikum verlangt gut drainierten Boden ohne Staunässe.",
         duenger: "Schwachzehrer: Sehr sparsam düngen. Etwas Kaffeesatz oder alle 4 Wochen organischer Flüssigdünger; zu viel Dünger schwächt das Aroma.",
+        giessen: "Besonders Basilikum verzeiht kein Austrocknen und muss an heißen Tagen täglich gegossen werden. Dill, Petersilie und Koriander mäßig (alle 2-3 Tage) wässern.",
         abstandPflanze: "15-20 cm", abstandReihe: "30 cm", saattiefe: "Flach", bedarf: "Schwachzehrer",
         zeitVorzucht: "März-Mai", zeitBeet: "Mai", zeitErnte: "Mai-Okt",
         monateAussaat: [3, 4, 5],
@@ -1149,9 +1212,11 @@
       },
       {
         id: "kraeuter_mehrj", name: "Mehrjährige & Mediterrane Kräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
+        wasser: "💧 Niedrig",
         standort: "Vollsonnig, mager, sandig & steinig (keine Winternässe!)",
         boden: "Mager, kalkhaltig, kiesig oder sandig. Schwere Böden zwingend mit 30–50 % Bausand oder Lavasplitt abmagern, damit Wurzeln im Winter nicht faulen.",
         duenger: "Schwachzehrer: Fast gar nicht düngen! Lediglich im Frühjahr eine Prise Urgesteinsmehl oder etwas Kalk geben. Nährstoffüberschuss mindert ätherische Öle.",
+        giessen: "Rosmarin, Thymian & Oregano mögen Trockenheit. Nur bei wochenlanger Hitze-Dürre mäßig gießen. Schnittlauch und Minze hingegen brauchen es etwas feuchter.",
         abstandPflanze: "30-40 cm", abstandReihe: "40 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
         zeitVorzucht: "Aussaat ab März", zeitBeet: "Mitte Mai", zeitErnte: "Ganzjährig",
         monateAussaat: [3, 4, 5],
@@ -1190,9 +1255,11 @@
       },
       {
         id: "kuerbis", name: "Kürbis & Zucchini", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🎃",
+        wasser: "💧💧💧 Hoch",
         standort: "Vollsonnig, windgeschützt & warm (gerne direkt am Kompost)",
         boden: "Extrem nährstoffreich, locker, humos und gut durchfeuchtet. Ideal direkt auf halbreifen Kompost setzen oder das Pflanzloch mit reichlich Pferdemist/Kompost füllen.",
         duenger: "Sehr starker Zehrer: Reichlich reifer Kompost oder Stallmist vorab. Während des Rankens alle 1–2 Wochen mit Brennnessel- oder Beinwelljauche versorgen.",
+        giessen: "Täglich reichlich direkt an den Fuß der Pflanze gießen. Niemals über die großen Blätter wässern, da sonst sofort Echter Mehltau entsteht.",
         abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "2-3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Sep-Okt",
         monateAussaat: [4, 5],
@@ -1216,9 +1283,11 @@
       },
       {
         id: "lauch", name: "Lauch & Frühlingszwiebeln", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, tiefgründiger & nährstoffreicher Boden",
         boden: "Tiefgründig gelockert, lehmig-humos und gleichmäßig feucht. Vorab mit reifem Kompost versorgen; in tiefe Furchen setzen zum späteren Anhäufeln.",
         duenger: "Starkzehrer: Benötigt im Gegensatz zu Speisezwiebeln reichlich Nahrung. Reifer Kompost und Hornspäne im Frühjahr; im Sommer 2x Brennnesseljauche.",
+        giessen: "Zwingend gleichmäßig feucht halten, besonders im Sommer. Alle 2-3 Tage durchdringend wässern. Eine Strohmulchschicht ist extrem vorteilhaft.",
         abstandPflanze: "15 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Feb-Apr", zeitBeet: "Mai-Jul", zeitErnte: "Aug-März",
         monateAussaat: [2, 3, 4, 5, 6, 7],
@@ -1237,9 +1306,11 @@
       },
       {
         id: "mais", name: "Zuckermais", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🌽",
+        wasser: "💧💧 Mittel",
         standort: "Vollsonnig, warm & windgeschützt, tiefgründig und humos",
         boden: "Tiefgründiger, warmer, rasch erwärmbarer Boden mit hohem Humusgehalt. Vor dem Auspflanzen 3–4 Liter Kompost pro Quadratmeter einarbeiten.",
         duenger: "Starkzehrer: Vor dem Pflanzen Kompost und Hornspäne. Bei Kniehöhe einmal kräftig mit Brennnesseljauche nachdüngen, um das Kolbenwachstum zu fördern.",
+        giessen: "In der normalen Wachstumsphase mäßig (alle 3-4 Tage). Wenn er anfängt zu blühen und die Kolben schiebt, sehr reichlich und durchdringend wässern.",
         abstandPflanze: "20 cm", abstandReihe: "50 cm", saattiefe: "3 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Ende April", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Okt",
         monateAussaat: [4, 5],
@@ -1255,9 +1326,11 @@
       },
       {
         id: "mangold", name: "Mangold", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, feuchter, humusreicher Gartenboden",
         boden: "Tiefgründiger, humoser, nährstoffreicher Boden mit guter Wasserspeicherung. Regelmäßige Kompostgaben im Frühjahr fördern breite, saftige Stiele.",
         duenger: "Mittelzehrer: Vorab Kompost einharken. Nach den ersten Ernten mit etwas verdünnter Pflanzenjauche oder Hornmehl nachdüngen, um Neuaustrieb anzuregen.",
+        giessen: "Regelmäßig wässern (etwa alle 2-3 Tage), damit die großen Blätter nicht hängen. Bei Trockenheit werden Stiele und Blätter zäh und faserig.",
         abstandPflanze: "30 cm", abstandReihe: "40 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Mär-Apr", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Nov",
         monateAussaat: [3, 4, 5, 6],
@@ -1273,9 +1346,11 @@
       },
       {
         id: "moehre", name: "Möhren", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
+        wasser: "💧💧 Mittel",
         standort: "Vollsonnig, sandig-lockerer, steinfreier Boden (keine Staunässe)",
         boden: "Sehr tiefgründig gelockert, sandig, vollkommen frei von Steinen und absolut ohne frischen Mist (führt sonst zu krummen, gespaltenen Rüben).",
         duenger: "Mittelzehrer: Keinen frischen Mist oder frischen Kompost! Bei Bedarf etwas Holzasche (Kalium) vor der Aussaat einharken; zu viel Stickstoff lockt Möhrenfliegen an.",
+        giessen: "Nicht jeden Tag oberflächlich, sondern lieber alle 3-4 Tage richtig durchdringend und tief gießen. Zwingt die Möhre dazu, tief nach Wasser zu wachsen.",
         abstandPflanze: "4 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Jun", zeitErnte: "Jun-Nov",
         monateAussaat: [3, 4, 5, 6],
@@ -1293,9 +1368,11 @@
       },
       {
         id: "obst_beeren", name: "Beerenobst & Exoten", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        wasser: "💧💧💧 Hoch (Heidelbeeren, Erdbeeren) / 💧💧 Mittel (Wein, Feige)",
         standort: "Sonnig bis halbschattig (Heidelbeeren: unbedingt saurer Boden pH 4-5)",
         boden: "Humusreich, feucht und locker. Ausnahme Heidelbeere: Braucht zwingend saure Moorbeeterde/Rhododendronerde ohne Kalk! Brombeeren/Himbeeren mulchen.",
         duenger: "Mittelzehrer: Im zeitigen Frühjahr reifen Kompost und Hornspäne um die Sträucher verteilen. Heidelbeeren nur mit speziellem saurem Beerendünger und Kaffeesatz versorgen.",
+        giessen: "Bei Trockenheit (besonders zur Blüte und Fruchtbildung) alle 2-3 Tage durchdringend gießen. Heidelbeeren zwingend mit weichem Regenwasser (kalkfrei) wässern!",
         abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
         zeitVorzucht: "Pflanzung", zeitBeet: "Herbst / Frühjahr", zeitErnte: "Jun-Okt",
         monateAussaat: [3, 4, 10, 11],
@@ -1317,8 +1394,8 @@
           { name: "Diamante", typ: "Erdbeere (Remontierend)", gruppe: "Erdbeeren", eigenschaft: "Trägt kontinuierlich von Juni bis Oktober." },
           { name: "Giga", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Besonders riesige, saftige Früchte." },
           { name: "Sonata", typ: "Erdbeere", eigenschaft: "Glänzende, aromatische Beeren mit tollem Geschmack." },
-          { name: "Malwina", typ: "Erdbeere", eigenschaft: "Sehr späte Erdbeere, dunkelrote und zuckersüße Früchte." },
-          { name: "Florence", typ: "Erdbeere", eigenschaft: "Spät tragende, robuste Sorte mit sehr hohem Ertrag." },
+          { name: "Malwina", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Sehr späte Erdbeere, dunkelrote und zuckersüße Früchte." },
+          { name: "Florence", typ: "Erdbeere", gruppe: "Erdbeeren", eigenschaft: "Spät tragende, robuste Sorte mit sehr hohem Ertrag." },
           
           { name: "Tulameen", typ: "Sommerhimbeere", gruppe: "Himbeeren", eigenschaft: "Große, helle Früchte, reifen am zweijährigen Holz mit edlem Aroma." },
           { name: "Meeker", typ: "Sommerhimbeere", gruppe: "Himbeeren", eigenschaft: "Sehr fest, tolles Aroma ideal für Weiterverarbeitung." },
@@ -1375,9 +1452,11 @@
       },
       {
         id: "pastinake", name: "Pastinake & Schwarzwurzel", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥕",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, tiefgründiger, steinfreier Boden",
         boden: "Sehr tiefgründig und feinkrümelig gelockert, sandig-humos. Keine frischen organischen Dünger oder Steine, damit die Pfahlwurzeln gerade und glatt wachsen.",
         duenger: "Mittelzehrer: Im Herbst vorher Kompost geben; niemals direkt zur Aussaat düngen. Bei Bedarf im Sommer etwas verdünnte Pflanzenjauche für Kaliumzufuhr.",
+        giessen: "Relativ pflegeleicht. Nur bei extremer Trockenheit alle 4-5 Tage durchdringend (tief!) gießen, um das Längenwachstum der Wurzel zu fördern.",
         abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "2-3 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Apr", zeitErnte: "Okt-März",
         monateAussaat: [3, 4],
@@ -1397,9 +1476,11 @@
       },
       {
         id: "radieschen", name: "Radieschen & Rettich", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🪴",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis leicht halbschattig (im Hochsommer Halbschatten bevorzugt)",
         boden: "Locker, humusreich, gleichmäßig feucht und feinkrümelig. Niemals frisch mit Mist düngen (macht schwammig und scharf).",
         duenger: "Schwachzehrer: Keinerlei zusätzliche Düngung nötig! Zehrt von den Nährstoffresten der Vorkultur. Zu viel Stickstoff führt zu Riesenblättern und winzigen Knollen.",
+        giessen: "Das A und O! Müssen bei warmem und trockenem Wetter täglich gegossen werden. Trockenstress macht Radieschen und Rettiche sofort extrem scharf und pelzig/holzig.",
         abstandPflanze: "5 cm", abstandReihe: "20 cm", saattiefe: "1 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Sep", zeitErnte: "Apr-Okt",
         monateAussaat: [3, 4, 5, 6, 7, 8, 9],
@@ -1421,9 +1502,11 @@
       },
       {
         id: "rotebete", name: "Rote Bete", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🍠",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, tiefgründiger & feuchter Boden",
         boden: "Tiefgründig gelockert, lehmig-sandig und humos. Boden gut feucht halten; verträgt keinen frischen Mist, aber mäßig Kompost.",
         duenger: "Mittelzehrer: Vor der Aussaat mäßig reifen Kompost einarbeiten. Ein wenig Holzasche (Kalium) fördert die Knollenbildung und Farbintensität.",
+        giessen: "Boden sollte nicht austrocknen, da die Knolle sonst verholzt. Im Hochsommer alle 2-3 Tage durchdringend gießen.",
         abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "3 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
@@ -1439,9 +1522,11 @@
       },
       {
         id: "rosenkohl", name: "Rosenkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        wasser: "💧💧 Mittel",
         standort: "Sonnig, windfest & standfest, schwerer, nährstoffreicher Boden",
         boden: "Schwer, lehmig und fest. Den Boden vor der Pflanzung festtreten, damit die schweren Pflanzen Wind und Schnee trotzen. Bei Bedarf kalken.",
         duenger: "Starkzehrer: Vor der Pflanzung Hornspäne und Kompost. Ab Spätsommer (August) das Düngen komplett einstellen, damit die Röschen fest werden und nicht aufplatzen.",
+        giessen: "Durch das tiefe Wurzelsystem sehr robust. Nur im Hochsommer bei längeren Trockenphasen 1x pro Woche kräftig den Boden einschlämmen.",
         abstandPflanze: "50 cm", abstandReihe: "60 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "April - Mai", zeitBeet: "Mai - Juni", zeitErnte: "Nov - März",
         monateAussaat: [4, 5, 6],
@@ -1456,9 +1541,11 @@
       },
       {
         id: "salate", name: "Salate & Rucola", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥗",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig (im Sommer Halbschatten schützt vor Schossen)",
         boden: "Locker, humos und durchlässig mit gleichmäßiger Feuchtigkeit. Keine Überdüngung mit Stickstoff (führt zu hoher Nitratanreicherung in den Blättern).",
         duenger: "Schwachzehrer: Etwas reifer Kompost vor der Pflanzung reicht völlig aus. Keine frischen tierischen Dünger verwenden; mäßig mit verdünntem Kräutertee gießen.",
+        giessen: "Täglich, am besten früh morgens gießen. Wenn Salat trockenfällt, wird er bitter, zäh und schießt sofort ungewollt in die Blüte.",
         abstandPflanze: "25 cm", abstandReihe: "30 cm", saattiefe: "0,5 cm (Lichtkeimer)", bedarf: "Schwachzehrer",
         zeitVorzucht: "Feb-Mär", zeitBeet: "Mär-Aug", zeitErnte: "Mai-Okt",
         monateAussaat: [2, 3, 4, 5, 6, 7, 8],
@@ -1495,9 +1582,11 @@
       },
       {
         id: "sellerie", name: "Knollensellerie & Stangensellerie", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
+        wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, feucht, schwerer & nährstoffreicher Boden",
         boden: "Schwerer, lehmiger, tiefgründiger Boden mit sehr viel reifem Kompost und Hornspänen. Braucht kontinuierlich Feuchtigkeit und profitiert von etwas Kochsalz/Gesteinsmehl.",
         duenger: "Extremer Starkzehrer: Hornmehl und reichlich Kompost zur Pflanzung. Alle 2–3 Wochen mit Brennnesseljauche düngen; eine Prise Meersalz im Gießwasser stärkt die Knolle.",
+        giessen: "Zählt zu den wasserbedürftigsten Gemüsesorten überhaupt! Die Erde darf niemals (!) austrocknen. Bei heißem Wetter muss oft sogar täglich stark gewässert werden.",
         abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "Lichtkeimer", bedarf: "Starkzehrer",
         zeitVorzucht: "März", zeitBeet: "Mitte Mai", zeitErnte: "Okt-Nov",
         monateAussaat: [3, 4, 5],
@@ -1517,9 +1606,11 @@
       },
       {
         id: "spargel", name: "Spargel & Rhabarber", oberkategorie: "Gemüse", kategorie: "Mehrjährig", icon: "🌿",
+        wasser: "💧💧 Mittel (Spargel) / 💧💧💧 Hoch (Rhabarber)",
         standort: "Sonnig bis absonnig, tiefgründiger & humoser Boden (Rhabarber liebt feuchte Plätze)",
         boden: "Spargel: Tiefgründig sandig, durchlässig und steinfrei. Rhabarber: Schwerer, tiefgründig mit sehr viel verrottetem Mist und Kompost angereicherter, dauerfeuchter Boden.",
         duenger: "Starkzehrer (Dauerkulturen): Nach der Ernte (Ende Juni / Johanni) reichlich verrotteten Mist, Hornspäne und Kompost aufbringen, damit die Wurzelstöcke fürs Folgejahr Kraft tanken.",
+        giessen: "Spargelwurzeln reichen extrem tief (wässern nur bei Dürre). Rhabarber hingegen hat riesige Blätter, verdunstet extrem viel und muss bei Sommerhitze oft (fast täglich) gegossen werden.",
         abstandPflanze: "40-100 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
         zeitVorzucht: "Rhizome / Wurzelstöcke", zeitBeet: "April", zeitErnte: "April - 24. Juni",
         monateAussaat: [3, 4],
@@ -1541,9 +1632,11 @@
       },
       {
         id: "spinat", name: "Spinat", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        wasser: "💧💧 Mittel",
         standort: "Halbschattig bis sonnig (im Sommer kühl und halbschattig halten)",
         boden: "Lockerer, humoser, feuchter Gartenboden. Mäßig Kompost einarbeiten; keine frischen organischen Dünger verwenden.",
         duenger: "Mittelzehrer: Vor der Aussaat eine dünne Schicht reifen Kompost einarbeiten. Keinen reinen Stickstoffdünger geben, um Nitratüberladung in den Blättern zu vermeiden.",
+        giessen: "Sollte immer leicht feucht stehen. Wenn der Boden im späten Frühjahr auch nur kurz komplett austrocknet, schießt er unweigerlich in die Blüte (Notsamenbildung).",
         abstandPflanze: "4 cm", abstandReihe: "20 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat", zeitBeet: "Mär-Mai & Sep-Okt", zeitErnte: "Apr-Jun & Okt-März",
         monateAussaat: [3, 4, 5, 9, 10],
@@ -1560,9 +1653,11 @@
       },
       {
         id: "topinambur", name: "Topinambur & Exoten", oberkategorie: "Gemüse", kategorie: "Sondergemüse", icon: "🍠",
+        wasser: "💧 Niedrig",
         standort: "Sonnig bis halbschattig, sehr anspruchslos an den Boden",
         boden: "Absolut anspruchslos, wächst in fast jeder Erde. Lockerer, sandiger Boden erleichtert im Herbst das Ausgraben der Knollen erheblich.",
         duenger: "Mittelzehrer: Benötigt kaum Pflege. Eine Schaufel Kompost beim Stecken im Frühjahr reicht völlig aus; überdüngte Pflanzen bilden nur Blätter und kleine Knollen.",
+        giessen: "Im Freilandbeet extrem pflegeleicht, sucht sich sein Wasser selbst. Nur im Hochsommer bei extremer Dürre (oder wenn in Töpfen gepflanzt) ab und zu wässern.",
         abstandPflanze: "40 cm", abstandReihe: "60 cm", saattiefe: "Knollen pflanzen", bedarf: "Mittelzehrer",
         zeitVorzucht: "April", zeitBeet: "Mai", zeitErnte: "Okt-Dez",
         monateAussaat: [4, 5],
@@ -1584,9 +1679,11 @@
       },
       {
         id: "tomate", name: "Tomate", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍅",
+        wasser: "💧💧 Mittel",
         standort: "Vollsonnig, warm, regengeschützt (unter Dach oder im Tomatenhaus)",
         boden: "Tiefgründig, humos, locker und nährstoffreich. Pflanzloch mit reichlich reifem Kompost, Hornspänen und einer Handvoll Urgesteinsmehl vorbereiten.",
         duenger: "Starkzehrer mit hohem Kalium- & Magnesiumbedarf: Hornspäne ins Pflanzloch. Ab Fruchtansatz wöchentlich mit Beinwelljauche oder speziellem Tomatendünger gießen.",
+        giessen: "Nur alle 2-3 Tage, dafür aber sehr tief und durchdringend an die Wurzeln gießen. Niemals die Blätter nass machen (Gefahr der Kraut- und Braunfäule).",
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März-Apr", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
@@ -1605,9 +1702,11 @@
       },
       {
         id: "zwiebel", name: "Zwiebeln & Schalotten", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
+        wasser: "💧 Niedrig",
         standort: "Vollsonnig, warm, luftig & mäßig feucht (keine Staunässe)",
         boden: "Lockerer, sandig-lehmiger Boden, der zügig abtrocknet. Auf keinen Fall frischen Mist geben; Boden vorab feinkrümelig harken und mäßig andrücken.",
         duenger: "Schwachzehrer: Keinen frischen Dünger oder Stickstoff (führt zu Fäulnis bei der Lagerung)! Etwas reifer Kompost oder Gesteinsmehl im Vorjahr reicht aus.",
+        giessen: "Im Frühjahr während des Hauptwachstums mäßig feucht halten. Sobald das Laub beginnt abzuknicken (meist im Juli), jegliches Gießen komplett einstellen (Trockenreife!).",
         abstandPflanze: "10-15 cm", abstandReihe: "25 cm", saattiefe: "2-3 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Stecken / Saat", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Juni - August",
         monateAussaat: [2, 3, 4, 10, 11],
@@ -1635,6 +1734,7 @@
     }
     function toggleFavorite(id, event) {
       if (event) event.stopPropagation();
+      trigVib();
       let favs = getFavorites();
       if (favs.includes(id)) {
         favs = favs.filter(f => f !== id);
@@ -1690,6 +1790,7 @@
       updateNotesBadge();
     }
     window.deleteGeneralNote = function(id) {
+      trigVib();
       let notes = getGeneralNotes();
       notes = notes.filter(n => n.id !== id);
       try {
@@ -1700,6 +1801,7 @@
     }
     
     window.triggerManualSave = function() {
+      trigVib();
       const textarea = document.getElementById("generalNoteInput");
       if (textarea && textarea.value.trim() !== "") {
         saveGeneralNote(textarea.value);
@@ -1724,6 +1826,7 @@
     }
 
     window.sendCurrentNoteEmail = function() {
+      trigVib();
       const textarea = document.getElementById("generalNoteInput");
       if (!textarea || textarea.value.trim() === "") {
         alert("Bitte gib zuerst einen Text in das Notizfeld ein.");
@@ -1735,6 +1838,7 @@
     }
 
     window.sendGeneralNoteEmail = function() {
+      trigVib();
       const general = getGeneralNotes();
       if (general.length === 0) {
         alert("Du hast noch keine allgemeinen Notizen gespeichert!");
@@ -1750,6 +1854,7 @@
     }
 
     window.sendSinglePlantNoteEmail = function(plantName, noteText) {
+      trigVib();
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz: ${plantName}`);
       const body = encodeURIComponent(`Notiz zu ${plantName}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
@@ -1757,6 +1862,7 @@
     };
 
     window.sendSingleGeneralNoteEmail = function(dateStr, noteText) {
+      trigVib();
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz (${dateStr})`);
       const body = encodeURIComponent(`Garten-Notiz vom ${dateStr}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
@@ -1764,6 +1870,7 @@
     };
 
     window.createCalendarReminder = function() {
+      trigVib();
       const textarea = document.getElementById("generalNoteInput");
       const timeInput = document.getElementById("reminderTimeInput");
 
@@ -1975,7 +2082,7 @@
         statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + generalNotes.length}`;
         
         let html = `
-          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 16px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
               📝 Neues Notizbuch-Blatt
             </div>
@@ -2104,6 +2211,8 @@
         const standortMatch = isFuzzyMatch(k.standort, query);
         const bodenMatch = isFuzzyMatch(k.boden, query);
         const duengerMatch = isFuzzyMatch(k.duenger, query);
+        const wasserMatch = isFuzzyMatch(k.wasser, query);
+        const giessenMatch = isFuzzyMatch(k.giessen, query);
         const tippMatch = isFuzzyMatch(k.tipp, query);
 
         const matchedSorten = k.sorten.filter(s => 
@@ -2117,10 +2226,14 @@
         if (!nameMatch) {
           if (matchedSorten.length > 0) {
             matchHint = `Sorte: ${matchedSorten[0].name}`;
+          } else if (giessenMatch) {
+            matchHint = `Gießen-Treffer`;
           } else if (duengerMatch) {
             matchHint = `Dünger-Treffer`;
           } else if (bodenMatch) {
             matchHint = `Boden-Treffer`;
+          } else if (wasserMatch) {
+            matchHint = `Wasser-Treffer`;
           } else if (standortMatch) {
             matchHint = `Standort-Treffer`;
           } else if (bedarfMatch) {
@@ -2132,7 +2245,7 @@
           }
         }
 
-        if (nameMatch || katNameMatch || bedarfMatch || standortMatch || bodenMatch || duengerMatch || tippMatch || matchedSorten.length > 0) {
+        if (nameMatch || katNameMatch || bedarfMatch || standortMatch || bodenMatch || duengerMatch || giessenMatch || wasserMatch || tippMatch || matchedSorten.length > 0) {
           matchedList.push({ kultur: k, matchHint });
         }
       });
@@ -2221,6 +2334,7 @@
     }
 
     function openKulturDetail(id) {
+      trigVib();
       gewaehlteKulturId = id;
       const k = gartenDaten.find(i => i.id === id);
       const query = searchInput.value.toLowerCase().trim();
@@ -2244,6 +2358,7 @@
     }
 
     function closeDetailModal() {
+      trigVib();
       modalOverlay.classList.remove("open");
       if (aktiveKategorie === "Notizen") filterUndRender();
     }
@@ -2352,6 +2467,8 @@
       const highlightedStandort = highlightMatch(k.standort, query);
       const highlightedBoden = highlightMatch(k.boden, query);
       const highlightedDuenger = highlightMatch(k.duenger, query);
+      const highlightedGiessen = highlightMatch(k.giessen, query);
+      const highlightedWasser = k.wasser ? highlightMatch(k.wasser, query) : "";
 
       detailPanel.innerHTML = `
         <div class="sheet-handle"></div>
@@ -2361,6 +2478,7 @@
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
               <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
               <span class="badge">${highlightedBedarf}</span>
+              ${highlightedWasser ? `<span class="badge wasser-badge">${highlightedWasser}</span>` : ""}
             </div>
           </div>
           <div class="header-actions">
@@ -2380,13 +2498,17 @@
         </div>
 
         <div class="info-metrics">
-          <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: #854d0e;">${highlightedStandort}</div></div>
+          <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: #854d0e;">${highlightedStandort}</div></div>
           <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze}</div></div>
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
           <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitVorzucht}</div></div>
           <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet}</div></div>
           <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte}</div></div>
+        </div>
+
+        <div class="giessen-box">
+          💧 <strong>Gießempfehlung (bei Trockenheit):</strong><br>${highlightedGiessen}
         </div>
 
         <div class="boden-box">
@@ -2420,12 +2542,14 @@
     }
 
     window.setSubFilter = function(gName) {
+      trigVib();
       aktiverSubFilter = gName;
       gewaehlteSorteIdx = 0;
       renderDetailModal();
     };
 
     window.waehleSorte = function(idx) {
+      trigVib();
       gewaehlteSorteIdx = idx;
       renderDetailModal();
     };
