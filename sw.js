@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ramonas-garten-v4';
+const CACHE_NAME = 'ramonas-garten-v2';
 const ASSETS = [
   './',
   './index.html',
