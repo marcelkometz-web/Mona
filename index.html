@@ -136,7 +136,15 @@
       100% { box-shadow: 0 0 0 0 rgba(196,108,73,0.4); border-color: var(--accent); } }
     .item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out; }
     .item-icon { font-size: 2rem; margin-bottom: 6px; }
-    .item-title { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.item-title { 
+  font-weight: 700; 
+  font-size: 0.88rem; 
+  color: var(--text); 
+  word-break: break-word; 
+  hyphens: auto; 
+  -webkit-hyphens: auto; 
+  line-height: 1.25; 
+}
     .item-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;
       background: var(--tag-bg); display: inline-block; padding: 2px 6px; border-radius: 8px; }
     .match-pill { display: inline-block; margin-top: 5px; font-size: 0.7rem;
@@ -554,12 +562,13 @@
     }
     window.saveSettings = function() {
       trigVib();
-      const count = document.getElementById('settingBedCount').value;
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify({ bedCount: parseInt(count) || 8 }));
+      const countInput = document.getElementById('settingBedCount');
+      const count = parseInt(countInput ? countInput.value : 8) || 8;
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify({ bedCount: count }));
+      aktiverBeetFilter = "Alle";
       alert('Einstellungen erfolgreich gespeichert!');
       filterUndRender();
-    }
-
+    };
     function getBackupObject() {
       return {
         favorites: getFavorites(),
@@ -659,6 +668,85 @@
     };
 
     const gartenDaten = [
+		      {
+        id: "liebstoeckel", name: "Liebstöckel & Würzkräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
+        anbau: "🌿 Jungpflanze (Kauf empfohlen)", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig, tiefgründiger und humoser Boden",
+        boden: "Tiefgründig gelockert, nährstoffreich, humos und dauerhaft leicht feucht.",
+        duenger: "Mittelzehrer: Im zeitigen Frühjahr eine Schaufel reifen Kompost um den Wurzelstock geben. Reicht für das ganze Jahr.",
+        giessen: "Mäßig, aber regelmäßig gießen. Wenn Liebstöckel trockenfällt, werden die unteren Blätter gelb.",
+        abstandPflanze: "60-80 cm", abstandReihe: "80 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "März-Apr", zeitBeet: "Mitte Mai", zeitErnte: "Mai-Okt",
+        monateAussaat: [3, 4, 5],
+        tipp: "Wird riesig (bis zu 2 Meter hoch)! Immer an den Rand des Kräuterbeets setzen, sonst überwuchert er alles.",
+        guteNachbarn: "Fenchel, Zwiebeln", schlechteNachbarn: "Möhren, Sellerie",
+        sorten: [
+          { name: "Deutscher Liebstöckel", typ: "Klassisches Maggikraut", aussehen: "Mächtige, sattgrüne Fiederblätter mit hohlen Stängeln und gelben Doldenblüten.", geschmack: "Extrem würzig, kräftig nach Sellerie und Suppengrün; unverwechselbar intensiv.", verwendung: "Das A und O für hausgemachte Rinder- und Gemüsebrühen, Eintöpfe und Schmorgerichte." },
+          { name: "Französischer Estragon", typ: "Echter Gourmet-Estragon", aussehen: "Schlanke, lanzettliche Blättchen an verzweigten, feinen Trieben.", geschmack: "Fein-würzig mit süßlicher Anisnote, pfeffrig und aromatisch ohne Bitterkeit.", verwendung: "Unverzichtbar für Sauce Béarnaise, Kräuterbutter, feinen Estragon-Essig und Geflügel." },
+          { name: "Russischer Estragon", typ: "Robuster Sommer-Estragon", aussehen: "Höher wachsende Pflanze mit helleren, derberen Blättern.", geschmack: "Milder, herber und etwas grasiger als die französische Variante.", verwendung: "Extrem winterhart und unkompliziert; gut geeignet für Kräuteressig und Gurkeneinlegegläser." },
+          { name: "Waldmeister", typ: "Mehrjähriger Bodendecker", aussehen: "Quirlständige, frischgrüne Sternblätter mit kleinen weißen Blütensternen.", geschmack: "Betörend süßlich-würzig mit typischem Cumarin-Aroma (am besten leicht angewelkt).", verwendung: "Klassiker für Maibowle, selbstgemachten Waldmeistersirup und Kräutertees." }
+        ]
+      },
+      {
+        id: "aronia", name: "Aronia & Cranberry", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        anbau: "🌿 Jungpflanze (Strauchkauf)", wasser: "💧💧 Mittel",
+        standort: "Vollsonnig bis halbschattig, sehr robust und absolut frosthart",
+        boden: "Locker, humos, leicht feucht. Aronia wächst in fast jedem Gartenboden; Cranberrys bevorzugen leicht saure Moorbeeterde.",
+        duenger: "Schwachzehrer: Im Frühjahr etwas Kompost einharken. Keinen Kunstdünger nötig.",
+        giessen: "Nach dem Anwachsen sehr pflegeleicht. Nur bei anhaltender Sommerhitze alle paar Tage wässern.",
+        abstandPflanze: "100-150 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Strauch", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Aug-Okt",
+        monateAussaat: [3, 4, 10, 11],
+        tipp: "Aronia ist extrem winterhart (bis -30 °C) und bekommt im Herbst eine spektakuläre feuerrote Laubfärbung.",
+        guteNachbarn: "Heidelbeeren, Johannisbeeren", schlechteNachbarn: "Keine speziellen",
+        sorten: [
+          { name: "Nero", typ: "Schwarze Apfelbeere (Aronia)", aussehen: "Große, glänzend blauschwarze Beeren in dichten Schirmdolden.", geschmack: "Herb-süßlich, adstringierend und vollgepackt mit Vitaminen und Antioxidantien.", verwendung: "Der ertragreichste Klassiker für Direktsaft, Gelee, Fruchtaufstriche und Likör." },
+          { name: "Viking", typ: "Großfrüchtige Kultur-Aronia", aussehen: "Große, tiefschwarze Früchte an aufrecht wachsendem Zierstrauch.", geschmack: "Fruchtig-herb, etwas milder und saftiger als Wildformen.", verwendung: "Sehr ertragreich; Beeren lassen sich auch super dörren wie Rosinen." },
+          { name: "Pilgrim", typ: "Großfrüchtige Kultur-Cranberry", aussehen: "Kriechender Zwergstrauch mit leuchtend dunkelroten, kirschgroßen Früchten.", geschmack: "Kräftig säuerlich, spritzig und herb-frisch.", verwendung: "Traditionell gekocht als Cranberry-Sauce zu Fleischgerichten oder für fruchtiges Kompott." },
+          { name: "Early Black", typ: "Frühe Amerikanische Cranberry", aussehen: "Dichtes Moospolster mit tief dunkelvioletten, fast schwarzen Beeren.", geschmack: "Spritzig-sauer, hocharomatisch mit festem Fruchtfleisch.", verwendung: "Reift schon im September ab; hervorragend zum Einfrieren und für Muffins." }
+        ]
+      },
+
+		      {
+        id: "mairuebe", name: "Mai- & Herbstrüben", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🌱",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig, feuchter und humoser Boden",
+        boden: "Locker, feinkrümelig, humos und gleichmäßig feucht. Keine frischen organischen Dünger verwenden.",
+        duenger: "Schwachzehrer: Benötigt fast keinen Dünger. Eine leichte Kompostgabe vor der Aussaat genügt vollkommen.",
+        giessen: "Gleichmäßig wässern! Trockenheit macht die Rüben holzig und scharf. Bei Hitze alle 2 Tage durchdringend gießen.",
+        abstandPflanze: "10-15 cm", abstandReihe: "25 cm", saattiefe: "1-2 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Mai & Jul-Aug", zeitErnte: "Mai-Jun & Sep-Okt",
+        monateAussaat: [3, 4, 5, 7, 8],
+        tipp: "Wächst extrem schnell! Schon 6 bis 8 Wochen nach der Aussaat erntbar; schließt jede Beetlücke perfekt.",
+        guteNachbarn: "Salat, Spinat, Erbsen", schlechteNachbarn: "Kohlarten, Radieschen",
+        sorten: [
+          { name: "Navet Jaune Boule d'Or", typ: "Goldgelbe Herbstrübe", aussehen: "Kugelrunde, dottergelbe Rüben mit feiner Haut.", geschmack: "Angenehm süßlich, zart und nussig.", verwendung: "Gourmet-Rübe; wunderbar in Butter geschmort oder für winterliche Eintöpfe." },
+          { name: "Petrowski", typ: "Historische Butterrübe", aussehen: "Flachrunde, goldgelbe Knollen mit zartem Wurzelansatz.", geschmack: "Butterweich, mild und leicht süßlich ohne Schärfe.", verwendung: "Traditionelle Landsorte; ideal als feines Pfannengemüse oder geraspelt." },
+          { name: "Platte Witte Mei", typ: "Klassische weiße Mairübe", aussehen: "Flachrunde, reinweiße Knollen mit zartem Grünansatz.", geschmack: "Sehr saftig, knackig, schmeckt mild wie Kohlrabi mit Radieschennote.", verwendung: "Roh in Scheiben geschnitten mit Kräutersalz oder kurz gedünstet." },
+          { name: "Purple Top White Globe", typ: "Zweifarbige Rübe", aussehen: "Runde Knollen, oben leuchtend violett, unten schneeweiß.", geschmack: "Mild-würzig, festes Fleisch und saftiger Biss.", verwendung: "Sehr ertragreich und schossfest; top für Vorratsernten im Spätherbst." },
+          { name: "Snowball", typ: "Schneeweiße Frühe", aussehen: "Kleine, kugelrunde, glänzend weiße Knollen wie Bälle.", geschmack: "Zuckersüß, extrem saftig und vollkommen faserfrei.", verwendung: "Wächst in 5 Wochen heran; perfekt als schnelle Frühlings-Delikatesse." }
+        ]
+      },
+      {
+        id: "palmkohl", name: "Palmkohl & Spitzkohl", oberkategorie: "Gemüse", kategorie: "Kohlgemüse", icon: "🥬",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Sonnig bis halbschattig, nährstoffreicher und feuchter Gartenboden",
+        boden: "Tiefgründig, lehmig-humos und kalkhaltig. Mit reichlich verrottetem Kompost und Hornspänen vorbereiten.",
+        duenger: "Starkzehrer: Hornmehl ins Pflanzloch. Alle 2 bis 3 Wochen mit Brennnesseljauche gießen.",
+        giessen: "Regelmäßig tiefgründig wässern, besonders während der Kopf- bzw. Wedelbildung.",
+        abstandPflanze: "45 cm", abstandReihe: "50 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "Apr-Jun", zeitBeet: "Mai-Jul", zeitErnte: "Jul-Feb",
+        monateAussaat: [4, 5, 6, 7],
+        tipp: "Palmkohl ist frosthart und sieht aus wie eine kleine Palme im Beet. Spitzkohl ist viel zarter und bekömmlicher als Weißkohl.",
+        guteNachbarn: "Sellerie, Tomaten, Bohnen", schlechteNachbarn: "Zwiebeln, Knoblauch, andere Kohlarten",
+        sorten: [
+          { name: "Caraflex (F1)", typ: "Kompakter Mini-Spitzkohl", aussehen: "Kleine, feste, kegelförmige Spitzen mit zartgrünem Umblatt.", geschmack: "Sehr süß, knackig-saftig und extrem mild.", verwendung: "Perfekt für 2-Personen-Haushalte; ideal für frische Sommersalate und Wok." },
+          { name: "Filderkraut", typ: "Traditioneller Riesen-Spitzkohl", aussehen: "Mächtige, spitz zulaufende feste Köpfe mit feiner Blattaderung.", geschmack: "Butterzart, nussig-süßlich und leicht verdaulich.", verwendung: "Der absolute König für hausgemachtes mildes Sauerkraut und Schmorgerichte." },
+          { name: "Nero di Toscana", typ: "Toskanischer Palmkohl (Cavolo Nero)", aussehen: "Lange, schmale, tief blau-schwarzgrüne Wedel mit blasiger Struktur.", geschmack: "Milder und nussiger als Grünkohl, zart und herzhaft.", verwendung: "Klassiker der italienischen Ribollita-Suppe, Pasta oder als knusprige Kohl-Chips." },
+          { name: "Sweet Jumbo", typ: "Zucker-Spitzkohl", aussehen: "Sehr gleichmäßige, helle Spitzkohlköpfe mit lockerer Füllung.", geschmack: "Auffallend süßlich und saftig ohne Kohlstrenge.", verwendung: "Schmeckt roh gehobelt als feiner Krautsalat (Coleslaw) oder gedünstet in Sahne." }
+        ]
+      },
+
       {
         id: "artischocke", name: "Artischocke", oberkategorie: "Gemüse", kategorie: "Blütengemüse", icon: "🪷",
         anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
@@ -672,7 +760,10 @@
         tipp: "Winterschutz ist Pflicht! Im Herbst Blätter zusammenbinden und den Wurzelbereich dick mit Stroh und Laub abdecken.",
         guteNachbarn: "Fenchel, Salat", schlechteNachbarn: "Kartoffeln",
         sorten: [
+          { name: "Green Globe", typ: "Traditionelle Großkopf-Artischocke", aussehen: "Mächtige, kugelrunde Köpfe mit dicken, fleischigen grünen Hüllblättern.", geschmack: "Vollmundig, klassisch nussig mit fleischigem Blütenboden.", verwendung: "Ausgezeichnet zum Kochen und Auszuzeln mit Vinaigrette; sehr ertragreich." },
+          { name: "Gros Vert de Laon", typ: "Französischer Gourmet-Klassiker", aussehen: "Sehr breite, flachrunde Knospen mit fest geschlossenen Schuppen.", geschmack: "Besonders feiner, buttrig-zarter Geschmack ohne bittere Faserung.", verwendung: "Berühmt für besonders dicke, zarte Artischockenböden; perfekt für Vorspeisenplatten." },
           { name: "Imperial Star", typ: "Grüne Artischocke", aussehen: "Dicke, runde bis leicht ovale grüne Blütenköpfe.", geschmack: "Feines, nussig-mildes Aroma.", verwendung: "Kochen und Blätterinzuzeln, Böden für Antipasti." },
+          { name: "Romagna Violetto", typ: "Italienische Edelsorte", aussehen: "Mittelgroße, spitzkegelige Knospen mit intensiv purpur-violetter Schuppung.", geschmack: "Aromatisch-herb, leicht mineralisch und angenehm würzig.", verwendung: "Jung geerntet so zart, dass die Böden mit Olivenöl und Zitrone roh gehobelt werden können." },
           { name: "Violetto di Chioggia", typ: "Violette Artischocke", aussehen: "Längliche, spitz zulaufende, violett-grüne Köpfe.", geschmack: "Besonders zart, typisch italienisches Aroma.", verwendung: "Oft so zart, dass sie roh im Salat oder gebraten gegessen werden kann." }
         ]
       },
@@ -876,8 +967,11 @@
         tipp: "Erst spät aussäen, schießt sonst bei zu langen Tagen sofort in die Blüte.",
         guteNachbarn: "Erbsen, Feldsalat, Gurken", schlechteNachbarn: "Bohnen, Tomaten",
         sorten: [
-          { name: "Zefa Fino", typ: "Knollenfenchel", aussehen: "Große, feste, weiße runde Knollen mit feinem Fenchelgrün.", geschmack: "Frisches, angenehm mildes Anisaroma.", verwendung: "Roh gehobelt mit Orange oder im Ofen überbacken." },
-          { name: "Rondo", typ: "Schossfester Fenchel", aussehen: "Sehr gleichmäßige, glatte Knollen.", geschmack: "Knackig, saftig und erfrischend süßlich.", verwendung: "Sommeranbau, Rohkost und Grillgemüse." }
+          { name: "Finale", typ: "Schossfester Sommer- & Herbstfenchel", aussehen: "Schöne, ebenmäßig dicke, reinweiße Knollen mit aufrechtem Grün.", geschmack: "Mild, dezent süßlich mit feiner, unaufdringlicher Anisnote.", verwendung: "Extrem schossfest bei längeren Tagen; toll für Rohkostsalate und Ofengemüse." },
+          { name: "Perfektion", typ: "Robuste Herbstsorte", aussehen: "Kompakte, sehr feste, flachrunde Knollen mit kräftigem Blattwerk.", geschmack: "Sehr saftig, knackig und aromatisch frisch im Biss.", verwendung: "Hält im Spätherbst leichten Frühfrösten stand; spitze zum Schmoren und Überbacken." },
+          { name: "Romanesco", typ: "Traditioneller Riesenknollen", aussehen: "Sehr schwere, breite Knollen mit tief dunkelgrünem Fiederkraut.", geschmack: "Intensiv vollmundig, kräftiges Anisaroma mit feiner Süße.", verwendung: "Italienischer Gourmet-Klassiker; halbiert auf den Grill oder gedünstet in Pasta." },
+          { name: "Rondo", typ: "Schossfester Fenchel", aussehen: "Sehr gleichmäßige, glatte Knollen.", geschmack: "Knackig, saftig und erfrischend süßlich.", verwendung: "Sommeranbau, Rohkost und Grillgemüse." },
+          { name: "Zefa Fino", typ: "Knollenfenchel", aussehen: "Große, feste, weiße runde Knollen mit feinem Fenchelgrün.", geschmack: "Frisches, angenehm mildes Anisaroma.", verwendung: "Roh gehobelt mit Orange oder im Ofen überbacken." }
         ]
       },
       {
@@ -945,8 +1039,11 @@
         tipp: "Pflanze immer zwei verschiedene Sorten nebeneinander, das erhöht den Ertrag durch Fremdbestäubung enorm.",
         guteNachbarn: "Preiselbeeren, Rhododendron", schlechteNachbarn: "Kalkliebende Pflanzen",
         sorten: [
+          { name: "Bluecrop", typ: "Hauptsorte", aussehen: "Sehr große, leuchtend blaue Beeren, starker Wuchs.", geschmack: "Klassisches Blaubeeraroma, gute Säure-Süße-Balance.", verwendung: "Der ertragreiche Standard für den Garten." },
           { name: "Duke", typ: "Frühsorte", aussehen: "Große, hellblaue, feste Beeren.", geschmack: "Mild-süß, sehr aromatisch.", verwendung: "Frischverzehr, Müsli, Einfrieren." },
-          { name: "Bluecrop", typ: "Hauptsorte", aussehen: "Sehr große, leuchtend blaue Beeren, starker Wuchs.", geschmack: "Klassisches Blaubeeraroma, gute Säure-Süße-Balance.", verwendung: "Der ertragreiche Standard für den Garten." }
+          { name: "Goldtraube 71", typ: "Robuster Dauerertrag", aussehen: "Kräftiger Strauch mit mittelgroßen, intensiv duftenden, tiefblauen Beeren in dichten Büscheln.", geschmack: "Traditionell süß-aromatisch mit feiner, angenehmer Waldbeer-Säure.", verwendung: "Ausgesprochen widerstandsfähig gegen Wurzelerkrankungen; toll für Kuchen und Gelee." },
+          { name: "Patriot", typ: "Kältetolerante Riesenfrucht", aussehen: "Extrem große, leicht abgeflachte, dunkelblaue Beeren mit weißlicher Wachsschicht.", geschmack: "Hervorragend voll, süß und intensiv saftig.", verwendung: "Trotzt auch schwereren Böden besser als andere Sorten; früher Erntebeginn ab Anfang Juli." },
+          { name: "Reka", typ: "Vitaler Schnellwachser", aussehen: "Mittelgroße bis große, feste, dunkelblaue Früchte an aufrecht wachsende Trieben.", geschmack: "Sehr süß, knackig im Biss mit vollem Waldbeer-Bukett.", verwendung: "Extrem wuchskräftig und anpassungsfähig; liefert sehr hohe und verlässliche Jahreserträge." }
         ]
       },
       {
@@ -1018,8 +1115,7 @@
         tipp: "Konstante Feuchte verhindert Aufplatzen.",
         guteNachbarn: "Kartoffeln, Erbsen, Spinat", schlechteNachbarn: "Kohlarten, Fenchel",
         sorten: [
-				          { name: "Delikatesse Blauer", typ: "Violetter Freilandkohlrabi", aussehen: "Mittelgroße, abgeflacht-runde Knollen in kräftigem Blau-Violett mit grünem Fruchtfleisch.", geschmack: "Ausgesprochen fein-aromatisch, nussig und zart ohne Schärfe.", verwendung: "Wunderbar für die frühe bis spätere Freilandkultur; neigt kaum zum Holzigwerden und schmeckt roh spitze." },
-          { name: "Noriko", typ: "Robuster Sommerkohlrabi", aussehen: "Flachrunde, elfenbeinweiße Knollen mit aufrechtem, dunkelgrünem Laub.", geschmack: "Mild, saftig, knackig und angenehm erfrischend im Biss.", verwendung: "Sehr schossfeste Sorte für den Sommer- und Frühherbstanbau; platzt auch bei ungleichmäßigen Wassergaben selten auf." },
+				  { name: "Delikatesse Blauer", typ: "Violetter Freilandkohlrabi", aussehen: "Mittelgroße, abgeflacht-runde Knollen in kräftigem Blau-Violett mit grünem Fruchtfleisch.", geschmack: "Ausgesprochen fein-aromatisch, nussig und zart ohne Schärfe.", verwendung: "Wunderbar für die frühe bis spätere Freilandkultur; neigt kaum zum Holzigwerden und schmeckt roh spitze." },
           { name: "Blaro", typ: "Kompakter Frühkohlrabi", aussehen: "Intensiv blau-violette, ebenmäßig runde Knollen mit kurzem Blattansatz.", geschmack: "Sehr zartes, süßliches Fleisch mit feiner Kohlrabinote.", verwendung: "Optimal für Frühbeet, Gewächshaus und die früheste Freilandsaat; wächst extrem schnell heran." },
           { name: "Gigant", typ: "Großknolliger Lagerkohlrabi", aussehen: "Mächtige, hellgrüne bis weiße Knollen, die mehrere Kilo schwer werden können.", geschmack: "Bleibt trotz der enormen Größe butterweich, saftig und mild-süß.", verwendung: "Ideal für die Herbsternte und zur kühlen Einlagerung für den Winter; fantastisch für Eintöpfe und Aufläufe." },
 
@@ -1112,17 +1208,18 @@
         tipp: "Früchte nicht zu groß werden lassen! Bei 15-20 cm ernten, dann schmecken sie am besten und die Pflanze produziert endlos nach.",
         guteNachbarn: "Mais, Bohnen, Zwiebeln", schlechteNachbarn: "Kartoffeln, Gurken",
         sorten: [
-				  { name: "Romanesco", typ: "Gestreifte Kletter-/Buschzucchini", aussehen: "Schlanke, hellgrüne Früchte mit markanten Rippen und dunkelgrünen Längsstreifen.", geschmack: "Besonders festes Fleisch, intensiv nussig und deutlich weniger wässrig als Standard-Zucchini.", verwendung: "Italienische Gourmet-Sorte; perfekt für Grillgemüse, Ofenscheiben und mit essbaren Riesenblüten." },
-          { name: "Partenon", typ: "Selbstbefruchtend (F1)", aussehen: "Dunkelgrüne, ebenmäßig zylindrische und glänzende Früchte.", geschmack: "Zart, saftig und mild-buttrig im Biss.", verwendung: "Setzt auch ohne Bienenbestäubung oder bei schlechtem Wetter im Frühsommer zuverlässig Früchte an." },
-          { name: "Patisson Blanc", typ: "Ufo-Zucchini", aussehen: "Flachrunde, scheibenförmige weiße Früchte mit gezacktem Rand (Ufo-Form).", geschmack: "Erinnert an Artischocken und feine junge Zucchini, schön fest.", verwendung: "Jung geerntet im Ganzen dünsten, füllen oder wie Essiggurken süß-sauer einlegen." },
-
           { name: "Black Beauty", typ: "Dunkelgrün", aussehen: "Dunkelgrüne, glatte, walzenförmige Früchte.", geschmack: "Zart, mild, unaufdringlich saftig.", verwendung: "Braten, Füllen, Grillen oder roh raspeln." },
           { name: "Gold Rush", typ: "Gelbe Zucchini", aussehen: "Leuchtend goldgelbe, schlanke Früchte.", geschmack: "Etwas süßer und zarter als grüne Sorten.", verwendung: "Optisches Highlight in der Gemüsepfanne." },
-          { name: "Tondo di Piacenza", typ: "Kugelzucchini", aussehen: "Kugelrund wie ein Apfel, dunkelgrün gesprenkelt.", geschmack: "Festes Fruchtfleisch, sehr nussig.", verwendung: "Perfekt zum Aushöhlen und Füllen mit Hackfleisch oder Feta." }
+          { name: "Partenon (F1)", typ: "Selbstbefruchtend", aussehen: "Dunkelgrüne, ebenmäßig zylindrische und glänzende Früchte.", geschmack: "Zart, saftig und mild-buttrig im Biss.", verwendung: "Setzt auch ohne Bienenbestäubung oder bei regnerischem Wetter im Frühsommer zuverlässig Früchte an." },
+          { name: "Patisson Blanc", typ: "Ufo-Zucchini", aussehen: "Flachrunde, scheibenförmige weiße Früchte mit gezacktem Rand (Ufo-Form).", geschmack: "Erinnert an Artischocken und feine junge Zucchini, schön fest.", verwendung: "Jung geerntet im Ganzen dünsten, füllen oder wie Essiggurken süß-sauer einlegen." },
+          { name: "Romanesco", typ: "Gestreifte Kletter-/Buschzucchini", aussehen: "Schlanke, hellgrüne Früchte mit markanten Rippen und dunkelgrünen Längsstreifen.", geschmack: "Besonders festes Fleisch, intensiv nussig und deutlich weniger wässrig als Standard-Zucchini.", verwendung: "Italienische Gourmet-Sorte; perfekt für Grillgemüse, Ofenscheiben und mit essbaren Riesenblüten." },
+          { name: "Striato d'Italia", typ: "Gestreifte Traditionssorte", aussehen: "Dunkelgrün mit hellgrünen Längsstreifen und leichten Rippen.", geschmack: "Sehr aromatisch, festfleischig und mit zarter Schale.", verwendung: "Klassiker der italienischen Küche für Frittata, Aufläufe und Grillbeilagen." },
+          { name: "Tondo di Piacenza", typ: "Kugelzucchini", aussehen: "Kugelrund wie ein Apfel, dunkelgrün gesprenkelt.", geschmack: "Festes Fruchtfleisch, sehr nussig.", verwendung: "Perfekt zum Aushöhlen und Füllen mit Hackfleisch oder Feta." },
+          { name: "Yellow Submarine", typ: "Gelbe Kletterzucchini", aussehen: "Leuchtend zitronengelbe, schlanke Früchte an rankenden Trieben.", geschmack: "Mild, süßlich und angenehm saftig.", verwendung: "Wächst platzsparend an Rankgittern nach oben; ideal für kleine Gärten." }
         ]
       },
       {
-        id: "lauch", name: "Lauch &   Frühlingszwie.", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
+        id: "lauch", name: "Lauch & Poree", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🥬",
         anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, tiefgründiger & nährstoffreicher Boden",
         boden: "Tiefgründiger, lehmig-humoser und feuchter Boden. In tiefe Furchen pflanzen, um den Schaft später anhäufeln zu können (bleibt dadurch weiß).",
@@ -1134,17 +1231,14 @@
         tipp: "Später Erde um den Stiel anhäufeln für lange weiße Schäfte.",
         guteNachbarn: "Möhren, Sellerie, Erdbeeren", schlechteNachbarn: "Zwiebeln, Erbsen, Bohnen",
         sorten: [
-				          { name: "Blaugrüner Winter", typ: "Winterharter Porree", aussehen: "Mittelanger, kräftiger Schaft mit dunkelblau-grünem, festem Fächerlaub.", geschmack: "Kräftig-aromatisch, herzhaft-würzig; wird durch Kälteeinwirkung runder und feiner.", verwendung: "Absoluter Winterklassiker; bleibt bis zum Frühjahr im Beet stehen und trotzt jedem Frost." },
+          { name: "Blaugrüner Winter", typ: "Winterharter Porree", aussehen: "Mittelanger, kräftiger Schaft mit dunkelblau-grünem, festem Fächerlaub.", geschmack: "Kräftig-aromatisch, herzhaft-würzig; wird durch Kälteeinwirkung runder und feiner.", verwendung: "Absoluter Winterklassiker; bleibt bis zum Frühjahr im Beet stehen und trotzt jedem Frost." },
           { name: "Bulgaarse Reuzen", typ: "Riesen-Sommerlauch", aussehen: "Extrem lange, schlanke weiße Schäfte (bis 50 cm) mit aufrechtem hellgrünem Laub.", geschmack: "Besonders zart, mild-süßlich und wenig scharf.", verwendung: "Sehr raschwüchsig für Sommer und Frühherbst; perfekt für feines Gemüse und Cremesuppen." },
-          { name: "White Lisbon", typ: "Klassische Frühlingszwiebel", aussehen: "Schlanke weiße Röhrenschäfte mit saftig grünen Halmen und kleiner runder Knolle am Fuß.", geschmack: "Knackig, saftig mit frischer, angenehmer Schärfe.", verwendung: "Der weltweite Standard für Salate, Kräuterquark, Dips oder als frische Rohkostbeilage." },
-          { name: "Red Turban", typ: "Rote Frühlingszwiebel", aussehen: "Lange weiße Schäfte mit leuchtend weinrot bis purpur überlaufenem Wurzelansatz.", geschmack: "Fein-würzig, mild und spürbar süßer als rein weiße Sorten.", verwendung: "Spektakulärer Blickfang in bunten Salaten, auf Bowls, Flammkuchen und im Wok." },
-          { name: "De Saint Victor", typ: "Violetter Winterporree", aussehen: "Stämmiger Schaft mit markant blau-violett überhauchten, dichten Blättern.", geschmack: "Tiefes, vollmundiges und feines Laucharoma mit leichter Butternote.", verwendung: "Historische französische Auslese; extrem frosthart und optisch eine Wucht im Winterbeet." },
-
-				  { name: "Elefant", typ: "Herbstporree", aussehen: "Sehr dicke, lange weiße Schäfte mit kräftigem, dunkelgrünem Fächerlaub.", geschmack: "Mild-würzig, saftig und angenehm zart im Biss.", verwendung: "Wächst rasch heran; ideal für herzhafte Quiches, Aufläufe und Lauch-Hack-Suppen im Herbst." },
           { name: "Carentan 2", typ: "Robuster Winterlauch", aussehen: "Mittelanger, stämmiger Schaft mit blaugrünem, leicht bereiftem Laub.", geschmack: "Kräftig-aromatisch mit kerniger Lauchnote; wird durch Frosteinwirkung milder.", verwendung: "Absolut frostharte französische Traditionssorte; überwintert problemlos direkt im Beet." },
+          { name: "De Saint Victor", typ: "Violetter Winterporree", aussehen: "Stämmiger Schaft mit markant blau-violett überhauchten, dichten Blättern.", geschmack: "Tiefes, vollmundiges und feines Laucharoma mit leichter Butternote.", verwendung: "Historische französische Auslese; extrem frosthart und optisch eine Wucht im Winterbeet." },
+          { name: "Elefant", typ: "Herbstporree", aussehen: "Sehr dicke, lange weiße Schäfte mit kräftigem, dunkelgrünem Fächerlaub.", geschmack: "Mild-würzig, saftig und angenehm zart im Biss.", verwendung: "Wächst rasch heran; ideal für herzhafte Quiches, Aufläufe und Lauch-Hack-Suppen im Herbst." },
           { name: "Ishikura", typ: "Japanische Frühlingszwiebel", aussehen: "Sehr lange, bleistiftdicke weiße Schäfte, die keine Zwiebelknolle ansetzen.", geschmack: "Knackig, mild-süßlich mit feiner, frischer Schärfe.", verwendung: "Klassiker für Wok-Gerichte, Ramen-Suppen, frische Dips oder roh im Salat." },
-          { name: "Blauer Winter", typ: "Winterporree", aussehen: "Dicker Schaft mit bläulich bereiften kräftigen Blättern.", geschmack: "Deftig-würzig mit schöner Lauchschärfe.", verwendung: "Absolut frostfest; für Eintöpfe und Quiche." },
-          { name: "White Lisbon", typ: "Frühlingszwiebel", aussehen: "Lange weiße Stiele mit knackig grünem Schlottenlaub.", geschmack: "Mild, frisch, leicht scharf.", verwendung: "Roh auf Butterbrot, Salate, Wok-Gerichte." }
+          { name: "Red Turban", typ: "Rote Frühlingszwiebel", aussehen: "Lange weiße Schäfte mit leuchtend weinrot bis purpur überlaufenem Wurzelansatz.", geschmack: "Fein-würzig, mild und spürbar süßer als rein weiße Sorten.", verwendung: "Spektakulärer Blickfang in bunten Salaten, auf Bowls, Flammkuchen und im Wok." },
+          { name: "White Lisbon", typ: "Klassische Frühlingszwiebel", aussehen: "Schlanke weiße Röhrenschäfte mit saftig grünen Halmen und kleiner runder Knolle am Fuß.", geschmack: "Knackig, saftig mit frischer, angenehmer Schärfe.", verwendung: "Der weltweite Standard für Salate, Kräuterquark, Dips oder als frische Rohkostbeilage." }
         ]
       },
       {
@@ -1180,12 +1274,11 @@
         tipp: "Ernte wie beim Pflücksalat: Immer nur die äußeren Blätter abdrehen, das Herz unberührt lassen. So erntest du monatelang.",
         guteNachbarn: "Möhren, Radieschen, Bohnen", schlechteNachbarn: "Spinat, Rote Bete",
         sorten: [
-				  { name: "Prager Stängellauch", typ: "Grober Schnittlauch", gruppe: "Schnittlauch", aussehen: "Kräftige, aufrechte, dunkelgrüne Röhren mit dekorativen violetten Blütenkugeln.", geschmack: "Würzig, lauchig-frisch mit angenehmer Schärfe.", verwendung: "Universell auf Butterbrot, in Rührei, Kräuterquark und Sommersalaten." },
-          { name: "Zitronenthymian Aureus", typ: "Bunter Zitronenthymian", gruppe: "Thymian", aussehen: "Kompakter Polsterwuchs mit goldgelb panaschierten kleinen Blättchen.", geschmack: "Auffallend fruchtig nach frischer Zitrone gepaart mit warmem Thymianaroma.", verwendung: "Traumhaft zu Geflügel, Fisch, Grillgemüse und für erfrischende Kräutertees." },
-          { name: "Berggarten", typ: "Breitblättriger Salbei", gruppe: "Salbei", aussehen: "Auffallend große, silbrig-graue, samtige Blätter an buschigem Halbstrauch.", geschmack: "Kräftig-harzig, aromatisch-herb ohne muffige Bitternote.", verwendung: "Sehr winterhart und blühfaul (daher extra viele Blätter); perfekt für Saltimbocca und Salbeibutter." },
-          { name: "Schokominze", typ: "Aromaminze", gruppe: "Minze", aussehen: "Dunkelgrüne Blätter mit auffällig braun-violetten Blattstängeln und Adern.", geschmack: "Feine Pfefferminznote, die im Abgang an dunkle Minzschokolade (After Eight) erinnert.", verwendung: "Hervorragend für Desserts, Eiscreme, Sommercocktails und aromatischen Aufguss." },
+          { name: "Bright Lights", typ: "Bunter Regenbogen-Mangold", aussehen: "Stiele leuchten rot, pink, gelb und orange.", geschmack: "Erdig-frisch, zart und mild.", verwendung: "Ein Blickfang im Beet und auf dem Teller." },
+          { name: "Feurio", typ: "Gelber Stielmangold", aussehen: "Leuchtend sonnengelbe bis goldene Stiele mit saftig grünen Blättern.", geschmack: "Zart, süßlich-mild und besonders feinfaserig im Biss.", verwendung: "Ein farbliches Meisterwerk im Beet und auf dem Teller; harmoniert wunderbar mit Pasta." },
+          { name: "Glatter Silber", typ: "Breitrippiger Stielmangold", aussehen: "Mächtige, reinweiße Stiele mit glatten, dunkelgrünen Riesenschaufeln.", geschmack: "Stiele spargelähnlich und mild, die Blätter vollmundig und herzhaft.", verwendung: "Sehr schossfest und ertragreich; Stiele wie Spargel kochen, Blätter wie Spinat zubereiten." },
           { name: "Lucullus", typ: "Stielmangold", aussehen: "Breite weiße Rippen mit gekraustem dunkelgrünem Blatt.", geschmack: "Stiele spargelähnlich, Blätter wie kräftiger Spinat.", verwendung: "Stiele dünsten, Blätter wie Spinat zubereiten." },
-          { name: "Bright Lights", typ: "Bunter Regenbogen-Mangold", aussehen: "Stiele leuchten rot, pink, gelb und orange.", geschmack: "Erdig-frisch, zart und mild.", verwendung: "Ein Blickfang im Beet und auf dem Teller." }
+          { name: "Rhubarb Chard", typ: "Roter Stielmangold", aussehen: "Leuchtend rubinrote Rippen und Blattadern mit dunkelgrün-bronzefarbenem Laub.", geschmack: "Erdig-würzig, kräftiger und herzhafter als weißer Mangold.", verwendung: "Bringt kräftige Farbe in Gemüsepfannen, Quiches oder als gedünstete Beilage." }
         ]
       },
       {
@@ -1223,7 +1316,7 @@
         tipp: "Nach drei bis vier Jahren lässt der Ertrag stark nach, dann die Beete mit Ablegern komplett neu anlegen.",
         guteNachbarn: "Knoblauch, Zwiebeln, Spinat", schlechteNachbarn: "Kohlarten",
         sorten: [
-				{ name: "Mara des Bois", typ: "Gourmet-Monatserdbeere", aussehen: "Mittelgroße, kegelförmige, intensiv rote Beeren |an kompakten Pflanzen.", geschmack: "Ausgeprägtes Waldbeer-Aroma kombiniert mit der Süße einer Gartenerdbeere.", verwendung: "Immertragend von Juni bis Oktober; ideal zum Frischverzehr direkt aus Kübel oder Balkonkasten." },
+				{ name: "Mara des Bois", typ: "Gourmet-Monatserdbeere", aussehen: "Mittelgroße, kegelförmige, intensiv rote Beeren an kompakten Pflanzen.", geschmack: "Ausgeprägtes Waldbeer-Aroma kombiniert mit der Süße einer Gartenerdbeere.", verwendung: "Immertragend von Juni bis Oktober; ideal zum Frischverzehr direkt aus Kübel oder Balkonkasten." },
           { name: "Florence", typ: "Späte Gartenerdbeere", aussehen: "Große, feste, dunkelrote Früchte mit ebenmäßiger Kegelform.", geschmack: "Vollaromatisch süß mit feiner, angenehm spritziger Säure.", verwendung: "Späte Ernte (ab Ende Juni/Juli); sehr widerstandsfähig gegen Mehltau und Wurzelkrankheiten." },
           { name: "Honeoye", typ: "Sehr frühe Freilandsorte", aussehen: "Mittelgroße bis große, glänzend dunkelrote Früchte mit festem Fruchtfleisch.", geschmack: "Frisch, kräftig-fruchtig und angenehm süß-säuerlich.", verwendung: "Eine der ersten Sorten im Gartenjahr (ab Ende Mai); ideal für Kuchenbelag und Konfitüre." },
           { name: "Polka", typ: "Mittelfrüher Ertragssieger", aussehen: "Prall-runde, gleichmäßig leuchtend rote Beeren mit glatter Schale.", geschmack: "Hervorragend süß, sehr saftig und aromatisch rund.", verwendung: "Ausgesprochen pflegeleicht und ertragreich; ein Favorit für Naschbeete und Erdbeerdesserts." },
@@ -1276,8 +1369,11 @@
         tipp: "Achte beim Kauf zwingend auf mehltauresistente Sorten! Alte Sorten verlieren oft im Juli alle Blätter durch den Pilz.",
         guteNachbarn: "Keine speziellen", schlechteNachbarn: "Keine speziellen",
         sorten: [
+          { name: "Captivator", typ: "Dornenarme Rote Stachelbeere", aussehen: "Mittelgroße, birnenförmige, dunkelrote bis purpurfarbene Beeren an fast dornenlosen Trieben.", geschmack: "Sehr süß, aromatisch und saftig mit dünner, unbehaarter Schale.", verwendung: "Erleichtert die Ernte enorm; fantastisch zum Frischverzehr direkt für Kinder und Naschgärten." },
+          { name: "Hinnonmäki Gelb", typ: "Gelbe Gourmet-Stachelbeere", aussehen: "Runde, leuchtend goldgelbe Beeren mit leicht durchscheinender Schale.", geschmack: "Außergewöhnlich süß mit feinem Honigaroma und milder Säure.", verwendung: "Sehr widerstandsfähig gegen Mehltau; herrlich für Desserts und feine Konfitüren." },
+          { name: "Hinnonmäki Rot", typ: "Rote Stachelbeere", aussehen: "Mittelgroße, dunkelrote, leicht behaarte Beeren.", geschmack: "Besonders süß und fruchtig, wenn sie vollreif ist.", verwendung: "Direkt vom Strauch naschen, sehr widerstandsfähig." },
           { name: "Invicta", typ: "Grüne Stachelbeere", aussehen: "Große, ovale, hellgrüne bis gelbliche Beeren, stark bedornt.", geschmack: "Süß-säuerlich, sehr aromatisch, klassischer Geschmack.", verwendung: "Hervorragend für Kuchen, Kompott und Marmelade. (Stark mehltauresistent)." },
-          { name: "Hinnonmäki Rot", typ: "Rote Stachelbeere", aussehen: "Mittelgroße, dunkelrote, leicht behaarte Beeren.", geschmack: "Besonders süß und fruchtig, wenn sie vollreif ist.", verwendung: "Direkt vom Strauch naschen, sehr widerstandsfähig." }
+          { name: "Mucurines", typ: "Großfrüchtige Grün-Gelbe", aussehen: "Sehr große, glatte, hellgrüne Früchte, die bei Vollreife bernsteinfarben leuchten.", geschmack: "Vollmundig süß-säuerlich mit kräftigem, traditionellem Stachelbeergeschmack.", verwendung: "Extrem robuster Massenträger; platzt auch bei starkem Sommerregen selten auf." }
         ]
       },
       {
@@ -1294,7 +1390,10 @@
         guteNachbarn: "Keine direkten, wuchert extrem", schlechteNachbarn: "Tomaten",
         sorten: [
           { name: "Beauregard", typ: "Klassiker", aussehen: "Hellrote bis rosa Schale mit orangefarbenem Fleisch.", geschmack: "Extrem süß, sehr cremig und butterweich beim Backen.", verwendung: "Süßkartoffel-Pommes, Püree, Ofenkartoffel." },
-          { name: "Erato White", typ: "Weiße Süßkartoffel", aussehen: "Helle Schale, weißes cremiges Fleisch.", geschmack: "Leicht nussig, weniger süß, eher an Esskastanien erinnernd.", verwendung: "Schmeckt herrlich in herzhaften Pfannengerichten." }
+          { name: "Bonita", typ: "Cremeweiße Edelsorte", aussehen: "Helle, glatte Schale mit weißem Fruchtfleisch und zartrosa Schimmer.", geschmack: "Mild-süßlich, angenehm stärkehaltig und trockener in der Textur.", verwendung: "Zerfällt beim Kochen nicht so schnell; spitze für Suppeneinlagen und Bratkartoffel-Varianten." },
+          { name: "Erato White", typ: "Weiße Süßkartoffel", aussehen: "Helle Schale, weißes cremiges Fleisch.", geschmack: "Leicht nussig, weniger süß, eher an Esskastanien erinnernd.", verwendung: "Schmeckt herrlich in herzhaften Pfannengerichten." },
+          { name: "Evangeline", typ: "Dunkelorange Gourmetknolle", aussehen: "Gleichmäßige, längliche Knollen mit rotbrauner Haut und tief dunkelorangefarbenem Kern.", geschmack: "Sehr hoher Zuckergehalt, intensiv süß und feincremig.", verwendung: "Beste Sorte für samtige Pürees, Süßkartoffel-Kuchen oder karamellisierte Ofenspalten." },
+          { name: "Murasaki", typ: "Japanische Süßkartoffel", aussehen: "Markant violett-violette Schale mit schneeweißem Innenleben.", geschmack: "Deutlich nussiger, erinnert an geröstete Maronen, weniger klebrig-süß.", verwendung: "Sehr beliebt in der asiatischen Küche; ideal im Ganzen im Ofen gebacken." }
         ]
       },
       {
@@ -1310,8 +1409,11 @@
         tipp: "Muss zwingend schon im Januar/Februar auf der Fensterbank ausgesät werden, sonst reifen die Früchte im Herbst draußen nicht mehr ab!",
         guteNachbarn: "Basilikum, Bohnen", schlechteNachbarn: "Tomaten, Kartoffeln",
         sorten: [
+          { name: "Goldmurmel", typ: "Frühe Andenbeere", aussehen: "Kleine bis mittelgroße, leuchtend goldgelbe Früchte in hellen Lampions.", geschmack: "Zuckersüß mit ausgeprägter tropischer Passionsfrucht-Note.", verwendung: "Reift auch in kühleren Sommern sehr zuverlässig ab; ideal für den Balkonkasten oder Topf." },
+          { name: "Kleine Laterne", typ: "Ananaskirsche", aussehen: "Deutlich kleinere Beeren, die reif von alleine abfallen.", geschmack: "Sehr süß, extreme Ananas-Note.", verwendung: "Muss oft schon im Juli aufgesammelt werden, super für Kinder." },
+          { name: "Preciosa", typ: "Ertragreiche Erdkirsche", aussehen: "Kompakter Wuchs mit unzähligen kleinen, runden Beeren an kurzen Trieben.", geschmack: "Milder und weniger sauer als Standard-Physalis, sehr aromatisch-süß.", verwendung: "Trägt extrem früh (schon ab Juli) und reichlich; perfekt zum Einkochen von Marmelade." },
           { name: "Schönbrunner Gold", typ: "Riesen-Physalis", aussehen: "Große, leuchtend orange Beeren in pergamentartiger Lampion-Hülle.", geschmack: "Herrlich süß-säuerlich, intensiv nach Ananas und Stachelbeere.", verwendung: "Direkt frisch aus der Hülle naschen, als Dessert-Deko." },
-          { name: "Kleine Laterne", typ: "Ananaskirsche", aussehen: "Deutlich kleinere Beeren, die reif von alleine abfallen.", geschmack: "Sehr süß, extreme Ananas-Note.", verwendung: "Muss oft schon im Juli aufgesammelt werden, super für Kinder." }
+          { name: "Toma Verde", typ: "Mexikanische Tomatillo", aussehen: "Apfelgroße, feste grüne Früchte, die ihre pergamentartige Hülle komplett sprengen.", geschmack: "Fruchtig-säuerlich, frisch und pikant mit feiner Kräuternote.", verwendung: "Die unverzichtbare Hauptzutat für authentische mexikanische Salsa Verde." }
         ]
       },
       {
@@ -1347,14 +1449,13 @@
         tipp: "Wenn die Früchte wachsen, leg ein Stück Holz oder Styropor darunter, damit sie nicht direkt auf der nassen Erde liegen und faulen.",
         guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Gurken, Zucchini",
         sorten: [
-				          { name: "Crimson Sweet", typ: "Wassermelone", aussehen: "Große, ovale Früchte mit hell- und dunkelgrün gestreifter Schale und tiefrotem Fruchtfleisch.", geschmack: "Herrlich knackig, extrem saftig und erfrischend süß mit hohem Zuckergehalt.", verwendung: "Sehr ertragreich und robust gegen Welkekrankheiten; die perfekte Sommer-Erfrischung." },
           { name: "Charentais", typ: "Zuckermelone (Cavaillon-Typ)", aussehen: "Runde, leicht gerippte, graugrüne Schale mit leuchtend orangerotem Innenleben.", geschmack: "Intensiv süß, schmelzend weich und unverwechselbar blumig parfümiert.", verwendung: "Klassiker der französischen Gourmetküche; pur gelöffelt oder hauchdünn mit Parmaschinken serviert." },
+          { name: "Crimson Sweet", typ: "Wassermelone", aussehen: "Große, ovale Früchte mit hell- und dunkelgrün gestreifter Schale und tiefrotem Fruchtfleisch.", geschmack: "Herrlich knackig, extrem saftig und erfrischend süß mit hohem Zuckergehalt.", verwendung: "Sehr ertragreich und robust gegen Welkekrankheiten; die perfekte Sommer-Erfrischung." },
           { name: "Janosik", typ: "Gelbe Wassermelone", aussehen: "Dunkelgrüne, runde Früchte mit spektakulär leuchtend gelbem Fruchtfleisch und wenigen Kernen.", geschmack: "Sehr süß, zuckrig-saftig mit einer feinen Honignote.", verwendung: "Polnische Züchtung, die speziell an mitteleuropäisches Klima angepasst ist; toller Hingucker auf Obstplatten." },
-          { name: "Sweet Granite", typ: "Freiland-Zuckermelone", aussehen: "Längliche Früchte mit fein genetzter, hellbraun-oranger Schale und lachsfarbenem Fruchtfleisch.", geschmack: "Vollaromatisch süß, saftig und erfrischend mild.", verwendung: "Extrem früh reifend und speziell für kühlere Sommer im Freilandbeet gezüchtet." },
+          { name: "Petit Gris de Rennes", typ: "Zuckermelone (Cantaloupe)", aussehen: "Kleine, gerippte Frucht mit graugrüner Schale und orangem Fleisch.", geschmack: "Exorbitant süß, parfümartig aromatisch.", verwendung: "Eine bretonische Delikatesse; roh löffeln oder zu Schinken." },
           { name: "Piel de Sapo", typ: "Futuro- / Honigmelone", aussehen: "Ovale, kräftig dunkelgrün gefleckte Früchte ('Krötenhaut') mit weißlich-hellgrünem Fleisch.", geschmack: "Sehr knackig-fest, erfrischend saftig und dezent honigsüß.", verwendung: "Hervorragend lagerfähig (hält sich wochenlang); perfekt für Obstsalate und Sommerbowlen." },
-
           { name: "Sugar Baby", typ: "Wassermelone", aussehen: "Dunkelgrüne, runde Melone, kompakter Wuchs (ca. 2-3 kg).", geschmack: "Tiefrotes, knackiges, sehr süßes Fruchtfleisch.", verwendung: "Gelingt auch in Deutschland im Freiland sehr zuverlässig!" },
-          { name: "Petit Gris de Rennes", typ: "Zuckermelone (Cantaloupe)", aussehen: "Kleine, gerippte Frucht mit graugrüner Schale und orangem Fleisch.", geschmack: "Exorbitant süß, parfümartig aromatisch.", verwendung: "Eine bretonische Delikatesse; roh löffeln oder zu Schinken." }
+          { name: "Sweet Granite", typ: "Freiland-Zuckermelone", aussehen: "Längliche Früchte mit fein genetzter, hellbraun-oranger Schale und lachsfarbenem Fruchtfleisch.", geschmack: "Vollaromatisch süß, saftig und erfrischend mild.", verwendung: "Extrem früh reifend und speziell für kühlere Sommer im Freilandbeet gezüchtet." }
         ]
       },
       {
@@ -1371,7 +1472,10 @@
         guteNachbarn: "Zwiebeln, Salat", schlechteNachbarn: "Möhren",
         sorten: [
           { name: "Halblange Weiße", typ: "Pastinake", aussehen: "Kegelförmige weiße dicke Pfahlwurzel.", geschmack: "Würzig-süß, nussig, wird durch Frost noch süßer.", verwendung: "Suppen, Ofengemüse, cremiges Püree." },
-          { name: "Hoffmanns Schwarze Pfahl", typ: "Schwarzwurzel", aussehen: "Lange, pechschwarze Stangen mit reinweißem Inneren.", geschmack: "Spargelähnlich, fein, leicht nussig.", verwendung: "Winterspargel mit zerlassener Butter." }
+          { name: "Hoffmanns Schwarze Pfahl", typ: "Schwarzwurzel", aussehen: "Lange, pechschwarze Stangen mit reinweißem Inneren.", geschmack: "Spargelähnlich, fein, leicht nussig.", verwendung: "Winterspargel mit zerlassener Butter." },
+          { name: "Russische Riesen", typ: "Robuste Schwarzwurzel", aussehen: "Extra dicke, gerade Wurzelstangen mit tiefschwarzer Rinde.", geschmack: "Besonders zart, saftig und mild nussig.", verwendung: "Lässt sich leichter schälen als dünne Sorten; perfekt gedünstet oder paniert ausgebacken." },
+          { name: "Tender and True", typ: "Gourmet-Pastinake", aussehen: "Lange, schlanke und auffallend glattschalige, elfenbeinweiße Wurzel.", geschmack: "Sehr intensiv süß mit feinem Anisaroma, fast ohne harten Holzkern.", verwendung: "Klassiker für britisches Roast-Dinner, Ofengemüse oder samtige Cremesuppen." },
+          { name: "White Gem", typ: "Kompakte Pastinake", aussehen: "Kürzere, kegelförmige Wurzel mit breiter Schulter.", geschmack: "Fein-würzig, zart und angenehm mild-süßlich.", verwendung: "Ideal für schwerere oder flachere Gartenböden, wo lange Sorten krumm wachsen würden." }
         ]
       },
       {
@@ -1409,8 +1513,11 @@
         tipp: "Vertragen leichte Fröste problemlos und können oft bis in den Dezember hinein geerntet werden.",
         guteNachbarn: "Fenchel, Möhren, Bohnen", schlechteNachbarn: "Sellerie",
         sorten: [
+          { name: "Bubikopf 2 (Eskariol)", typ: "Glatte Winterendivie", aussehen: "Großer, schwerer Kopf mit breiten, glatten, dunkelgrünen Blättern und dicht gefülltem gelbem Herz.", geschmack: "Erfrischend herb-würzig, das geschlossene Herz ist besonders zart und mild.", verwendung: "Sehr kältetolerant für den Spätherbst; toll mit warmem Kartoffeldressing oder gebratenem Speck." },
           { name: "Palla Rossa", typ: "Radicchio", aussehen: "Fester, runder, weinroter Kopf mit weißen Blattrippen.", geschmack: "Angenehm bitter, knackig und herb.", verwendung: "Wintersalat, oft auch kurz in der Pfanne angebraten." },
-          { name: "Pancalieri", typ: "Frisée / Endivie", aussehen: "Stark gekrauste, hellgrüne bis gelbliche Blätter.", geschmack: "Feinherb, das helle Herz ist milder.", verwendung: "Der klassische Herbstsalat, harmoniert super mit süßen Dressings (z.B. Honig-Senf)." }
+          { name: "Pancalieri", typ: "Frisée / Endivie", aussehen: "Stark gekrauste, hellgrüne bis gelbliche Blätter.", geschmack: "Feinherb, das helle Herz ist milder.", verwendung: "Der klassische Herbstsalat, harmoniert super mit süßen Dressings (z.B. Honig-Senf)." },
+          { name: "Rossa di Treviso Tardivo", typ: "Edel-Radicchio", aussehen: "Längliche, nach innen eingerollte lila Wedel mit breiten schneeweißen Rippen.", geschmack: "Knackig mit eleganter, milder Bitternote; schmilzt förmlich beim Braten.", verwendung: "Italienische Gourmet-Spezialität; perfekt halbiert vom Grill, im Risotto oder mit Pasta." },
+          { name: "Variegata di Castelfranco", typ: "Orchideen-Salat", aussehen: "Rosettenförmig wie eine offene Blüte; cremeweiß mit spektakulären purpurroten Tupfen.", geschmack: "Ungewöhnlich mild für Radicchio, zart, saftig und kaum bitter.", verwendung: "Die 'Rose von Castelfranco' ist ein optisches Meisterwerk für gemischte Feinschmecker-Salate." }
         ]
       },
       {
@@ -1426,9 +1533,7 @@
         tipp: "Die Rote Bete lässt sich in kleinen Multitopfplatten super vorziehen (ca. 3 Samen pro Töpfchen) und als kleiner Busch auspflanzen.",
         guteNachbarn: "Bohnen, Zwiebeln, Gurken", schlechteNachbarn: "Mangold, Spinat",
         sorten: [
-				          { name: "Rote Kugel 2", typ: "Klassischer Standard", aussehen: "Gleichmäßig kugelrunde, glattschalige Knollen mit tief dunkelrotem Fruchtfleisch.", geschmack: "Vollmundig erdig-süß mit klassischem, kräftigem Rote-Bete-Aroma.", verwendung: "Sehr ertragreich und bewährt; ideal für Ofengemüse, Borschtsch und zum Einkochen." },
           { name: "Burpees Golden", typ: "Gelbe Speisebete", aussehen: "Runde Knollen mit oranger Außenhaut und leuchtend sonnengelbem Fleisch.", geschmack: "Auffallend mild, süßlich und fruchtig ohne die typisch schwere Erdnase.", verwendung: "Färbt beim Schneiden und Kochen nicht ab; fantastisch roh gerieben oder als warmes Gemüse." },
-          { name: "Cylindra", typ: "Zylindrische Bete", aussehen: "Längliche, walzenförmige Knollen mit glatter, dunkelroter Schale.", geschmack: "Sehr zartes Fleisch, saftig und angenehm aromatisch-süß.", verwendung: "Lässt sich hervorragend in gleichmäßige Scheiben schneiden; wächst platzsparend im Beet." },
           { name: "Tonda di Chioggia", typ: "Gestreifte Gourmetbete", aussehen: "Helle Außenhaut; beim Aufschneiden zeigt sich ein faszinierendes rot-weißes Ringelmuster.", geschmack: "Deutlich feiner und süßer als dunkle Sorten, knackig im Biss.", verwendung: "Bester Hingucker hauchdünn gehobelt als Rote-Bete-Carpaccio oder roh im Sommersalat." },
           { name: "Avalanche", typ: "Reinweiße Delikatessbete", aussehen: "Ebenmäßig runde, vollkommen elfenbeinweiße Knollen mit hellem Blattansatz.", geschmack: "Sehr mild, süß und komplett frei von erdigen Bitterstoffen.", verwendung: "Perfekt für helle Cremesuppen, Pürees und Salate ohne Ausbluten auf dem Teller." },
 
@@ -1453,8 +1558,11 @@
         tipp: "Frost verbessert den Geschmack.",
         guteNachbarn: "Sellerie, Buschbohnen, Spinat", schlechteNachbarn: "Zwiebeln, Tomaten",
         sorten: [
+          { name: "Crispus (F1)", typ: "Robuste Frühsorte", aussehen: "Mittelgrüne, ebenmäßige und sehr feste Röschen.", geschmack: "Mild, nussig und wenig kohlartig.", verwendung: "Sehr widerstandsfähig gegen Mehltau; kann schon ab Oktober geerntet werden." },
+          { name: "Groninger", typ: "Winterhart", aussehen: "Dicht stehende dunkelgrüne Knospen.", geschmack: "Kräftig-würziges Wintergemüse.", verwendung: "Ernte den ganzen Winter über möglich." },
           { name: "Hilds Ideal", typ: "Klassiker", aussehen: "Feste, kugelrunde, mittelgrüne Röschen am langen Stamm.", geschmack: "Kräftig nussig, nach Frost wunderbar süßlich.", verwendung: "In Butter geschwenkt mit Muskatnuss und Speck." },
-          { name: "Groninger", typ: "Winterhart", aussehen: "Dicht stehende dunkelgrüne Knospen.", geschmack: "Kräftig-würziges Wintergemüse.", verwendung: "Ernte den ganzen Winter über möglich." }
+          { name: "Igor (F1)", typ: "Kältetauglicher Spätkohl", aussehen: "Standfeste Pflanze mit dicht besetztem Stamm und glatten Röschen.", geschmack: "Klassisch herzhaft, entwickelt bei Dauerfrost noch mehr Eigensüße.", verwendung: "Trotzt Schnee und Frost bis in den Februar; perfekt für Vorratsernten im Hochwinter." },
+          { name: "Rubine", typ: "Roter Gourmet-Rosenkohl", aussehen: "Auffällig rot-violett gefärbte Röschen mit dunkelroten Blattadern.", geschmack: "Deutlich feiner und süßer als grüner Rosenkohl, ganz ohne strenge Bitternote.", verwendung: "Bleibt beim Dünsten violett; optisches Highlight auf dem Teller oder kurz in Butter geschwenkt." }
         ]
       },
       {
@@ -1482,7 +1590,7 @@
         ]
       },
       {
-        id: "sellerie", name: "Knollensellerie & Stangensellerie", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
+        id: "sellerie", name: "Sellerie", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🥬",
         anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
         standort: "Sonnig bis halbschattig, feucht, schwerer & nährstoffreicher Boden",
         boden: "Schwerer, lehmiger, tiefgründiger Boden mit sehr viel reifem Kompost und Hornspänen. Braucht kontinuierlich Feuchtigkeit und profitiert von etwas Kochsalz/Gesteinsmehl.",
@@ -1494,8 +1602,7 @@
         tipp: "Herz (Mitte der Pflanze) darf beim Einsetzen auf keinen Fall mit Erde bedeckt werden.",
         guteNachbarn: "Kohl, Tomaten, Lauch", schlechteNachbarn: "Kartoffeln, Mais",
         sorten: [
-				          { name: "Monarch", typ: "Weißfleischiger Allrounder", aussehen: "Große, kugelrunde Knollen mit glatter, heller Außenhaut und reinweißem Fruchtfleisch.", geschmack: "Ausgesprochen würzig, nussig und aromatisch ohne muffige Erdnase.", verwendung: "Verfärbt sich beim Kochen nicht; der Klassiker für Waldorfsalat, Suppengrün und Püree." },
-          { name: "Prager Riesen", typ: "Historischer Riesenknollen", aussehen: "Sehr große, kräftige Knollen mit derbem Wurzelansatz und dunkelgrünem Fiederlaub.", geschmack: "Kräftig-deftig, tiefes klassisches Selleriearoma.", verwendung: "Traditionelle, sehr wüchsige Landsorte; perfekt für herzhafte Brühen, Eintöpfe und Schmorgerichte." },
+				  { name: "Monarch", typ: "Weißfleischiger Allrounder", aussehen: "Große, kugelrunde Knollen mit glatter, heller Außenhaut und reinweißem Fruchtfleisch.", geschmack: "Ausgesprochen würzig, nussig und aromatisch ohne muffige Erdnase.", verwendung: "Verfärbt sich beim Kochen nicht; der Klassiker für Waldorfsalat, Suppengrün und Püree." },
           { name: "Ibis", typ: "Schossfester Sommersellerie", aussehen: "Mittelgroße, hochsitzende runde Knollen mit hohem Wurzelboden (sehr leicht zu putzen).", geschmack: "Zart, mild-würzig mit saftigem, dichtem Fleisch.", verwendung: "Sehr resistent gegen Schossen bei Kälteeinbrüchen; ideal für frühe Ernten ab August." },
           { name: "Mentor", typ: "Lagerfähiger Spätsellerie (F1)", aussehen: "Ebenmäßig glatte, feste Rundknollen mit tiefem Blattansatz und festem Kern.", geschmack: "Fein-würzig, voll und cremig beim Garen.", verwendung: "Sehr widerstandsfähig gegen Septoria-Blattflecken; hervorragend im Sandkeller bis ins Frühjahr lagerbar." },
           { name: "Wiener Riesen", typ: "Österreichische Auslese", aussehen: "Breitrunde, schwere Knollen mit feiner, elfenbeinfarbener Schnittfläche.", geschmack: "Intensiv aromatisch mit süßlich-würziger Nuance.", verwendung: "Ausgezeichnet als vegetarisches Sellerieschnitzel paniert gebraten oder im Ofen geschmort." },
@@ -1518,8 +1625,11 @@
         tipp: "Rhabarber-Ernte strikt am 24. Juni beenden, damit die Pflanze Kraft fürs nächste Jahr sammeln kann.",
         guteNachbarn: "Erdbeeren, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch",
         sorten: [
+          { name: "Gijnlim (F1)", typ: "Klassischer Bleichspargel", aussehen: "Gerade, dicke, elfenbeinweiße Stangen mit fest geschlossenen Köpfen.", geschmack: "Sehr fein, buttrig-mild und zart ohne bittere Fasern.", verwendung: "Die ertragreichste frühe Sorte für den klassischen weißen Spargel mit Sauce Hollandaise." },
+          { name: "Holsteiner Blut", typ: "Rhabarber", aussehen: "Intensiv rot gefärbte Stiele mit grünem Fleisch.", geschmack: "Fruchtig, feine angenehme Säure.", verwendung: "Kuchen, Kompott, Rhabarbersirup." },
+          { name: "Himbeer-Rhabarber", typ: "Milder Himbeer-Rhabarber", aussehen: "Durchgehend dunkelrote Stangen mit rötlichem Fruchtfleisch.", geschmack: "Auffallend mild, zuckersüß und sehr säurearm (himbeerartig).", verwendung: "Muss kaum gezuckert werden; traumhaft für feine Desserts, Erdbeer-Rhabarber-Marmelade und Blechkuchen." },
           { name: "Mary Washington", typ: "Grünspargel", aussehen: "Kräftig grüne Stangen mit purpurfarbenen Spitzen.", geschmack: "Nussig, kräftiger als weißer Spargel, muss nicht geschält werden.", verwendung: "Kurz braten, grillen oder dünsten." },
-          { name: "Holsteiner Blut", typ: "Rhabarber", aussehen: "Intensiv rot gefärbte Stiele mit grünem Fleisch.", geschmack: "Fruchtig, feine angenehme Säure.", verwendung: "Kuchen, Kompott, Rhabarbersirup." }
+          { name: "Primaverde", typ: "Zarter Gourmet-Grünspargel", aussehen: "Leuchtend hellgrüne, schlanke Stangen mit zarten violetten Knospen.", geschmack: "Besonders süßlich, zartschmelzend und komplett fadenlos.", verwendung: "Schmeckt roh gehobelt im Salat, kurz in Butter geschwenkt oder direkt vom Grill." }
         ]
       },
       {
@@ -1535,15 +1645,14 @@
         tipp: "Schießt bei Hitze sofort in die Blüte. Im Hochsommer besser auf Mangold oder Neuseeländer Spinat ausweichen.",
         guteNachbarn: "Erdbeeren, Kohl, Kartoffeln", schlechteNachbarn: "Rote Bete, Mangold",
         sorten: [
-				 { name: "Monnopa", typ: "Säurearmer Sommerspinat", aussehen: "Große, glatte, hell- bis mittelgrüne Blätter an kräftigen Stängeln.", geschmack: "Besonders mild und zart, da von Natur aus sehr oxalsäurearm (hinterlässt kein stumpfes Gefühl auf den Zähnen).", verwendung: "Hervorragend als roher Babyspinat im Salat oder für feine Smoothies und Beilagen." },
-          { name: "Butterflay", typ: "Frühjahrs- & Herbstklassiker", aussehen: "Breite, dunkelgrüne, fleischige Blattrosetten mit leicht gewellter Oberfläche.", geschmack: "Vollmundig, kräftig und typisch mineralisch-aromatisch.", verwendung: "Sehr raschwüchsig und kältetolerant; ideal für die erste Ernte im April/Mai und für den Spätherbstanbau." },
-          { name: "Neuseeländer Spinat", typ: "Hitzetolerante Spinat-Alternative", aussehen: "Stark verzweigte, kriechende Triebe mit dicken, dreieckigen, fleischigen Blättern.", geschmack: "Sehr saftig, knackig und erfrischend; schmeckt gedünstet wie klassischer Spinat.", verwendung: "Botanisch ein Eiskrautgewächs, schießt bei Sommerhitze nicht; liefert von Juli bis zum Frost ununterbrochen frische Triebspitzen." },
-                   { name: "Matador", typ: "Klassischer Allrounder", aussehen: "Große, dunkelgrüne, fleischige Blätter mit leicht gewellter Oberfläche an kräftigen Rosetten.", geschmack: "Vollmundig, kräftig und mineralisch-frisch mit saftigem Biss.", verwendung: "Sehr ertragreich und bewährt für Frühjahrs- und Herbstsaaten; perfekt zum Kochen und Einfrieren." },
-          { name: "Verdil", typ: "Aromatischer Winterspinat", aussehen: "Längliche, spitze, mittelgrüne Blätter mit aufrechtem, lockerem Wuchs.", geschmack: "Ausgesprochen intensiv aromatisch, würzig und süßlich nach ersten Frösten.", verwendung: "Sehr frostharte Traditionssorte; überwintert im Freiland für früheste Ernten ab März/April." },
           { name: "Bloomsdale Long Standing", typ: "Hitzetoleranter Sommerspinat", aussehen: "Dicht gekräuselte, dickfleischige, moosgrüne Blätter (Savoy-Typ).", geschmack: "Nussig-herb, fest und vollmundig, behält beim Kochen viel Struktur.", verwendung: "Schießt bei Sommerwärme deutlich langsamer als andere Sorten; hervorragend für sommerliche Gemüsegerichte." },
-          { name: "Red Cardinal", typ: "Rotadriger Babyspinat (F1)", aussehen: "Glänzende, glatte Blätter mit leuchtend burgunderroten Adern und rubinroten Blattstielen.", geschmack: "Zart, knackig und mild-süßlich ohne herbe Noten.", verwendung: "Wunderschön roh als bunter Pflücksalat geerntet oder kurz in Pasta durchgeschwenkt." },
+          { name: "Butterflay", typ: "Frühjahrs- & Herbstklassiker", aussehen: "Breite, dunkelgrüne, fleischige Blattrosetten mit leicht gewellter Oberfläche.", geschmack: "Vollmundig, kräftig und typisch mineralisch-aromatisch.", verwendung: "Sehr raschwüchsig und kältetolerant; ideal für die erste Ernte im April/Mai und für den Spätherbstanbau." },
           { name: "Lazio", typ: "Robuster Mehltauresistenter (F1)", aussehen: "Glatte, ovale, intensiv tiefgrüne Blätter an kompakten, aufrechten Pflanzen.", geschmack: "Mild, saftig und erfrischend mit sehr feiner Faserung.", verwendung: "Resistent gegen fast alle Rassen des Falschen Mehltaus; zuverlässige Erträge im Frühjahr und Herbst." },
-
+          { name: "Matador", typ: "Klassischer Allrounder", aussehen: "Große, dunkelgrüne, fleischige Blätter mit leicht gewellter Oberfläche an kräftigen Rosetten.", geschmack: "Vollmundig, kräftig und mineralisch-frisch mit saftigem Biss.", verwendung: "Sehr ertragreich und bewährt für Frühjahrs- und Herbstsaaten; perfekt zum Kochen und Einfrieren." },
+          { name: "Monnopa", typ: "Säurearmer Sommerspinat", aussehen: "Große, glatte, hell- bis mittelgrüne Blätter an kräftigen Stängeln.", geschmack: "Besonders mild und zart, da von Natur aus sehr oxalsäurearm (hinterlässt kein stumpfes Gefühl auf den Zähnen).", verwendung: "Hervorragend als roher Babyspinat im Salat oder für feine Smoothies und Beilagen." },
+          { name: "Neuseeländer Spinat", typ: "Hitzetolerante Spinat-Alternative", aussehen: "Stark verzweigte, kriechende Triebe mit dicken, dreieckigen, fleischigen Blättern.", geschmack: "Sehr saftig, knackig und erfrischend; schmeckt gedünstet wie klassischer Spinat.", verwendung: "Botanisch ein Eiskrautgewächs, schießt bei Sommerhitze nicht; liefert von Juli bis zum Frost ununterbrochen frische Triebspitzen." },
+          { name: "Red Cardinal", typ: "Rotadriger Babyspinat (F1)", aussehen: "Glänzende, glatte Blätter mit leuchtend burgunderroten Adern und rubinroten Blattstielen.", geschmack: "Zart, knackig und mild-süßlich ohne herbe Noten.", verwendung: "Wunderschön roh als bunter Pflücksalat geerntet oder kurz in Pasta durchgeschwenkt." },
+          { name: "Verdil", typ: "Aromatischer Winterspinat", aussehen: "Längliche, spitze, mittelgrüne Blätter mit aufrechtem, lockerem Wuchs.", geschmack: "Ausgesprochen intensiv aromatisch, würzig und süßlich nach ersten Frösten.", verwendung: "Sehr frostharte Traditionssorte; überwintert im Freiland für früheste Ernten ab März/April." },
           { name: "Winterriesen", typ: "Winterspinat", aussehen: "Sehr breite, kälteresistente Blattrosetten.", geschmack: "Vollmundig und gehaltvoll.", verwendung: "Ernte im Spätherbst und zeitigen Frühjahr." }
         ]
       },
@@ -1560,7 +1669,11 @@
         tipp: "Topinambur wuchert extrem (Wurzelsperre einsetzen oder strikt ernten!).",
         guteNachbarn: "Mais, Sonnenblumen", schlechteNachbarn: "Tomaten",
         sorten: [
-          { name: "Gute Gelbe", typ: "Topinambur", aussehen: "Hellbraune, knollige Wurzeln unter Sonnenblumen-ähnlichen Pflanzen.", geschmack: "Süßlich, nussig, erinnert an Artischocke.", verwendung: "Roh raspeln, als Suppe oder wie Bratkartoffeln." }
+          { name: "Bianca", typ: "Frühe Speisesorte", aussehen: "Helle, ebenmäßige Knollen mit wenig Ausbuchtungen an standfesten Stängeln.", geschmack: "Mild, süßlich mit feiner Artischocken- und Esskastaniennote.", verwendung: "Durch die glattere Schale besonders leicht zu putzen; ideal für cremige Suppen und Püree." },
+          { name: "Gute Gelbe", typ: "Topinambur", aussehen: "Hellbraune, knollige Wurzeln unter Sonnenblumen-ähnlichen Pflanzen.", geschmack: "Süßlich, nussig, erinnert an Artischocke.", verwendung: "Roh raspeln, als Suppe oder wie Bratkartoffeln." },
+          { name: "Rote Keule", typ: "Rote Landsorte", aussehen: "Längliche, keulenförmige Knollen mit intensiv purpurroter Außenhaut.", geschmack: "Kräftig nussig, erdig-würzig und besonders saftig.", verwendung: "Beste Sorte zum Rösten im Ofen oder in Scheiben gebraten wie Bratkartoffeln." },
+          { name: "Topstar", typ: "Frühreife Züchtung", aussehen: "Kompakte, ovale Knollen mit glatter, goldgelber Haut.", geschmack: "Sehr zart, süßlich-knackig und erfrischend im Biss.", verwendung: "Reift bereits ab September aus; hervorragend roh geraspelt im Salat mit Äpfeln." },
+          { name: "Waldspindel", typ: "Historischer Riesenknollen", aussehen: "Große, spindelförmige Knollen mit feiner, heller Schale.", geschmack: "Vollmundig, mild und angenehm cremig beim Kochen.", verwendung: "Extrem wuchskräftig und absolut winterhart; kann den ganzen Winter über frisch aus dem Boden geerntet werden." }
         ]
       },
       {
@@ -1576,25 +1689,23 @@
         tipp: "Pflanzen tief einsetzen, sie bilden am Stamm zusätzliche Wurzeln.",
         guteNachbarn: "Basilikum, Knoblauch, Möhren", schlechteNachbarn: "Kartoffeln, Fenchel",
         sorten: [
-				          { name: "Ananas Noire", typ: "Dunkle Fleischtomate", aussehen: "Große, mehrfarbige Früchte mit grün-violett-brauner Schale und rot marmoriertem Fruchtfleisch.", geschmack: "Komplex süß-würzig, leicht rauchig mit fruchtiger Melonennote.", verwendung: "Gourmet-Highlight in dicken Scheiben mit Olivenöl oder für bunte Sommersalate." },
-          { name: "Sungold", typ: "Orange Kirschtomate (F1)", aussehen: "Kleine, leuchtend mandarine-orangefarbene Kirschtomaten an langen Rispen.", geschmack: "Extrem zuckersüß, tropisch-fruchtig mit erfrischender, feiner Säure.", verwendung: "Eine der süßesten Naschtomaten überhaupt; ideal direkt vom Strauch oder für Kinder." },
-          { name: "Roma", typ: "Klassische Eiertomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Gallertmasse und dicken Wänden.", geschmack: "Mild, aromatisch und intensiv tomatig beim Einkochen.", verwendung: "Sehr ertragreich; der Klassiker für hausgemachte Pizzasaucen, Sugo und zum Dörren." },
-          { name: "Gelbe Johannisbeere", typ: "Wildtomate", aussehen: "Erbsengroße, goldgelbe Minitomaten an stark wuchernden, riesigen Büschen.", geschmack: "Knackig-saftig, süß-säuerlich und herrlich erfrischend.", verwendung: "Hochgradig resistent gegen Krautfäule; muss nicht ausgegeizt werden und trägt unermüdlich." },
-          { name: "Moneymaker", typ: "Klassische Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, glänzende rote Früchte an gleichmäßigen Rispen.", geschmack: "Traditionell saftig, ausgewogen mild-säuerlich und klassisch frisch.", verwendung: "Extrem verlässlicher, robuster Massenträger; top für Salat, Suppen und Scheiben." },
-
-				  { name: "Green Zebra", typ: "Gestreifte Salattomate", aussehen: "Mittelgroß mit spektakulärer gelb-smaragdgrüner Streifung bei Vollreife.", geschmack: "Spritzig-würzig mit feiner, fruchtiger Säure und tollem Biss.", verwendung: "Bringt Farbe in Salate; hervorragend in Scheiben zu Mozzarella." },
-          { name: "Dattelwein", typ: "Birnen- / Cocktailtomate", aussehen: "Kleine, birnenförmige, leuchtend gelbe Früchte an riesigen Trauben.", geschmack: "Zuckersüß, mild und herrlich saftig.", verwendung: "Super Naschtomate für Kinder, Salate oder zum Dörren." },
-          { name: "Brandywine", typ: "Historische Fleischtomate", aussehen: "Große, rosarote, leicht gerippte Früchte an kartoffelblättrigen Pflanzen.", geschmack: "Tiefes, altes Tomatenaroma – intensiv süß-würzig und cremig.", verwendung: "Feinschmecker-Sorte für dicke Burgerscheiben und Tomatensalat." },
-          { name: "Philovita", typ: "Kirschtomate (F1)", aussehen: "Kleine, tiefrote, glänzende Cocktailtomaten an festen Rispen.", geschmack: "Explosiv süß-aromatischer Geschmack mit knackiger Haut.", verwendung: "Extrem widerstandsfähig gegen Krautfäule; top für Freiland und Kübel." },
-
-          { name: "Harzfeuer F1", typ: "Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, leuchtend rote Früchte an kräftigen Rispen.", geschmack: "Sehr ausgewogenes Verhältnis von Süße und traditioneller Tomatensäure.", verwendung: "Der bewährte deutsche Allrounder für Brotzeit, Salat und Scheiben." },
-          { name: "San Marzano", typ: "Flaschentomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Hohlraum.", geschmack: "Fruchtig-herb, intensiv, mit sehr wenig Wasser und kaum Kernen.", verwendung: "Die weltberühmte italienische Pizzasaucen- und Einkochtomate." },
-          { name: "Ochsenherz", typ: "Fleischtomate", aussehen: "Riesige, herzförmige, stark gerippte rote Früchte bis zu 500 Gramm.", geschmack: "Sehr fleischig, süß-aromatisch, schmilzt auf der Zunge.", verwendung: "Hervorragend für Caprese mit Mozzarella oder dicke Steaks auf dem Burger." },
+          { name: "Ananas Noire", typ: "Dunkle Fleischtomate", aussehen: "Große, mehrfarbige Früchte mit grün-violett-brauner Schale und rot marmoriertem Fruchtfleisch.", geschmack: "Komplex süß-würzig, leicht rauchig mit fruchtiger Melonennote.", verwendung: "Gourmet-Highlight in dicken Scheiben mit Olivenöl oder für bunte Sommersalate." },
           { name: "Berner Rose", typ: "Historische Fleischtomate", aussehen: "Himbeer- bis rosafarbene, dünnschalige, saftige Großfrüchte.", geschmack: "Unübertroffen saftig, weich, vollmundig-süß mit feiner Würze.", verwendung: "Eine absolute Liebhabersorte für den puren Rohverzehr mit Meersalz." },
+          { name: "Brandywine", typ: "Historische Fleischtomate", aussehen: "Große, rosarote, leicht gerippte Früchte an kartoffelblättrigen Pflanzen.", geschmack: "Tiefes, altes Tomatenaroma – intensiv süß-würzig und cremig.", verwendung: "Feinschmecker-Sorte für dicke Burgerscheiben und Tomatensalat." },
+          { name: "Dattelwein", typ: "Birnen- / Cocktailtomate", aussehen: "Kleine, birnenförmige, leuchtend gelbe Früchte an riesigen Trauben.", geschmack: "Zuckersüß, mild und herrlich saftig.", verwendung: "Super Naschtomate für Kinder, Salate oder zum Dörren." },
+          { name: "Gelbe Johannisbeere", typ: "Wildtomate", aussehen: "Erbsengroße, goldgelbe Minitomaten an stark wuchernden, riesigen Büschen.", geschmack: "Knackig-saftig, süß-säuerlich und herrlich erfrischend.", verwendung: "Hochgradig resistent gegen Krautfäule; muss nicht ausgegeizt werden und trägt unermüdlich." },
+          { name: "Green Zebra", typ: "Gestreifte Salattomate", aussehen: "Mittelgroß mit spektakulärer gelb-smaragdgrüner Streifung bei Vollreife.", geschmack: "Spritzig-würzig mit feiner, fruchtiger Säure und tollem Biss.", verwendung: "Bringt Farbe in Salate; hervorragend in Scheiben zu Mozzarella." },
+          { name: "Harzfeuer F1", typ: "Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, leuchtend rote Früchte an kräftigen Rispen.", geschmack: "Sehr ausgewogenes Verhältnis von Süße und traditioneller Tomatensäure.", verwendung: "Der bewährte deutsche Allrounder für Brotzeit, Salat und Scheiben." },
+          { name: "Moneymaker", typ: "Klassische Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, glänzende rote Früchte an gleichmäßigen Rispen.", geschmack: "Traditionell saftig, ausgewogen mild-säuerlich und klassisch frisch.", verwendung: "Extrem verlässlicher, robuster Massenträger; top für Salat, Suppen und Scheiben." },
+          { name: "Ochsenherz", typ: "Fleischtomate", aussehen: "Riesige, herzförmige, stark gerippte rote Früchte bis zu 500 Gramm.", geschmack: "Sehr fleischig, süß-aromatisch, schmilzt auf der Zunge.", verwendung: "Hervorragend für Caprese mit Mozzarella oder dicke Steaks auf dem Burger." },
+          { name: "Philovita", typ: "Kirschtomate (F1)", aussehen: "Kleine, tiefrote, glänzende Cocktailtomaten an festen Rispen.", geschmack: "Explosiv süß-aromatischer Geschmack mit knackiger Haut.", verwendung: "Extrem widerstandsfähig gegen Krautfäule; top für Freiland und Kübel." },
+          { name: "Roma", typ: "Klassische Eiertomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Gallertmasse und dicken Wänden.", geschmack: "Mild, aromatisch und intensiv tomatig beim Einkochen.", verwendung: "Sehr ertragreich; der Klassiker für hausgemachte Pizzasaucen, Sugo und zum Dörren." },
+          { name: "Rote Murmel", typ: "Wildtomate", aussehen: "Unzählige kirschgroße rote Früchtchen an buschig wuchernder Pflanze.", geschmack: "Knackig, extrem fruchtig-süß mit kräftigem Biss.", verwendung: "100% resistent gegen Krautfäule im Freiland; muss nicht ausgegeizt werden!" },
+          { name: "San Marzano", typ: "Flaschentomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Hohlraum.", geschmack: "Fruchtig-herb, intensiv, mit sehr wenig Wasser und kaum Kernen.", verwendung: "Die weltberühmte italienische Pizzasaucen- und Einkochtomate." },
           { name: "Schwarze Krim", typ: "Dunkle Fleischtomate", aussehen: "Dunkelbraun-rot mit olivgrünen Schultern, flachrund gerippt.", geschmack: "Würzig, süß, fast rauchig mit einer natürlich leicht salzigen Note.", verwendung: "Ein optisches und geschmackliches Highlight in Salaten." },
-          { name: "Zuckertraube", typ: "Cocktailtomate", aussehen: "Lange Rispen voller kleiner, kugelrunder, glänzender roter Beeren.", geschmack: "Zuckersüß, extrem saftig und aromatisch.", verwendung: "Die beste Naschtomate direkt vom Strauch für Kinder und Gartenpausen." },
-          { name: "Rote Murmel", typ: "Wildtomate", aussehen: "Unzählige kirschgroße rote Früchtchen an buschig wuchernder Pflanze.", geschmack: "Knackig, extrem fruchtig-süß mit kräftigem Biss.", verwendung: "100% resistent gegen Krautfäule im Freiland; muss nicht ausgegeizt werden!" }
-        ]
+          { name: "Sungold", typ: "Orange Kirschtomate (F1)", aussehen: "Kleine, leuchtend mandarine-orangefarbene Kirschtomaten an langen Rispen.", geschmack: "Extrem zuckersüß, tropisch-fruchtig mit erfrischender, feiner Säure.", verwendung: "Eine der süßesten Naschtomaten überhaupt; ideal direkt vom Strauch oder für Kinder." },
+          { name: "Zuckertraube", typ: "Cocktailtomate", aussehen: "Lange Rispen voller kleiner, kugelrunder, glänzender roter Beeren.", geschmack: "Zuckersüß, extrem saftig und aromatisch.", verwendung: "Die beste Naschtomate direkt vom Strauch für Kinder und Gartenpausen." }
+       ]
       },
       {
         id: "zwiebel", name: "Zwiebeln & Schalotten", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
@@ -1610,20 +1721,18 @@
         guteNachbarn: "Möhren, Erdbeeren, Salat", schlechteNachbarn: "Bohnen, Erbsen, Kohlarten",
         filterGruppen: ["Steckzwiebeln", "Saatzwiebeln", "Schalotten", "Winterzwiebeln"],
         sorten: [
-				          { name: "Exhibition", typ: "Riesen-Gemüsezwiebel", gruppe: "Saatzwiebeln", aussehen: "Mächtige, strohgelbe Knollen, die einzeln bis zu 1 kg schwer werden können.", geschmack: "Ungewöhnlich mild, saftig und süßlich ohne beißende Schärfe.", verwendung: "Klassiker aus der Direktsaat; perfekt für Zwiebelringe, Salate und herzhafte Zwiebelkuchen." },
-          { name: "Senshyu Yellow", typ: "Japanische Winterzwiebel", gruppe: "Winterzwiebeln", aussehen: "Flachrunde, feste Knollen mit goldbrauner Schale und kräftigen Schichten.", geschmack: "Angenehm herzhaft-würzig mit milder Süße nach dem Kochen.", verwendung: "Ausgezeichnet für die Herbststeckung; trotzt starkem Frost und liefert die früheste Sommerernte." },
-          { name: "Tropea Rossa Lunga", typ: "Rote Flaschenzwiebel", gruppe: "Saatzwiebeln", aussehen: "Längliche, torpedoförmige Knollen mit glänzender, weinroter Schale.", geschmack: "Berühmt süß, feinaromatisch und mild; kaum brennend.", verwendung: "Süditalienische Gourmetsorte; ideal roh im Sommersalat, gegrillt oder karamellisiert." },
+          { name: "Bamberger Birnenförmige", typ: "Schalotte", gruppe: "Schalotten", aussehen: "Längliche, flaschenförmige feine Knollen.", geschmack: "Sehr edel, süßlich-fein, brennt kaum in den Augen.", verwendung: "Gourmet-Küche, Dressings, feine Saucen." },
           { name: "Centurion", typ: "Ertragsstarke Steckzwiebel (F1)", gruppe: "Steckzwiebeln", aussehen: "Gleichmäßig rund-ovale, feste Knollen mit glatter, kupferbrauner Schale.", geschmack: "Würzig-scharf, vollmundig und klassisch zwiebelig.", verwendung: "Extrem schossfest und gleichmäßig im Wuchs; exzellent und lange lagerfähig." },
-          { name: "Red Sun", typ: "Rote Rundschalotte", gruppe: "Schalotten", aussehen: "Kompakte, runde Schalotten mit kupferroter Schale und zart violetten Ringen.", geschmack: "Fein-würzig, edel und milder als normale rote Speisezwiebeln.", verwendung: "Sehr ertragreich und fest; erstklassig für Vinaigrettes, Marinaden und Schmorgerichte." },
-
-				  { name: "Sturon", typ: "Runde Speisezwiebel", gruppe: "Steckzwiebeln", aussehen: "Mittelgroße bis große, kugelrunde Knollen mit goldgelber, fester Schale.", geschmack: "Angenehm herzhaft-würzig mit feiner Schärfe; beim Schmoren herrlich süß.", verwendung: "Sehr ertragreich, extrem schossfest und bis weit ins Frühjahr hinein lagerfähig." },
-          { name: "Snowball", typ: "Weiße Delikatesszwiebel", gruppe: "Steckzwiebeln", aussehen: "Reingeweißte, runde Knollen mit dünner, feiner Schalenhaut.", geschmack: "Mild, süßlich und besonders saftig ohne brennende Schärfe.", verwendung: "Perfekt für Rohkost, Salate, Burger oder mediterrane Gerichte." },
-          { name: "Radar", typ: "Wintersteckzwiebel", gruppe: "Winterzwiebeln", aussehen: "Kräftige, flachrunde Zwiebeln mit harter, goldgelber Schutzschale.", geschmack: "Vollmundig, mild-würzig und aromatisch frisch.", verwendung: "Im Herbst gesteckt überwintert sie problemlos im Beet; erste Ernte schon ab Mai/Juni." },
+          { name: "Exhibition", typ: "Riesen-Gemüsezwiebel", gruppe: "Saatzwiebeln", aussehen: "Mächtige, strohgelbe Knollen, die einzeln bis zu 1 kg schwer werden können.", geschmack: "Ungewöhnlich mild, saftig und süßlich ohne beißende Schärfe.", verwendung: "Klassiker aus der Direktsaat; perfekt für Zwiebelringe, Salate und herzhafte Zwiebelkuchen." },
           { name: "Longor", typ: "Französische Schalotte", gruppe: "Schalotten", aussehen: "Längliche, bananenförmige Knollen mit kupferroter Schale und rosa Fleisch.", geschmack: "Sehr fein, edel-würzig und mild, brennt kaum in den Augen.", verwendung: "Feinschmecker-Standard für Vinaigrettes, Saucen (Béarnaise) und kurzgebratenes Fleisch." },
-
-          { name: "Stuttgarter Riesen", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Flachrunde, gelbbraune feste Zwiebeln.", geschmack: "Kräftig-würzig, gute Schärfe.", verwendung: "Der unangefochtene Klassiker, hervorragend lagerfähig." },
+          { name: "Radar", typ: "Wintersteckzwiebel", gruppe: "Winterzwiebeln", aussehen: "Kräftige, flachrunde Zwiebeln mit harter, goldgelber Schutzschale.", geschmack: "Vollmundig, mild-würzig und aromatisch frisch.", verwendung: "Im Herbst gesteckt überwintert sie problemlos im Beet; erste Ernte schon ab Mai/Juni." },
           { name: "Red Baron", typ: "Rote Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Dunkelrot durchgefärbte Ringe, flachrund.", geschmack: "Feiner und milder als gelbe Zwiebeln.", verwendung: "Perfekt für Salate, Schmorgerichte und Zwiebelkuchen." },
-          { name: "Bamberger Birnenförmige", typ: "Schalotte", gruppe: "Schalotten", aussehen: "Längliche, flaschenförmige feine Knollen.", geschmack: "Sehr edel, süßlich-fein, brennt kaum in den Augen.", verwendung: "Gourmet-Küche, Dressings, feine Saucen." }
+          { name: "Red Sun", typ: "Rote Rundschalotte", gruppe: "Schalotten", aussehen: "Kompakte, runde Schalotten mit kupferroter Schale und zart violetten Ringen.", geschmack: "Fein-würzig, edel und milder als normale rote Speisezwiebeln.", verwendung: "Sehr ertragreich und fest; erstklassig für Vinaigrettes, Marinaden und Schmorgerichte." },
+          { name: "Senshyu Yellow", typ: "Japanische Winterzwiebel", gruppe: "Winterzwiebeln", aussehen: "Flachrunde, feste Knollen mit goldbrauner Schale und kräftigen Schichten.", geschmack: "Angenehm herzhaft-würzig mit milder Süße nach dem Kochen.", verwendung: "Ausgezeichnet für die Herbststeckung; trotzt starkem Frost und liefert die früheste Sommerernte." },
+          { name: "Snowball", typ: "Weiße Delikatesszwiebel", gruppe: "Steckzwiebeln", aussehen: "Reingeweißte, runde Knollen mit dünner, feiner Schalenhaut.", geschmack: "Mild, süßlich und besonders saftig ohne brennende Schärfe.", verwendung: "Perfekt für Rohkost, Salate, Burger oder mediterrane Gerichte." },
+          { name: "Sturon", typ: "Runde Speisezwiebel", gruppe: "Steckzwiebeln", aussehen: "Mittelgroße bis große, kugelrunde Knollen mit goldgelber, fester Schale.", geschmack: "Angenehm herzhaft-würzig mit feiner Schärfe; beim Schmoren herrlich süß.", verwendung: "Sehr ertragreich, extrem schossfest und bis weit ins Frühjahr hinein lagerfähig." },
+          { name: "Stuttgarter Riesen", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Flachrunde, gelbbraune feste Zwiebeln.", geschmack: "Kräftig-würzig, gute Schärfe.", verwendung: "Der unangefochtene Klassiker, hervorragend lagerfähig." },
+          { name: "Tropea Rossa Lunga", typ: "Rote Flaschenzwiebel", gruppe: "Saatzwiebeln", aussehen: "Längliche, torpedoförmige Knollen mit glänzender, weinroter Schale.", geschmack: "Berühmt süß, feinaromatisch und mild; kaum brennend.", verwendung: "Süditalienische Gourmetsorte; ideal roh im Sommersalat, gegrillt oder karamellisiert." }
         ]
       }
     ];
@@ -2253,6 +2362,16 @@
       if (aktiveKategorie === "Mein Beet") {
         const bedCount = appSettings.bedCount || 8;
         
+        // Zählt automatisch, wie viele Sorten in welchem Beet stehen
+        const bedBelegung = {};
+        Object.keys(beet).forEach(k => {
+          const val = beet[k];
+          const bNum = typeof val === 'string' ? '' : (val.beetNum || '');
+          if (bNum) {
+            bedBelegung[bNum] = (bedBelegung[bNum] || 0) + 1;
+          }
+        });
+
         let bedFilterHtml = `
           <div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🏡 Deine Beet-Übersicht</div>
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 16px; gap: 10px;">
@@ -2261,10 +2380,13 @@
                 <option value="Alle" ${aktiverBeetFilter === 'Alle' ? 'selected' : ''}>🌱 Alle Beete anzeigen</option>
         `;
         for(let i=1; i<=bedCount; i++) {
-          bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i}</option>`;
+          const count = bedBelegung[i] || 0;
+          const statusText = count > 0 ? `(${count} Pflanze${count > 1 ? 'n' : ''})` : `(Leer)`;
+          bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i}${statusText}</option>`;
         }
         bedFilterHtml += `
               </select>
+
               <div style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #fff; pointer-events: none; font-size: 0.8rem;">▼</div>
             </div>
             <button class="clear-all-beets-btn" style="margin-left: 0; padding: 12px 16px; font-size: 0.85rem; border-radius: 12px; display: flex; align-items: center;" onclick="clearAllBeets()" title="Alle Beeteinträge löschen">🧹 Alle leeren</button>
@@ -2286,16 +2408,19 @@
         `);
         return;
       }
-
       if (matchedList.length === 0 && aktiveKategorie === "Mein Beet") {
         cultureGrid.insertAdjacentHTML("beforeend", `
           <div class="not-found-box">
-            <div class="not-found-title">🏡 Keine Sorten in diesem Beet</div>
-            <div class="not-found-text">Wähle oben ein anderes Beet oder weise im Pflanzendetail eine Sorte einem Beet zu.</div>
+            <div class="not-found-title">🏡 Beet ${aktiverBeetFilter !== 'Alle' ? aktiverBeetFilter : ''} ist aktuell noch leer</div>
+            <div class="not-found-text">Möchtest du eine Kultur aus deiner Enzyklopädie diesem Beet zuweisen?</div>
+            <div class="not-found-actions" style="margin-top: 14px;">
+              <button onclick="setMainCategory('Alle'); trigVib();" class="action-pill primary" style="cursor: pointer; border: none; font-size: 0.9rem; padding: 12px 18px;">
+                ➕ Pflanze auswählen & zuweisen
+              </button>
+            </div>
           </div>
         `);
       }
-
       const struktur = {
         "Gemüse": { icon: "🥦", items: [] },
         "Obst": { icon: "🍎", items: [] },
@@ -2500,12 +2625,13 @@
       try { window.print(); } catch (e) { alert("Drucken wird von diesem Browser blockiert."); }
     }
 
-    function renderDetailModal() {
+     function renderDetailModal() {
       const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
       if (!k) return;
 
-      const query = searchInput.value.toLowerCase().trim();
+      const prevScrollTop = detailPanel.scrollTop;
 
+      const query = searchInput.value.toLowerCase().trim();
       let sichtbareSorten = k.sorten;
       if (k.filterGruppen && aktiverSubFilter !== "Alle") {
         sichtbareSorten = k.sorten.filter(s => s.gruppe === aktiverSubFilter);
@@ -2644,9 +2770,9 @@
           </div>
         </div>
       `;
+      detailPanel.scrollTop = prevScrollTop;
     }
-
-    window.setSubFilter = function(gName) {
+     window.setSubFilter = function(gName) {
       trigVib();
       aktiverSubFilter = gName;
       gewaehlteSorteIdx = 0;
