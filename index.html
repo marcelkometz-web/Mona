@@ -536,12 +536,13 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    const THEME_KEY = "ramonas_garten_theme_v1";
-    function applyTheme(theme) {
+    const THEME_KEY = "ramonas_garten_theme_    function applyTheme(theme) {
       if (theme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
         document.body.classList.add('dark-mode');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f1712');
       } else {
+        document.documentElement.classList.remove('dark-mode');
         document.body.classList.remove('dark-mode');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1c3b2b');
       }
