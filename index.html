@@ -1742,8 +1742,167 @@
           { name: "Stuttgarter Riesen", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Flachrunde, gelbbraune feste Zwiebeln.", geschmack: "Kräftig-würzig, gute Schärfe.", verwendung: "Der unangefochtene Klassiker, hervorragend lagerfähig." },
           { name: "Tropea Rossa Lunga", typ: "Rote Flaschenzwiebel", gruppe: "Saatzwiebeln", aussehen: "Längliche, torpedoförmige Knollen mit glänzender, weinroter Schale.", geschmack: "Berühmt süß, feinaromatisch und mild; kaum brennend.", verwendung: "Süditalienische Gourmetsorte; ideal roh im Sommersalat, gegrillt oder karamellisiert." }
         ]
+      },
+      // === NEUE GEMÜSE-KULTUREN ===
+      {
+        id: "edamame",name: "Edamame (Sojabohne)", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫛",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
+        standort: "Vollsonnig und sehr warm (brauchen durchgehend warme Temperaturen).",
+        boden: "Locker, humos und gut durchwärmt.",
+        duenger: "Schwachzehrer: Sammelt als Leguminose eigenen Stickstoff. Eine kleine Gabe Kompost reicht völlig aus.",
+        giessen: "Ab der Blüte und während der Hülsenbildung zwingend regelmäßig und reichlich wässern.",
+        abstandPflanze: "15 cm", abstandReihe: "40 cm", saattiefe: "3-4 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "April", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Sep",
+        monateAussaat: [4, 5],
+        tipp: "Nicht warten, bis sie trocken sind! Edamame wird geerntet, wenn die Hülsen noch leuchtend grün und die Bohnen prall sind.",
+        guteNachbarn: "Kartoffeln, Mais", schlechteNachbarn: "Zwiebeln, Knoblauch, Erbsen",
+        sorten: [
+          { name: "Green Shell", typ: "Frühe Edamame", aussehen: "Kräftig grüne, fein behaarte Hülsen mit jeweils 2-3 dicken Bohnen.", geschmack: "Nussig, leicht süßlich und knackig im Biss.", verwendung: "In Salzwasser gedämpft und als warmer Snack pur aus der Schale gezuzelt." },
+          { name: "Hokkai Green", typ: "Busch-Sojabohne", aussehen: "Standfester, ca. 60 cm hoher Busch mit enormem Behang.", geschmack: "Vollmundig, sehr aromatischer Bohnengeschmack.", verwendung: "Perfekt für asiatische Bowls, Salate oder Wok-Gerichte." }
+        ]
+      },
+      {
+        id: "steckruebe", name: "Steckrübe (Kohlrübe)", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🍠",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Sonnig bis halbschattig, eher kühlere Lagen.",
+        boden: "Nährstoffreich, schwer und lehmig. Die Erde sollte gut Feuchtigkeit speichern.",
+        duenger: "Mittelzehrer: Vor dem Pflanzen Kompost einarbeiten. Im Spätsommer eine milde Jauchengabe.",
+        giessen: "Konstant feucht halten! Wenn die Rübe austrocknet, wird sie pelzig, holzig und bitter.",
+        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "1-2 cm", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Mai", zeitBeet: "Jun-Jul", zeitErnte: "Okt-Dez",
+        monateAussaat: [5, 6, 7],
+        tipp: "Absolut frosthart! Du kannst die Rüben im Winter einfach im Beet stehen lassen und frisch bei Bedarf ernten.",
+        guteNachbarn: "Bohnen, Erbsen, Sellerie, Lauch", schlechteNachbarn: "Kohlrabi, Radieschen, Rettich",
+        sorten: [
+          { name: "Wilhelmsburger", typ: "Gelbe Steckrübe", aussehen: "Riesige, runde Knollen mit grün-rotem Kopf und gelbem Fleisch.", geschmack: "Fein-würzig, erdig, leicht süßlich (besonders nach dem ersten Frost).", verwendung: "Der absolute Klassiker für deftige Wintereintöpfe, Steckrüben-Püree oder Ofengemüse." },
+          { name: "Nadmorska", typ: "Weiße Steckrübe", aussehen: "Helle Außenhaut und schneeweißes Fleisch.", geschmack: "Milder und etwas feiner als gelbe Sorten.", verwendung: "Toll geraspelt in Winter-Rohkostsalaten oder in feinen Cremesuppen." }
+        ]
+      },
+      {
+        id: "chicoree", name: "Chicorée & Zuckerhut", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig.",
+        boden: "Sehr tiefgründig und steinfrei, damit sich eine lange, gerade Pfahlwurzel (wie bei Möhren) bilden kann.",
+        duenger: "Mittelzehrer: Reagiert auf zu viel Stickstoff mit lockeren Blättern, also sehr sparsam düngen.",
+        giessen: "Normale Feuchtigkeit, verträgt Trockenheit durch die tiefe Wurzel besser als Kopfsalat.",
+        abstandPflanze: "15 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Jun-Jul", zeitErnte: "Sep-Dez",
+        monateAussaat: [6, 7],
+        tipp: "Chicorée muss im Herbst ausgebuddelt, das Laub gekappt und die Wurzel komplett im Dunkeln (z. B. in einem Eimer mit Sand im Keller) angetrieben werden!",
+        guteNachbarn: "Möhren, Tomaten, Bohnen", schlechteNachbarn: "Kartoffeln",
+        sorten: [
+          { name: "Zoom (F1)", typ: "Klassischer Treib-Chicorée", aussehen: "Im Beet wächst eine unauffällige Blatt-Rosette; nach der Treiberei im Dunkeln entstehen die dichten, gelb-weißen Zapfen.", geschmack: "Angenehm bitter, knackig, sehr frisch.", verwendung: "In Hälften gebraten oder roh in Salaten mit Orangen/Mandarine (gleicht Bitterkeit aus)." },
+          { name: "Zuckerhut Auslese", typ: "Herbst-Endivie", aussehen: "Wächst direkt im Beet zu einem langen, spitz zulaufenden, festen Kopf (wie ein Zuckerhut).", geschmack: "Herb, bitter, knackig. Verliert durch lauwarmes Waschen an Bitterkeit.", verwendung: "Bleibt bis in den Dezember im Freiland stehen; perfekter, extrem lagerfähiger Wintersalat." }
+        ]
+      },
+
+      // === NEUE OBST-KULTUREN ===
+      {
+        id: "apfel", name: "Apfel (Busch- & Säulenbaum)", oberkategorie: "Obst", kategorie: "Kernobst", icon: "🍏",
+        anbau: "🌿 Baum / Jungpflanze", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig, luftig (verhindert Pilzkrankheiten wie Schorf).",
+        boden: "Tiefgründig, nährstoffreich, nicht zu nass. Auf staunassen Böden faulen die Wurzeln.",
+        duenger: "Mittelzehrer: Im Frühjahr (März) reifen Kompost und etwas Hornspäne auf die Baumscheibe streuen.",
+        giessen: "Als Jungbaum im ersten Jahr regelmäßig wässern. Später nur bei extremen Dürreperioden im Sommer durchdringend gießen.",
+        abstandPflanze: "80 cm (Säule) / 300 cm (Busch)", abstandReihe: "100 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Baumschule", zeitBeet: "Herbst / Frühjahr", zeitErnte: "Aug-Okt",
+        monateAussaat: [3, 4, 10, 11],
+        tipp: "Für kleine Gärten immer 'Säulenäpfel' oder Bäume auf der schwachwachsenden Unterlage 'M9' kaufen. Baumscheibe immer grasfrei halten!",
+        guteNachbarn: "Kapuzinerkresse, Ringelblume, Knoblauch", schlechteNachbarn: "Gras / Rasen direkt am Stamm",
+        sorten: [
+          { name: "Topaz", typ: "Winterapfel", aussehen: "Gelb-rote, leicht gestreifte Schale, knackiges Fleisch.", geschmack: "Erfrischend säuerlich, würzig und extrem saftig.", verwendung: "Spitzen-Lagerapfel, der robust gegen Apfelschorf ist." },
+          { name: "Elstar", typ: "Herbstapfel", aussehen: "Sonnengelbe bis karminrote Schale.", geschmack: "Ausgewogen süß-säuerlich, hoch aromatisch.", verwendung: "Perfekt zum direkten Naschen, für Apfelmus und Kuchen." },
+          { name: "Rondo", typ: "Säulenapfel", aussehen: "Sehr schmaler, senkrechter Wuchs, rote bis dunkelrote Früchte.", geschmack: "Süß-säuerlich und knackig.", verwendung: "Ideal für große Kübel auf Balkon/Terrasse oder als Nasch-Hecke." }
+        ]
+      },
+      {
+        id: "kiwi", name: "Kiwi & Mini-Kiwi (Arguta)", oberkategorie: "Obst", kategorie: "Kletterobst", icon: "🥝",
+        anbau: "🌿 Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Warm, sonnig und extrem windgeschützt. Braucht ein starkes Rankgerüst (Pergola/Spalier).",
+        boden: "Humusreich, leicht sauer (gerne etwas Rhododendronerde beimischen) und gleichmäßig feucht.",
+        duenger: "Starkzehrer: Vor dem Austrieb im Frühjahr kräftig mit reifem Kompost und Hornspänen versorgen.",
+        giessen: "Über die großen Blätter verdunstet viel Wasser. Bei Hitze und Fruchtbildung sehr reichlich gießen.",
+        abstandPflanze: "200 cm", abstandReihe: "300 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
+        zeitVorzucht: "Rankpflanze", zeitBeet: "Mai", zeitErnte: "Okt-Nov",
+        monateAussaat: [4, 5],
+        tipp: "Klassische Kiwis sind oft zweihäusig: Du brauchst eine männliche Pflanze, um mehrere weibliche zu bestäuben. Mini-Kiwis sind meist selbstfruchtend!",
+        guteNachbarn: "Waldbeeren, schattenliebende Unterpflanzen", schlechteNachbarn: "Apfelbäume",
+        sorten: [
+          { name: "Issai", typ: "Selbstfruchtende Mini-Kiwi", aussehen: "Stachelbeerengroße, unbehaarte grüne Früchte an kräftigen Ranken.", geschmack: "Zuckersüß, intensiv nach Kiwi, kann direkt mit Schale gegessen werden.", verwendung: "Perfektes Naschobst direkt von der Pergola." },
+          { name: "Hayward", typ: "Weibliche Riesen-Kiwi", aussehen: "Die klassische Supermarkt-Kiwi: Groß, braun, behaart.", geschmack: "Erfrischend süß-säuerlich.", verwendung: "Toll zum Löffeln, braucht einen männlichen Befruchter (z.B. Sorte 'Atlas')." }
+        ]
+      },
+      {
+        id: "feige", name: "Feige", oberkategorie: "Obst", kategorie: "Südfrucht", icon: "🪴",
+        anbau: "🌿 Jungpflanze / Strauch", wasser: "💧💧 Mittel",
+        standort: "Absolut vollsonnig und windgeschützt (am besten direkt an einer wärmenden Südwand).",
+        boden: "Durchlässig, kiesig-lehmig, leicht kalkhaltig. Kommt gut mit etwas kargeren Böden zurecht.",
+        duenger: "Schwachzehrer: Zu viel Dünger führt nur zu extrem langen Trieben und riesigen Blättern, aber kaum zu Früchten. Sparsam bleiben!",
+        giessen: "Tiefwurzler. Im Freiland nach dem Anwachsen fast nicht mehr gießen. Im Kübel regelmäßig wässern, aber Staunässe zwingend vermeiden.",
+        abstandPflanze: "250 cm", abstandReihe: "250 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Strauch", zeitBeet: "Apr-Mai", zeitErnte: "Aug-Okt",
+        monateAussaat: [4, 5],
+        tipp: "In kälteren Regionen am besten im großen Kübel anbauen und hell & kühl im Haus überwintern.",
+        guteNachbarn: "Lavendel, Rosmarin, Salbei", schlechteNachbarn: "Keine speziellen",
+        sorten: [
+          { name: "Brown Turkey", typ: "Winterharte Hausfeige", aussehen: "Birnenförmige Früchte, reifen von grün zu violett-braun ab.", geschmack: "Honigsüß, weich, mit dem typisch crunchigen Kernchen-Biss.", verwendung: "Frisch vom Baum essen oder für Ziegenkäse-Feigen-Crostini." },
+          { name: "Ronde de Bordeaux", typ: "Frühe Feige", aussehen: "Kleinere, kugelrunde, fast schwarze Früchte mit blutrotem Inneren.", geschmack: "Extrem aromatisch, fein und edel.", verwendung: "Eine der frosthärtesten Sorten überhaupt (-15 Grad)." }
+        ]
+      },
+
+      // === NEUE KRÄUTER-KULTUREN ===
+      {
+        id: "baerlauch", name: "Bärlauch", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
+        anbau: "🥔 Zwiebeln / Rhizome stecken", wasser: "💧💧💧 Hoch",
+        standort: "Schattig bis halbschattig, gerne als Unterpflanzung von Bäumen oder Hecken.",
+        boden: "Humusreich, feucht, waldähnlich. Am besten das Beet mit etwas Falllaub abdecken.",
+        duenger: "Schwachzehrer: Laubkompost im Herbst ist die einzige Nahrung, die er braucht.",
+        giessen: "Im zeitigen Frühjahr feucht halten. Nach der Blüte zieht er die Blätter ein und überdauert den Sommer im Boden – dann ruhen lassen.",
+        abstandPflanze: "10 cm", abstandReihe: "15 cm", saattiefe: "5 cm", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Zwiebeln", zeitBeet: "Okt-Nov", zeitErnte: "März-Mai",
+        monateAussaat: [10, 11],
+        tipp: "LEBENSGEFAHR bei Verwechslung mit Maiglöckchen oder Herbstzeitlose! Bärlauchblätter riechen beim Zerreiben zwischen den Fingern intensiv nach Knoblauch.",
+        guteNachbarn: "Obstbäume, Beerensträucher, Farne", schlechteNachbarn: "Keine",
+        sorten: [
+          { name: "Wilder Bärlauch", typ: "Waldknoblauch", aussehen: "Längliche, zarte, grasgrüne Blätter, später weiße Sternblüten.", geschmack: "Kräftig nach feinem Knoblauch, ohne den strengen Geruch danach.", verwendung: "Klassiker für Frühlings-Pesto, Kräuterbutter, Suppen und Dips. Vor der Blüte ernten!" }
+        ]
+      },
+      {
+        id: "heilkraeuter", name: "Ringelblume & Kamille", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌼",
+        anbau: "🫘 Direktsaat", wasser: "💧 Niedrig",
+        standort: "Vollsonnig und luftig.",
+        boden: "Anspruchslos, kommt auch mit sehr mageren und steinigen Böden gut zurecht.",
+        duenger: "Schwachzehrer: Keinerlei Dünger notwendig.",
+        giessen: "Sehr pflegeleicht. Nur bei absoluter Dürre wässern. Staunässe führt sofort zu Fäulnis.",
+        abstandPflanze: "15 cm", abstandReihe: "25 cm", saattiefe: "Lichtkeimer (Saat nur andrücken)", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Direktsaat", zeitBeet: "Apr-Mai", zeitErnte: "Jun-Okt",
+        monateAussaat: [4, 5],
+        tipp: "Ringelblumen sind der beste Beschützer im Gemüsebeet! Sie vertreiben durch ihre Wurzelausscheidungen Nematoden (Fadenwürmer) und fördern die Bodengesundheit.",
+        guteNachbarn: "Tomaten, Kartoffeln, Möhren, Kohl", schlechteNachbarn: "Keine",
+        sorten: [
+          { name: "Calendula officinalis", typ: "Echte Ringelblume", aussehen: "Leuchtend gelb-orangefarbene Strahlenblüten.", geschmack: "Leicht harzig-würzig (die Blütenblätter).", verwendung: "Wunderschön im Salat, als Gründüngung im Beet oder für hausgemachte Heilsalben." },
+          { name: "Matricaria chamomilla", typ: "Echte Kamille", aussehen: "Feines, gefiedertes Kraut mit typischen weiß-gelben Körbchenblüten.", geschmack: "Angenehm mild, blumig, typisch beruhigend.", verwendung: "Frische oder getrocknete Blüten für Magen-Tee und Inhalationen." }
+        ]
+      },
+      {
+        id: "melisse_minze", name: "Zitronenmelisse & Minze", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
+        anbau: "🌿 Jungpflanze / Ableger", wasser: "💧💧 Mittel",
+        standort: "Halbschattig bis sonnig. Im Halbschatten bleiben die Blätter zarter und saftiger.",
+        boden: "Locker, nährstoffreich und nicht zu trocken.",
+        duenger: "Mittelzehrer: Im Frühjahr eine leichte Gabe Kompost reicht völlig.",
+        giessen: "Regelmäßig wässern, sie mögen es nicht, komplett auszutrocknen.",
+        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Jungpflanze", zeitBeet: "Mai", zeitErnte: "Ganzjährig / Sommer",
+        monateAussaat: [4, 5],
+        tipp: "ACHTUNG: Pfefferminze wuchert gnadenlos! Sie breitet sich durch unterirdische Ausläufer rasend schnell aus. Am besten mitsamt einem unten offenen Plastiktopf (als Wurzelsperre) einpflanzen.",
+        guteNachbarn: "Tomaten, Rosen", schlechteNachbarn: "Kamille",
+        sorten: [
+          { name: "Echte Zitronenmelisse", typ: "Melisse", aussehen: "Hellgrüne, genoppte Blätter, wächst buschig.", geschmack: "Erfrischend intensiv nach Zitronenschale, mild.", verwendung: "Für frischen Eistee, Cocktails, Desserts und asiatische Gerichte." },
+          { name: "Englische Mitcham-Minze", typ: "Pfefferminze", aussehen: "Dunkelgrüne, glatte Blätter mit roten Stängeln.", geschmack: "Scharf, kühlend, extrem hoher Mentholgehalt.", verwendung: "Der absolute Klassiker für heißen Pfefferminztee." },
+          { name: "Hugo-Minze", typ: "Cocktail-Minze", aussehen: "Zartgrünes Laub.", geschmack: "Süßlicher, weniger mentholscharf, sehr fruchtig.", verwendung: "Perfekt für Cocktails wie Mojito, Hugo oder Sommerbowlen." }
+        ]
       }
-    ];
+];
 
     const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
     function getFavorites() {
