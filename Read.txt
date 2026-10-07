@@ -1,40 +1,133 @@
-🌱 Ramonas Garten Anzucht – Dokumentation & Read.txt
+============================================================
+🌱 RAMONAS GARTEN ANZUCHT - DOKUMENTATION & BEDIENUNGSANLEITUNG
+============================================================
+Entwickelt von: Marcel Kometz
+Version: 2026.10 (Kleingarten-Edition)
 
-📋 Projektübersicht
-Die Web-App „Ramonas Garten Anzucht“ ist eine maßgeschneiderte, mobile-optimierte Kleingarten-Enzyklopädie und digitales Notizbuch. Sie wurde speziell für den praktischen Einsatz im Garten entwickelt, läuft komplett im Browser (Client-Side) und funktioniert dank PWA-Technologie (Progressive Web App) auch offline auf dem Smartphone (optimiert für iOS & Android).
+1. ÜBER DIESE APP
+------------------------------------------------------------
+"Ramonas Garten Anzucht" ist eine offlinefähige, mobile Kleingarten-Enzyklopädie 
+und Planungs-App für Smartphone, Tablet und PC. Sie läuft direkt im Webbrowser, 
+kann als Progressive Web App (PWA) auf dem Homescreen installiert werden und 
+speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
 
----
+2. HAUPTFUNKTIONEN
+------------------------------------------------------------
+• 📚 Umfassende Enzyklopädie:
+  Enthält Gemüsekulturen, Obst- und Beerensträucher sowie ein- und mehrjährige Kräuter.
+  Jede Kultur bietet präzise Angaben zu:
+  - Licht- und Standortbedarf
+  - Bodenvorbereitung & optimaler pH-Wert
+  - Nährstoff- und Düngebedarf (Schwach-, Mittel-, Starkzehrer)
+  - Durchdringende Gießempfehlungen bei Trockenheit
+  - Pflanz- und Reihenabstände sowie Saattiefe
+  - Kulturzeitpläne (Vorzucht, Freiland, Ernte)
+  - Gute & schlechte Pflanznachbarn (Mischkultur)
+  - Praxiserprobte Gärtnertipps
 
-✨ Die neuesten Features & Neuerungen (Stand: Oktober 2026)
+• 🌿 Detaillierte Sortendatenbank:
+  Jede Kultur verfügt über eine sortierte Auswahlliste bewährter Sorten mit:
+  - Genaue Sortenbezeichnung und Typ
+  - Aussehen und Fruchtmerkmale
+  - Geschmacksprofil
+  - Kulinarische Verwendung & Lagereigenschaften
+  - Sorten-Filterung nach Typen (z. B. Busch-, Stangen- oder Feuerbohnen)
 
-📝 1. Integriertes Notizbuch & Tagebuch
-• Allgemeine Notizen: Schnelles Festhalten von Garten-To-Dos, Beobachtungen oder Ideen direkt über den Notizen-Tab mit automatischem Zeitstempel.
-• Pflanzenspezifische Notizen: Jede Kultur bietet ein eigenes Textfeld im Detailfenster, um z. B. Keimzeiten, Erträge oder Besonderheiten direkt bei der jeweiligen Pflanze zu hinterlegen.
-• Persistenter Speicher: Alle Einträge werden sicher und lokal über localStorage im Browser gespeichert.
+• 🏡 Mein Beet (Beet-Manager):
+  - Verwaltung individueller Gartenbeete (Standard: 8 Beete, in den Einstellungen anpassbar).
+  - Status pro Sorte zuweisen: "🌱 Im Beet" oder "🧺 Geerntet".
+  - Feste Zuweisung einer Sorte zu einer konkreten Beetnummer.
+  - Dynamischer Belegungszähler im Auswahl-Dropdown (zeigt direkt an, welche Beete belegt oder leer sind).
+  - Komfort-Zuweisung: Direktsprung aus leeren Beeten zur Gesamtauswahl.
+  - "🧹 Alle leeren"-Funktion zum schnellen Saisonwechsel.
 
-📅 2. Kalender-Export & Erinnerungen (.ics)
-• Direkter ICS-Download: Erstelle aus deinen Notizen mit nur einem Klick Kalender-Erinnerungen inklusive Wunschdatum und Uhrzeit.
-• Kompatibilität: Die generierte .ics-Datei lässt sich nahtlos in Apple Kalender, Google Calendar oder Outlook importieren.
+• 🔍 Intelligente Schnellsuche:
+  - Findet Pflanzennamen, Sorten, Geschmacksprofile, Verwendungszwecke und Pflegetipps.
+  - Fehlertolerante Suche (Tippfehler werden verziehen).
+  - Text-Hervorhebung der Suchbegriffe direkt auf den Kacheln und in den Detailkarten.
+  - Direktanbindung an KI ("🤖 KI fragen") für individuelle Gartenfragen.
 
-✉️️ 3. E-Mail-Export-Funktion
-• Direktversand: Teile einzelne Notizen, Pflanzendetails oder deine gesammelten Garten-To-Dos blitzschnell per E-Mail-Link (mailto:).
+• 📅 Saison-Radar (Aussaat-Filter):
+  Filtert die Datenbank mit einem Klick auf Kulturen, die im aktuellen Kalendermonat
+  vorgezogen oder direkt ins Beet gesät werden können.
 
-🔍 4. Intelligente Suche mit Fuzzy-Matching & Levenshtein-Algorithmus
-• Tolerante Suche: Findet Sorten und Begriffe auch bei kleinen Tippfehlern.
-• Such-Puls-Effekt: Aktive Suchtreffer werden durch einen visuellen Puls-Effekt hervorgehoben.
-• Fehlersuche & Support: Wenn ein Suchbegriff gar nicht existiert, bietet die App direkt praktische Hilfen an (z. B. den direkten E-Mail-Weg zum Nachragen beim Entwickler oder eine direkte Google-Websuche).
+• ⭐ Favoriten & Notizbuch:
+  - Markiere Lieblingspflanzen per Stern-Symbol für den schnellen Zugriff.
+  - Speichere pflanzenspezifische Notizen direkt im jeweiligen Steckbrief.
+  - Allgemeines Notizbuch für anstehende Arbeiten mit Datumsstempel.
+  - Kalendererinnerungen (.ics-Export) für wichtige Aussaat- oder Düngestationen.
+  - Notizen direkt per E-Mail versenden.
 
-🖨️ 5. Optimierte Druck- und PDF-Ansicht
-• Sauberer Export: Über den „PDF / Druck“-Button in den Detailansichten wird die Seite so formatiert, dass unnötige Navigationselemente ausgeblendet werden – perfekt zum Ausdrucken von Steckbriefen oder zum Abspeichern als PDF auf dem iPhone/PC.
+• ⚙️ Einstellungen & Datensicherung:
+  - Umschaltung zwischen Hellmodus und "🌙 Midnight Garden" (Dark Mode).
+  - Festlegung der Anzahl deiner Beete im Garten.
+  - Backup erstellen: Export der gesamten Gartendaten als .json-Datei oder per E-Mail.
+  - Backup wiederherstellen: Sicheres Einlesen einer gespeicherten Sicherungsdatei.
 
-🌟 6. Favoriten & Saison-Radar
-• Favoriten-Stern: Markiere wichtige Kulturen mit einem Klick als Favoriten, um sie blitzschnell über die untere Navigation aufzurufen.
-• Saison-Aussaat-Radar: Zeigt auf einen Klick genau an, welche Pflanzen im aktuellen Monat ausgesät werden können.
+3. KULTUREN-ÜBERSICHT
+------------------------------------------------------------
+Gemüse:
+- Artischocke (5 Sorten)
+- Aubergine (4 Sorten)
+- Blumenkohl & Spargelkohl (14 Sorten)
+- Bohnen (16 Sorten)
+- Brokkoli (10 Sorten)
+- Chili, Paprika & Peperoni (11 Sorten)
+- Erbsen (10 Sorten)
+- Fenchel (Knollenfenchel) (5 Sorten)
+- Grünkohl, Chinakohl & Weißkohl (10 Sorten)
+- Gurke (10 Sorten)
+- Kartoffel (10 Sorten)
+- Knoblauch (10 Sorten)
+- Kohlrabi (8 Sorten)
+- Kürbis (6 Sorten)
+- Lauch & Frühlingszwiebeln (8 Sorten)
+- Mai- & Herbstrüben (5 Sorten)
+- Mangold (5 Sorten)
+- Möhren (7 Sorten)
+- Pak Choi (5 Sorten)
+- Palmkohl & Spitzkohl (4 Sorten)
+- Pastinake & Schwarzwurzel (5 Sorten)
+- Radicchio & Endivie (5 Sorten)
+- Radieschen & Rettich (7 Sorten)
+- Rosenkohl (5 Sorten)
+- Rote Bete (9 Sorten)
+- Salate & Rucola (8 Sorten)
+- Knollensellerie & Stangensellerie (7 Sorten)
+- Spargel & Rhabarber (5 Sorten)
+- Spinat (9 Sorten)
+- Süßkartoffel (5 Sorten)
+- Tomate (16 Sorten)
+- Topinambur (5 Sorten)
+- Zucchini (8 Sorten)
+- Zuckermais (5 Sorten)
+- Zwiebeln & Schalotten (12 Sorten)
 
----
+Obst & Beeren:
+- Aronia & Cranberry (4 Sorten)
+- Erdbeeren (12 Sorten)
+- Heidelbeere (5 Sorten)
+- Johannis-, Him- & Brombeeren (8 Sorten)
+- Physalis (Andenbeere & Tomatillo) (5 Sorten)
+- Stachelbeere (5 Sorten)
+- Wasser- & Zuckermelone (7 Sorten)
 
-🛠️ Technische Details & Hosting
-• Entwickelt von: Marcel Kometz
-• Technologien: HTML5, CSS3 (mit CSS Custom Properties / Design Tokens), Vanilla JavaScript (ES6+).
-• Hosting: Bereitgestellt als statische Web-App über GitHub Pages.
-• Mobile Features: Volle Unterstützung für den iPhone-Homescreen (Add to Home Screen), Standalone-Modus, angepasste Statusleisten (black-translucent) und Unterstützung für die Notch / Safe Area (env(safe-area-inset-top)).
+Kräuter:
+- Einjährige Kräuter (Basilikum, Petersilie, Dill, Koriander) (7 Sorten)
+- Mehrjährige & Mediterrane Kräuter (Schnittlauch, Thymian, Salbei, Minze, Rosmarin, Lavendel) (8 Sorten)
+- Liebstöckel & Würzkräuter (Liebstöckel, Estragon, Waldmeister) (4 Sorten)
+
+4. TECHNISCHE HINWEISE & OFFLINE-NUTZUNG
+------------------------------------------------------------
+• Browser-Speicher: Alle Favoriten, Notizen und Beet-Einträge verbleiben im 
+  lokalen Speicher (localStorage) deines Webbrowsers.
+• Daten löschen vermeiden: Bitte leere für diese Website nicht den Browser-Cache / 
+  die Websitedaten, ohne vorher über "⚙️ Einstell." ein Backup herunterzuladen.
+• Home-Bildschirm (PWA):
+  - Auf iOS (Safari): Tippe auf das "Teilen"-Symbol (Viereck mit Pfeil nach oben) 
+    und wähle "Zum Home-Bildschirm hinzufügen".
+  - Auf Android (Chrome): Tippe auf das Dreipunkt-Menü und wähle "App installieren" 
+    oder "Zum Startbildschirm hinzufügen".
+
+Viel Freude und reiche Ernte im Kleingarten!
+============================================================
