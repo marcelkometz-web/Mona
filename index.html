@@ -12,26 +12,65 @@
   <title>Ramonas Garten Anzucht</title>
   <style>
     :root {
-      --bg: #f5f7f5; --card-bg: #ffffff; --primary: #1c3b2b; --primary-light: #e8f0ec;
-      --accent: #c46c49; --text: #2d3748; --text-muted: #718096; --border: #e2e8f0;
-      --tag-bg: #f1f5f9; --good: #dcfce7; --bad: #fee2e2; --star: #f59e0b;
-      --highlight: #fef08a; --highlight-text: #854d0e;
+      --bg: #f5f7f5;
+      --card-bg: #ffffff;
+      --primary: #1c3b2b;
+      --primary-light: #e8f0ec;
+      --accent: #c46c49;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --tag-bg: #f1f5f9;
+      --good: #dcfce7;
+      --bad: #fee2e2;
+      --star: #f59e0b;
+      --highlight: #fef08a;
+      --highlight-text: #854d0e;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.8);
+      --input-bg: #ffffff;
+      --box-note-bg: #f8fafc;
+      --color-standort: #ca8a04;
+      --color-anbau: #16a34a;
     }
+
+    body.dark-mode {
+      --bg: #0f1712;
+      --card-bg: #18241c;
+      --primary: #4ade80;
+      --primary-light: #1e3325;
+      --accent: #f97316;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #283d2e;
+      --tag-bg: #1e2d23;
+      --good: #143820;
+      --bad: #3d1717;
+      --star: #fbbf24;
+      --highlight: #854d0e;
+      --highlight-text: #fef08a;
+      --glass-bg: rgba(24, 36, 28, 0.85);
+      --glass-border: rgba(40, 61, 46, 0.9);
+      --input-bg: #131d16;
+      --box-note-bg: #141f17;
+      --color-standort: #fbbf24;
+      --color-anbau: #4ade80;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding: 15px;
       padding-top: calc(15px + env(safe-area-inset-top, 0px));
       padding-bottom: 95px; max-width: 1200px; margin: 0 auto;
-      -webkit-tap-highlight-color: transparent; }
+      -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
       
-    /* Liquid Glass Top-Bar */
     .top-bar { display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 15px; padding: 12px 16px; 
-      background: rgba(255, 255, 255, 0.6);
+      background: var(--glass-bg);
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03); gap: 10px; }
+      border-radius: 16px; border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); gap: 10px; }
       
     .left-title { font-size: 1.05rem; font-weight: 800; color: var(--primary);
       text-align: left; letter-spacing: 0.2px; white-space: nowrap; overflow: hidden;
@@ -40,22 +79,28 @@
       background: var(--tag-bg); padding: 4px 8px; border-radius: 6px;
       border: 1px solid var(--border); font-size: 0.72rem; color: var(--text-muted);
       text-align: right; line-height: 1.25; flex-shrink: 0; }
-    header { text-align: center; margin-bottom: 16px; padding: 18px;
-      background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    h1 { font-size: 1.45rem; color: var(--primary); display: flex;
-      align-items: center; justify-content: center; gap: 8px; }
-    p.subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+    header { text-align: center; margin-bottom: 16px; padding: 16px 14px;
+      border-radius: 16px; border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      background-color: #163323;
+      background-image: linear-gradient(rgba(18, 43, 29, 0.85), rgba(18, 43, 29, 0.92)),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.16'%3E%3Cpath d='M25 35c3-10 12-15 15-15s5 10-5 18l-10-3zm55 45c-8 2-14-3-15-10s8-12 15-5l0 15zm-45 15l8-14 6 4-8 14-6-4zm50-60l4-8 8 4-4 8-8-4z'/%3E%3Ccircle cx='95' cy='25' r='5'/%3E%3Ccircle cx='20' cy='95' r='4'/%3E%3Cpath d='M60 15c-2 8-8 12-14 10 6 6 14 4 14-10z'/%3E%3Cpath d='M70 100c2-8 8-12 14-10-6-6-14-4-14 10z'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover, 130px 130px;
+    }
+    h1 { font-size: 1.4rem; color: #ffffff; display: flex;
+      align-items: center; justify-content: center; gap: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+    p.subtitle { font-size: 0.82rem; color: #d1fae5; margin-top: 4px; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
     
     .search-box { position: relative; margin-bottom: 14px; }
     input[type="text"], input[type="datetime-local"], input[type="number"], select {
       width: 100%; padding: 13px 16px; font-size: 1rem; border-radius: 12px;
-      border: 2px solid var(--border); outline: none; transition: border-color 0.2s;
-      background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    input[type="text"] { padding-right: 85px; } /* Platz für beide Buttons */
+      border: 2px solid var(--border); outline: none; transition: border-color 0.2s, background-color 0.2s;
+      background: var(--input-bg); color: var(--text); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    input[type="text"] { padding-right: 85px; }
     input:focus, select:focus { border-color: var(--accent); }
     
-    .clear-search-btn { background: #cbd5e1; border: none; border-radius: 50%; width: 24px; height: 24px;
+    .clear-search-btn { background: #64748b; border: none; border-radius: 50%; width: 24px; height: 24px;
       color: #fff; font-size: 0.85rem; font-weight: 800; cursor: pointer;
       display: none; align-items: center; justify-content: center; }
     .clear-search-btn:hover { background: #94a3b8; }
@@ -70,7 +115,8 @@
       font-size: 0.76rem; font-weight: 700; padding: 6px 11px; border-radius: 8px;
       border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.03);
       transition: all 0.2s ease; white-space: nowrap; cursor: pointer; }
-    .row-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .row-btn:hover { background: var(--primary-light); }
+    
     .group-section { margin-bottom: 24px; }
     .group-title { font-size: 1.25rem; font-weight: 800; color: var(--primary);
       margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border);
@@ -81,36 +127,34 @@
       border-radius: 16px; padding: 16px 10px; text-align: center; cursor: pointer;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); user-select: none;
       position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .item-card:hover, .item-card.selected { border-color: #8da89b;
+    .item-card:hover, .item-card.selected { border-color: var(--primary);
       background: var(--primary-light); transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(28, 59, 43, 0.08); }
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
     @keyframes searchPulse {
       0% { box-shadow: 0 0 0 0 rgba(196,108,73,0.4); border-color: var(--accent); }
       50% { box-shadow: 0 0 0 6px rgba(196,108,73,0.15); border-color: #a85839; }
       100% { box-shadow: 0 0 0 0 rgba(196,108,73,0.4); border-color: var(--accent); } }
-    .item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out;
-      background: #fffdfa; }
+    .item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out; }
     .item-icon { font-size: 2rem; margin-bottom: 6px; }
     .item-title { font-weight: 700; font-size: 0.9rem; color: var(--text); }
     .item-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;
       background: var(--tag-bg); display: inline-block; padding: 2px 6px; border-radius: 8px; }
     .match-pill { display: inline-block; margin-top: 5px; font-size: 0.7rem;
       font-weight: 800; color: var(--highlight-text); background: var(--highlight);
-      padding: 2px 6px; border-radius: 6px; border: 1px solid #fde047;
+      padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border);
       max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     mark.search-highlight { background: var(--highlight); color: var(--highlight-text);
-      padding: 1px 4px; border-radius: 3px; font-weight: 900;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+      padding: 1px 4px; border-radius: 3px; font-weight: 900; }
     .card-star { position: absolute; top: 8px; right: 10px; font-size: 1.2rem;
-      color: #cbd5e1; cursor: pointer; transition: color 0.15s, transform 0.15s; }
+      color: #64748b; cursor: pointer; transition: color 0.15s, transform 0.15s; }
     .card-star.active { color: var(--star); }
     .card-star:hover { transform: scale(1.2); }
     .card-beet-badge { position: absolute; top: 8px; left: 8px; font-size: 0.65rem;
       font-weight: 800; padding: 2px 6px; border-radius: 6px; z-index: 2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .card-beet-badge.sown { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-    .card-beet-badge.harvested { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
-    .not-found-box { background: #ffffff; border: 2px dashed var(--border);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .card-beet-badge.sown { background: #166534; color: #dcfce7; border: 1px solid #22c55e; }
+    .card-beet-badge.harvested { background: #854d0e; color: #fef08a; border: 1px solid #eab308; }
+    .not-found-box { background: var(--card-bg); border: 2px dashed var(--border);
       border-radius: 16px; padding: 24px 20px; text-align: center; margin: 20px 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .not-found-title { font-size: 1.1rem; font-weight: 800; color: var(--primary);
@@ -119,13 +163,14 @@
     .not-found-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
     .action-pill { display: inline-flex; align-items: center; gap: 6px;
       padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700;
-      text-decoration: none; cursor: pointer; border: none;
+      text-decoration: none; cursor: pointer; border: 1px solid transparent;
       transition: transform 0.15s, background 0.15s; }
-    .action-pill.primary { background: var(--primary); color: #fff; }
-    .action-pill.primary:hover { background: var(--accent); }
+    .action-pill.primary { background: #1c3b2b; color: #fff; border-color: #2e5942; }
+    body.dark-mode .action-pill.primary { background: #22c55e; color: #052e16; border-color: #4ade80; }
+    .action-pill.primary:hover { opacity: 0.9; }
     .action-pill.secondary { background: var(--tag-bg); color: var(--text);
       border: 1px solid var(--border); }
-    .action-pill.secondary:hover { background: #e2e8f0; }
+    .action-pill.secondary:hover { background: var(--border); }
     .notes-overview-container { display: flex; flex-direction: column; gap: 12px;
       margin-bottom: 30px; }
     .note-card-item { background: var(--card-bg); border: 1px solid var(--border);
@@ -138,26 +183,27 @@
       cursor: pointer; display: flex; align-items: center; gap: 6px; flex: 1; }
     .note-card-title.static { cursor: default; font-size: 0.95rem; color: var(--text-muted); }
     .note-card-title:not(.static):hover { text-decoration: underline; }
-    .note-card-text { font-size: 0.9rem; color: var(--text); background: #f8fafc;
+    .note-card-text { font-size: 0.9rem; color: var(--text); background: var(--box-note-bg);
       border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px;
       white-space: pre-wrap; line-height: 1.45; }
     .single-send-btn { background: var(--tag-bg); border: 1px solid var(--border);
-      color: var(--primary); font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      color: var(--text); font-size: 0.78rem; font-weight: 700; cursor: pointer;
       padding: 4px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 3px; }
-    .single-send-btn:hover { background: #e2e8f0; }
+    .single-send-btn:hover { background: var(--border); }
     .delete-note-btn { background: none; border: none; color: #ef4444;
       font-size: 0.78rem; font-weight: 700; cursor: pointer; padding: 4px 6px;
       border-radius: 6px; }
-    .delete-note-btn:hover { background: #fee2e2; }
+    .delete-note-btn:hover { background: var(--bad); }
+    
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%;
-      height: 100%; background: rgba(28, 59, 43, 0.6); backdrop-filter: blur(5px);
+      height: 100%; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px);
       z-index: 1000; align-items: flex-end; justify-content: center; }
     @media (min-width: 850px) { .modal-overlay { align-items: center; } }
     .modal-overlay.open { display: flex; }
     .detail-panel { background: var(--card-bg); width: 100%; max-width: 650px;
       max-height: 85vh; border-radius: 24px 24px 0 0; padding: 24px 20px;
-      box-shadow: 0 -8px 30px rgba(0,0,0,0.2); overflow-y: auto;
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.3); overflow-y: auto;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid var(--border); }
     @media (min-width: 850px) {
       .detail-panel { border-radius: 20px; animation: fadeIn 0.2s ease-out; } }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -179,59 +225,62 @@
       font-size: 1.2rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
       display: flex; align-items: center; justify-content: center; color: var(--text);
       flex-shrink: 0; transition: background 0.2s; }
-    .close-btn:hover { background: #e2e8f0; }
+    .close-btn:hover { background: var(--border); }
     .badge { display: inline-block; padding: 4px 8px; border-radius: 8px;
       font-size: 0.75rem; font-weight: 700; background: var(--tag-bg);
-      margin-top: 6px; margin-right: 4px; }
-    .badge.wasser-badge { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-    .badge.anbau-badge { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
+      margin-top: 6px; margin-right: 4px; color: var(--text); border: 1px solid var(--border); }
+    .badge.wasser-badge { background: #0369a1; color: #e0f2fe; border: 1px solid #38bdf8; }
+    .badge.anbau-badge { background: #854d0e; color: #fef08a; border: 1px solid #facc15; }
     .subfilter-bar { display: flex; overflow-x: auto; gap: 8px; margin-bottom: 12px;
       scrollbar-width: none; padding: 2px 0; align-items: center; }
     .subfilter-bar::-webkit-scrollbar { display: none; }
     .sub-btn { padding: 8px 14px; border-radius: 16px; border: 1px solid var(--border);
-      background: #f1f5f9; font-size: 0.8rem; font-weight: 700; cursor: pointer;
-      color: var(--text-muted); white-space: nowrap;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; }
+      background: var(--tag-bg); font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      color: var(--text-muted); white-space: nowrap; transition: all 0.2s; }
     .sub-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
     .variety-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;
       max-height: 180px; overflow-y: auto; padding-right: 4px; }
     .v-chip { padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 600;
-      border: 1px solid var(--border); background: #f8fafc; cursor: pointer;
+      border: 1px solid var(--border); background: var(--tag-bg); color: var(--text); cursor: pointer;
       transition: all 0.15s; }
     .v-chip:hover { border-color: var(--accent); }
     .v-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .v-info-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px;
-      padding: 14px; font-size: 0.9rem; line-height: 1.5; color: #78350f;
-      box-shadow: 0 2px 6px rgba(253, 230, 138, 0.3); }
-    .v-info-box strong { font-size: 1.05rem; }
+    
+    .v-info-box { background: var(--box-note-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px; font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+    .v-info-box strong { font-size: 1.05rem; color: var(--primary); }
     .v-detail-line { margin-top: 6px; font-size: 0.85rem; line-height: 1.45; }
     .info-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 10px; margin: 20px 0; }
-    .metric-card { background: #f8fafc; border: 1px solid var(--border);
-      border-radius: 12px; padding: 10px 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .metric-card { background: var(--box-note-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px; }
     .metric-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;
       font-weight: 800; margin-bottom: 4px; }
     .metric-val { font-size: 0.88rem; font-weight: 700; color: var(--primary); }
-    .boden-box { font-size: 0.88rem; background: #fefce8; border-left: 4px solid #ca8a04;
-      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: #713f12; }
-    .duenger-box { font-size: 0.88rem; background: #f0fdf4; border-left: 4px solid #16a34a;
-      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: #14532d; }
-    .giessen-box { font-size: 0.88rem; background: #eff6ff; border-left: 4px solid #3b82f6;
-      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: #1e3a8a; }
-    .tipp-box { font-size: 0.88rem; background: #f8fafc; border-left: 4px solid #94a3b8;
-      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: #334155; }
-    .notes-section { margin-top: 20px; background: #f8fafc; border: 1px solid var(--border);
+    
+    .boden-box { font-size: 0.88rem; background: var(--box-note-bg); border-left: 4px solid var(--color-standort);
+      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: var(--text); }
+    .duenger-box { font-size: 0.88rem; background: var(--box-note-bg); border-left: 4px solid var(--color-anbau);
+      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: var(--text); }
+    .giessen-box { font-size: 0.88rem; background: var(--box-note-bg); border-left: 4px solid #3b82f6;
+      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: var(--text); }
+    .tipp-box { font-size: 0.88rem; background: var(--box-note-bg); border-left: 4px solid var(--accent);
+      padding: 14px 16px; border-radius: 6px; margin: 14px 0; line-height: 1.5; color: var(--text); }
+      
+    .notes-section { margin-top: 20px; background: var(--box-note-bg); border: 1px solid var(--border);
       border-radius: 12px; padding: 14px; }
     .notes-title { font-size: 0.85rem; font-weight: 800; color: var(--primary);
       margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .notes-textarea { width: 100%; min-height: 80px; padding: 10px 12px; font-size: 0.9rem;
       border: 1px solid var(--border); border-radius: 8px; resize: vertical;
-      outline: none; background: #fff; }
+      outline: none; background: var(--input-bg); color: var(--text); }
     .notes-textarea:focus { border-color: var(--accent); }
     .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
     .companion-box { padding: 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
-    .good-box { background: var(--good); border: 1px solid #bbf7d0; color: #166534; }
-    .bad-box { background: var(--bad); border: 1px solid #fecaca; color: #991b1b; }
+    .good-box { background: var(--good); border: 1px solid #22c55e; color: #dcfce7; }
+    body:not(.dark-mode) .good-box { color: #166534; border-color: #bbf7d0; }
+    .bad-box { background: var(--bad); border: 1px solid #ef4444; color: #fee2e2; }
+    body:not(.dark-mode) .bad-box { color: #991b1b; border-color: #fecaca; }
     .comp-title { font-weight: 800; margin-bottom: 6px; display: flex; align-items: center;
       gap: 4px; font-size: 0.85rem; }
     footer.app-footer { text-align: center; padding: 25px 15px 15px 15px;
@@ -239,16 +288,17 @@
       margin-top: 40px; }
     footer.app-footer p { margin-bottom: 6px; }
 
-    /* Liquid Glass Bottom Nav */
     .bottom-nav { 
       position: fixed; bottom: 0; left: 0; width: 100%;
-      background: rgba(255, 255, 255, 0.6); 
+      background: var(--glass-bg); 
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border-top: 1px solid rgba(255, 255, 255, 0.8);
+      border-top: 1px solid var(--glass-border);
       display: flex; justify-content: flex-start; overflow-x: auto; gap: 14px;
-      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px;
-      z-index: 900; box-shadow: 0 -4px 30px rgba(0,0,0,0.05); scrollbar-width: none; 
+      padding: 8px 35px calc(8px + env(safe-area-inset-bottom, 0px)) 12px;
+      z-index: 900; box-shadow: 0 -4px 30px rgba(0,0,0,0.1); scrollbar-width: none; 
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+      mask-image: linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
     }
     .bottom-nav::-webkit-scrollbar { display: none; }
     .nav-item { display: flex; flex-direction: column; align-items: center;
@@ -258,36 +308,36 @@
     .nav-item.active { color: var(--primary); }
     .nav-item span.nav-icon { font-size: 1.3rem; }
 
-    /* Schnellauswahl Modal Styles für Beet */
-    .quick-beet-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+    .quick-beet-card { background: var(--box-note-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
     .quick-beet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 800; color: var(--primary); font-size: 0.95rem; }
     .quick-status-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-    .quick-status-btn { flex: 1; min-width: 90px; padding: 8px 6px; font-size: 0.74rem; font-weight: 700; border-radius: 8px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .quick-status-btn { flex: 1; min-width: 90px; padding: 8px 6px; font-size: 0.74rem; font-weight: 700; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); cursor: pointer; transition: all 0.2s; text-align: center; }
     .quick-status-btn.active-sown { background: #16a34a; color: #fff; border-color: #16a34a; }
     .quick-status-btn.active-harvested { background: #ca8a04; color: #fff; border-color: #ca8a04; }
-    .quick-status-btn.btn-remove { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    .quick-status-btn.btn-remove { background: var(--bad); color: #ef4444; border-color: var(--bad); }
     .quick-status-btn.btn-remove:hover { background: #ef4444; color: #fff; }
 
-    .clear-all-beets-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-    .clear-all-beets-btn:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+    .clear-all-beets-btn { background: var(--bad); color: #ef4444; border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .clear-all-beets-btn:hover { background: #ef4444; color: #fff; }
+
+    .theme-toggle-group { display: flex; gap: 8px; margin-top: 8px; }
+    .theme-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-weight: 700; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+    .theme-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+    body.dark-mode .theme-btn.active { color: #052e16; }
 
     @media print {
-      body { padding: 0; background: #fff; color: #000; }
+      body { padding: 0; background: #fff !important; color: #000 !important; }
       .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box,
       .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn,
       .subfilter-bar, .notes-section, .card-star { display: none !important; }
-      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
+      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, #backupModalOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
       .modal-overlay#modalOverlay.open { position: static !important; display: block !important;
         background: none !important; backdrop-filter: none !important; }
       .detail-panel { max-width: 100% !important; max-height: none !important;
-        box-shadow: none !important; border: none !important; padding: 0 !important; }
-      .detail-title { font-size: 1.8rem !important; }
+        box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; }
+      .detail-title { font-size: 1.8rem !important; color: #000 !important; }
       .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
-      .v-info-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
-      .boden-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
-      .duenger-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
-      .giessen-box { border-left: 4px solid #000 !important; background: #fff !important; color: #000 !important; }
-      .tipp-box { background: #f8fafc !important; border-left: 4px solid #333 !important; color: #000 !important; }
+      .v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
       .companion-grid { grid-template-columns: 1fr 1fr !important; }
       .beet-status-box { display: none !important; }
     }
@@ -331,17 +381,14 @@
     </p>
   </footer>
 
-  <!-- Großes Detail-Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="detail-panel" id="detailPanel"></div>
   </div>
 
-  <!-- Schnellauswahl-Modal für "Mein Beet" -->
   <div class="modal-overlay" id="beetQuickOverlay">
     <div class="detail-panel" style="max-width: 520px;" id="beetQuickPanel"></div>
   </div>
 
-  <!-- NEU: KI-Modal -->
   <div class="modal-overlay" id="aiModalOverlay">
     <div class="detail-panel" style="max-width: 420px; text-align: center;">
       <div class="sheet-handle"></div>
@@ -364,6 +411,25 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="backupModalOverlay">
+    <div class="detail-panel" style="max-width: 420px; text-align: center;">
+      <div class="sheet-handle"></div>
+      <div class="detail-title" style="justify-content: center; margin-bottom: 8px;">💾 Backup erstellen</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Wie möchtest du deine Garten-Daten sichern?</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button onclick="downloadBackupFile()" style="background: #0284c7; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">📥</span> Als Datei speichern (Download)
+        </button>
+        <button onclick="sendBackupEmail()" style="background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">✉️</span> Per E-Mail senden
+        </button>
+      </div>
+      
+      <button onclick="closeBackupModal()" style="margin-top: 16px; background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%;">Abbrechen</button>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="readmeOverlay">
     <div class="detail-panel" style="max-width: 580px;">
       <div class="sheet-handle"></div>
@@ -371,7 +437,7 @@
         <div class="detail-title">📄 Read.txt</div>
         <button class="close-btn" onclick="closeReadme(); trigVib();">✕</button>
       </div>
-      <div id="readmeBody" class="readme-content" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5;">Lade Read.txt...</div>
+      <div id="readmeBody" class="readme-content" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; color: var(--text);">Lade Read.txt...</div>
       <div style="text-align: right; margin-top: 16px;">
         <button onclick="closeReadme(); trigVib();" style="background: var(--primary); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700;">
           Schließen
@@ -440,6 +506,10 @@
     function trigVib() {
       try { if (navigator.vibrate) { navigator.vibrate(30); } } catch(e) {}
     }
+    
+    function closeAllModals() {
+      document.querySelectorAll('.modal-overlay.open').forEach(el => el.classList.remove('open'));
+    }
 
     function updateClock() {
       const now = new Date();
@@ -451,6 +521,28 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    const THEME_KEY = "ramonas_garten_theme_v1";
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f1712');
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1c3b2b');
+      }
+    }
+    function getSavedTheme() {
+      return localStorage.getItem(THEME_KEY) || 'light';
+    }
+    window.setAppTheme = function(theme) {
+      trigVib();
+      localStorage.setItem(THEME_KEY, theme);
+      applyTheme(theme);
+      filterUndRender();
+    };
+
+    applyTheme(getSavedTheme());
 
     const SETTINGS_KEY = "ramonas_garten_settings_v1";
     function getSettings() {
@@ -467,21 +559,73 @@
       alert('Einstellungen erfolgreich gespeichert!');
       filterUndRender();
     }
+
+    function getBackupObject() {
+      return {
+        favorites: getFavorites(),
+        notes: getNotes(),
+        generalNotes: getGeneralNotes(),
+        beetStatus: getBeetStatus(),
+        settings: getSettings(),
+        theme: getSavedTheme(),
+        exportDate: new Date().toISOString()
+      };
+    }
+
     window.exportData = function() {
       trigVib();
-      const exportObj = {
-        favorites: getFavorites(), notes: getNotes(), generalNotes: getGeneralNotes(),
-        beetStatus: getBeetStatus(), settings: getSettings()
-      };
+      closeAllModals();
+      document.getElementById('backupModalOverlay').classList.add('open');
+    };
+
+    window.closeBackupModal = function() {
+      document.getElementById('backupModalOverlay').classList.remove('open');
+    };
+
+    window.downloadBackupFile = function() {
+      trigVib();
+      const exportObj = getBackupObject();
       const jsonStr = JSON.stringify(exportObj, null, 2);
       const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.setAttribute("href", url);
-      a.setAttribute("download", "Ramonas_Garten_Backup.json");
-      document.body.appendChild(a); a.click(); a.remove();
+      a.setAttribute("download", `Ramonas_Garten_Backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
       URL.revokeObjectURL(url);
+      closeBackupModal();
     };
+
+    window.sendBackupEmail = function() {
+      trigVib();
+      const exportObj = getBackupObject();
+      const jsonStr = JSON.stringify(exportObj, null, 2);
+      const dateStr = new Date().toLocaleDateString('de-DE');
+      const subject = encodeURIComponent(`🌱 Ramonas Garten - Datensicherung vom ${dateStr}`);
+      const body = encodeURIComponent(
+        `Hallo,\n\n` +
+        `hier ist eine Datensicherung deiner Garten-App "Ramonas Garten Anzucht" vom ${dateStr}.\n\n` +
+        `--------------------------------------------------\n` +
+        `SO STELLST DU DIESES BACKUP WIEDER HER:\n` +
+        `--------------------------------------------------\n\n` +
+        `1. KOPIEREN:\n` +
+        `Kopiere den gesamten Datenblock ganz unten (alles zwischen den Zeilen === BACKUP START === und === BACKUP ENDE ===, inklusive der geschweiften Klammern { und }).\n\n` +
+        `2. DATEI ERSTELLEN:\n` +
+        `• Am iPhone / iPad: Öffne die Notizen-App (oder eine Text-App), füge den Text ein, tippe auf Teilen und wähle "In Dateien sichern". Nenne die Datei "backup.json".\n` +
+        `• Am Computer (PC / Mac): Öffne ein Textprogramm (wie Notepad/Editor oder TextEdit), füge den Text ein und speichere die Datei unter dem Namen "backup.json" ab.\n\n` +
+        `3. IN DIE APP LADEN:\n` +
+        `Öffne die Garten-App, gehe unten auf "⚙️ Einstell." und tippe auf den Button "📤 Backup aufspielen". Wähle dort deine erstellte Datei aus – fertig!\n\n` +
+        `=== BACKUP START ===\n` +
+        `${jsonStr}\n` +
+        `=== BACKUP ENDE ===\n\n` +
+        `🌱 Liebe Grüße aus dem Garten!`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      closeBackupModal();
+    };
+
     window.triggerImport = function() {
       trigVib();
       const fi = document.getElementById('importFileInput');
@@ -503,6 +647,7 @@
           if (data.generalNotes) localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(data.generalNotes));
           if (data.beetStatus) localStorage.setItem(BEET_KEY, JSON.stringify(data.beetStatus));
           if (data.settings) localStorage.setItem(SETTINGS_KEY, JSON.stringify(data.settings));
+          if (data.theme) { localStorage.setItem(THEME_KEY, data.theme); applyTheme(data.theme); }
           trigVib();
           alert("✅ Backup erfolgreich wiederhergestellt!");
           updateNotesBadge(); filterUndRender();
@@ -514,6 +659,23 @@
     };
 
     const gartenDaten = [
+      {
+        id: "artischocke", name: "Artischocke", oberkategorie: "Gemüse", kategorie: "Blütengemüse", icon: "🪷",
+        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
+        standort: "Vollsonnig, warm & extrem windgeschützt",
+        boden: "Sehr tiefgründig, durchlässig und extrem nährstoffreich. Staunässe im Winter ist tödlich (Wurzelfäule).",
+        duenger: "Starkzehrer: Vor der Pflanzung sehr viel reifen Kompost und Hornspäne einarbeiten. Im Frühsommer mit Pflanzenjauche nachdüngen.",
+        giessen: "Während der Knospenbildung reichlich wässern, ansonsten mäßig. Im Winter unbedingt trocken halten.",
+        abstandPflanze: "100 cm", abstandReihe: "100 cm", saattiefe: "1-2 cm", bedarf: "Starkzehrer",
+        zeitVorzucht: "Jan-Feb", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Sep",
+        monateAussaat: [1, 2],
+        tipp: "Winterschutz ist Pflicht! Im Herbst Blätter zusammenbinden und den Wurzelbereich dick mit Stroh und Laub abdecken.",
+        guteNachbarn: "Fenchel, Salat", schlechteNachbarn: "Kartoffeln",
+        sorten: [
+          { name: "Imperial Star", typ: "Grüne Artischocke", aussehen: "Dicke, runde bis leicht ovale grüne Blütenköpfe.", geschmack: "Feines, nussig-mildes Aroma.", verwendung: "Kochen und Blätterinzuzeln, Böden für Antipasti." },
+          { name: "Violetto di Chioggia", typ: "Violette Artischocke", aussehen: "Längliche, spitz zulaufende, violett-grüne Köpfe.", geschmack: "Besonders zart, typisch italienisches Aroma.", verwendung: "Oft so zart, dass sie roh im Salat oder gebraten gegessen werden kann." }
+        ]
+      },
       {
         id: "aubergine", name: "Aubergine", oberkategorie: "Gemüse", kategorie: "Fruchtgemüse", icon: "🍆",
         anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
@@ -595,7 +757,7 @@
         filterGruppen: ["Buschbohnen", "Stangenbohnen", "Feuerbohnen", "Dicke Bohnen"],
         sorten: [
           { name: "Purple Teepee", typ: "Buschbohne", gruppe: "Buschbohnen", aussehen: "Tiefviolette Schoten, die über dem Laub hängen.", geschmack: "Knackig, saftig, feines Bohnenaroma; färbt sich beim Kochen dunkelgrün.", verwendung: "Leicht zu ernten, perfekt als Speckbohne oder im bunten Bohnensalat." },
-          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttriger Schmelz, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für süß-saure Einlegebohnen." },
+          { name: "Cherokee Wax", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Leuchtend zitronengelbe Schoten mit schwarzen Kernen.", geschmack: "Sehr feiner buttrig-weicher Biss, zart und süßlich.", verwendung: "Traumhaft in heller Butter geschwenkt oder für süß-saure Einlegebohnen." },
           { name: "Berggold", typ: "Wachs-Buschbohne", gruppe: "Buschbohnen", aussehen: "Goldgelbe fleischige Hülsen ohne störende Fäden.", geschmack: "Mild, süßlich-buttrig, sehr zarter Biss.", verwendung: "Der Klassiker für traditionellen Bohnensalat mit Zwiebeln und Bohnenkraut." },
           { name: "Delinel", typ: "Filet-Buschbohne", gruppe: "Buschbohnen", aussehen: "Lange, dünne, dunkelgrüne Schoten französischer Zucht.", geschmack: "Herausragend aromatisch, intensiv, knackig und fadenlos.", verwendung: "Gourmet-Bohne: Kurz blanchieren und mit Knoblauchbutter servieren." },
           { name: "Contender", typ: "Frühe Buschbohne", gruppe: "Buschbohnen", aussehen: "Mittelgrüne, fleischige Schoten mit hoher Ertragsfülle.", geschmack: "Sehr saftig mit kräftig-deftigem Aroma.", verwendung: "Sehr ertragreich für die erste frühe Ernte im Sommer; ideal für Suppen." },
@@ -716,6 +878,23 @@
           { name: "Chinesische Schlange", typ: "Salatgurke", aussehen: "Sehr lange, schlanke, leicht gebogene dunkelgrüne Früchte.", geschmack: "Erfrischend, dünnschalig, bitterfrei und saftig.", verwendung: "Frischer Gurkensalat mit Dill und Schmand." },
           { name: "Passandra", typ: "Snackgurke", aussehen: "Glatt, ca. 15-18 cm lang, handlich dunkelgrün.", geschmack: "Sehr knackig, saftig und aromatisch.", verwendung: "Direkt als Pausensnack für unterwegs." },
           { name: "Zitronengurke", typ: "Spezialität", aussehen: "Rund und gelb wie ein Tennisball oder eine Zitrone.", geschmack: "Fruchtig-mild, erfrischend süßlich.", verwendung: "Hingucker im Sommersalat." }
+        ]
+      },
+      {
+        id: "heidelbeere", name: "Heidelbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        anbau: "🌿 Jungpflanze", wasser: "💧💧💧 Hoch",
+        standort: "Sonnig bis halbschattig, windgeschützt",
+        boden: "Zwingend saurer Boden (pH-Wert 4-5)! Rhododendron- oder Moorbeeterde verwenden. Kalkfreies Wasser (Regenwasser) zum Gießen nutzen.",
+        duenger: "Schwachzehrer: Nur speziellen, sauren Beerendünger oder Rhododendrondünger verwenden. Kein normaler Kompost (enthält oft zu viel Kalk).",
+        giessen: "Flachwurzler, der niemals austrocknen darf, aber keine Staunässe verträgt. Zwingend mit Regenwasser gießen.",
+        abstandPflanze: "100 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
+        zeitVorzucht: "Strauch", zeitBeet: "März oder Herbst", zeitErnte: "Jul-Sep",
+        monateAussaat: [3, 4, 10],
+        tipp: "Pflanze immer zwei verschiedene Sorten nebeneinander, das erhöht den Ertrag durch Fremdbestäubung enorm.",
+        guteNachbarn: "Preiselbeeren, Rhododendron", schlechteNachbarn: "Kalkliebende Pflanzen",
+        sorten: [
+          { name: "Duke", typ: "Frühsorte", aussehen: "Große, hellblaue, feste Beeren.", geschmack: "Mild-süß, sehr aromatisch.", verwendung: "Frischverzehr, Müsli, Einfrieren." },
+          { name: "Bluecrop", typ: "Hauptsorte", aussehen: "Sehr große, leuchtend blaue Beeren, starker Wuchs.", geschmack: "Klassisches Blaubeeraroma, gute Säure-Süße-Balance.", verwendung: "Der ertragreiche Standard für den Garten." }
         ]
       },
       {
@@ -958,6 +1137,23 @@
         ]
       },
       {
+        id: "stachelbeere", name: "Stachelbeere", oberkategorie: "Obst", kategorie: "Beerensträucher", icon: "🫐",
+        anbau: "🌿 Jungpflanze", wasser: "💧💧 Mittel",
+        standort: "Halbschattig bis sonnig, luftig (gegen Mehltau)",
+        boden: "Mittelschwer, humos, nicht zu trocken. Mulchen mit Rasenschnitt oder Rindenkompost hält die Feuchtigkeit und schützt die flachen Wurzeln.",
+        duenger: "Mittelzehrer: Im Frühjahr Kompost und etwas organischen Beerendünger (kaliumbetont) einarbeiten.",
+        giessen: "Vor allem zur Fruchtreife im Frühsommer auf gute Bodenfeuchte achten, damit die Beeren nicht klein bleiben oder bei plötzlichem Regen platzen.",
+        abstandPflanze: "120 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Strauch", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Jul-Aug",
+        monateAussaat: [3, 4, 10, 11],
+        tipp: "Achte beim Kauf zwingend auf mehltauresistente Sorten! Alte Sorten verlieren oft im Juli alle Blätter durch den Pilz.",
+        guteNachbarn: "Keine speziellen", schlechteNachbarn: "Keine speziellen",
+        sorten: [
+          { name: "Invicta", typ: "Grüne Stachelbeere", aussehen: "Große, ovale, hellgrüne bis gelbliche Beeren, stark bedornt.", geschmack: "Süß-säuerlich, sehr aromatisch, klassischer Geschmack.", verwendung: "Hervorragend für Kuchen, Kompott und Marmelade. (Stark mehltauresistent)." },
+          { name: "Hinnonmäki Rot", typ: "Rote Stachelbeere", aussehen: "Mittelgroße, dunkelrote, leicht behaarte Beeren.", geschmack: "Besonders süß und fruchtig, wenn sie vollreif ist.", verwendung: "Direkt vom Strauch naschen, sehr widerstandsfähig." }
+        ]
+      },
+      {
         id: "suesskartoffel", name: "Süßkartoffel", oberkategorie: "Gemüse", kategorie: "Knollen", icon: "🍠",
         anbau: "🌿 Jungpflanze (Stecklinge)", wasser: "💧💧 Mittel",
         standort: "Vollsonnig, extrem heiß und windgeschützt (Gewächshaus oder schwarze Mulchfolie)",
@@ -1058,6 +1254,23 @@
           { name: "Cherry Belle", typ: "Klassisches Radieschen", aussehen: "Kugelrund, glänzend rot mit weißem knackigem Fleisch.", geschmack: "Mild-würzig, knackfrisch, platzfest.", verwendung: "Brotzeit, Rohkostplatte, Salate." },
           { name: "French Breakfast", typ: "Zweifarbig", aussehen: "Länglich zylindrisch, oben leuchtend rot, unten weiße Spitze.", geschmack: "Sehr zart, knackig und saftig.", verwendung: "Klassisch französisch mit Salz und Butter." },
           { name: "Eiszapfen", typ: "Weißes Radieschen", aussehen: "Lange weiße spitz zulaufende Zapfen.", geschmack: "Etwas pikanter und würziger als rote Sorten.", verwendung: "Gerieben oder in dünnen Scheiben aufs Butterbrot." }
+        ]
+      },
+      {
+        id: "radicchio", name: "Radicchio & Endivie", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
+        anbau: "🪴 Vorzucht oder Direktsaat", wasser: "💧💧 Mittel",
+        standort: "Sonnig bis halbschattig (kühle Temperaturen bevorzugt)",
+        boden: "Humos, locker und gleichmäßig feucht.",
+        duenger: "Mittelzehrer: Ein wenig Kompost vor der Aussaat reicht. Zu viel Stickstoff macht die Blätter weich und anfällig für Fäulnis.",
+        giessen: "Gleichmäßig feucht halten. Bei Trockenheit werden die Blätter extrem bitter und zäh.",
+        abstandPflanze: "30 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
+        zeitVorzucht: "Jun-Jul", zeitBeet: "Jul-Aug", zeitErnte: "Sep-Nov",
+        monateAussaat: [6, 7],
+        tipp: "Vertragen leichte Fröste problemlos und können oft bis in den Dezember hinein geerntet werden.",
+        guteNachbarn: "Fenchel, Möhren, Bohnen", schlechteNachbarn: "Sellerie",
+        sorten: [
+          { name: "Palla Rossa", typ: "Radicchio", aussehen: "Fester, runder, weinroter Kopf mit weißen Blattrippen.", geschmack: "Angenehm bitter, knackig und herb.", verwendung: "Wintersalat, oft auch kurz in der Pfanne angebraten." },
+          { name: "Pancalieri", typ: "Frisée / Endivie", aussehen: "Stark gekrauste, hellgrüne bis gelbliche Blätter.", geschmack: "Feinherb, das helle Herz ist milder.", verwendung: "Der klassische Herbstsalat, harmoniert super mit süßen Dressings (z.B. Honig-Senf)." }
         ]
       },
       {
@@ -1224,7 +1437,6 @@
       }
     ];
 
-    // ----- Favoriten -----
     const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
     function getFavorites() {
       try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -1239,7 +1451,6 @@
       filterUndRender();
     }
 
-    // ----- Pflanzenspezifische Notizen -----
     const NOTES_KEY = "ramonas_garten_notizen_v1";
     function getNotes() {
       try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -1257,7 +1468,6 @@
       filterUndRender();
     };
 
-    // ----- Beet-Status -----
     const BEET_KEY = "ramonas_garten_beet_v3";
     function getBeetStatus() {
       try { return JSON.parse(localStorage.getItem(BEET_KEY)) || {}; } catch (e) { return {}; }
@@ -1319,7 +1529,6 @@
       return { status: hasSown ? 'sown' : 'harvested', count: keys.length };
     }
 
-    // ----- Allgemeine Notizen -----
     const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
     function getGeneralNotes() {
       try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
@@ -1443,11 +1652,11 @@
       if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
     }
 
-    // KI Assistenz Funktionen
     function openAiMenu() {
       trigVib();
       const q = searchInput.value.trim();
       if(!q) return;
+      closeAllModals();
       document.getElementById('aiModalOverlay').classList.add('open');
     }
     
@@ -1507,6 +1716,10 @@
     
     document.getElementById('aiModalOverlay').addEventListener("click", (e) => {
       if (e.target === document.getElementById('aiModalOverlay')) closeAiMenu();
+    });
+
+    document.getElementById('backupModalOverlay').addEventListener("click", (e) => {
+      if (e.target === document.getElementById('backupModalOverlay')) closeBackupModal();
     });
 
     function cleanStr(s) {
@@ -1626,6 +1839,7 @@
       const generalNotes = getGeneralNotes();
       const beet = getBeetStatus();
       const appSettings = getSettings();
+      const currentTheme = getSavedTheme();
 
       if (clearSearchBtn) clearSearchBtn.style.display = query !== "" ? "flex" : "none";
       if (askAiBtn) askAiBtn.style.display = query !== "" ? "flex" : "none";
@@ -1635,8 +1849,19 @@
         statusRowContainer.style.display = "none";
         statusCount.innerText = `App Einstellungen`;
         cultureGrid.innerHTML = `
-          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">⚙️ Garten-Einstellungen</div>
+          <div style="background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🎨 App-Design & Erscheinungsbild</div>
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 6px;">Farbschema auswählen:</label>
+              <div class="theme-toggle-group">
+                <button class="theme-btn ${currentTheme === 'light' ? 'active' : ''}" onclick="setAppTheme('light')">☀️ Hellmodus</button>
+                <button class="theme-btn ${currentTheme === 'dark' ? 'active' : ''}" onclick="setAppTheme('dark')">🌙 Midnight Garden</button>
+              </div>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
+
+            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">⚙️ Beet-Einstellungen</div>
             <div style="margin-bottom: 20px;">
               <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Anzahl deiner Beete im Garten:</label>
               <div style="display: flex; gap: 10px;">
@@ -1645,11 +1870,13 @@
               </div>
               <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Diese Anzahl wird für das Zuweisen von Beeten pro Sorte genutzt.</p>
             </div>
-            <hr style="border: none; border-top: 1px solid var(--border); margin: 24px 0;">
+
+            <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
+
             <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">💾 Daten-Sicherheit & Backup</div>
             <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text); margin-bottom: 16px;"><strong>Wo speichert die App?</strong><br>Alle deine Favoriten, Notizen, Beeteinstellungen und Beetzuordnungen liegen geschützt im lokalen Speicher deines Browsers (<em>localStorage</em>). Komplett offline und privat.</p>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-              <button onclick="exportData()" style="width: 100%; background: #0284c7; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📥 Backup herunterladen (Export)</button>
+              <button onclick="exportData()" style="width: 100%; background: #0284c7; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📥 Backup erstellen (Speichern oder Mail)</button>
               <input type="file" id="importFileInput" accept=".json,application/json" style="display: none;" onchange="importData(event)">
               <button onclick="triggerImport()" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📤 Backup aufspielen (Upload / Wiederherstellen)</button>
             </div>
@@ -1664,10 +1891,10 @@
         const notedIds = Object.keys(notes).filter(id => notes[id] && notes[id].trim() !== "");
         statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + generalNotes.length}`;
         cultureGrid.innerHTML = `
-          <div style="background: var(--card-bg); border: 2px solid var(--primary); border-radius: 16px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <div style="background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">📝 Neues Notizbuch-Blatt</div>
-            <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none;"></textarea>
-            <div style="margin-bottom: 14px; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
+            <textarea id="generalNoteInput" placeholder="Was steht aktuell im Garten an? (z.B. Erde kaufen, Beet umgraben...)" style="width: 100%; min-height: 80px; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; margin-bottom: 12px; resize: vertical; font-family: inherit; outline: none; background: var(--input-bg); color: var(--text);"></textarea>
+            <div style="margin-bottom: 14px; background: var(--box-note-bg); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
               <label style="display: block; font-size: 0.78rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">⏰ Erinnerung / Termin (optional):</label>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <input type="datetime-local" id="reminderTimeInput" style="flex: 1; min-width: 180px; padding: 8px 12px; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border); outline: none;">
@@ -1676,8 +1903,8 @@
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <button id="saveNoteBtn" onclick="triggerManualSave()" style="grid-column: span 2; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer;">💾 Notiz speichern</button>
-              <button onclick="sendCurrentNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">✉️ Aktuelle senden</button>
-              <button onclick="sendGeneralNoteEmail()" style="background: var(--tag-bg); color: var(--primary); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">📚 Alle senden</button>
+              <button onclick="sendCurrentNoteEmail()" style="background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">✉️ Aktuelle senden</button>
+              <button onclick="sendGeneralNoteEmail()" style="background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">📚 Alle senden</button>
             </div>
           </div>
         `;
@@ -1737,7 +1964,7 @@
             actions.className = "note-card-actions";
             const sendBtn = document.createElement("button");
             sendBtn.className = "single-send-btn";
-            sendBtn.textContent = "✉️️ Senden";
+            sendBtn.textContent = "✉ Senden";
             sendBtn.onclick = () => sendSinglePlantNoteEmail(k.name, noteText);
             const delBtn = document.createElement("button");
             delBtn.className = "delete-note-btn";
@@ -1839,7 +2066,7 @@
           <div style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🏡 Deine Beet-Übersicht</div>
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 16px; gap: 10px;">
             <div style="position: relative; flex: 1;">
-              <select onchange="setBeetFilter(this.value)" style="width: 100%; height: 100%; appearance: none; -webkit-appearance: none; background: var(--primary); color: #fff; border: none; padding: 12px 35px 12px 16px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 10px rgba(28, 59, 43, 0.2); outline: none;">
+              <select onchange="setBeetFilter(this.value)" style="width: 100%; height: 100%; appearance: none; -webkit-appearance: none; background: var(--primary); color: #fff; border: none; padding: 12px 35px 12px 16px; border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); outline: none;">
                 <option value="Alle" ${aktiverBeetFilter === 'Alle' ? 'selected' : ''}>🌱 Alle Beete anzeigen</option>
         `;
         for(let i=1; i<=bedCount; i++) {
@@ -1934,6 +2161,7 @@
     function openBeetQuickModal(id) {
       trigVib();
       gewaehlteKulturId = id;
+      closeAllModals();
       renderBeetQuickModal(id);
       beetQuickOverlay.classList.add("open");
     }
@@ -1999,7 +2227,7 @@
               </div>
               <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
                 <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap;">Beet-Nr:</label>
-                <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 6px 10px; font-size: 0.8rem; background: #fff; border-radius: 6px; border: 1px solid var(--border);">
+                <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 6px 10px; font-size: 0.8rem; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border); color: var(--text);">
                   ${bedOptions}
                 </select>
               </div>
@@ -2046,6 +2274,7 @@
         if (foundIdx !== -1) gewaehlteSorteIdx = foundIdx;
       }
       aktiverSubFilter = "Alle";
+      closeAllModals();
       renderDetailModal();
       modalOverlay.classList.add("open");
     }
@@ -2061,6 +2290,7 @@
     });
 
     function openReadme() {
+      closeAllModals();
       readmeBody.innerText = "Lade Dokumentation Read.txt...";
       readmeOverlay.classList.add("open");
       fetch("Read.txt")
@@ -2071,7 +2301,7 @@
     function closeReadme() { readmeOverlay.classList.remove("open"); }
     readmeOverlay.addEventListener("click", (e) => { if (e.target === readmeOverlay) closeReadme(); });
 
-    function openImpressum() { impressumOverlay.classList.add("open"); }
+    function openImpressum() { closeAllModals(); impressumOverlay.classList.add("open"); }
     function closeImpressum() { impressumOverlay.classList.remove("open"); }
     impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
 
@@ -2175,7 +2405,7 @@
             <strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em>
             ${sorteDetailsHtml}
           </div>
-          <div class="beet-status-box" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 14px;">
+          <div class="beet-status-box" style="background: var(--box-note-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 14px;">
             <div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">🏡 Beet-Status für ${highlightedSorteName}</div>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <button class="action-pill ${bStatus==='none' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem;" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'none')">✖️ Nicht im Beet</button>
@@ -2184,7 +2414,7 @@
             </div>
             <div style="margin-top: 12px; display: ${bStatus !== 'none' ? 'block' : 'none'};">
               <label style="font-size: 0.75rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 4px;">📍 In welchem Beet steht diese Sorte?</label>
-              <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 8px 10px; font-size: 0.85rem; background: #fff;">
+              <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 8px 10px; font-size: 0.85rem; background: var(--input-bg); color: var(--text);">
                 ${bedOptions}
               </select>
             </div>
@@ -2192,8 +2422,8 @@
         </div>
 
         <div class="info-metrics">
-          <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: #854d0e;">${highlightedStandort}</div></div>
-          ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: #166534;">${k.anbau}</div></div>` : ''}
+          <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-standort);">${highlightedStandort}</div></div>
+          ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-anbau);">${k.anbau}</div></div>` : ''}
           <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze}</div></div>
           <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe}</div></div>
           <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe}</div></div>
