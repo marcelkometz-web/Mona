@@ -1,3 +1,5 @@
+Ach hier zur Kontrolle 
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -8,16 +10,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
   <meta name="theme-color" content="#1c3b2b">
-	  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="icon" type="image/png" href="./icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>Ramonas Garten Anzucht</title>
-    <script>
-    if (localStorage.getItem("ramonas_garten_theme_v1") === "dark") {
-      document.documentElement.classList.add("dark-mode");
-    }
-  </script>
-	<style>
+  <style>
     :root {
       --bg: #f5f7f5;
       --card-bg: #ffffff;
@@ -40,7 +35,8 @@
       --color-standort: #ca8a04;
       --color-anbau: #16a34a;
     }
-    html.dark-mode, body.dark-mode {
+
+    body.dark-mode {
       --bg: #0f1712;
       --card-bg: #18241c;
       --primary: #4ade80;
@@ -536,13 +532,12 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    const THEME_KEY = "ramonas_garten_theme_    function applyTheme(theme) {
+    const THEME_KEY = "ramonas_garten_theme_v1";
+    function applyTheme(theme) {
       if (theme === 'dark') {
-        document.documentElement.classList.add('dark-mode');
         document.body.classList.add('dark-mode');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f1712');
       } else {
-        document.documentElement.classList.remove('dark-mode');
         document.body.classList.remove('dark-mode');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1c3b2b');
       }
@@ -1017,7 +1012,7 @@
         abstandPflanze: "40 cm", abstandReihe: "100 cm", saattiefe: "2 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "Mitte April", zeitBeet: "Ende Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
-        tipp: "Strikt von unten gießen und den Wurzelbereich dick mit Stroh mulchen. Niemals kaltes Brunnenwasser nehmen (macht Früchte bitter) und die unteren 40 cm Seitentriebe ausgeizen für mehr Hauptfrüchte.",
+        tipp: "Nur mit lauwarmem Wasser gießen! Kaltes Wasser verursacht bittere Früchte.",
         guteNachbarn: "Dill, Bohnen, Zwiebeln", schlechteNachbarn: "Tomaten, Radieschen",
         sorten: [
 				  { name: "Picolino", typ: "Mini-Snackgurke (F1)", aussehen: "Glatte, dunkelgrüne, ca. 12–14 cm lange Mini-Früchte an sehr ertragreichen Ranken.", geschmack: "Extrem knackig, saftig, dünnschalig und garantiert vollkommen bitterfrei.", verwendung: "Perfekt als handlicher Pausensnack für unterwegs, für Kinder oder frische Sommer-Dips." },
@@ -1063,7 +1058,7 @@
         abstandPflanze: "35 cm", abstandReihe: "70 cm", saattiefe: "10 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März vorkeimen", zeitBeet: "Apr-Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
-tipp: "Selbstversorger-Tipp: Neben dem Anhäufeln dick mit Heu oder angetrocknetem Rasenschnitt mulchen. Hält den Boden feucht, unterdrückt Unkraut und verdoppelt den Knollenansatz.",
+        tipp: "Regelmäßig anhäufeln, schützt vor Grünfärbung.",
         guteNachbarn: "Dicke Bohnen, Tagetes, Spinat", schlechteNachbarn: "Tomaten, Sellerie, Kürbis",
         filterGruppen: ["Festkochend", "Vorwiegend festkochend", "Mehligkochend", "Alte und besondere Sorten"],
         sorten: [
@@ -1091,7 +1086,7 @@ tipp: "Selbstversorger-Tipp: Neben dem Anhäufeln dick mit Heu oder angetrocknet
         abstandPflanze: "15 cm", abstandReihe: "25 cm", saattiefe: "5 cm", bedarf: "Schwachzehrer",
         zeitVorzucht: "Stecken", zeitBeet: "Okt-Nov oder Feb-März", zeitErnte: "Jun-Jul",
         monateAussaat: [2, 3, 10, 11],
-        tipp: "Im Spätherbst stecken und sofort mit einer 5–10 cm dicken Stroh-/Laubschicht abdecken. Schützt vor Kahlfrost, hält Winterunkraut fern und sorgt im Juli für Riesenknollen.",
+        tipp: "Harthals-Knoblauch bildet Blütenschäfte, Weichhals lässt sich flechten.",
         guteNachbarn: "Erdbeeren, Tomaten, Möhren", schlechteNachbarn: "Erbsen, Bohnen, Kohl",
         filterGruppen: ["Harthals (Hardneck)", "Weichhals (Softneck)"],
         sorten: [
@@ -1298,7 +1293,7 @@ tipp: "Selbstversorger-Tipp: Neben dem Anhäufeln dick mit Heu oder angetrocknet
         abstandPflanze: "4 cm", abstandReihe: "30 cm", saattiefe: "2 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Nur Direktsaat", zeitBeet: "Mär-Jun", zeitErnte: "Jun-Nov",
         monateAussaat: [3, 4, 5, 6],
-tipp: "Immer Reihe an Reihe im Wechsel mit Zwiebeln oder Knoblauch säen! Der intensive Lauchgeruch hält die gefürchtete Möhrenfliege komplett vom Beet fern.",
+        tipp: "Keimen langsam (bis zu 3-4 Wochen). Mische ein paar Radieschensamen unter, diese keimen in 3 Tagen und 'markieren' die Reihe.",
         guteNachbarn: "Zwiebeln, Lauch, Dill", schlechteNachbarn: "Pastinaken, Sellerie",
         sorten: [
 				  { name: "Nantaise 2", typ: "Frühe Sommermöhre", aussehen: "Gleichmäßig zylindrische, stumpf endende Wurzeln in leuchtendem Orangerot.", geschmack: "Zart, knackig, sehr süß mit feinem Kern und kaum Holzanteil.", verwendung: "Der bewährte Klassiker für Bundmöhren, Frischverzehr und Rohkostsalate." },
@@ -1537,7 +1532,7 @@ tipp: "Immer Reihe an Reihe im Wechsel mit Zwiebeln oder Knoblauch säen! Der in
         abstandPflanze: "10 cm", abstandReihe: "30 cm", saattiefe: "3 cm", bedarf: "Mittelzehrer",
         zeitVorzucht: "Direktsaat / Vorzucht in Platten", zeitBeet: "Apr-Jun", zeitErnte: "Jul-Okt",
         monateAussaat: [4, 5, 6],
-        tipp: "Der Multitopf-Trick: Jeweils 3–4 Samen zusammen in ein Fach säen und als kleinen Horst auspflanzen. Die Knollen drücken sich im Wachstum auseinander und sparen enorm Platz im Beet.",
+        tipp: "Die Rote Bete lässt sich in kleinen Multitopfplatten super vorziehen (ca. 3 Samen pro Töpfchen) und als kleiner Busch auspflanzen.",
         guteNachbarn: "Bohnen, Zwiebeln, Gurken", schlechteNachbarn: "Mangold, Spinat",
         sorten: [
           { name: "Burpees Golden", typ: "Gelbe Speisebete", aussehen: "Runde Knollen mit oranger Außenhaut und leuchtend sonnengelbem Fleisch.", geschmack: "Auffallend mild, süßlich und fruchtig ohne die typisch schwere Erdnase.", verwendung: "Färbt beim Schneiden und Kochen nicht ab; fantastisch roh gerieben oder als warmes Gemüse." },
@@ -1693,7 +1688,7 @@ tipp: "Immer Reihe an Reihe im Wechsel mit Zwiebeln oder Knoblauch säen! Der in
         abstandPflanze: "60 cm", abstandReihe: "80 cm", saattiefe: "1 cm", bedarf: "Starkzehrer",
         zeitVorzucht: "März-Apr", zeitBeet: "Mitte Mai", zeitErnte: "Jul-Okt",
         monateAussaat: [3, 4, 5],
-        tipp: "Pflanzen bis zu den ersten echten Blättern tief (gerne leicht schräg) einsetzen – bildet enorme Wurzeln! Ausgegeizte Triebe einfach in Wasser stellen: sie wurzeln in wenigen Tagen für Gratis-Pflanzen.",
+        tipp: "Pflanzen tief einsetzen, sie bilden am Stamm zusätzliche Wurzeln.",
         guteNachbarn: "Basilikum, Knoblauch, Möhren", schlechteNachbarn: "Kartoffeln, Fenchel",
         sorten: [
           { name: "Ananas Noire", typ: "Dunkle Fleischtomate", aussehen: "Große, mehrfarbige Früchte mit grün-violett-brauner Schale und rot marmoriertem Fruchtfleisch.", geschmack: "Komplex süß-würzig, leicht rauchig mit fruchtiger Melonennote.", verwendung: "Gourmet-Highlight in dicken Scheiben mit Olivenöl oder für bunte Sommersalate." },
@@ -2821,4 +2816,3 @@ tipp: "Immer Reihe an Reihe im Wechsel mit Zwiebeln oder Knoblauch säen! Der in
   </script>
 </body>
 </html>
-
