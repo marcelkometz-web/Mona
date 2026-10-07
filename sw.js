@@ -1,10 +1,11 @@
-const CACHE_NAME = 'ramonas-garten-v5';
+const CACHE_NAME = 'ramonas-garten-v6';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './Read.txt',
-  './icon.svg'
+  './icon.svg',
+  './icon-192.png'
 ];
 self.addEventListener('install', (e) => {
   e.waitUntil(
