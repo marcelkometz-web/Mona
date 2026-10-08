@@ -4635,9 +4635,8 @@
 		trigVib();
 		const panel = document.getElementById('detailPanel');
 		if (!panel) return;
-		
-		// Wir kopieren den Inhalt des Profils und öffnen ein sauberes Druckfenster
-		const printWindow = window.open('', '_blank', 'height=700,width=700');
+
+		const printWindow = window.open('', '_blank', 'height=800,width=700');
 		if (!printWindow) {
 			alert("Bitte erlaube Pop-ups für diese App, um das PDF/Drucken zu nutzen.");
 			return;
@@ -4645,7 +4644,7 @@
 
 		printWindow.document.write('<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>Garten-Profil drucken</title>');
 		printWindow.document.write('<style>');
-		printWindow.document.write('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; color: #000; background: #fff; line-height: 1.5; }');
+		printWindow.document.write('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 25px; color: #111; background: #fff; line-height: 1.5; }');
 		printWindow.document.write('.detail-title { font-size: 1.6rem; font-weight: 800; color: #1c3b2b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }');
 		printWindow.document.write('.badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; background: #f1f5f9; border: 1px solid #cbd5e1; margin-right: 4px; }');
 		printWindow.document.write('.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #cbd5e1; background: #f8fafc; padding: 12px 14px; border-radius: 8px; margin: 12px 0; font-size: 0.9rem; }');
@@ -4658,19 +4657,16 @@
 		printWindow.document.write('.good-box { background: #dcfce7; border: 1px solid #22c55e; color: #166534; }');
 		printWindow.document.write('.bad-box { background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; }');
 		printWindow.document.write('.close-btn, .print-btn, .sheet-handle, .beet-status-box, .notes-section, .varieties-title, .subfilter-bar, .variety-chips { display: none !important; }');
+		printWindow.document.write('.print-action-bar { position: sticky; top: 0; background: #1c3b2b; padding: 14px; text-align: center; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }');
+		printWindow.document.write('.print-action-bar button { background: #c46c49; color: #fff; border: none; padding: 12px 24px; font-size: 1rem; font-weight: 700; border-radius: 8px; cursor: pointer; }');
+		printWindow.document.write('@media print { .print-action-bar { display: none !important; } }');
 		printWindow.document.write('</style></head><body>');
+		printWindow.document.write('<div class="print-action-bar"><button onclick="window.print()">🖨️ Jetzt drucken / Als PDF speichern</button></div>');
 		printWindow.document.write(panel.innerHTML);
 		printWindow.document.write('</body></html>');
 		printWindow.document.close();
 		printWindow.focus();
-		
-		setTimeout(() => {
-			printWindow.print();
-			printWindow.close();
-		}, 300);
 	}
-
-
 	function renderDetailModal() {
 		const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
 		if (!k) return;
