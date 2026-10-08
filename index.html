@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -7,7 +6,7 @@
 		// Verhindert das Aufblitzen: Weiß bleibt weiß, Dunkel bleibt dunkel
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v7") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v8") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
 				var isDark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
 				var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
 				if (isDark) {
@@ -1349,159 +1348,6 @@
 
 			/* 4. Overlay komplett weiß und ohne Hintergrundschatten/Feste Höhe */
 			.modal-overlay.open {
-				position: absolute !important;
-				top: 0 !important;
-				left: 0 !important;
-				display: block !important;
-				background: #ffffff !important;
-				background-color: #ffffff !important;
-				backdrop-filter: none !important;
-				-webkit-backdrop-filter: none !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				height: auto !important;
-				min-height: 0 !important;
-				width: 100% !important;
-				z-index: 99999 !important;
-			}
-
-			/* 5. Detail-Panel vollflächig weiß */
-			.detail-panel {
-				max-width: 100% !important;
-				max-height: none !important;
-				height: auto !important;
-				min-height: 0 !important;
-				box-shadow: none !important;
-				border: none !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				color: #000000 !important;
-				background: #ffffff !important;
-				background-color: #ffffff !important;
-				position: static !important;
-				transform: none !important;
-				overflow: visible !important;
-			}
-
-			.detail-title {
-				font-size: 1.6rem !important;
-				color: #1c3b2b !important;
-			}
-
-			.info-metrics {
-				grid-template-columns: repeat(3, 1fr) !important;
-				page-break-inside: avoid;
-				break-inside: avoid;
-			}
-
-			.metric-card {
-				background: #f8fafc !important;
-				border: 1px solid #d1d5db !important;
-			}
-
-			.metric-label {
-				color: #555555 !important;
-			}
-
-			.metric-val {
-				color: #1c3b2b !important;
-			}
-
-			/* Infoboxen mit hellem Hintergrund & Rand */
-			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box, .notes-section {
-				border: 1px solid #d1d5db !important;
-				background: #f9fafb !important;
-				background-color: #f9fafb !important;
-				color: #000000 !important;
-				page-break-inside: avoid;
-				break-inside: avoid;
-			}
-
-			.companion-grid {
-				grid-template-columns: 1fr 1fr !important;
-				page-break-inside: avoid;
-				break-inside: avoid;
-				margin-bottom: 0 !important;
-			}
-
-			.good-box {
-				background: #f0fdf4 !important;
-				border: 1px solid #86efac !important;
-				color: #14532d !important;
-			}
-
-			.bad-box {
-				background: #fef2f2 !important;
-				border: 1px solid #fca5a5 !important;
-				color: #7f1d1d !important;
-			}
-
-			.notes-textarea {
-				display: none !important;
-			}
-
-		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (GARANTIERT 100% WEISS & ZUVERLÄSSIG) */
-		@media print {
-			@page {
-				size: A4 portrait;
-				margin: 12mm 15mm;
-			}
-
-			/* 1. Erzwingt helles Farbschema für alle Elemente */
-			:root,
-			html,
-			html.dark-mode,
-			body,
-			body.dark-mode {
-				color-scheme: light !important;
-				--bg: #ffffff !important;
-				--card-bg: #ffffff !important;
-				--primary: #1c3b2b !important;
-				--primary-light: #f1f5f9 !important;
-				--accent: #c46c49 !important;
-				--text: #000000 !important;
-				--text-muted: #555555 !important;
-				--border: #d1d5db !important;
-				--tag-bg: #f8fafc !important;
-				--good: #f0fdf4 !important;
-				--bad: #fef2f2 !important;
-				--input-bg: #ffffff !important;
-				--box-note-bg: #f8fafc !important;
-				--color-standort: #854d0e !important;
-				--color-anbau: #166534 !important;
-				background-color: #ffffff !important;
-				background: #ffffff !important;
-				color: #000000 !important;
-				-webkit-print-color-adjust: exact !important;
-				print-color-adjust: exact !important;
-			}
-
-			/* 2. Entfernt die 100vh Mindesthöhe, die den schwarzen Kasten erzeugt */
-			html, body {
-				height: auto !important;
-				min-height: 0 !important;
-				max-height: none !important;
-				overflow: visible !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				background: #ffffff !important;
-			}
-
-			/* 3. Blendet alles außerhalb des Detail-Modals aus */
-			body > *:not(.modal-overlay.open) {
-				display: none !important;
-			}
-
-			.top-bar, header, .search-box, .status-row, #cultureGrid, 
-			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
-			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
-			.floating-reload-btn, .beet-status-box, .variety-chips,
-			.v-info-box .action-pill {
-				display: none !important;
-			}
-
-			/* 4. Overlay komplett weiß und ohne Hintergrundschatten/Feste Höhe */
-			.modal-overlay.open {
 				position: static !important;
 				display: block !important;
 				background: #ffffff !important;
@@ -1628,14 +1474,14 @@
 		.floating-reload-btn:active {
 			transform: scale(0.9) rotate(90deg);
 		}
-	</style>
 
+	</style>
 </head>
 <body>
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v7</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v8</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1802,7 +1648,7 @@
 	</button>
 
 	<script>
-	const APP_VERSION = "v7";
+	const APP_VERSION = "v8";
 	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
@@ -3600,7 +3446,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v7";
+	const THEME_KEY = "ramonas_garten_theme_v8";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3636,7 +3482,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v7";
+	const SETTINGS_KEY = "ramonas_garten_settings_v8";
 
 	function getSettings() {
 		try {
@@ -3658,7 +3504,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v7";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v8";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3674,7 +3520,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v7";
+	const NOTES_KEY = "ramonas_garten_notizen_v8";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3743,7 +3589,7 @@
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
 
-	const BEET_KEY = "ramonas_garten_beet_v7";
+	const BEET_KEY = "ramonas_garten_beet_v8";
 
 	function normalizeBeetEntry(entry) {
 		if (!entry) return { status: 'none', beds: [] };
@@ -3765,7 +3611,7 @@
 		try {
 			let beet = JSON.parse(localStorage.getItem(BEET_KEY));
 			if (!beet) {
-				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v7"));
+				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v8"));
 				if (old && typeof old === 'object') {
 					beet = {};
 					Object.keys(old).forEach(k => {
@@ -3916,7 +3762,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v7";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v8";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
