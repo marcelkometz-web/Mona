@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,7 +7,7 @@
 		// Verhindert das Aufblitzen: Weiß bleibt weiß, Dunkel bleibt dunkel
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v5") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v6") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
 				var isDark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
 				var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
 				if (isDark) {
@@ -1333,14 +1334,13 @@
 			body > *:not(.modal-overlay.open) {
 				display: none !important;
 			}
-
 			.top-bar, header, .search-box, .status-row, #cultureGrid, 
 			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
 			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
-			.floating-reload-btn, .beet-status-box, .variety-chips {
+			.floating-reload-btn, .beet-status-box, .variety-chips,
+			.v-info-box .action-pill {
 				display: none !important;
 			}
-
 			.modal-overlay.open {
 				position: static !important;
 				display: block !important;
@@ -1465,7 +1465,7 @@
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v5</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v6</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1632,7 +1632,7 @@
 	</button>
 
 	<script>
-	const APP_VERSION = "v5";
+	const APP_VERSION = "v6";
 	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
@@ -3430,7 +3430,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v5";
+	const THEME_KEY = "ramonas_garten_theme_v6";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3466,7 +3466,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v5";
+	const SETTINGS_KEY = "ramonas_garten_settings_v6";
 
 	function getSettings() {
 		try {
@@ -3488,7 +3488,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v5";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v6";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3504,7 +3504,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v5";
+	const NOTES_KEY = "ramonas_garten_notizen_v6";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3573,7 +3573,7 @@
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
 
-	const BEET_KEY = "ramonas_garten_beet_v5";
+	const BEET_KEY = "ramonas_garten_beet_v6";
 
 	function normalizeBeetEntry(entry) {
 		if (!entry) return { status: 'none', beds: [] };
@@ -3595,7 +3595,7 @@
 		try {
 			let beet = JSON.parse(localStorage.getItem(BEET_KEY));
 			if (!beet) {
-				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v5"));
+				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v6"));
 				if (old && typeof old === 'object') {
 					beet = {};
 					Object.keys(old).forEach(k => {
@@ -3746,7 +3746,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v5";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v6";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
@@ -4858,7 +4858,14 @@
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
-            <strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+              <div>
+                <strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em>
+              </div>
+              <button class="action-pill accent" style="padding: 6px 12px; font-size: 0.76rem;" onclick="orderSeedsOnline('${k.name}', '${sorte.name}')" title="Samen oder Pflanzen online suchen">
+                🛒 Samen / Pflanzen bestellen
+              </button>
+            </div>
             ${sorteDetailsHtml}
           </div>
           <div class="beet-status-box" style="background: var(--box-note-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 14px;">
@@ -4915,6 +4922,11 @@
       `;
 		detailPanel.scrollTop = prevScrollTop;
 	}
+	window.orderSeedsOnline = function(kulturName, sorteName) {
+		trigVib();
+		const term = encodeURIComponent(`${kulturName} ${sorteName} Samen Jungpflanzen kaufen`);
+		window.open(`https://www.google.com/search?q=${term}`, '_blank');
+	};
 
 	window.setSubFilter = function(gName) {
 		trigVib();
