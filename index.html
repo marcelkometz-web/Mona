@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 
@@ -81,7 +82,6 @@
 		html.dark-mode {
 			background-color: #0f1712 !important;
 		}
-
 		html.dark-mode body,
 		body.dark-mode {
 			--bg: #0f1712;
@@ -199,7 +199,6 @@
 			color: var(--text);
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 		}
-
 		input[type="text"] {
 			padding-right: 85px;
 		}
@@ -341,7 +340,6 @@
 		.item-card.search-active-match {
 			animation: searchPulse 2s infinite ease-in-out;
 		}
-
 		.item-icon {
 			font-size: 2.1rem;
 			margin-bottom: 4px;
@@ -471,7 +469,6 @@
 			gap: 10px;
 			flex-wrap: wrap;
 		}
-
 		.wish-queue-box {
 			margin-top: 16px;
 			background: var(--box-note-bg);
@@ -628,7 +625,6 @@
 			white-space: pre-wrap;
 			line-height: 1.45;
 		}
-
 		.single-send-btn {
 			background: var(--tag-bg);
 			border: 1px solid var(--border);
@@ -787,7 +783,6 @@
 			background: var(--primary);
 			color: #fff;
 		}
-
 		.close-btn {
 			background: var(--tag-bg);
 			border: 1px solid var(--border);
@@ -946,7 +941,6 @@
 			font-weight: 700;
 			color: var(--primary);
 		}
-
 		.boden-box {
 			font-size: 0.88rem;
 			background: var(--box-note-bg);
@@ -1025,6 +1019,11 @@
 		.notes-textarea:focus {
 			border-color: var(--accent);
 		}
+		
+		/* Wird nur beim Drucken sichtbar */
+		.print-only-note {
+			display: none;
+		}
 
 		.companion-grid {
 			display: grid;
@@ -1070,7 +1069,6 @@
 			gap: 4px;
 			font-size: 0.85rem;
 		}
-
 		footer.app-footer {
 			text-align: center;
 			padding: 25px 15px 15px 15px;
@@ -1217,7 +1215,6 @@
 			background: #ef4444;
 			color: #fff;
 		}
-
 		.theme-toggle-group {
 			display: flex;
 			gap: 8px;
@@ -1272,6 +1269,7 @@
 			font-weight: 900;
 		}
 
+		/* DRUCK-CSS OPTIMIERT */
 		@media print {
 			body {
 				padding: 0 !important;
@@ -1291,9 +1289,9 @@
 			.sheet-handle,
 			.print-btn,
 			.subfilter-bar,
-			.notes-section,
 			.card-star,
-			.print-action-bar {
+			.floating-reload-btn,
+			.beet-status-box {
 				display: none !important;
 			}
 
@@ -1303,11 +1301,13 @@
 				background: none !important;
 				backdrop-filter: none !important;
 				padding: 0 !important;
+				height: auto !important;
 			}
 
 			.detail-panel {
 				max-width: 100% !important;
 				max-height: none !important;
+				height: auto !important;
 				box-shadow: none !important;
 				border: none !important;
 				padding: 0 !important;
@@ -1315,6 +1315,7 @@
 				background: #fff !important;
 				position: static !important;
 				transform: none !important;
+				overflow: visible !important;
 			}
 
 			.detail-title {
@@ -1324,6 +1325,7 @@
 
 			.info-metrics {
 				grid-template-columns: repeat(3, 1fr) !important;
+				page-break-inside: avoid;
 			}
 
 			.v-info-box,
@@ -1334,16 +1336,31 @@
 				border: 1px solid #000 !important;
 				background: #fff !important;
 				color: #000 !important;
+				page-break-inside: avoid;
 			}
 
 			.companion-grid {
 				grid-template-columns: 1fr 1fr !important;
+				page-break-inside: avoid;
 			}
-
-			.beet-status-box {
+			
+			.notes-textarea {
 				display: none !important;
 			}
+			
+			.print-only-note {
+				display: block !important;
+				white-space: pre-wrap;
+				font-size: 0.9rem;
+				padding: 10px;
+				border: 1px solid #000;
+				border-radius: 8px;
+				margin-top: 10px;
+				background: #fff !important;
+				color: #000 !important;
+			}
 		}
+
 		.floating-reload-btn {
 			position: fixed;
 			right: 18px;
@@ -1600,7 +1617,8 @@
 				{ name: "Klassische Brennnesseljauche", typ: "Stickstoffbombe", aussehen: "Braune, stark schäumende Flüssigkeit mit intensivem Gärgeruch.", geschmack: "Extrem nährstoffreich, voller Stickstoff und Chlorophyll.", verwendung: "Der perfekte Frühlingsdünger, um Tomaten, Kohl und Kürbisse zu sattem Blattwachstum anzuregen." },
 				{ name: "Brennnessel-Beinwell-Mix", typ: "All-in-One Power-Jauche", aussehen: "Kombination aus Brennnesseln und Beinwellblättern im selben Fass.", geschmack: "Liefert neben Stickstoff massenhaft Kalium, Phosphor und Spurenelemente.", verwendung: "Die ideale Universallösung ab Sommerbeginn für blühende und früchtetragende Pflanzen." }
 			]
-		},
+		}
+		,
 		{
 			id: "praxis_beinwell",
 			name: "Beinwelljauche (Blüten- & Frucht-Turbo)",
@@ -1628,119 +1646,119 @@
 				{ name: "Beinwell-Blattjauche", typ: "Kalium-Booster", aussehen: "Dunkelgrüne, stark riechende Gärflüssigkeit.", geschmack: "Hoher Kalium- und Spurenelemente-Gehalt.", verwendung: "Sorgt für pralle Tomaten, süße Erdbeeren und reiche Ernten bei allen Fruchtgemüsen." },
 				{ name: "Bocking 14 (Steriler Beinwell)", typ: "Die Super-Pflanze", aussehen: "Große, raue Blätter; bildet keine lästigen Samen aus und wuchert nicht unkontrolliert.", geschmack: "Maximale Nährstoffdichte in den Blättern.", verwendung: "Der beste im Garten anbaubare Rohstoff für Jauche und Mulch." }
 			]	
-		} ,
+		},
 		{
-    id: "praxis_mulchen",
-    name: "Mulchen (Bodenschutz & Feuchtigkeit)",
-    oberkategorie: "Garten-Praxis",
-    kategorie: "Bodenpflege",
-    icon: "🍂",
-    anbau: "🧪 Dauerhafter Bodenschutz",
-    wasser: "💧 Gering",
-    standort: "Überall im Garten, besonders in Gemüse- und Beerenbeeten",
-    boden: "Alle Bodenarten; Mulchschicht schützt vor Erosion und Austrocknung.",
-    duenger: "Organisches Material gibt beim Verrotten stetig Nährstoffe an den Boden ab.",
-    giessen: "Mulch speichert Feuchtigkeit extrem gut, selteneres Gießen erforderlich.",
-    abstandPflanze: "Direkt um die Pflanzen herum verteilen",
-    abstandReihe: "-",
-    saattiefe: "-",
-    bedarf: "Jedes Beet profitiert von einer Mulchschicht",
-    zeitVorzucht: "Ganzjährig Material sammeln",
-    zeitBeet: "Vom Frühjahr bis zum Spätherbst ausbringen",
-    zeitErnte: "Dauerhaft aktiv",
-    monateAussaat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    tipp: "Lass den Boden niemals nackt! Eine Schicht aus Rasenschnitt, Stroh oder zerkleinerten Blättern unterdrückt Unkraut und fördert das Bodenleben.",
-    guteNachbarn: "Alle Gartenkulturen",
-    schlechteNachbarn: "Keine",
-    sorten: [
-        { name: "Grasschnitt-Mulch", typ: "Stickstofflieferant", aussehen: "Frischer oder leicht angetrockneter Rasenschnitt.", geschmack: "Reich an Stickstoff und Feuchtigkeit.", verwendung: "Perfekt für Starkzehrer wie Tomaten und Kürbisse." },
-        { name: "Stroh-Mulch", typ: "Strukturverbesserer", aussehen: "Trockene Getreidehalme.", geschmack: "Kohlenstoffreich, fördert Mikroorganismen.", verwendung: "Ideal für Erdbeeren, um die Früchte sauber und trocken zu halten." }
-    ]
-},
-{
-    id: "praxis_gruenduengung",
-    name: "Gründüngung (Bodenverb.)",
-    oberkategorie: "Garten-Praxis",
-    kategorie: "Boden & Düngung",
-    icon: "🌱",
-    anbau: "🧪 Lebende Bodenverbesserung",
-    wasser: "💧 Mittel",
-    standort: "Freie Beete im Spätsommer oder über den Winter",
-    boden: "Alle Bodenarten, wird direkt ins Beet gesät.",
-    duenger: "Pflanzen binden Stickstoff (z.B. Lupinen) und lockern tiefen Boden.",
-    giessen: "Während der Keimphase gut feucht halten, danach meist selbstversorgend.",
-    abstandPflanze: "Breitwürfig aussäen",
-    abstandReiba: "-",
-    saattiefe: "1-2 cm",
-    bedarf: "Nach der Ernte zur Regeneration",
-    zeitVorzucht: "-",
-    zeitBeet: "Frühjahr oder Spätsommer/Herbst",
-    zeitErnte: "Vor der Samenbildung einarbeiten",
-    monateAussaat: [3, 4, 8, 9, 10],
-    tipp: "Vor der Blüte abmähen, leicht antrocknen lassen und oberflächlich in den Boden einarbeiten oder als Mulch liegen lassen.",
-    guteNachbarn: "Fruchtfolgen optimieren",
-    schlechteNachbarn: "Keine",
-    sorten: [
-        { name: "Phacelia", typ: "Bienenfreund", aussehen: "Feinfiedrige, lila blühende Pflanzen.", geschmack: "Dichte Wurzeln verbessern die Bodenstruktur.", verwendung: "Hervorragende Vorfrucht für fast alle Gemüsearten; tolle Bienenweide." },
-        { name: "Winterroggen", typ: "Winterschutz", aussehen: "Dichte, schnell wachsende Grasbüschel.", geschmack: "Verhindert Nährstoffauswaschung im Winter.", verwendung: "Perfekt als Gründüngung über die kalte Jahreszeit." }
-    ]
-},
-{
-    id: "praxis_mischkultur",
-    name: "Mischkulturen (Pflanzkombis)",
-    oberkategorie: "Garten-Praxis",
-    kategorie: "Pflanzplanung",
-    icon: "🤝",
-    anbau: "🧪 Synergie im Beet",
-    wasser: "💧 Mittel",
-    standort: "Im gesamten Gemüsegarten",
-    boden: "Alle Bodenarten; Mischkultur lockert den Boden durch unterschiedliche Wurzeltiefen.",
-    duenger: "Ausgewogen; Schwachzehrer und Starkzehrer ergänzen sich optimal.",
-    giessen: "Pflanzabstände beachten, damit Luft zirkulieren kann.",
-    abstandPflanze: "Kombiniert gemäß Nachbarschaft",
-    abstandReihe: "Variabel",
-    saattiefe: "Pflanzenspezifisch",
-    bedarf: "Grundlage für gesundes Wachstum",
-    zeitVorzucht: "Pflanzenspezifisch",
-    zeitBeet: "Frühjahr bis Herbst",
-    zeitErnte: "Sukzessiv nach Reife",
-    monateAussaat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    tipp: "Kombiniere tiefwurzelnde mit flachwurzelnden Pflanzen und setze stark riechende Kräuter wie Basilikum oder Tagetes dazu, um Schädlinge fernzuhalten.",
-    guteNachbarn: "Tomaten & Basilikum, Karotten & Zwiebeln",
-    schlechteNachbarn: "Kartoffeln & Tomaten, Zwiebeln & Kohlgewächse",
-    sorten: [
-        { name: "Tomaten & Basilikum", typ: "Klassiker", aussehen: "Rote Früchte neben grünen Kräutern.", geschmack: "Aromatisch; Schutz vor Mehltau und Schädlingen.", verwendung: "Ideale Kombination für ein gesundes Kleinklima." },
-        { name: "Karotten & Zwiebeln", typ: "Schutzbündnis", aussehen: "Orange Wurzeln neben grünem Lauch.", geschmack: "Knackig; Zwiebelfliege und Möhrenfliege wehren sich gegenseitig ab.", verwendung: "Perfekt zur natürlichen Schädlingsabwehr." }
-    ]
-},
-{
-    id: "praxis_heckenpflege",
-    name: "Heckenpflege (Schnitt & Formschnitt)",
-    oberkategorie: "Garten-Praxis",
-    kategorie: "Gehölzpflege",
-    icon: "✂️",
-    anbau: "🧪 Struktur & Sichtschutz",
-    wasser: "💧 Gering",
-    standort: "Gartengrenzen und Beeteinfassungen",
-    boden: "Tiefgründig, gut durchlässig; Hecken binden Feuchtigkeit gut.",
-    duenger: "Organischer Dünger im Frühjahr schont das Wachstum.",
-    giessen: "In den ersten Jahren nach dem Pflanzen regelmäßig, danach nur bei extremer Trockenheit.",
-    abstandPflanze: "50-100 cm je nach Heckenart",
-    abstandReihe: "-",
-    saattiefe: "-",
-    bedarf: "Nach Bedarf und Formwunsch",
-    zeitVorzucht: "-",
-    zeitBeet: "Frühjahr bis Herbst",
-    zeitErnte: "Rückschnitt im zeitigen Frühjahr und Spätsommer",
-    monateAussaat: [2, 3, 8, 9],
-    tipp: "Im Frühjahr (März) den Hauptschnitt für das Wachstum durchführen und im späten Sommer (August) einen leichten Formschnitt für Ordnung sorgen.",
-    guteNachbarn: "Alle umliegenden Gartenbereiche",
-    schlechteNachbarn: "Keine",
-    sorten: [
-        { name: "Frühjahrsschnitt", typ: "Verjüngungsschnitt", aussehen: "Starker Rückschnitt vor dem Austrieb im März.", geschmack: "Fördert dichtes, neues Wachstum von innen heraus.", verwendung: "Für alle laubabwerfenden und immergrünen Hecken." },
-        { name: "Sommerlicher Formschnitt", typ: "Pflegeschnitt", aussehen: "Leichtes Kürzen der neuen Triebe im August.", geschmack: "Hält die Hecke kompakt und in der gewünschten Form.", verwendung: "Sorgt für einen sauberen und dichten Sichtschutz." }
-    ]
-},
+			id: "praxis_mulchen",
+			name: "Mulchen (Bodenschutz & Feuchtigkeit)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Bodenpflege",
+			icon: "🍂",
+			anbau: "🧪 Dauerhafter Bodenschutz",
+			wasser: "💧 Gering",
+			standort: "Überall im Garten, besonders in Gemüse- und Beerenbeeten",
+			boden: "Alle Bodenarten; Mulchschicht schützt vor Erosion und Austrocknung.",
+			duenger: "Organisches Material gibt beim Verrotten stetig Nährstoffe an den Boden ab.",
+			giessen: "Mulch speichert Feuchtigkeit extrem gut, selteneres Gießen erforderlich.",
+			abstandPflanze: "Direkt um die Pflanzen herum verteilen",
+			abstandReihe: "-",
+			saattiefe: "-",
+			bedarf: "Jedes Beet profitiert von einer Mulchschicht",
+			zeitVorzucht: "Ganzjährig Material sammeln",
+			zeitBeet: "Vom Frühjahr bis zum Spätherbst ausbringen",
+			zeitErnte: "Dauerhaft aktiv",
+			monateAussaat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			tipp: "Lass den Boden niemals nackt! Eine Schicht aus Rasenschnitt, Stroh oder zerkleinerten Blättern unterdrückt Unkraut und fördert das Bodenleben.",
+			guteNachbarn: "Alle Gartenkulturen",
+			schlechteNachbarn: "Keine",
+			sorten: [
+				{ name: "Grasschnitt-Mulch", typ: "Stickstofflieferant", aussehen: "Frischer oder leicht angetrockneter Rasenschnitt.", geschmack: "Reich an Stickstoff und Feuchtigkeit.", verwendung: "Perfekt für Starkzehrer wie Tomaten und Kürbisse." },
+				{ name: "Stroh-Mulch", typ: "Strukturverbesserer", aussehen: "Trockene Getreidehalme.", geschmack: "Kohlenstoffreich, fördert Mikroorganismen.", verwendung: "Ideal für Erdbeeren, um die Früchte sauber und trocken zu halten." }
+			]
+		},
+		{
+			id: "praxis_gruenduengung",
+			name: "Gründüngung (Bodenverb.)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Boden & Düngung",
+			icon: "🌱",
+			anbau: "🧪 Lebende Bodenverbesserung",
+			wasser: "💧 Mittel",
+			standort: "Freie Beete im Spätsommer oder über den Winter",
+			boden: "Alle Bodenarten, wird direkt ins Beet gesät.",
+			duenger: "Pflanzen binden Stickstoff (z.B. Lupinen) und lockern tiefen Boden.",
+			giessen: "Während der Keimphase gut feucht halten, danach meist selbstversorgend.",
+			abstandPflanze: "Breitwürfig aussäen",
+			abstandReihe: "-",
+			saattiefe: "1-2 cm",
+			bedarf: "Nach der Ernte zur Regeneration",
+			zeitVorzucht: "-",
+			zeitBeet: "Frühjahr oder Spätsommer/Herbst",
+			zeitErnte: "Vor der Samenbildung einarbeiten",
+			monateAussaat: [3, 4, 8, 9, 10],
+			tipp: "Vor der Blüte abmähen, leicht antrocknen lassen und oberflächlich in den Boden einarbeiten oder als Mulch liegen lassen.",
+			guteNachbarn: "Fruchtfolgen optimieren",
+			schlechteNachbarn: "Keine",
+			sorten: [
+				{ name: "Phacelia", typ: "Bienenfreund", aussehen: "Feinfiedrige, lila blühende Pflanzen.", geschmack: "Dichte Wurzeln verbessern die Bodenstruktur.", verwendung: "Hervorragende Vorfrucht für fast alle Gemüsearten; tolle Bienenweide." },
+				{ name: "Winterroggen", typ: "Winterschutz", aussehen: "Dichte, schnell wachsende Grasbüschel.", geschmack: "Verhindert Nährstoffauswaschung im Winter.", verwendung: "Perfekt als Gründüngung über die kalte Jahreszeit." }
+			]
+		},
+		{
+			id: "praxis_mischkultur",
+			name: "Mischkulturen (Pflanzkombis)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Pflanzplanung",
+			icon: "🤝",
+			anbau: "🧪 Synergie im Beet",
+			wasser: "💧 Mittel",
+			standort: "Im gesamten Gemüsegarten",
+			boden: "Alle Bodenarten; Mischkultur lockert den Boden durch unterschiedliche Wurzeltiefen.",
+			duenger: "Ausgewogen; Schwachzehrer und Starkzehrer ergänzen sich optimal.",
+			giessen: "Pflanzabstände beachten, damit Luft zirkulieren kann.",
+			abstandPflanze: "Kombiniert gemäß Nachbarschaft",
+			abstandReihe: "Variabel",
+			saattiefe: "Pflanzenspezifisch",
+			bedarf: "Grundlage für gesundes Wachstum",
+			zeitVorzucht: "Pflanzenspezifisch",
+			zeitBeet: "Frühjahr bis Herbst",
+			zeitErnte: "Sukzessiv nach Reife",
+			monateAussaat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			tipp: "Kombiniere tiefwurzelnde mit flachwurzelnden Pflanzen und setze stark riechende Kräuter wie Basilikum oder Tagetes dazu, um Schädlinge fernzuhalten.",
+			guteNachbarn: "Tomaten & Basilikum, Karotten & Zwiebeln",
+			schlechteNachbarn: "Kartoffeln & Tomaten, Zwiebeln & Kohlgewächse",
+			sorten: [
+				{ name: "Tomaten & Basilikum", typ: "Klassiker", aussehen: "Rote Früchte neben grünen Kräutern.", geschmack: "Aromatisch; Schutz vor Mehltau und Schädlingen.", verwendung: "Ideale Kombination für ein gesundes Kleinklima." },
+				{ name: "Karotten & Zwiebeln", typ: "Schutzbündnis", aussehen: "Orange Wurzeln neben grünem Lauch.", geschmack: "Knackig; Zwiebelfliege und Möhrenfliege wehren sich gegenseitig ab.", verwendung: "Perfekt zur natürlichen Schädlingsabwehr." }
+			]
+		},
+		{
+			id: "praxis_heckenpflege",
+			name: "Heckenpflege (Schnitt & Formschnitt)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Gehölzpflege",
+			icon: "✂️",
+			anbau: "🧪 Struktur & Sichtschutz",
+			wasser: "💧 Gering",
+			standort: "Gartengrenzen und Beeteinfassungen",
+			boden: "Tiefgründig, gut durchlässig; Hecken binden Feuchtigkeit gut.",
+			duenger: "Organischer Dünger im Frühjahr schont das Wachstum.",
+			giessen: "In den ersten Jahren nach dem Pflanzen regelmäßig, danach nur bei extremer Trockenheit.",
+			abstandPflanze: "50-100 cm je nach Heckenart",
+			abstandReihe: "-",
+			saattiefe: "-",
+			bedarf: "Nach Bedarf und Formwunsch",
+			zeitVorzucht: "-",
+			zeitBeet: "Frühjahr bis Herbst",
+			zeitErnte: "Rückschnitt im zeitigen Frühjahr und Spätsommer",
+			monateAussaat: [2, 3, 8, 9],
+			tipp: "Im Frühjahr (März) den Hauptschnitt für das Wachstum durchführen und im späten Sommer (August) einen leichten Formschnitt für Ordnung sorgen.",
+			guteNachbarn: "Alle umliegenden Gartenbereiche",
+			schlechteNachbarn: "Keine",
+			sorten: [
+				{ name: "Frühjahrsschnitt", typ: "Verjüngungsschnitt", aussehen: "Starker Rückschnitt vor dem Austrieb im März.", geschmack: "Fördert dichtes, neues Wachstum von innen heraus.", verwendung: "Für alle laubabwerfenden und immergrünen Hecken." },
+				{ name: "Sommerlicher Formschnitt", typ: "Pflegeschnitt", aussehen: "Leichtes Kürzen der neuen Triebe im August.", geschmack: "Hält die Hecke kompakt und in der gewünschten Form.", verwendung: "Sorgt für einen sauberen und dichten Sichtschutz." }
+			]
+		},
 		{
 			id: "liebstoeckel",
 			name: "Liebstöckel & Würzkräuter",
@@ -1861,7 +1879,8 @@
 				{ name: "Nero di Toscana", typ: "Toskanischer Palmkohl (Cavolo Nero)", aussehen: "Lange, schmale, tief blau-schwarzgrüne Wedel mit blasiger Struktur.", geschmack: "Milder und nussiger als Grünkohl, zart und herzhaft.", verwendung: "Klassiker der italienischen Ribollita-Suppe, Pasta oder als knusprige Kohl-Chips." },
 				{ name: "Sweet Jumbo", typ: "Zucker-Spitzkohl", aussehen: "Sehr gleichmäßige, helle Spitzkohlköpfe mit lockerer Füllung.", geschmack: "Auffallend süßlich und saftig ohne Kohlstrenge.", verwendung: "Schmeckt roh gehobelt als feiner Krautsalat (Coleslaw) oder gedünstet in Sahne." }
 			]
-		},
+		}
+		,
 		{
 			id: "artischocke",
 			name: "Artischocke",
@@ -2041,7 +2060,8 @@
 				{ name: "Preisgewinner", typ: "Feuerbohne", gruppe: "Feuerbohnen", aussehen: "Prächtige rote Blüten mit riesigen rauen grünen Schoten.", geschmack: "Kräftig-würzig; die violetten Kerne sind sehr cremig.", verwendung: "Jung als Brechbohne, reif als nahrhafte Riesenbohne für Salate." },
 				{ name: "Hangdown Grünkernig", typ: "Dicke Bohne (Puffbohne)", gruppe: "Dicke Bohnen", aussehen: "Dicke samtig gefütterte Schoten mit großen grünen Kernen.", geschmack: "Deftig, erbsig, leicht mehlig und nussig.", verwendung: "Frühsommer-Klassiker mit Speck, Zwiebeln und Mehlschwitze." }
 			]
-		},
+		}
+		,
 		{
 			id: "brokkoli",
 			name: "Brokkoli",
@@ -2359,7 +2379,8 @@
 				{ name: "Music", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Riesige Zehen mit rosa-weißem Schimmer.", geschmack: "Kräftig, feurig, beim Braten süßlich-mild.", verwendung: "Sehr winterhart, ideal zum Rösten." },
 				{ name: "Chesnok Red", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Auffällig lila gestreifte Haut.", geschmack: "Sehr volles, edles Aroma.", verwendung: "Gourmet-Knoblauch für Saucen und Fleischgerichte." }
 			]
-		},
+		}
+		,
 		{
 			id: "kohlrabi",
 			name: "Kohlrabi",
@@ -2495,7 +2516,8 @@
 				{ name: "Butternut", typ: "Moschuskürbis", aussehen: "Birnenförmig mit heller cremefarbener Schale.", geschmack: "Buttrig-weich, nussig-süß mit sehr kleiner Kernhöhle.", verwendung: "Püree, Kürbis-Gnocchi und Backen." },
 				{ name: "Spaghetti-Kürbis", typ: "Gartenkürbis", aussehen: "Länglich, hellgelb, glatte Schale.", geschmack: "Mild, nimmt Saucen perfekt auf. Fleisch zerfällt beim Kochen zu 'Spaghetti'.", verwendung: "Im Ganzen kochen und wie Nudeln mit Bolognese servieren." }
 			]
-		},
+		}
+		,
 		{
 			id: "zucchini",
 			name: "Zucchini",
@@ -2556,7 +2578,7 @@
 			sorten: [
 				{ name: "Blaugrüner Winter", typ: "Winterharter Porree", aussehen: "Mittelanger, kräftiger Schaft mit dunkelblau-grünem, festem Fächerlaub.", geschmack: "Kräftig-aromatisch, herzhaft-würzig; wird durch Kälteeinwirkung runder und feiner.", verwendung: "Absoluter Winterklassiker; bleibt bis zum Frühjahr im Beet stehen und trotzt jedem Frost." },
 				{ name: "Bulgaarse Reuzen", typ: "Riesen-Sommerlauch", aussehen: "Extrem lange, schlanke weiße Schäfte (bis 50 cm) mit aufrechtem hellgrünem Laub.", geschmack: "Besonders zart, mild-süßlich und wenig scharf.", verwendung: "Sehr raschwüchsig für Sommer und Frühherbst; perfekt für feines Gemüse und Cremesuppen." },
-				{ name: "Carentan 2", typ: "Robuster Winterlauch", aussehen: "Mittelanger, stämmiger Schaft mit blaugrünem, leicht bereiftem Laub.", geschmack: "Kräftig-aromatisch mit kerniger Lauchnote; wird durch Frosteinwirkung milder.", verwendung: "Absolut frostharte französische Traditionssorte; überwintert problemlos direkt im Beet." },
+				{ name: "Carentan 2", typ: "Robuste Winterlauch", aussehen: "Mittelanger, stämmiger Schaft mit blaugrünem, leicht bereiftem Laub.", geschmack: "Kräftig-aromatisch mit kerniger Lauchnote; wird durch Frosteinwirkung milder.", verwendung: "Absolut frostharte französische Traditionssorte; überwintert problemlos direkt im Beet." },
 				{ name: "De Saint Victor", typ: "Violetter Winterporree", aussehen: "Stämmiger Schaft mit markant blau-violett überhauchten, dichten Blättern.", geschmack: "Tiefes, vollmundiges und feines Laucharoma mit leichter Butternote.", verwendung: "Historische französische Auslese; extrem frosthart und optisch eine Wucht im Winterbeet." },
 				{ name: "Elefant", typ: "Herbstporree", aussehen: "Sehr dicke, lange weiße Schäfte mit kräftigem, dunkelgrünem Fächerlaub.", geschmack: "Mild-würzig, saftig und angenehm zart im Biss.", verwendung: "Wächst rasch heran; ideal für herzhafte Quiches, Aufläufe und Lauch-Hack-Suppen im Herbst." },
 				{ name: "Ishikura", typ: "Japanische Frühlingszwiebel", aussehen: "Sehr lange, bleistiftdicke weiße Schäfte, die keine Zwiebelknolle ansetzen.", geschmack: "Knackig, mild-süßlich mit feiner, frischer Schärfe.", verwendung: "Klassiker für Wok-Gerichte, Ramen-Suppen, frische Dips oder roh im Salat." },
@@ -2594,7 +2616,8 @@
 				{ name: "Golden Bantam", typ: "Samenechter Zuckermais", aussehen: "Goldgelbe Kolben mit prallen Körnern.", geschmack: "Kräftig-süßer echter Maisgeschmack.", verwendung: "Gegrillt mit Butter und Salz." },
 				{ name: "Sweet Nugget", typ: "Extra süß", aussehen: "Große, gleichmäßig gefüllte gelbe Kolben.", geschmack: "Extrem zuckersüß und saftig.", verwendung: "Kochen, grillen oder die Körner für Salate dünsten." }
 			]
-		},
+		}
+		,
 		{
 			id: "mangold",
 			name: "Mangold",
@@ -2696,7 +2719,8 @@
 				{ name: "Senga Sengana", typ: "Kult-Erdbeere", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
 				{ name: "Mieze Schindler", typ: "Gourmet-Erdbeere", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Delikatesse! Naschen (braucht Befruchtersorte wie Senga Sengana)." }
 			]
-		},
+		}
+		,
 		{
 			id: "strauchbeeren",
 			name: "Johannis-, Him- & Brombeeren",
@@ -2823,7 +2847,8 @@
 				{ name: "Schönbrunner Gold", typ: "Riesen-Physalis", aussehen: "Große, leuchtend orange Beeren in pergamentartiger Lampion-Hülle.", geschmack: "Herrlich süß-säuerlich, intensiv nach Ananas und Stachelbeere.", verwendung: "Direkt frisch aus der Hülle naschen, als Dessert-Deko." },
 				{ name: "Toma Verde", typ: "Mexikanische Tomatillo", aussehen: "Apfelgroße, feste grüne Früchte, die ihre pergamentartige Hülle komplett sprengen.", geschmack: "Fruchtig-säuerlich, frisch und pikant mit feiner Kräuternote.", verwendung: "Die unverzichtbare Hauptzutat für authentische mexikanische Salsa Verde." }
 			]
-		},
+		}
+		,
 		{
 			id: "pakchoi",
 			name: "Pak Choi",
@@ -2951,7 +2976,8 @@
 				{ name: "French Breakfast", typ: "Zweifarbig", aussehen: "Länglich zylindrisch, oben leuchtend rot, unten weiße Spitze.", geschmack: "Sehr zart, knackig und saftig.", verwendung: "Klassisch französisch mit Salz und Butter." },
 				{ name: "Eiszapfen", typ: "Weißes Radieschen", aussehen: "Lange weiße spitz zulaufende Zapfen.", geschmack: "Etwas pikanter und würziger als rote Sorten.", verwendung: "Gerieben oder in dünnen Scheiben aufs Butterbrot." }
 			]
-		},
+		}
+		,
 		{
 			id: "radicchio",
 			name: "Radicchio & Endivie",
@@ -3082,7 +3108,8 @@
 				{ name: "Sylvetta", typ: "Wilde Rauke (Rucola)", aussehen: "Tief gezahnte schmale Blätter mit gelben Blüten.", geschmack: "Scharf, nussig, intensiv pfeffrig.", verwendung: "Mehrjährig; perfekt auf Pizza und in Pasta." },
 				{ name: "Vit", typ: "Feldsalat", aussehen: "Dunkelgrüne, runde, kräftige Rosetten.", geschmack: "Nussig, saftig, knackig.", verwendung: "Klassischer Wintersalat mit Speck und Ei." }
 			]
-		},
+		}
+		,
 		{
 			id: "sellerie",
 			name: "Sellerie",
@@ -3181,7 +3208,8 @@
 				{ name: "Verdil", typ: "Aromatischer Winterspinat", aussehen: "Längliche, spitze, mittelgrüne Blätter mit aufrechtem, lockerem Wuchs.", geschmack: "Ausgesprochen intensiv aromatisch, würzig und süßlich nach ersten Frösten.", verwendung: "Sehr frostharte Traditionssorte; überwintert im Freiland für früheste Ernten ab März/April." },
 				{ name: "Winterriesen", typ: "Winterspinat", aussehen: "Sehr breite, kälteresistente Blattrosetten.", geschmack: "Vollmundig und gehaltvoll.", verwendung: "Ernte im Spätherbst und zeitigen Frühjahr." }
 			]
-		},
+		}
+		,
 		{
 			id: "topinambur",
 			name: "Topinambur",
@@ -3457,7 +3485,6 @@
 		const body = encodeURIComponent(`Hallo Marcel,\n\nich habe folgende neue Pflanzen/Sorten in der Garten-App gesammelt und bitte dich, diese einzupflegen:\n\n${itemsStr}\n\nLiebe Grüße`);
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
-
 	const BEET_KEY = "ramonas_garten_beet_v4";
 
 	function normalizeBeetEntry(entry) {
@@ -4624,11 +4651,21 @@
 
 	function closeImpressum() { impressumOverlay.classList.remove("open"); }
 	impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
-
 	function printCurrentDetail() {
 		trigVib();
 		try {
-			window.print();
+			// Damit Notizen gedruckt werden (da Textareas oft im Druckbug verschwinden),
+			// kopieren wir den Inhalt in unser verstecktes Print-Div.
+			const textarea = document.querySelector('.notes-textarea');
+			const printNoteDiv = document.getElementById('printNoteText');
+			if(textarea && printNoteDiv) {
+				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
+			}
+			
+			// Kurze Verzögerung für Safari/iOS, damit das CSS sauber greift
+			setTimeout(() => {
+				window.print();
+			}, 300);
 		} catch (e) {
 			alert("Drucken wird von diesem Browser blockiert.");
 		}
@@ -4779,6 +4816,8 @@
         <div class="notes-section">
           <div class="notes-title">📝 Meine Garten-Notizen</div>
           <textarea class="notes-textarea" placeholder="Notizen hier eintragen (wird automatisch gespeichert)..." oninput="saveNote('${k.id}', this.value)">${escapeHtml(currentNote)}</textarea>
+          <!-- Dies wird nur beim Drucken sichtbar: -->
+          <div id="printNoteText" class="print-only-note"></div>
         </div>
 
         <div class="companion-grid">
