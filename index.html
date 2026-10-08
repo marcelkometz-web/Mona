@@ -1288,13 +1288,14 @@
 		}
 
 		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (SPARSAM & WEISS) */
+		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (GARANTIERT 100% WEISS) */
 		@media print {
 			@page {
 				size: A4 portrait;
 				margin: 12mm 15mm;
 			}
 
-			/* Erzwingt helles Druckschema selbst bei aktivem iOS Dark Mode */
+			/* 1. Erzwingt helles Farbschema für alle Elemente */
 			:root,
 			html,
 			html.dark-mode,
@@ -1323,17 +1324,22 @@
 				print-color-adjust: exact !important;
 			}
 
+			/* 2. Entfernt die 100vh Mindesthöhe, die den schwarzen Kasten erzeugt */
 			html, body {
 				height: auto !important;
-				min-height: auto !important;
+				min-height: 0 !important;
+				max-height: none !important;
 				overflow: visible !important;
 				padding: 0 !important;
 				margin: 0 !important;
+				background: #ffffff !important;
 			}
-			/* Blendet alles außerhalb des Modals komplett aus */
+
+			/* 3. Blendet alles außerhalb des Detail-Modals aus */
 			body > *:not(.modal-overlay.open) {
 				display: none !important;
 			}
+
 			.top-bar, header, .search-box, .status-row, #cultureGrid, 
 			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
 			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
@@ -1341,29 +1347,36 @@
 			.v-info-box .action-pill {
 				display: none !important;
 			}
+
+			/* 4. Overlay komplett weiß und ohne Hintergrundschatten/Feste Höhe */
 			.modal-overlay.open {
 				position: static !important;
 				display: block !important;
-				background: transparent !important;
+				background: #ffffff !important;
+				background-color: #ffffff !important;
 				backdrop-filter: none !important;
 				-webkit-backdrop-filter: none !important;
 				padding: 0 !important;
 				margin: 0 !important;
 				height: auto !important;
+				min-height: 0 !important;
 				width: 100% !important;
 				z-index: 1 !important;
 			}
 
+			/* 5. Detail-Panel vollflächig weiß */
 			.detail-panel {
 				max-width: 100% !important;
 				max-height: none !important;
 				height: auto !important;
+				min-height: 0 !important;
 				box-shadow: none !important;
 				border: none !important;
 				padding: 0 !important;
 				margin: 0 !important;
 				color: #000000 !important;
 				background: #ffffff !important;
+				background-color: #ffffff !important;
 				position: static !important;
 				transform: none !important;
 				overflow: visible !important;
@@ -1392,10 +1405,12 @@
 			.metric-val {
 				color: #1c3b2b !important;
 			}
-			/* Alle Infokästen auf sauberes Weiß mit feinem Rand */
+
+			/* Infoboxen mit hellem Hintergrund & Rand */
 			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box, .notes-section {
 				border: 1px solid #d1d5db !important;
 				background: #f9fafb !important;
+				background-color: #f9fafb !important;
 				color: #000000 !important;
 				page-break-inside: avoid;
 				break-inside: avoid;
@@ -1405,6 +1420,7 @@
 				grid-template-columns: 1fr 1fr !important;
 				page-break-inside: avoid;
 				break-inside: avoid;
+				margin-bottom: 0 !important;
 			}
 
 			.good-box {
