@@ -1323,7 +1323,7 @@
 				print-color-adjust: exact !important;
 			}
 
-			/* 2. Entfernt die Mindesthöhe für den Druck */
+			/* 2. Dokumenten-Grundstruktur für den Druck freigeben */
 			html, body {
 				height: auto !important;
 				min-height: 0 !important;
@@ -1334,11 +1334,7 @@
 				background: #ffffff !important;
 			}
 
-			/* 3. Blendet alles ausserhalb des Modals aus */
-			body > *:not(.modal-overlay.open) {
-				display: none !important;
-			}
-
+			/* 3. Alles ausblenden, was nicht zum Detailfenster gehört */
 			.top-bar, header, .search-box, .status-row, #cultureGrid, 
 			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
 			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
@@ -1347,11 +1343,9 @@
 				display: none !important;
 			}
 
-			/* 4. Overlay vollflächig weiß */
-			.modal-overlay.open {
-				position: absolute !important;
-				top: 0 !important;
-				left: 0 !important;
+			/* 4. Modal-Overlay im Druck als normales Dokument darstellen */
+			.modal-overlay {
+				position: static !important;
 				display: block !important;
 				background: #ffffff !important;
 				background-color: #ffffff !important;
@@ -1362,10 +1356,14 @@
 				height: auto !important;
 				min-height: 0 !important;
 				width: 100% !important;
-				z-index: 99999 !important;
+				z-index: auto !important;
 			}
 
-			/* 5. Detail-Panel vollflächig weiß */
+			.modal-overlay:not(.open) {
+				display: block !important;
+			}
+
+			/* 5. Detail-Panel vollflächig und sauber aufteilen */
 			.detail-panel {
 				max-width: 100% !important;
 				max-height: none !important;
