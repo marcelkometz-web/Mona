@@ -2,7 +2,7 @@
   "name": "Ramonas Garten Anzucht",
   "short_name": "Ramonas Garten",
   "description": "Mobile Enzyklopädie mit Beetverwaltung, Notizen und Aussaat-Radar",
-  "id": "/ramonas-garten-anzucht",
+  "id": "./index.html",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
