@@ -2,7 +2,7 @@
 🌱 RAMONAS GARTEN ANZUCHT - DOKUMENTATION & BEDIENUNGSANLEITUNG
 ============================================================
 Entwickelt von: Marcel Kometz
-Version: 7.0 (Kleingarten-Edition | Stand: Oktober 2026)
+Version: 8.0 (Kleingarten-Edition | Stand: Oktober 2026)
 
 1. ÜBER DIESE APP
 ------------------------------------------------------------
