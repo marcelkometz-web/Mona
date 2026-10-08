@@ -6,7 +6,7 @@
 		// Verhindert das weiße Aufblitzen sofort beim Laden
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
 				if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
@@ -1283,23 +1283,50 @@
 			font-weight: 900;
 		}
 
-		/* DRUCK-CSS BEREINIGT & STABILISIERT */
+		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (SPARSAM & WEISS) */
 		@media print {
 			@page {
-				size: auto;
-				margin: 15mm;
+				size: A4 portrait;
+				margin: 12mm 15mm;
+			}
+
+			/* Erzwingt helles Druckschema selbst bei aktivem iOS Dark Mode */
+			:root,
+			html,
+			html.dark-mode,
+			body,
+			body.dark-mode {
+				color-scheme: light !important;
+				--bg: #ffffff !important;
+				--card-bg: #ffffff !important;
+				--primary: #1c3b2b !important;
+				--primary-light: #f1f5f9 !important;
+				--accent: #c46c49 !important;
+				--text: #000000 !important;
+				--text-muted: #555555 !important;
+				--border: #d1d5db !important;
+				--tag-bg: #f8fafc !important;
+				--good: #f0fdf4 !important;
+				--bad: #fef2f2 !important;
+				--input-bg: #ffffff !important;
+				--box-note-bg: #f8fafc !important;
+				--color-standort: #854d0e !important;
+				--color-anbau: #166534 !important;
+				background-color: #ffffff !important;
+				background: #ffffff !important;
+				color: #000000 !important;
+				-webkit-print-color-adjust: exact !important;
+				print-color-adjust: exact !important;
 			}
 
 			html, body {
-				height: 100% !important;
-				min-height: 100% !important;
+				height: auto !important;
+				min-height: auto !important;
 				overflow: visible !important;
 				padding: 0 !important;
 				margin: 0 !important;
-				background: #ffffff !important;
-				color: #000000 !important;
 			}
-
+			/* Blendet alles außerhalb des Modals komplett aus */
 			body > *:not(.modal-overlay.open) {
 				display: none !important;
 			}
@@ -1307,23 +1334,21 @@
 			.top-bar, header, .search-box, .status-row, #cultureGrid, 
 			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
 			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
-			.floating-reload-btn, .beet-status-box {
+			.floating-reload-btn, .beet-status-box, .variety-chips {
 				display: none !important;
 			}
 
 			.modal-overlay.open {
-				position: absolute !important;
-				top: 0 !important;
-				left: 0 !important;
+				position: static !important;
 				display: block !important;
-				background: #ffffff !important;
+				background: transparent !important;
 				backdrop-filter: none !important;
 				-webkit-backdrop-filter: none !important;
 				padding: 0 !important;
 				margin: 0 !important;
 				height: auto !important;
 				width: 100% !important;
-				z-index: 99999 !important;
+				z-index: 1 !important;
 			}
 
 			.detail-panel {
@@ -1343,7 +1368,7 @@
 
 			.detail-title {
 				font-size: 1.6rem !important;
-				color: #000000 !important;
+				color: #1c3b2b !important;
 			}
 
 			.info-metrics {
@@ -1352,9 +1377,23 @@
 				break-inside: avoid;
 			}
 
-			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box {
-				border: 1px solid #ccc !important;
-				background: #f9f9f9 !important;
+			.metric-card {
+				background: #f8fafc !important;
+				border: 1px solid #d1d5db !important;
+			}
+
+			.metric-label {
+				color: #555555 !important;
+			}
+
+			.metric-val {
+				color: #1c3b2b !important;
+			}
+
+			/* Alle Infokästen auf sauberes Weiß mit feinem Rand */
+			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box, .notes-section {
+				border: 1px solid #d1d5db !important;
+				background: #f9fafb !important;
 				color: #000000 !important;
 				page-break-inside: avoid;
 				break-inside: avoid;
@@ -1366,6 +1405,18 @@
 				break-inside: avoid;
 			}
 
+			.good-box {
+				background: #f0fdf4 !important;
+				border: 1px solid #86efac !important;
+				color: #14532d !important;
+			}
+
+			.bad-box {
+				background: #fef2f2 !important;
+				border: 1px solid #fca5a5 !important;
+				color: #7f1d1d !important;
+			}
+
 			.notes-textarea {
 				display: none !important;
 			}
@@ -1375,35 +1426,13 @@
 				white-space: pre-wrap;
 				font-size: 0.9rem;
 				padding: 10px;
-				border: 1px solid #ccc;
+				border: 1px solid #d1d5db;
 				border-radius: 8px;
-				margin-top: 10px;
-				background: #fff !important;
-				color: #000 !important;
+				margin-top: 8px;
+				background: #ffffff !important;
+				color: #000000 !important;
 			}
 		}
-
-		.floating-reload-btn {
-			position: fixed;
-			right: 18px;
-			bottom: calc(75px + env(safe-area-inset-bottom, 0px));
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			background: var(--card-bg);
-			border: 2px solid var(--border);
-			color: var(--primary);
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 1.35rem;
-			cursor: pointer;
-			z-index: 999;
-			transition: transform 0.2s ease, background-color 0.2s ease;
-			-webkit-tap-highlight-color: transparent;
-		}
-
 		.floating-reload-btn:active {
 			transform: scale(0.9) rotate(90deg);
 		}
@@ -1413,7 +1442,7 @@
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v2</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v3</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1580,7 +1609,7 @@
 	</button>
 
 	<script>
-	const APP_VERSION = "v2";
+	const APP_VERSION = "v3";
 	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
@@ -3378,7 +3407,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v2";
+	const THEME_KEY = "ramonas_garten_theme_v3";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3414,7 +3443,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v2";
+	const SETTINGS_KEY = "ramonas_garten_settings_v3";
 
 	function getSettings() {
 		try {
@@ -3436,7 +3465,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v2";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v3";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3452,7 +3481,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v2";
+	const NOTES_KEY = "ramonas_garten_notizen_v3";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3543,7 +3572,7 @@
 		try {
 			let beet = JSON.parse(localStorage.getItem(BEET_KEY));
 			if (!beet) {
-				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v2"));
+				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v3"));
 				if (old && typeof old === 'object') {
 					beet = {};
 					Object.keys(old).forEach(k => {
@@ -3694,7 +3723,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v3";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
