@@ -7,7 +7,7 @@
 		// Verhindert das weiße Aufblitzen sofort beim Laden
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v2");
 				if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
@@ -78,7 +78,11 @@
 			transition: background-color 0.3s ease, color 0.3s ease;
 		}
 
-		html.dark-mode,
+		html.dark-mode {
+			background-color: #0f1712 !important;
+		}
+
+		html.dark-mode body,
 		body.dark-mode {
 			--bg: #0f1712;
 			--card-bg: #18241c;
@@ -285,70 +289,92 @@
 			align-items: center;
 			gap: 8px;
 		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+			gap: 10px;
+		}
 
-.grid {
-    display: grid;
-    /* Leicht vergrößerte Mindestbreite verhindert Quetschen auf iPhones */
-    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-    gap: 10px;
-}
+		.item-card {
+			background: var(--card-bg);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 14px 8px 12px 8px;
+			text-align: center;
+			cursor: pointer;
+			transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+			user-select: none;
+			position: relative;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			min-height: 140px;
+		}
 
-.item-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 14px 8px 12px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    
-    /* Flexbox sorgt dafür, dass Inhalt & "X Sorten"-Badge immer auf gleicher Höhe sitzen */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 140px;
-}
+		.item-card:hover,
+		.item-card.selected {
+			border-color: var(--primary);
+			background: var(--primary-light);
+			transform: translateY(-3px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+		}
 
-.item-icon {
-    font-size: 2.1rem;
-    margin-bottom: 4px;
-    line-height: 1.1;
-}
+		@keyframes searchPulse {
+			0% {
+				box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4);
+				border-color: var(--accent);
+			}
 
-.item-title {
-    font-weight: 700;
-    font-size: 0.82rem;
-    color: var(--text);
-    line-height: 1.25;
-    
-    /* Verhindert das Zerhacken von Wörtern mit Bindestrich mitten im Wort */
-    word-break: normal;
-    overflow-wrap: normal;
-    hyphens: manual;
-    -webkit-hyphens: manual;
-    
-    /* Zentriert den Textblock vertikal im verfügbaren Raum */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    margin: 4px 0;
-}
+			50% {
+				box-shadow: 0 0 0 6px rgba(196, 108, 73, 0.15);
+				border-color: #a85839;
+			}
 
-.item-sub {
-    font-size: 0.70rem;
-    color: var(--text-muted);
-    background: var(--tag-bg);
-    display: inline-block;
-    padding: 3px 7px;
-    border-radius: 8px;
-    margin-top: auto;
-    white-space: nowrap;
-}
+			100% {
+				box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4);
+				border-color: var(--accent);
+			}
+		}
+
+		.item-card.search-active-match {
+			animation: searchPulse 2s infinite ease-in-out;
+		}
+
+		.item-icon {
+			font-size: 2.1rem;
+			margin-bottom: 4px;
+			line-height: 1.1;
+		}
+
+		.item-title {
+			font-weight: 700;
+			font-size: 0.82rem;
+			color: var(--text);
+			line-height: 1.25;
+			word-break: normal;
+			overflow-wrap: normal;
+			hyphens: manual;
+			-webkit-hyphens: manual;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex: 1;
+			margin: 4px 0;
+		}
+
+		.item-sub {
+			font-size: 0.70rem;
+			color: var(--text-muted);
+			background: var(--tag-bg);
+			display: inline-block;
+			padding: 3px 7px;
+			border-radius: 8px;
+			margin-top: auto;
+			white-space: nowrap;
+		}
+
 		.match-pill {
 			display: inline-block;
 			margin-top: 5px;
@@ -1023,6 +1049,10 @@
 			mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%);
 		}
 
+		html.dark-mode .bottom-nav {
+			background: rgba(15, 23, 18, 0.92) !important;
+		}
+
 		.bottom-nav::-webkit-scrollbar {
 			display: none;
 		}
@@ -1264,39 +1294,37 @@
 			}
 		}
 
-    /* Schwebender Reload-Button */
-    .floating-reload-btn {
-      position: fixed;
-      right: 18px;
-      bottom: calc(75px + env(safe-area-inset-bottom, 0px)); /* Schwebt sauber über der Leiste */
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      color: var(--primary);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.35rem;
-      cursor: pointer;
-      z-index: 999; /* Höher als die Navigation (900), damit er garantiert oben aufliegt */
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
+		.floating-reload-btn {
+			position: fixed;
+			right: 18px;
+			bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			background: var(--card-bg);
+			border: 2px solid var(--border);
+			color: var(--primary);
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.35rem;
+			cursor: pointer;
+			z-index: 999;
+			transition: transform 0.2s ease, background-color 0.2s ease;
+			-webkit-tap-highlight-color: transparent;
+		}
 
-    .floating-reload-btn:active {
-      transform: scale(0.9) rotate(90deg);
-    }
+		.floating-reload-btn:active {
+			transform: scale(0.9) rotate(90deg);
+		}
 	</style>
 </head>
-
 <body>
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v11</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v2</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1460,156 +1488,9 @@
 		🔄
 	</button>
 </body>
-
 <script>
-	const APP_VERSION = "v11";
-	const gartenDaten = [
-			{
-			id: "puffbohne",
-			name: "Puffbohne (Dicke Bohne / Saubohne)",
-			oberkategorie: "Gemüse",
-			kategorie: "Hülsenfrüchte",
-			icon: "🫘",
-			anbau: "🫘 Direktsaat (sehr früh)",
-			wasser: "💧💧 Mittel",
-			standort: "Sonnig bis halbschattig, kühl & windoffen",
-			boden: "Tiefgründig, schwer, lehmig-humos mit guter Wasserspeicherung. Keinen Stickstoffdünger zugeben.",
-			duenger: "Schwachzehrer: Bildet Knöllchenbakterien. Etwas Urgesteinsmehl und reifer Kompost vor der Aussaat genügen.",
-			giessen: "Ab der Blütezeit gleichmäßig feucht halten. Bei Frühsommertrockenheit 1-2x wöchentlich durchdringend wässern.",
-			abstandPflanze: "10-15 cm",
-			abstandReihe: "40-50 cm",
-			saattiefe: "5-6 cm (tief legen für Standfestigkeit)",
-			bedarf: "Schwachzehrer",
-			zeitVorzucht: "Februar (Kalthaus/Platte)",
-			zeitBeet: "Ende Feb - Anfang Apr",
-			zeitErnte: "Jun - Jul",
-			monateAussaat: [2, 3, 4],
-			tipp: "Frühe Aussaat im Spätwinter schützt vor der Schwarzen Bohnenlaus! Bei voller Blüte die Triebspitzen kappen.",
-			guteNachbarn: "Kartoffeln, Spinat, Salate",
-			schlechteNachbarn: "Buschbohnen, Stangenbohnen, Erbsen, Zwiebeln",
-			sorten: [
-				{ name: "Hangdown Grünkernig", typ: "Klassische Puffbohne", aussehen: "Lange, samtig gefütterte grüne Hängeschoten mit großen, olivgrünen Kernen.", geschmack: "Kräftig nussig, fein-mehlig und herzhaft-aromatisch.", verwendung: "Traditionsgemüse mit Speck, Rahm und Bohnenkraut oder jung püriert als Hummus." },
-				{ name: "Dreifach Weiße", typ: "Weiße Delikatesse", aussehen: "Mittellange Schoten mit schneeweißen Kernen, die beim Kochen weiß bleiben.", geschmack: "Besonders zart, mild-süßlich und ohne herbe Gerbstoffe.", verwendung: "Bleicht beim Kochen nicht unansehnlich aus; herrlich für feine Frühlingssuppen." },
-				{ name: "Crimson Flowered", typ: "Historische Landsorte", aussehen: "Wunderschöne, tief rubinrote Blüten mit aufrecht stehenden, kompakten Schoten.", geschmack: "Sehr feines, mild-würziges Maronenaroma.", verwendung: "Optischer Blickfang im Bauerngarten; junge Hülsen können im Ganzen gedünstet werden." }
-			]
-		},
-		{
-			id: "wurzelpetersilie",
-			name: "Wurzelpetersilie & Kerbelrübe",
-			oberkategorie: "Gemüse",
-			kategorie: "Wurzeln",
-			icon: "🥕",
-			anbau: "🫘 Direktsaat (Zwingend)",
-			wasser: "💧💧 Mittel",
-			standort: "Sonnig bis halbschattig, tiefgründig und steinfrei",
-			boden: "Lockerer, tief gelockerter Sand-Lehm-Boden. Niemals frisch mit Mist gedüngt (führt zu Verzweigungen).",
-			duenger: "Mittelzehrer: Vor der Aussaat etwas Holzasche oder reifen Kompost einharken. Keinen Überschuss an Stickstoff geben.",
-			giessen: "In den ersten Wochen gleichmäßig feucht halten (Keimphase dauert bis zu 4 Wochen!). Später nur bei Dürre tief wässern.",
-			abstandPflanze: "6-8 cm",
-			abstandReihe: "25-30 cm",
-			saattiefe: "1-2 cm",
-			bedarf: "Mittelzehrer",
-			zeitVorzucht: "Nur Direktsaat",
-			zeitBeet: "Mär - Mai",
-			zeitErnte: "Okt - Feb (frosthart)",
-			monateAussaat: [3, 4, 5],
-			tipp: "Samen keimen extrem träge (3-4 Wochen). Wie bei Möhren ein paar Radieschensamen als Markiersaat untermischen.",
-			guteNachbarn: "Tomaten, Radieschen, Zwiebeln",
-			schlechteNachbarn: "Möhren, Sellerie, Pastinaken",
-			sorten: [
-				{ name: "Berliner Halblange", typ: "Kegelförmige Standardwurzel", aussehen: "Dickbauchige, cremeweiße Pfahlwurzeln mit kräftigem, dunkelgrünem Fiederkrautschopf.", geschmack: "Sehr intensiv würzig nach Petersilie und zarter Möhre; kraut ebenfalls voll nutzbar.", verwendung: "Unverzichtbares Suppengrün, für feines Wurzelpüree oder im Ofengemüse." },
-				{ name: "Halblange Bardowicker", typ: "Norddeutsche Traditionssorte", aussehen: "Gleichmäßige, spitz zulaufende Wurzeln mit feiner Schale.", geschmack: "Süßlich-aromatisch, festfleischig und hoch aromatisch.", verwendung: "Hervorragend lagerfähig im feuchten Sandkeller für den ganzen Winter." },
-				{ name: "Alba", typ: "Glattschalige Spätsorte", aussehen: "Lange, glatte, reinweiße Rüben mit geringem Wurzelbart.", geschmack: "Sehr feine Textur, mild-würzig ohne Bitterstoffe.", verwendung: "Resistent gegen Rost und Rostflecken; spitze für feine Cremesuppen." }
-			]
-		},
-		{
-			id: "steckruebe",
-			name: "Steckrübe (Kohlrübe)",
-			oberkategorie: "Gemüse",
-			kategorie: "Wurzeln",
-			icon: "🪴",
-			anbau: "🫘 Direktsaat oder Vorzucht",
-			wasser: "💧💧 Mittel",
-			standort: "Sonnig bis halbschattig, kühleres Spätsommerklima",
-			boden: "Schwerer, humoser, feuchter Lehmboden. Wächst auch auf kargen Böden besser als viele andere Wurzelgemüse.",
-			duenger: "Mittelzehrer: Vor der Pflanzung etwas Kompost einarbeiten. Ein Übermaß an Stickstoff mindert die Lagerfähigkeit.",
-			giessen: "Im Hochsommer bei Trockenheit regelmäßig durchdringend gießen, damit die Knollen nicht holzig werden.",
-			abstandPflanze: "35-40 cm",
-			abstandReihe: "45 cm",
-			saattiefe: "1-2 cm",
-			bedarf: "Mittelzehrer",
-			zeitVorzucht: "Mai - Jun",
-			zeitBeet: "Jun - Jul",
-			zeitErnte: "Okt - Dez",
-			monateAussaat: [5, 6, 7],
-			tipp: "Ideale Zweitkultur nach frühen Erbsen oder Spinat! Verträgt Fröste bis -8 °C direkt auf dem Beet.",
-			guteNachbarn: "Erbsen, Spinat, Kopfsalat",
-			schlechteNachbarn: "Kohlarten, Radieschen, Rettich",
-			sorten: [
-				{ name: "Wilhelmsburger", typ: "Grünkopf-Kohlrübe", aussehen: "Große, kreisrunde Knollen mit grünem Kragen und gelbem Bauchfleisch.", geschmack: "Mild-süßlich, zart-würzig und frei von bitterem Kohlgeschmack.", verwendung: "Der traditionsreiche Wintereintopf-Klassiker; gekocht, gestampft oder als Pommes." },
-				{ name: "Hoffmanns Gelbe", typ: "Goldfleischige Auslese", aussehen: "Glatte Knollen mit intensiv dottergelbem Fruchtfleisch.", geschmack: "Auffallend süßlich-buttrig und feinfaserig im Biss.", verwendung: "Perfekt als sämiges Püree mit Muskat oder in Butter geschmort." },
-				{ name: "Brora", typ: "Purpurkopf-Steckrübe", aussehen: "Kräftig rotviolett gefärbter Kopf mit leuchtend gelber Basis.", geschmack: "Sehr aromatisch, saftig und fest.", verwendung: "Ausgesprochen mehltauresistent; extrem lange im kühlen Keller haltbar." }
-			]
-		},
-		{
-			id: "daikon_rettich",
-			name: "Daikon & Sommerrettich",
-			oberkategorie: "Gemüse",
-			kategorie: "Wurzeln",
-			icon: "🌱",
-			anbau: "🫘 Direktsaat (Zwingend)",
-			wasser: "💧💧💧 Hoch",
-			standort: "Sonnig bis halbschattig, feucht & kühl",
-			boden: "Tiefgründig gelockert, feinsandig und steinfrei, damit die langen weißen Riesenpfähle gerade wachsen.",
-			duenger: "Schwachzehrer bis Mittelzehrer: Mäßig Kompost vor der Saat. Kein frischer tierischer Mist.",
-			giessen: "Gleichmäßig und reichlich feucht halten! Wassermangel führt sofort zu faserigem Holz und beißender Schärfe.",
-			abstandPflanze: "15-20 cm",
-			abstandReihe: "30-40 cm",
-			saattiefe: "1-2 cm",
-			bedarf: "Mittelzehrer",
-			zeitVorzucht: "Nur Direktsaat",
-			zeitBeet: "Jun - Aug (Spätsaat)",
-			zeitErnte: "Sep - Nov",
-			monateAussaat: [6, 7, 8],
-			tipp: "Als Kurztagspflanze erst ab Ende Juni/Juli aussäen – im Frühling schießt Daikon durch lange Tage sofort in die Blüte.",
-			guteNachbarn: "Möhren, Spinat, Erbsen",
-			schlechteNachbarn: "Kohlarten, Radieschen",
-			sorten: [
-				{ name: "Minowase Summer Cross", typ: "Japanischer Riesen-Daikon", aussehen: "Bis zu 45 cm lange, reinweiße, zylindrische Riesenstangen mit glatter Haut.", geschmack: "Knackig-saftig, mild-erfrischend mit sanfter, delikater Rettichnote.", verwendung: "Roh gerieben zu Fisch, in Miso-Suppen, eingelegt als Tsukemono oder im Wok." },
-				{ name: "Red Meat (Watermelon)", typ: "Wassermelonen-Rettich", aussehen: "Kugelige, weiß-grünliche Knolle; innen spektakulär leuchtend magentarot.", geschmack: "Mild, süßlich-knackig mit nur dezent pikanter Schale.", verwendung: "Dünn aufgeschnitten ein optischer Star auf Salaten, Sushi-Bowls und Carpaccio." },
-				{ name: "Ostergruß Rosa", typ: "Früher Frühlingsrettich", aussehen: "Lange, spindelförmige Wurzeln in leuchtendem Karminrot mit weißer Spitze.", geschmack: "Würzig-pikant, knackfrisch und saftig.", verwendung: "Erste Rettichernte im Mai/Juni zur Brotzeit mit Brezeln und Butter." }
-			]
-		},
-		{
-			id: "feld_wintersalat",
-			name: "Postelein & Winter-Portulak",
-			oberkategorie: "Gemüse",
-			kategorie: "Blattgemüse",
-			icon: "🥗",
-			anbau: "🫘 Direktsaat",
-			wasser: "💧💧 Mittel",
-			standort: "Halbschattig bis sonnig, liebt feuchtkühle Winterwitterung",
-			boden: "Lockerer, mäßig nährstoffreicher Sand- oder Gartenboden. Braucht keine reiche Düngung.",
-			duenger: "Schwachzehrer: Keinerlei Zusätze nötig. Nutzt vorhandene Nährstoffe im herbstlichen Beet.",
-			giessen: "Nach dem Auflaufen mäßig feucht halten. Im Winter bei frostfreiem Wetter nur gelegentlich leicht benetzen.",
-			abstandPflanze: "Breitsaat oder 10 cm",
-			abstandReihe: "15 cm",
-			saattiefe: "0,5 cm (Lichtkeimer)",
-			bedarf: "Schwachzehrer",
-			zeitVorzucht: "Direktsaat",
-			zeitBeet: "Sep - Okt",
-			zeitErnte: "Nov - Mär (Frostwinter)",
-			monateAussaat: [9, 10],
-			tipp: "Keimt erst unter 12 °C Bodentemperatur! Nicht im warmen Spätsommer aussäen. Wächst unbeeindruckt bei Schnee und Frost nach.",
-			guteNachbarn: "Feldsalat, Knoblauch, Winterzwiebeln",
-			schlechteNachbarn: "Keine speziellen",
-			sorten: [
-				{ name: "Gewöhnlicher Postelein", typ: "Klassischer Tellerkraut-Portulak", aussehen: "Kleine, herzförmige fleischige Blättchen an zarten Stielen mit winzigen weißen Blütensternen.", geschmack: "Sehr saftig, knackig, leicht nussig mit feiner mineralischer Frische (nicht bitter).", verwendung: "Bester Vitamin-C-Lieferant im eisigen Hochwinter; frisch als Salat mit Walnüssen und Äpfeln." },
-				{ name: "Winter-Portulak Großblättrig", typ: "Ertragssorte", aussehen: "Kompakte, dicht stehende grüne Rosetten mit fleischigeren Schaufelblättern.", geschmack: "Frisch, mild-säuerlich und zart-knackig.", verwendung: "Kann mehrfach nachgeschnitten werden, solange das Herz stehen bleibt." }
-			]
-		},
-
-	    {
+	const APP_VERSION = "v2";
+	const gartenDaten = [{
 			id: "liebstoeckel",
 			name: "Liebstöckel & Würzkräuter",
 			oberkategorie: "Kräuter",
@@ -2663,7 +2544,7 @@
 		},
 		{
 			id: "physalis",
-			name: "Physalis",
+			name: "Physalis (Andenbeere)",
 			oberkategorie: "Gemüse",
 			kategorie: "Fruchtgemüse",
 			icon: "🍒",
@@ -3153,7 +3034,7 @@
 				{ name: "Exhibition", typ: "Riesen-Gemüsezwiebel", gruppe: "Saatzwiebeln", aussehen: "Mächtige, strohgelbe Knollen, die einzeln bis zu 1 kg schwer werden können.", geschmack: "Ungewöhnlich mild, saftig und süßlich ohne beißende Schärfe.", verwendung: "Klassiker aus der Direktsaat; perfekt für Zwiebelringe, Salate und herzhafte Zwiebelkuchen." },
 				{ name: "Longor", typ: "Französische Schalotte", gruppe: "Schalotten", aussehen: "Längliche, bananenförmige Knollen mit kupferroter Schale und rosa Fleisch.", geschmack: "Sehr fein, edel-würzig und mild, brennt kaum in den Augen.", verwendung: "Feinschmecker-Standard für Vinaigrettes, Saucen (Béarnaise) und kurzgebratenes Fleisch." },
 				{ name: "Radar", typ: "Wintersteckzwiebel", gruppe: "Winterzwiebeln", aussehen: "Kräftige, flachrunde Zwiebeln mit harter, goldgelber Schutzschale.", geschmack: "Vollmundig, mild-würzig und aromatisch frisch.", verwendung: "Im Herbst gesteckt überwintert sie problemlos im Beet; erste Ernte schon ab Mai/Juni." },
-				{ name: "Red Baron", typ: "Rote Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Dunkelrot durchgefärbte Ringe, flachrund.", geschmerk: "Feiner und milder als gelbe Zwiebeln.", verwendung: "Perfekt für Salate, Schmorgerichte und Zwiebelkuchen." },
+				{ name: "Red Baron", typ: "Rote Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Dunkelrot durchgefärbte Ringe, flachrund.", geschmack: "Feiner und milder als gelbe Zwiebeln.", verwendung: "Perfekt für Salate, Schmorgerichte und Zwiebelkuchen." },
 				{ name: "Red Sun", typ: "Rote Rundschalotte", gruppe: "Schalotten", aussehen: "Kompakte, runde Schalotten mit kupferroter Schale und zart violetten Ringen.", geschmack: "Fein-würzig, edel und milder als normale rote Speisezwiebeln.", verwendung: "Sehr ertragreich und fest; erstklassig für Vinaigrettes, Marinaden und Schmorgerichte." },
 				{ name: "Senshyu Yellow", typ: "Japanische Winterzwiebel", gruppe: "Winterzwiebeln", aussehen: "Flachrunde, feste Knollen mit goldbrauner Schale und kräftigen Schichten.", geschmack: "Angenehm herzhaft-würzig mit milder Süße nach dem Kochen.", verwendung: "Ausgezeichnet für die Herbststeckung; trotzt starkem Frost und liefert die früheste Sommerernte." },
 				{ name: "Snowball", typ: "Weiße Delikatesszwiebel", gruppe: "Steckzwiebeln", aussehen: "Reingeweißte, runde Knollen mit dünner, feiner Schalenhaut.", geschmack: "Mild, süßlich und besonders saftig ohne brennende Schärfe.", verwendung: "Perfekt für Rohkost, Salate, Burger oder mediterrane Gerichte." },
@@ -3163,7 +3044,6 @@
 			]
 		}
 	];
-
 	function trigVib() {
 		try { if (navigator.vibrate) { navigator.vibrate(30); } } catch (e) {}
 	}
@@ -3186,22 +3066,30 @@
 	const THEME_KEY = "ramonas_garten_theme_v2";
 
 	function applyTheme(theme) {
-		if (theme === 'dark') {
+		const isDark = (theme === 'dark');
+		const color = isDark ? '#0f1712' : '#1c3b2b';
+
+		if (isDark) {
 			document.documentElement.classList.add('dark-mode');
 			document.body.classList.add('dark-mode');
-			var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
-			if (meta) meta.setAttribute('content', '#0f1712');
+			document.documentElement.style.backgroundColor = '#0f1712';
+			document.body.style.backgroundColor = '#0f1712';
 		} else {
 			document.documentElement.classList.remove('dark-mode');
 			document.body.classList.remove('dark-mode');
-			var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
-			if (meta) meta.setAttribute('content', '#1c3b2b');
+			document.documentElement.style.backgroundColor = '#f5f7f5';
+			document.body.style.backgroundColor = '#f5f7f5';
 		}
+
+		document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+			meta.setAttribute('content', color);
+		});
 	}
 
 	function getSavedTheme() {
 		return localStorage.getItem(THEME_KEY) || 'light';
 	}
+
 	window.setAppTheme = function(theme) {
 		trigVib();
 		localStorage.setItem(THEME_KEY, theme);
@@ -3211,7 +3099,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v1";
+	const SETTINGS_KEY = "ramonas_garten_settings_v2";
 
 	function getSettings() {
 		try {
@@ -3221,6 +3109,7 @@
 			return s;
 		} catch (e) { return { bedCount: 8 }; }
 	}
+
 	window.saveSettings = function() {
 		trigVib();
 		const countInput = document.getElementById('settingBedCount');
@@ -3232,7 +3121,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v2";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3248,7 +3137,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v1";
+	const NOTES_KEY = "ramonas_garten_notizen_v2";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3261,6 +3150,7 @@
 		try { localStorage.setItem(NOTES_KEY, JSON.stringify(notes)); } catch (e) {}
 		updateNotesBadge();
 	}
+
 	window.deleteNoteFromOverview = function(id) {
 		trigVib();
 		saveNote(id, "");
@@ -3455,6 +3345,7 @@
 		try { localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(notes)); } catch (e) {}
 		updateNotesBadge();
 	}
+
 	window.deleteGeneralNote = function(id) {
 		trigVib();
 		let notes = getGeneralNotes();
@@ -3506,6 +3397,7 @@
 		const body = encodeURIComponent(textarea.value.trim().substring(0, 1000) + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
 		window.location.href = `mailto:?subject=${subject}&body=${body}`;
 	};
+
 	window.sendGeneralNoteEmail = function() {
 		trigVib();
 		const general = getGeneralNotes();
@@ -3516,6 +3408,7 @@
 		const body = encodeURIComponent(text.substring(0, 1500) + "\n---\nGesendet aus der Ramonas Garten Anzucht App");
 		window.location.href = `mailto:?subject=${subject}&body=${body}`;
 	};
+
 	window.sendSinglePlantNoteEmail = function(plantName, noteText) {
 		trigVib();
 		if (!noteText || noteText.trim() === "") return;
@@ -3523,6 +3416,7 @@
 		const body = encodeURIComponent(`Notiz zu ${plantName}:\n\n${noteText.trim().substring(0, 1200)}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
 		window.location.href = `mailto:?subject=${subject}&body=${body}`;
 	};
+
 	window.sendSingleGeneralNoteEmail = function(dateStr, noteText) {
 		trigVib();
 		if (!noteText || noteText.trim() === "") return;
@@ -4609,6 +4503,4 @@
 		});
 	}
 </script>
-</body>
-
 </html>
