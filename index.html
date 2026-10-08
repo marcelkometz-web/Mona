@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
 	<meta charset="UTF-8">
 	<script>
@@ -178,7 +177,6 @@
 			margin-top: 4px;
 			text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 		}
-
 		.search-box {
 			position: relative;
 			margin-bottom: 14px;
@@ -327,12 +325,10 @@
 				box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4);
 				border-color: var(--accent);
 			}
-
 			50% {
 				box-shadow: 0 0 0 6px rgba(196, 108, 73, 0.15);
 				border-color: #a85839;
 			}
-
 			100% {
 				box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4);
 				border-color: var(--accent);
@@ -663,6 +659,7 @@
 			background: var(--bad);
 		}
 
+		/* Modal CSS bereinigt & konsolidiert */
 		.modal-overlay {
 			display: none;
 			position: fixed;
@@ -672,6 +669,7 @@
 			height: 100%;
 			background: rgba(0, 0, 0, 0.65);
 			backdrop-filter: blur(5px);
+			-webkit-backdrop-filter: blur(5px);
 			z-index: 1000;
 			align-items: flex-end;
 			justify-content: center;
@@ -686,7 +684,6 @@
 		.modal-overlay.open {
 			display: flex;
 		}
-
 		.detail-panel {
 			background: var(--card-bg);
 			width: 100%;
@@ -711,7 +708,6 @@
 			from {
 				transform: translateY(100%);
 			}
-
 			to {
 				transform: translateY(0);
 			}
@@ -722,7 +718,6 @@
 				opacity: 0;
 				transform: scale(0.97);
 			}
-
 			to {
 				opacity: 1;
 			}
@@ -832,6 +827,17 @@
 			background: #854d0e;
 			color: #fef08a;
 			border: 1px solid #facc15;
+		}
+
+		.varieties-section {
+			margin-bottom: 16px;
+		}
+
+		.varieties-title {
+			font-size: 0.82rem;
+			font-weight: 800;
+			color: var(--text-muted);
+			margin-bottom: 6px;
 		}
 
 		.subfilter-bar {
@@ -1027,7 +1033,6 @@
 			border-color: var(--accent);
 		}
 
-		/* Wird nur beim Drucken sichtbar */
 		.print-only-note {
 			display: none;
 		}
@@ -1278,16 +1283,25 @@
 			font-weight: 900;
 		}
 
-		/* DRUCK-CSS OPTIMIERT */
+		/* DRUCK-CSS BEREINIGT & STABILISIERT */
 		@media print {
+			@page {
+				size: auto;
+				margin: 15mm;
+			}
+
 			html, body {
-				height: auto !important;
-				min-height: auto !important;
+				height: 100% !important;
+				min-height: 100% !important;
 				overflow: visible !important;
 				padding: 0 !important;
 				margin: 0 !important;
-				background: #fff !important;
-				color: #000 !important;
+				background: #ffffff !important;
+				color: #000000 !important;
+			}
+
+			body > *:not(.modal-overlay.open) {
+				display: none !important;
 			}
 
 			.top-bar, header, .search-box, .status-row, #cultureGrid, 
@@ -1297,17 +1311,19 @@
 				display: none !important;
 			}
 
-			.modal-overlay {
+			.modal-overlay.open {
 				position: absolute !important;
 				top: 0 !important;
 				left: 0 !important;
 				display: block !important;
-				background: none !important;
+				background: #ffffff !important;
 				backdrop-filter: none !important;
+				-webkit-backdrop-filter: none !important;
 				padding: 0 !important;
 				margin: 0 !important;
 				height: auto !important;
 				width: 100% !important;
+				z-index: 99999 !important;
 			}
 
 			.detail-panel {
@@ -1318,16 +1334,16 @@
 				border: none !important;
 				padding: 0 !important;
 				margin: 0 !important;
-				color: #000 !important;
-				background: #fff !important;
+				color: #000000 !important;
+				background: #ffffff !important;
 				position: static !important;
 				transform: none !important;
 				overflow: visible !important;
 			}
 
 			.detail-title {
-				font-size: 1.8rem !important;
-				color: #000 !important;
+				font-size: 1.6rem !important;
+				color: #000000 !important;
 			}
 
 			.info-metrics {
@@ -1338,8 +1354,8 @@
 
 			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box {
 				border: 1px solid #ccc !important;
-				background: #fff !important;
-				color: #000 !important;
+				background: #f9f9f9 !important;
+				color: #000000 !important;
 				page-break-inside: avoid;
 				break-inside: avoid;
 			}
@@ -1393,7 +1409,6 @@
 		}
 	</style>
 </head>
-
 <body>
 	<div class="top-bar">
 		<div class="left-title">
@@ -1433,7 +1448,6 @@
 			<a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
 		</p>
 	</footer>
-
 	<div class="modal-overlay" id="modalOverlay">
 		<div class="detail-panel" id="detailPanel"></div>
 	</div>
@@ -1564,8 +1578,8 @@
 	<button class="floating-reload-btn" onclick="trigVib(); location.reload();" title="App aktualisieren">
 		🔄
 	</button>
-</body>
-<script>
+
+	<script>
 	const APP_VERSION = "v3";
 	const gartenDaten = [{
 			id: "praxis_kompost",
@@ -1651,7 +1665,9 @@
 				{ name: "Beinwell-Blattjauche", typ: "Kalium-Booster", aussehen: "Dunkelgrüne, stark riechende Gärflüssigkeit.", geschmack: "Hoher Kalium- und Spurenelemente-Gehalt.", verwendung: "Sorgt für pralle Tomaten, süße Erdbeeren und reiche Ernten bei allen Fruchtgemüsen." },
 				{ name: "Bocking 14 (Steriler Beinwell)", typ: "Die Super-Pflanze", aussehen: "Große, raue Blätter; bildet keine lästigen Samen aus und wuchert nicht unkontrolliert.", geschmack: "Maximale Nährstoffdichte in den Blättern.", verwendung: "Der beste im Garten anbaubare Rohstoff für Jauche und Mulch." }
 			]
-		},
+		}
+	];
+	gartenDaten.push(
 		{
 			id: "praxis_mulchen",
 			name: "Mulchen (Bodenschutz & Feuchtigkeit)",
@@ -1823,7 +1839,9 @@
 				{ name: "Pilgrim", typ: "Großfrüchtige Kultur-Cranberry", aussehen: "Kriechender Zwergstrauch mit leuchtend dunkelroten, kirschgroßen Früchten.", geschmack: "Kräftig säuerlich, spritzig und herb-frisch.", verwendung: "Traditionell gekocht als Cranberry-Sauce zu Fleischgerichten oder für fruchtiges Kompott." },
 				{ name: "Early Black", typ: "Frühe Amerikanische Cranberry", aussehen: "Dichtes Moospolster mit tief dunkelvioletten, fast schwarzen Beeren.", geschmack: "Spritzig-sauer, hocharomatisch mit festem Fruchtfleisch.", verwendung: "Reift schon im September ab; hervorragend zum Einfrieren und für Muffins." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "mairuebe",
 			name: "Mai- & Herbstrüben",
@@ -1945,7 +1963,9 @@
 				{ name: "Rosa Bianca", typ: "Italienische Edelsorte", aussehen: "Kugelig bis tropfenförmig, hellviolett-weiß marmoriert mit zartem Schimmer.", geschmack: "Hervorragend cremig, mild-fruchtig, absolut bitterfrei und nie wässrig.", verwendung: "Spitzenreiter unter Feinschmeckern zum Füllen mit Hackfleisch oder Reis sowie für den Grill." },
 				{ name: "Little Fingers", typ: "Finger- / Snack-Aubergine", aussehen: "Schlanke, zigarrenförmige dunkelviolette Mini-Früchte, die in Büscheln wachsen.", geschmack: "Fein-würzig, dünne zarte Schale, angenehmer Biss ohne Schwammigkeit.", verwendung: "Perfekt im Ganzen gebraten, im Wok oder für schnelle Ofengemüse-Bleche; ideal für Töpfe auf dem Balkon." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "blumenkohl",
 			name: "Blumenkohl & Spargelkohl",
@@ -2021,7 +2041,9 @@
 				{ name: "Smaragd", typ: "Später Herbstwirsing", gruppe: "Winterwirsing", aussehen: "Dunkelgrün glänzend wie ein Edelstein mit kompakter Wuchsform.", geschmack: "Knackig-frisch, herzhaft und bleibt beim Kochen formstabil.", verwendung: "Toll für Wirsing-Pasta, Rahmwirsing oder asiatisch im Wok gebraten." },
 				{ name: "D'Aubervilliers", typ: "Französischer Traditionskohl", gruppe: "Herbstwirsing", aussehen: "Großkopf mit stark geaderten feingekrausten Blättern.", geschmack: "Sehr saftig, vollmundig und mit angenehm zarten Blattrippen.", verwendung: "Ideal für geschmorten Wirsing mit Speck und Zwiebeln." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "bohnen",
 			name: "Bohnen",
@@ -2100,7 +2122,9 @@
 				{ name: "Marathon", typ: "Herbstbrokkoli", aussehen: "Extrem fester, kuppelförmiger blaugrüner Kopf.", geschmack: "Kräftig-aromatisch, kältetolerant.", verwendung: "Späternte bis in den November." },
 				{ name: "Purple Sprouting", typ: "Sprossenbrokkoli", aussehen: "Viele kleine dunkelviolette Röschen an langen Stielen.", geschmack: "Wunderbar nussig, fast spargelartig.", verwendung: "Kurz in Butter anbraten, Delikatesse." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "chili",
 			name: "Chili, Paprika & Peperoni",
@@ -2174,7 +2198,9 @@
 				{ name: "Sugar Snap", typ: "Zuckerschote", aussehen: "Dicke, fleischige Schoten ohne zähe Pergamentschicht.", geschmack: "Knackig-süß, purer Genuss.", verwendung: "Im Ganzen roh oder kurz in Butter geschwenkt essen." },
 				{ name: "Golden Sweet", typ: "Historische Zuckerschote", aussehen: "Wunderschöne lila Blüten und leuchtend zitronengelbe Schoten.", geschmack: "Mild, süßlich, sehr dekorativ.", verwendung: "Gourmet-Salate und Wok-Gerichte." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "fenchel",
 			name: "Fenchel",
@@ -2277,7 +2303,9 @@
 				{ name: "Passandra", typ: "Snackgurke", aussehen: "Glatt, ca. 15-18 cm lang, handlich dunkelgrün.", geschmack: "Sehr knackig, saftig und aromatisch.", verwendung: "Direkt als Pausensnack für unterwegs." },
 				{ name: "Zitronengurke", typ: "Spezialität", aussehen: "Rund und gelb wie ein Tennisball oder eine Zitrone.", geschmack: "Fruchtig-mild, erfrischend süßlich.", verwendung: "Hingucker im Sommersalat." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "heidelbeere",
 			name: "Heidelbeere",
@@ -2382,7 +2410,9 @@
 				{ name: "Music", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Riesige Zehen mit rosa-weißem Schimmer.", geschmack: "Kräftig, feurig, beim Braten süßlich-mild.", verwendung: "Sehr winterhart, ideal zum Rösten." },
 				{ name: "Chesnok Red", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Auffällig lila gestreifte Haut.", geschmack: "Sehr volles, edles Aroma.", verwendung: "Gourmet-Knoblauch für Saucen und Fleischgerichte." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "kohlrabi",
 			name: "Kohlrabi",
@@ -2486,7 +2516,9 @@
 				{ name: "Marokkanische Minze", typ: "Minze", gruppe: "Minze", aussehen: "Gezahnte hellgrüne Blätter mit reichlich Wuchskraft.", geschmack: "Erfrischend kühl, weniger Menthol-Schärfe als Pfefferminze.", verwendung: "Bester Minztee (heiß oder eisgekühlt) und Cocktails." },
 				{ name: "Hidcote Blue", typ: "Echter Lavendel", gruppe: "Lavendel", aussehen: "Dichtbuschig mit tiefblau-violetten Blütenähren.", geschmack: "Intensiv aromatisch, blumig, leicht herb.", verwendung: "Lockt Bienen an, trocknen für Duftsäckchen oder sparsam als Gewürz für Lamm." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "kuerbis",
 			name: "Kürbis",
@@ -2617,7 +2649,9 @@
 				{ name: "Golden Bantam", typ: "Samenechter Zuckermais", aussehen: "Goldgelbe Kolben mit prallen Körnern.", geschmack: "Kräftig-süßer echter Maisgeschmack.", verwendung: "Gegrillt mit Butter und Salz." },
 				{ name: "Sweet Nugget", typ: "Extra süß", aussehen: "Große, gleichmäßig gefüllte gelbe Kolben.", geschmack: "Extrem zuckersüß und saftig.", verwendung: "Kochen, grillen oder die Körner für Salate dünsten." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "mangold",
 			name: "Mangold",
@@ -2784,7 +2818,9 @@
 				{ name: "Invicta", typ: "Grüne Stachelbeere", aussehen: "Große, ovale, hellgrüne bis gelbliche Beeren, stark bedornt.", geschmack: "Süß-säuerlich, sehr aromatisch, klassischer Geschmack.", verwendung: "Hervorragend für Kuchen, Kompott und Marmelade. (Sehr mehltauresistent)." },
 				{ name: "Mucurines", typ: "Großfrüchtige Grün-Gelbe", aussehen: "Sehr große, glatte, hellgrüne Früchte, die bei Vollreife bernsteinfarben leuchten.", geschmack: "Vollmundig süß-säuerlich mit kräftigem, traditionellem Stachelbeergeschmack.", verwendung: "Extrem robuster Massenträger; platzt auch bei starkem Sommerregen selten auf." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "suesskartoffel",
 			name: "Süßkartoffel",
@@ -2941,7 +2977,9 @@
 				{ name: "Tender and True", typ: "Gourmet-Pastinake", aussehen: "Lange, schlanke und auffallend glattschalige, elfenbeinweiße Wurzel.", geschmack: "Sehr intensiv süß mit feinem Anisaroma, fast ohne harten Holzkern.", verwendung: "Klassiker für britisches Roast-Dinner, Ofengemüse oder samtige Cremesuppen." },
 				{ name: "White Gem", typ: "Kompakte Pastinake", aussehen: "Kürzere, kegelförmige Wurzel mit breiter Schulter.", geschmack: "Fein-würzig, zart und angenehm mild-süßlich.", verwendung: "Ideal für schwerere oder flachere Gartenböden, wo lange Sorten krumm wachsen würden." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "radieschen",
 			name: "Radieschen & Rettich",
@@ -3105,7 +3143,9 @@
 				{ name: "Sylvetta", typ: "Wilde Rauke (Rucola)", aussehen: "Tief gezahnte schmale Blätter mit gelben Blüten.", geschmack: "Scharf, nussig, intensiv pfeffrig.", verwendung: "Mehrjährig; perfekt auf Pizza und in Pasta." },
 				{ name: "Vit", typ: "Feldsalat", aussehen: "Dunkelgrüne, runde, kräftige Rosetten.", geschmack: "Nussig, saftig, knackig.", verwendung: "Klassischer Wintersalat mit Speck und Ei." }
 			]
-		},
+		}
+	);
+	gartenDaten.push(
 		{
 			id: "sellerie",
 			name: "Sellerie",
@@ -3317,8 +3357,7 @@
 				{ name: "Tropea Rossa Lunga", typ: "Rote Flaschenzwiebel", gruppe: "Saatzwiebeln", aussehen: "Längliche, torpedoförmige Knollen mit glänzender, weinroter Schale.", geschmack: "Berühmt süß, feinaromatisch und mild; kaum brennend.", verwendung: "Süditalienische Gourmetsorte; ideal roh im Sommersalat, gegrillt oder karamellisiert." }
 			]
 		}
-	];
-
+	);
 	function trigVib() {
 		try { if (navigator.vibrate) { navigator.vibrate(30); } } catch (e) {}
 	}
@@ -3333,7 +3372,8 @@
 		const hh = String(now.getHours()).padStart(2, '0');
 		const mm = String(now.getMinutes()).padStart(2, '0');
 		const ss = String(now.getSeconds()).padStart(2, '0');
-		document.getElementById('liveClock').innerHTML = `${dateStr}<br>${hh}:${mm}:${ss} Uhr`;
+		const clockEl = document.getElementById('liveClock');
+		if (clockEl) clockEl.innerHTML = `${dateStr}<br>${hh}:${mm}:${ss} Uhr`;
 	}
 	setInterval(updateClock, 1000);
 	updateClock();
@@ -3432,7 +3472,6 @@
 		filterUndRender();
 	};
 
-	// --- WUNSCHLISTE / SAMMELLISTE FÜR FEHLENDE SORTEN ---
 	const WISH_KEY = "ramonas_garten_wunschliste_v1";
 
 	function getWishList() {
@@ -3481,6 +3520,7 @@
 		const body = encodeURIComponent(`Hallo Marcel,\n\nich habe folgende neue Pflanzen/Sorten in der Garten-App gesammelt und bitte dich, diese einzupflegen:\n\n${itemsStr}\n\nLiebe Grüße`);
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
+
 	const BEET_KEY = "ramonas_garten_beet_v4";
 
 	function normalizeBeetEntry(entry) {
@@ -4229,7 +4269,7 @@
 					actions.className = "note-card-actions";
 					const sendBtn = document.createElement("button");
 					sendBtn.className = "single-send-btn";
-					sendBtn.textContent = "✉ Senden";
+					sendBtn.textContent = "✉️ Senden";
 					sendBtn.onclick = () => sendSinglePlantNoteEmail(k.name, noteText);
 					const delBtn = document.createElement("button");
 					delBtn.className = "delete-note-btn";
@@ -4651,42 +4691,17 @@
 	function printCurrentDetail() {
 		trigVib();
 		try {
-			// Notizen für den Druck ins versteckte Div kopieren
 			const textarea = document.querySelector('.notes-textarea');
 			const printNoteDiv = document.getElementById('printNoteText');
 			if (textarea && printNoteDiv) {
 				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
 			}
-
-			// Prüfen, ob wir im Web-App-Modus (Standalone) sind oder im normalen Browser
-			const isPwa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-			if (isPwa) {
-				// FÜR DIE APP: Wir erzeugen ein unsichtbares Druck-Dokument im Hintergrund, 
-				// das iOS auch im Homescreen-Modus zwingend zum Drucken/PDF-Erstellen bringt.
-				const panelHtml = document.getElementById('detailPanel').innerHTML;
-				const printWindow = window.open('', '_blank', 'height=600,width=800');
-				if (printWindow) {
-					printWindow.document.write('<!DOCTYPE html><html><head><title>Garten Kultur</title><style>body{font-family:sans-serif;padding:20px;color:#000;background:#fff;} .print-btn, .close-btn, .sheet-handle, .beet-status-box, .notes-textarea{display:none !important;} .print-only-note{display:block !important;white-space:pre-wrap;}</style></head><body>');
-					printWindow.document.write(panelHtml);
-					printWindow.document.write('</body></html>');
-					printWindow.document.close();
-					printWindow.focus();
-					setTimeout(() => {
-						printWindow.print();
-						printWindow.close();
-					}, 500);
-				} else {
-					alert("Pop-up-Blocker aktiv? Bitte erlaube Pop-ups für diese App, um PDFs zu drucken.");
-				}
-			} else {
-				// FÜR DEN BROWSER: Direkt normal drucken
-				window.print();
-			}
+			window.print();
 		} catch (e) {
 			alert("Drucken wird von diesem Browser blockiert.");
 		}
 	}
+
 	function renderDetailModal() {
 		const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
 		if (!k) return;
@@ -4787,7 +4802,7 @@
         </div>
 
         <div class="varieties-section">
-          <div class="varieties-title" style="font-size:0.82rem; font-weight:800; color:var(--text-muted); margin-bottom:6px;">Verfügbare Sorten (${sichtbareSorten.length}):</div>
+          <div class="varieties-title">Verfügbare Sorten (${sichtbareSorten.length}):</div>
           ${subFilterHtml}
           <div class="variety-chips">${sortenChipsHtml}</div>
           <div class="v-info-box">
@@ -4832,7 +4847,6 @@
         <div class="notes-section">
           <div class="notes-title">📝 Meine Garten-Notizen</div>
           <textarea class="notes-textarea" placeholder="Notizen hier eintragen (wird automatisch gespeichert)..." oninput="saveNote('${k.id}', this.value)">${escapeHtml(currentNote)}</textarea>
-          <!-- Dies wird nur beim Drucken sichtbar: -->
           <div id="printNoteText" class="print-only-note"></div>
         </div>
 
@@ -4890,6 +4904,6 @@
 			});
 		});
 	}
-</script>
-
+	</script>
+</body>
 </html>
