@@ -1287,33 +1287,61 @@
 			font-weight: 900;
 		}
 
-		/* DRUCK-CSS: GARANTIERT SAUBERER DRUCK AUF ALLEN SEITEN OHNE SCHWARZE BALKEN */
+		/* DRUCK-CSS: PERFEKT KORRIGIERT FÜR SEITEN 1 BIS X OHNE SCHWARZEN RAHMEN */
 		@media print {
 			@page {
 				size: A4 portrait;
-				margin: 12mm 15mm;
+				margin: 10mm;
 			}
 
-			/* 1. Alles im Dokument standardmäßig unsichtbar machen */
+		/* DRUCK-CSS: ABSOLUT SAUBER, NUR DAS DETAIL-PANEL WIRD DRINGEND GEDRUCKT */
+		@media print {
+			@page {
+				size: A4 portrait;
+				margin: 15mm;
+			}
+
+			/* 1. Alles auf der Seite unsichtbar machen */
 			body * {
 				visibility: hidden !important;
 			}
 
-			/* 2. Nur das Detail-Panel und dessen Inhalt explizit sichtbar schalten */
-			.detail-panel, 
+			/* 2. Nur das offene Detail-Panel und seine Inhalte sichtbar schalten */
+			#modalOverlay.open,
+			#modalOverlay.open *,
+			.detail-panel,
 			.detail-panel * {
 				visibility: visible !important;
 			}
 
-			/* 3. Panel auf absolute Linke/Obere Ecke setzen und vollflächig weiß machen */
+			/* 3. Hintergrund erzwingen und Panel auf DIN A4 ausrichten */
+			html, body {
+				background: #ffffff !important;
+				background-color: #ffffff !important;
+				height: auto !important;
+				overflow: visible !important;
+			}
+
+			.modal-overlay.open {
+				position: absolute !important;
+				top: 0 !important;
+				left: 0 !important;
+				width: 100% !important;
+				height: auto !important;
+				background: #ffffff !important;
+				background-color: #ffffff !important;
+				display: block !important;
+				z-index: 999999 !important;
+			}
+
 			.detail-panel {
 				position: absolute !important;
-				left: 0 !important;
 				top: 0 !important;
+				left: 0 !important;
 				width: 100% !important;
 				max-width: 100% !important;
-				max-height: none !important;
 				height: auto !important;
+				max-height: none !important;
 				background: #ffffff !important;
 				background-color: #ffffff !important;
 				color: #000000 !important;
@@ -1322,37 +1350,21 @@
 				padding: 0 !important;
 				margin: 0 !important;
 				overflow: visible !important;
-				transform: none !important;
 			}
 
-			/* 4. Helles Farbschema und Textfarben für den Druck erzwingen */
-			:root,
-			html,
-			html.dark-mode,
-			body,
-			body.dark-mode {
-				color-scheme: light !important;
-				background: #ffffff !important;
-				background-color: #ffffff !important;
-				color: #000000 !important;
-				-webkit-print-color-adjust: exact !important;
-				print-color-adjust: exact !important;
-			}
-
-			html, body {
-				height: auto !important;
-				min-height: 0 !important;
-				overflow: visible !important;
-				background: #ffffff !important;
-			}
-
-			/* 5. Nicht druckbare Elemente im Panel komplett aus dem Layout nehmen */
+			/* 4. Bedienelemente im Druck ausblenden */
 			.close-btn, 
 			.sheet-handle, 
 			.print-btn, 
 			.notes-textarea,
 			.v-info-box .action-pill {
 				display: none !important;
+				visibility: hidden !important;
+			}
+
+			/* 5. Druckfarben und Abstände für sauberen Seitenumbruch */
+			:root {
+				color-scheme: light !important;
 			}
 
 			.detail-title {
@@ -1419,7 +1431,7 @@
 				color: #000000 !important;
 			}
 		}
-		
+
 		.floating-reload-btn {
 			position: fixed;
 			left: 18px;
