@@ -1287,98 +1287,72 @@
 			font-weight: 900;
 		}
 
-		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (GARANTIERT 100% WEISS & ZUVERLÄSSIG) */
+		/* DRUCK-CSS: GARANTIERT SAUBERER DRUCK AUF ALLEN SEITEN OHNE SCHWARZE BALKEN */
 		@media print {
 			@page {
 				size: A4 portrait;
 				margin: 12mm 15mm;
 			}
 
-			/* 1. Erzwingt helles Farbschema für alle Elemente */
+			/* 1. Alles im Dokument standardmäßig unsichtbar machen */
+			body * {
+				visibility: hidden !important;
+			}
+
+			/* 2. Nur das Detail-Panel und dessen Inhalt explizit sichtbar schalten */
+			.detail-panel, 
+			.detail-panel * {
+				visibility: visible !important;
+			}
+
+			/* 3. Panel auf absolute Linke/Obere Ecke setzen und vollflächig weiß machen */
+			.detail-panel {
+				position: absolute !important;
+				left: 0 !important;
+				top: 0 !important;
+				width: 100% !important;
+				max-width: 100% !important;
+				max-height: none !important;
+				height: auto !important;
+				background: #ffffff !important;
+				background-color: #ffffff !important;
+				color: #000000 !important;
+				box-shadow: none !important;
+				border: none !important;
+				padding: 0 !important;
+				margin: 0 !important;
+				overflow: visible !important;
+				transform: none !important;
+			}
+
+			/* 4. Helles Farbschema und Textfarben für den Druck erzwingen */
 			:root,
 			html,
 			html.dark-mode,
 			body,
 			body.dark-mode {
 				color-scheme: light !important;
-				--bg: #ffffff !important;
-				--card-bg: #ffffff !important;
-				--primary: #1c3b2b !important;
-				--primary-light: #f1f5f9 !important;
-				--accent: #c46c49 !important;
-				--text: #000000 !important;
-				--text-muted: #555555 !important;
-				--border: #d1d5db !important;
-				--tag-bg: #f8fafc !important;
-				--good: #f0fdf4 !important;
-				--bad: #fef2f2 !important;
-				--input-bg: #ffffff !important;
-				--box-note-bg: #f8fafc !important;
-				--color-standort: #854d0e !important;
-				--color-anbau: #166534 !important;
-				background-color: #ffffff !important;
 				background: #ffffff !important;
+				background-color: #ffffff !important;
 				color: #000000 !important;
 				-webkit-print-color-adjust: exact !important;
 				print-color-adjust: exact !important;
 			}
 
-			/* 2. Dokumenten-Grundstruktur für den Druck freigeben */
 			html, body {
 				height: auto !important;
 				min-height: 0 !important;
-				max-height: none !important;
 				overflow: visible !important;
-				padding: 0 !important;
-				margin: 0 !important;
 				background: #ffffff !important;
 			}
 
-			/* 3. Alles ausblenden, was nicht zum Detailfenster gehört */
-			.top-bar, header, .search-box, .status-row, #cultureGrid, 
-			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
-			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
-			.floating-reload-btn, .beet-status-box, .variety-chips,
+			/* 5. Nicht druckbare Elemente im Panel komplett aus dem Layout nehmen */
+			.close-btn, 
+			.sheet-handle, 
+			.print-btn, 
+			.notes-textarea,
 			.v-info-box .action-pill {
 				display: none !important;
-			}
-
-			/* 4. Modal-Overlay im Druck als normales Dokument darstellen */
-			.modal-overlay {
-				position: static !important;
-				display: block !important;
-				background: #ffffff !important;
-				background-color: #ffffff !important;
-				backdrop-filter: none !important;
-				-webkit-backdrop-filter: none !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				height: auto !important;
-				min-height: 0 !important;
-				width: 100% !important;
-				z-index: auto !important;
-			}
-
-			.modal-overlay:not(.open) {
-				display: block !important;
-			}
-
-			/* 5. Detail-Panel vollflächig und sauber aufteilen */
-			.detail-panel {
-				max-width: 100% !important;
-				max-height: none !important;
-				height: auto !important;
-				min-height: 0 !important;
-				box-shadow: none !important;
-				border: none !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				color: #000000 !important;
-				background: #ffffff !important;
-				background-color: #ffffff !important;
-				position: static !important;
-				transform: none !important;
-				overflow: visible !important;
 			}
 
 			.detail-title {
@@ -1431,10 +1405,6 @@
 				background: #fef2f2 !important;
 				border: 1px solid #fca5a5 !important;
 				color: #7f1d1d !important;
-			}
-
-			.notes-textarea {
-				display: none !important;
 			}
 
 			.print-only-note {
