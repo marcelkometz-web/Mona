@@ -1274,38 +1274,38 @@
 			}
 		}
 
-		/* Schwebender Reload-Button */
-		.floating-reload-btn {
-			position: fixed;
-			right: 18px;
-			bottom: 85px;
-			width: 44px;
-			height: 44px;
-			border-radius: 50%;
-			background: var(--card-bg);
-			border: 1px solid var(--border);
-			color: var(--primary);
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 1.25rem;
-			cursor: pointer;
-			z-index: 850;
-			transition: transform 0.2s ease, background-color 0.2s ease;
-			-webkit-tap-highlight-color: transparent;
-		}
+    /* Schwebender Reload-Button */
+    .floating-reload-btn {
+      position: fixed;
+      right: 18px;
+      bottom: calc(75px + env(safe-area-inset-bottom, 0px)); /* Schwebt sauber über der Leiste */
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      color: var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      cursor: pointer;
+      z-index: 999; /* Höher als die Navigation (900), damit er garantiert oben aufliegt */
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-		.floating-reload-btn:active {
-			transform: scale(0.9) rotate(90deg);
-		}
+    .floating-reload-btn:active {
+      transform: scale(0.9) rotate(90deg);
+    }
 	</style>
 </head>
 
 <body>
 	<div class="top-bar">
 		<div class="left-title">
-			<span>🌱 Ramonas Garten</span>
+			<span>🌱 Ramonas Garten Hilfe</span>
 			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v11</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
