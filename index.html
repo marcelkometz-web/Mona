@@ -7,7 +7,7 @@
 		// Verhindert das weiße Aufblitzen sofort beim Laden
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v2");
+				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v1");
 				if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
@@ -289,7 +289,6 @@
 			align-items: center;
 			gap: 8px;
 		}
-
 		.grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
@@ -463,6 +462,7 @@
 			font-size: 0.88rem;
 			color: var(--text-muted);
 			margin-bottom: 16px;
+			line-height: 1.45;
 		}
 
 		.not-found-actions {
@@ -470,6 +470,51 @@
 			justify-content: center;
 			gap: 10px;
 			flex-wrap: wrap;
+		}
+
+		.wish-queue-box {
+			margin-top: 16px;
+			background: var(--box-note-bg);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 12px;
+			text-align: left;
+		}
+
+		.wish-queue-title {
+			font-size: 0.82rem;
+			font-weight: 800;
+			color: var(--primary);
+			margin-bottom: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.wish-queue-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+			margin-bottom: 10px;
+		}
+
+		.wish-tag {
+			background: var(--tag-bg);
+			border: 1px solid var(--border);
+			color: var(--text);
+			padding: 4px 8px;
+			border-radius: 6px;
+			font-size: 0.78rem;
+			font-weight: 700;
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.wish-tag-remove {
+			color: #ef4444;
+			cursor: pointer;
+			font-weight: 900;
 		}
 
 		.action-pill {
@@ -510,6 +555,16 @@
 
 		.action-pill.secondary:hover {
 			background: var(--border);
+		}
+
+		.action-pill.accent {
+			background: var(--accent);
+			color: #ffffff;
+			border-color: var(--accent);
+		}
+
+		.action-pill.accent:hover {
+			opacity: 0.9;
 		}
 
 		.notes-overview-container {
@@ -1321,7 +1376,6 @@
 		}
 	</style>
 </head>
-
 <body>
 	<div class="top-bar">
 		<div class="left-title">
@@ -1493,150 +1547,91 @@
 <script>
 	const APP_VERSION = "v2";
 	const gartenDaten = [
-				{
-			id: "kiwibeere",
-			name: "Kiwibeere (Mini-Kiwi)",
-			oberkategorie: "Obst",
-			kategorie: "Kletterobst",
-			icon: "🥝",
-			anbau: "🌿 Jungpflanze (Strauchkauf)",
-			wasser: "💧💧💧 Hoch",
-			standort: "Sonnig bis halbschattig, windgeschützt an Spalier oder Zaun",
-			boden: "Tiefgründig, humos, leicht sauer und gut durchlässig. Staunässe ist absolut tödlich für die flachen Wurzeln.",
-			duenger: "Mittelzehrer: Im Frühjahr eine gute Schicht Kompost und etwas organischen Beerendünger; Mulchschicht aus Rinde schützt die flachen Wurzeln.",
-			giessen: "Besonders in den ersten Standjahren und während der Fruchtreife im Spätsommer reichlich wässern.",
-			abstandPflanze: "150-200 cm",
-			abstandReihe: "200 cm",
-			saattiefe: "Pflanzung",
-			bedarf: "Mittelzehrer",
-			zeitVorzucht: "Strauch",
-			zeitBeet: "Frühjahr oder Herbst",
-			zeitErnte: "Sep-Okt",
-			monateAussaat: [3, 4, 10],
-			tipp: "Achtung bei der Sortenwahl: Meistens wird eine männliche Befruchterpflanze für bis zu 6 weibliche Pflanzen benötigt, außer man kauft explizit selbstbefruchtende Sorten wie 'Issai'.",
-			guteNachbarn: "Bodendecker, Johannisbeeren",
-			schlechteNachbarn: "Apfelbäume",
-			sorten: [
-				{ name: "Issai", typ: "Selbstbefruchtend", aussehen: "Längliche, stachelbeer-große grüne Früchte mit glatter Haut.", geschmack: "Zuckersüß, sehr saftig, intensives Kiwi-Aroma direkt mit Schale essbar.", verwendung: "Perfekt für Einsteiger und kleine Gärten, da keine zweite Befruchterpflanze nötig ist." },
-				{ name: "Ken's Red", typ: "Rote Mini-Kiwi (weiblich)", aussehen: "Spektakulär weinrot durchgefärbte Schale und rotes Fruchtfleisch.", geschmack: "Hervorragend süß, leicht beerenartig.", verwendung: "Ein optisches Highlight auf Obstplatten und direkt vom Spalier genascht (Befruchter nötig!)." },
-				{ name: "Weiki", typ: "Männlicher Befruchter", aussehen: "Dekoratives Blattwerk, bildet rot-weiße Blüten, aber keine Früchte.", geschmack: "Kein Fruchtertrag.", verwendung: "Zwingend notwendig, wenn man nicht-selbstfruchtende Sorten wie 'Ken's Red' anbaut." }
-			]
-		},
 		{
-			id: "saeulenobst",
-			name: "Säulen- & Spalierobst",
-			oberkategorie: "Obst",
-			kategorie: "Obstgehölze",
-			icon: "🍎",
-			anbau: "🌿 Baumkauf",
+			id: "praxis_kompost",
+			name: "Kompost & Humusaufbau",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Boden & Düngung",
+			icon: "♻️",
+			anbau: "🧪 Naturdünger & Bodenverbesserung",
 			wasser: "💧💧 Mittel",
-			standort: "Vollsonnig bis sonnig, ideal als Sichtschutz oder im großen Kübel",
-			boden: "Nährstoffreicher, tiefgründiger Gartenboden. Im Kübel hochwertige Kübelpflanzenerde mit Blähton-Drainage nutzen.",
-			duenger: "Starkzehrer: Vor dem Blattaustrieb im Frühjahr organischen Obstbaumdünger und Kompost in die Baumscheibe einarbeiten.",
-			giessen: "Freilandbäume nur bei anhaltender Dürre. Bäume im Kübel müssen im Hochsommer oft täglich durchdringend gegossen werden.",
-			abstandPflanze: "60-80 cm",
-			abstandReihe: "100 cm",
-			saattiefe: "Pflanzung",
-			bedarf: "Starkzehrer",
-			zeitVorzucht: "Baum",
-			zeitBeet: "Herbst oder zeitiges Frühjahr",
-			zeitErnte: "Jul-Okt",
-			monateAussaat: [3, 4, 10, 11],
-			tipp: "Säulenäpfel bilden ihre Früchte sehr nah am Hauptstamm. Seitentriebe im Sommer konsequent auf 10–15 cm einkürzen, um die Säulenform zu erhalten.",
-			guteNachbarn: "Kapuzinerkresse, Ringelblume, Knoblauch",
-			schlechteNachbarn: "Kartoffeln",
-			sorten: [
-				{ name: "Campanilo", typ: "Säulenapfel (Spätsorte)", aussehen: "Mittelgroße, leuchtend rotbackige Äpfel, die direkt am Hauptstamm wachsen.", geschmack: "Knackig, saftig, erfrischend süß-säuerlich.", verwendung: "Wächst streng säulenförmig; perfekte Sorte für kleine Gärten und Kübelhaltung auf der Terrasse." },
-				{ name: "Sylvia", typ: "Säulenkirsche", aussehen: "Kompakter, schlanker Wuchs mit dicken, dunkelroten Knorpelkirschen.", geschmack: "Sehr süß, platzfest und vollaromatisch.", verwendung: "Ideal für Naschgärten; leicht mit einem Netz gegen Vögel zu schützen, da der Baum so schmal bleibt." },
-				{ name: "Concorde", typ: "Spalierbirne", aussehen: "Längliche, grün-gelbe Früchte an flach gezogenem Spalierastwerk.", geschmack: "Schmelzend weich, hervorragend süß und saftig.", verwendung: "Perfekt, um nackte Hauswände oder Gartenschuppen optisch und kulinarisch aufzuwerten." }
-			]
-		},
-		{
-			id: "essbare_blueten",
-			name: "Essbare Blüten & Nutzinsekten",
-			oberkategorie: "Kräuter",
-			kategorie: "Nutzblüten",
-			icon: "🌼",
-			anbau: "🫘 Direktsaat",
-			wasser: "💧💧 Mittel",
-			standort: "Sonnig bis halbschattig, toll als Beetumrandung oder Unterpflanzung",
-			boden: "Anspruchslos. Eher mager halten – bei zu viel Stickstoff (Dünger) bilden die Pflanzen massenhaft grüne Blätter, aber kaum Blüten.",
-			duenger: "Schwachzehrer: Keinerlei zusätzliche Düngung nötig. Zu viel Kompost verhindert die Blütenbildung.",
-			giessen: "Normale, gleichmäßige Feuchtigkeit. Trockenphasen werden von Kapuzinerkresse gut überstanden, Borretsch mag es etwas feuchter.",
-			abstandPflanze: "15-30 cm",
-			abstandReihe: "30 cm",
-			saattiefe: "1-2 cm",
-			bedarf: "Schwachzehrer",
-			zeitVorzucht: "März-Apr",
-			zeitBeet: "Mai",
-			zeitErnte: "Jun-Okt",
-			monateAussaat: [4, 5, 6],
-			tipp: "Setze Kapuzinerkresse bewusst als 'Opferpflanze' an den Rand von Tomaten und Bohnen: Schwarze Blattläuse stürzen sich auf die Kresse und lassen dein Gemüse in Ruhe!",
-			guteNachbarn: "Tomaten, Bohnen, Zucchini, Apfelbaum",
+			standort: "Halbschattig bis schattig, windgeschützt, direkter Erdkontakt",
+			boden: "Offener Boden (wichtig für Regenwürmer und Bodenbakterien), schichtweiser Aufbau aus Grünabfällen.",
+			duenger: "Eigenes Endprodukt: Reifer Kompost ist der beste Bio-Dünger und Bodenaktivator der Welt.",
+			giessen: "Kompost muss feucht wie ein ausgedrückter Schwamm sein. Bei großer Sommerhitze gelegentlich mit der Gießkanne durchfeuchten.",
+			abstandPflanze: "Nach Platzbedarf",
+			abstandReihe: "-",
+			saattiefe: "-",
+			bedarf: "Grundlage für alle Zehrer",
+			zeitVorzucht: "Ganzjährig ansetzen",
+			zeitBeet: "Ganzjährig ausbringen",
+			zeitErnte: "Nach 6-12 Monaten",
+			monateAussaat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			tipp: "Das goldene Verhältnis: Mische immer 2 Teile kohlenstoffreiche 'braune' Materialien (trockenes Laub, gehäckselter Strauchschnitt, Stroh) mit 1 Teil stickstoffreichen 'grünen' Materialien (Rasenschnitt, Gemüsereste, Kaffeesatz).",
+			guteNachbarn: "Alle Gartenkulturen",
 			schlechteNachbarn: "Keine",
 			sorten: [
-				{ name: "Kapuzinerkresse (Große)", typ: "Kletternde Opferpflanze", aussehen: "Runde, schildförmige Blätter mit leuchtend rot-orange-gelben Trichterblüten.", geschmack: "Pikant-scharf, leicht pfeffrig, erinnert deutlich an Gartenkresse und Meerrettich.", verwendung: "Blätter und Blüten roh in Salate, Kräuterbutter oder aufs Brot. Die Knospen können wie Kapern eingelegt werden." },
-				{ name: "Borretsch (Gurkenkraut)", typ: "Insektenmagnet", aussehen: "Raue, behaarte Stängel und Blätter mit atemberaubend leuchtend blauen Sternblüten.", geschmack: "Erfrischend, schmeckt und riecht intensiv nach frischer Salatgurke.", verwendung: "Die Blüten sind der Star in Sommerdrinks, Eiswürfeln und Salaten; die Blätter ein Muss für die 'Frankfurter Grüne Soße'." },
-				{ name: "Ringelblume (Calendula)", typ: "Bodensanierer", aussehen: "Buschiger Wuchs mit leuchtend gelben und orangefarbenen, dichten Korbblüten.", geschmack: "Mild-würzig, leicht harzig.", verwendung: "Die gezupften Blütenblätter sehen aus wie Safran im Reis, verschönern jeden Salat und sind Basis für heilende Ringelblumensalbe." }
+				{ name: "Kalter Kompost (Flächenkompostierung)", typ: "Die faule Gärtner-Methode", aussehen: "Offene Schichtung im schattigen Bereich, arbeitet langsam über ein bis zwei Jahre.", geschmack: "Dunkle, krümelige Walderde-Struktur mit Regenwürmern.", verwendung: "Perfekt für den Hausgarten ohne großen Arbeitsaufwand; lockt nützliche Bodenorganismen an." },
+				{ name: "Heißer Kompost (Schnellkompost)", typ: "Der Turbo-Kompost", aussehen: "Intensive Rotte durch regelmäßiges Umsetzen (Luftzufuhr), Temperaturen steigen auf bis zu 60–70 °C.", geschmack: "Feinster, keimfreier und nährstoffreicher reifer Humus nach nur 3 bis 4 Monaten.", verwendung: "Tötet Unkrautsamen und Pilzsporen ab; ideal für die schnelle Humusgewinnung im Frühjahr." },
+				{ name: "Wurmkompost (Wurm-Kiste)", typ: "Balkon & Kleingarten", aussehen: "Spezielle Kompostwürmer (Dendrobena) verarbeiten Küchenabfälle in flachen Kisten.", geschmack: "Wurmhumus (schwarz, geruchlos, extrem nährstoffreich, 'schwarzes Gold').", verwendung: "Der absolute Luxus-Dünger für Aussaat und Topfpflanzen; riecht null und kann sogar drinnen stehen." }
 			]
 		},
 		{
-			id: "baerlauch",
-			name: "Bärlauch & Waldkräuter",
-			oberkategorie: "Kräuter",
-			kategorie: "Kräuter (Mehrjährig)",
+			id: "praxis_brennnessel",
+			name: "Brennnesseljauche (Wachstums-Turbo)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Bio-Dünger",
+			icon: "🧪",
+			anbau: "🌱 Flüssigdünger-Ansatz",
+			wasser: "💧💧 Hoch",
+			standort: "Sonnig bis schattig (etwas abseits aufstellen wegen des Geruchs)",
+			boden: "Plastik- oder Holzfass (niemals Metall verwenden, da die Säuren reagieren!).",
+			duenger: "Stickstoff- und eisenreicher Naturdünger für alle Starkzehrer (Tomaten, Kürbis, Kohl, Zucchini).",
+			giessen: "Niemals unverdünnt anwenden! 1 Teil Jauche auf 10 Teile Wasser verdünnen (1:10) und direkt an die Wurzelscheibe gießen.",
+			abstandPflanze: "-",
+			abstandReihe: "-",
+			saattiefe: "-",
+			bedarf: "Starkzehrer",
+			zeitVorzucht: "Frühjahr bis Sommer",
+			zeitBeet: "Während der Hauptwachstumsphase (Mai–Juli)",
+			zeitErnte: "Nach 2-3 Wochen Gärung",
+			monateAussaat: [4, 5, 6, 7],
+			tipp: "Streue eine Handvoll Urgesteinsmehl oder Bentonit in den Gärbehälter. Das bindet den stechenden Ammoniak-Geruch fast komplett und reichert die Jauche mit wertvollen Mineralien an!",
+			guteNachbarn: "Starkzehrer im Beet",
+			schlechteNachbarn: "Schwachzehrer (Bohnen, Erbsen, Zwiebeln verbrennen bei Stickstoffüberschuss)",
+			sorten: [
+				{ name: "Klassische Brennnesseljauche", typ: "Stickstoffbombe", aussehen: "Braune, stark schäumende Flüssigkeit mit intensivem Gärgeruch.", geschmack: "Extrem nährstoffreich, voller Stickstoff und Chlorophyll.", verwendung: "Der perfekte Frühlingsdünger, um Tomaten, Kohl und Kürbisse zu sattem Blattwachstum anzuregen." },
+				{ name: "Brennnessel-Beinwell-Mix", typ: "All-in-One Power-Jauche", aussehen: "Kombination aus Brennnesseln und Beinwellblättern im selben Fass.", geschmack: "Liefert neben Stickstoff massenhaft Kalium, Phosphor und Spurenelemente.", verwendung: "Die ideale Universallösung ab Sommerbeginn für blühende und früchtetragende Pflanzen." }
+			]
+		},
+		{
+			id: "praxis_beinwell",
+			name: "Beinwelljauche (Blüten- & Frucht-Turbo)",
+			oberkategorie: "Garten-Praxis",
+			kategorie: "Bio-Dünger",
 			icon: "🌿",
-			anbau: "🥔 Wurzeln / Zwiebeln pflanzen",
-			wasser: "💧💧💧 Hoch",
-			standort: "Halbschatten bis Vollschatten (unter Bäumen & Hecken)",
-			boden: "Dauerhaft feucht, humusreich, kalkhaltig und schattig. Viel Falllaub liegen lassen (Waldklima imitieren).",
-			duenger: "Schwachzehrer: Die beste Düngung ist das liegengebliebene Herbstlaub von Obstbäumen, das über den Winter auf dem Beet verrottet.",
-			giessen: "Im Frühjahr während der Hauptwachstumszeit zwingend gleichmäßig feucht halten. Der Boden darf im Schatten nie komplett austrocknen.",
-			abstandPflanze: "10 cm",
-			abstandReihe: "20 cm",
-			saattiefe: "Pflanzung",
-			bedarf: "Schwachzehrer",
-			zeitVorzucht: "Zwiebeln",
-			zeitBeet: "Herbst",
-			zeitErnte: "Mär-Mai",
-			monateAussaat: [9, 10, 11],
-			tipp: "Nicht aus Samen ziehen (Frostkeimer, dauert ewig). Besorge dir im Herbst Bärlauchzwiebeln. Ab Mai/Juni zieht die Pflanze das Laub komplett ein und verschwindet oberirdisch bis zum nächsten Frühjahr.",
-			guteNachbarn: "Obstbäume, Beerensträucher",
-			schlechteNachbarn: "Keine (wuchert aber, wenn der Standort passt)",
+			anbau: "🌱 Flüssigdünger-Ansatz",
+			wasser: "💧💧 Hoch",
+			standort: "Sonnig bis halbschattig, abseits aufstellen",
+			boden: "Plastik- oder Holzfass mit Deckel (oder lose abgedeckt mit einem Gitter gegen Insekten).",
+			duenger: "Kalium- und phosphatreicher Naturdünger (vergleichbar mit handelsüblichem Tomatendünger).",
+			giessen: "Wie Brennnesseljauche im Verhältnis **1:10** mit Wasser verdünnen und gießen.",
+			abstandPflanze: "-",
+			abstandReihe: "-",
+			saattiefe: "-",
+			bedarf: "Fruchtgemüse & Tomaten",
+			zeitVorzucht: "Sommer",
+			zeitBeet: "Zur Blüte- und Fruchtzeit (Juni–August)",
+			zeitErnte: "Nach 2-3 Wochen Gärung",
+			monateAussaat: [5, 6, 7, 8],
+			tipp: "Beinwell hat extrem tiefe Wurzeln und zieht Mineralien aus tiefen Bodenschichten hoch. Die Blätter können auch einfach direkt als Mulchschicht um Tomatenpflanzen gelegt werden!",
+			guteNachbarn: "Tomaten, Gurken, Beerensträucher",
+			schlechteNachbarn: "Keine",
 			sorten: [
-				{ name: "Echter Bärlauch (Allium ursinum)", typ: "Wildes Knoblauchkraut", aussehen: "Lanzettliche, frischgrüne Blätter aus dem Waldboden, ab Mai weiße, kugelige Sternblüten.", geschmack: "Intensiv und betörend nach feinem Knoblauch, ohne den unangenehmen Geruch am nächsten Tag zu hinterlassen.", verwendung: "Der Vorbote des Frühlings! Fantastisch für Bärlauchpesto, Bärlauchbutter, feine Cremesuppen und Gnocchi." },
-				{ name: "Schnittknoblauch", typ: "Chinesischer Lauch", aussehen: "Flache, grasartige dunkelgrüne Halme mit wunderschönen weißen, sternförmigen Blüten im Spätsommer.", geschmack: "Eine perfekte, elegante Mischung aus Schnittlauch und frischem Knoblauch.", verwendung: "Gedeiht auch sonniger als Bärlauch; wächst wie Schnittlauch und ist das halbe Jahr frisch für asiatische Gerichte und Quark verfügbar." }
+				{ name: "Beinwell-Blattjauche", typ: "Kalium-Booster", aussehen: "Dunkelgrüne, stark riechende Gärflüssigkeit.", geschmack: "Hoher Kalium- und Spurenelemente-Gehalt.", verwendung: "Sorgt für pralle Tomaten, süße Erdbeeren und reiche Ernten bei allen Fruchtgemüsen." },
+				{ name: "Bocking 14 (Steriler Beinwell)", typ: "Die Super-Pflanze", aussehen: "Große, raue Blätter; bildet keine lästigen Samen aus und wuchert nicht unkontrolliert.", geschmack: "Maximale Nährstoffdichte in den Blättern.", verwendung: "Der beste im Garten anbaubare Rohstoff für Jauche und Mulch." }
 			]
 		},
-		{
-			id: "feige",
-			name: "Feige",
-			oberkategorie: "Obst",
-			kategorie: "Obstgehölze",
-			icon: "🌳",
-			anbau: "🌿 Baum- / Strauchkauf",
-			wasser: "💧💧 Mittel",
-			standort: "Vollsonnig, extrem heiß und windgeschützt (am besten Südwand)",
-			boden: "Anspruchslos, durchlässig und kalkhaltig. In rauen Lagen unbedingt in großen Kübeln pflanzen und im Winter kühl, aber frostfrei einräumen.",
-			duenger: "Mittelzehrer: Vor dem Blattaustrieb etwas Kompost und einen kaliumbetonten Dünger geben. Zu viel Stickstoff führt zu langen Ruten ohne Fruchtansatz.",
-			giessen: "Während der heißen Sommermonate (wenn sich die Früchte verdicken) reichlich und durchdringend gießen. Staunässe zwingend vermeiden.",
-			abstandPflanze: "200 cm",
-			abstandReihe: "200 cm",
-			saattiefe: "Pflanzung",
-			bedarf: "Mittelzehrer",
-			zeitVorzucht: "Strauch",
-			zeitBeet: "Frühjahr",
-			zeitErnte: "Aug-Okt",
-			monateAussaat: [3, 4],
-			tipp: "In Deutschland bilden viele Sorten zwei Ernten: Im Juli reifen die Früchte des Vorjahres (Brebas), im Herbst die neuen Früchte. Bei starken Frösten unter -12°C in den ersten Jahren mit Vlies schützen.",
-			guteNachbarn: "Mediterrane Kräuter (Rosmarin, Thymian)",
-			schlechteNachbarn: "Keine speziellen",
-			sorten: [
-				{ name: "Brown Turkey", typ: "Die robusteste Hausfeige", aussehen: "Große, tief gelappte Blätter; die Früchte reifen von grün zu rot-violett bis bräunlich ab.", geschmack: "Herrlich süß, saftig und vollmundig bei Vollreife (wenn die Frucht am Stielansatz leicht weich wird und hängt).", verwendung: "Der absolute Goldstandard für Mitteleuropa; extrem frosthart, trägt hochzuverlässig oft zweimal im Jahr." },
-				{ name: "Pfälzer Fruchtfeige", typ: "Akklimatisierte Lokalsorte", aussehen: "Dichtbuschiger Wuchs, bildet mittelgroße, grüngelbe bis rötliche Feigen.", geschmack: "Zuckersüßes, honigartiges, erdbeerrotes Fruchtfleisch.", verwendung: "Stammt aus der Weinbauregion und verträgt den deutschen Freiland-Winter sehr gut; fantastisch direkt vom Baum oder zu Ziegenkäse." },
-				{ name: "Bornholmfeige", typ: "Nordische Züchtung", aussehen: "Kompakt, mittelgroße rundliche grüne bis braun-violette Früchte.", geschmack: "Ausgeprägt aromatisch und süß.", verwendung: "Stammt von der dänischen Insel Bornholm und gilt als eines der frosthärtesten Feigengewächse überhaupt." }
-			]
-		}
 		{
 			id: "liebstoeckel",
 			name: "Liebstöckel & Würzkräuter",
@@ -2781,7 +2776,7 @@
 				{ name: "Petit Gris de Rennes", typ: "Zuckermelone (Cantaloupe)", aussehen: "Kleine, gerippte Frucht mit graugrüner Schale und orangem Fleisch.", geschmack: "Exorbitant süß, parfümartig aromatisch.", verwendung: "Eine bretonische Delikatesse; roh löffeln oder zu Schinken." },
 				{ name: "Piel de Sapo", typ: "Futuro- / Honigmelone", aussehen: "Ovale, kräftig dunkelgrün gefleckte Früchte ('Krötenhaut') mit weißlich-hellgrünem Fleisch.", geschmack: "Sehr knackig-fest, erfrischend saftig und dezent honigsüß.", verwendung: "Hervorragend lagerfähig (hält sich wochenlang); perfekt für Obstsalate und Sommerbowlen." },
 				{ name: "Sugar Baby", typ: "Wassermelone", aussehen: "Dunkelgrüne, runde Melone, kompakter Wuchs (ca. 2-3 kg).", geschmack: "Tiefrotes, knackiges, sehr süßes Fruchtfleisch.", verwendung: "Gelingt auch in Deutschland im Freiland sehr zuverlässig!" },
-				{ name: "Sweet Granite", typ: "Freiland-Zuckermelone", aussehen: "Längliche Früchte mit fein genetzter, hellbraun-oranger Schale und lachsfarbenem Fruchtfleisch.", geschmack: "Vollaromatisch süß, saftig und erfrischend mild.", verwendung: "Extrem früh reifend und speziell für kühlere Sommer im Freilandbeet gezüchtet." }
+				{ name: "Sweet Granite", typ: "Freiland-Zuckermelone", aussehen: "Längliche Früchte mit fein genetzter, hellbraun-oranger Schale und lachsfarbenem Fruchtfleisch.", geschmack: "Vollromatisch süß, saftig und erfrischend mild.", verwendung: "Extrem früh reifend und speziell für kühlere Sommer im Freilandbeet gezüchtet." }
 			]
 		},
 		{
@@ -3191,7 +3186,6 @@
 			]
 		}
 	];
-
 	function trigVib() {
 		try { if (navigator.vibrate) { navigator.vibrate(30); } } catch (e) {}
 	}
@@ -3303,6 +3297,56 @@
 		trigVib();
 		saveNote(id, "");
 		filterUndRender();
+	};
+
+	// --- WUNSCHLISTE / SAMMELLISTE FÜR FEHLENDE SORTEN ---
+	const WISH_KEY = "ramonas_garten_wunschliste_v1";
+
+	function getWishList() {
+		try { return JSON.parse(localStorage.getItem(WISH_KEY)) || []; } catch (e) { return []; }
+	}
+
+	window.addWishPlant = function(plantName) {
+		trigVib();
+		if (!plantName || plantName.trim() === "") return;
+		let list = getWishList();
+		const cleanName = plantName.trim();
+		if (!list.includes(cleanName)) {
+			list.push(cleanName);
+			try { localStorage.setItem(WISH_KEY, JSON.stringify(list)); } catch (e) {}
+			filterUndRender();
+		}
+	};
+
+	window.removeWishPlant = function(plantName) {
+		trigVib();
+		let list = getWishList();
+		list = list.filter(item => item !== plantName);
+		try { localStorage.setItem(WISH_KEY, JSON.stringify(list)); } catch (e) {}
+		filterUndRender();
+	};
+
+	window.clearWishList = function() {
+		trigVib();
+		localStorage.removeItem(WISH_KEY);
+		filterUndRender();
+	};
+
+	window.requestSingleMissingPlant = function(plantName) {
+		trigVib();
+		const subject = encodeURIComponent(`Garten-App: Neuer Pflanzenwunsch - ${plantName}`);
+		const body = encodeURIComponent(`Hallo Marcel,\n\nbitte füge die folgende Pflanze/Sorte zu unserer Kleingarten-Datenbank hinzu:\n\nName/Suchbegriff: ${plantName}\n\nLiebe Grüße`);
+		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
+	};
+
+	window.sendAllWishesEmail = function() {
+		trigVib();
+		const list = getWishList();
+		if (list.length === 0) { alert("Deine Wunschliste ist leer!"); return; }
+		const subject = encodeURIComponent("Garten-App: Sammelliste neuer Pflanzenwünsche");
+		const itemsStr = list.map(item => `- ${item}`).join("\n");
+		const body = encodeURIComponent(`Hallo Marcel,\n\nich habe folgende neue Pflanzen/Sorten in der Garten-App gesammelt und bitte dich, diese einzupflegen:\n\n${itemsStr}\n\nLiebe Grüße`);
+		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
 
 	const BEET_KEY = "ramonas_garten_beet_v4";
@@ -4187,13 +4231,40 @@
 
 		if (matchedList.length === 0 && query !== "") {
 			const rawQuery = searchInput.value.trim();
+			const safeQ = rawQuery.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+			const wishList = getWishList();
+
+			let wishListHtml = "";
+			if (wishList.length > 0) {
+				let tags = "";
+				wishList.forEach(item => {
+					const safeItem = item.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+					tags += `<span class="wish-tag">${escapeHtml(item)} <span class="wish-tag-remove" onclick="removeWishPlant('${safeItem}')" title="Entfernen">✕</span></span>`;
+				});
+				wishListHtml = `
+              <div class="wish-queue-box">
+                <div class="wish-queue-title">
+                  <span>📥 Gesammelte Wunschliste (${wishList.length})</span>
+                  <span onclick="clearWishList()" style="color: #ef4444; cursor: pointer; font-size: 0.75rem;">Alle leeren</span>
+                </div>
+                <div class="wish-queue-list">${tags}</div>
+                <button onclick="sendAllWishesEmail()" class="action-pill accent" style="width: 100%; justify-content: center; font-size: 0.82rem; padding: 8px;">
+                  ✉️ Alle ${wishList.length} Wünsche als E-Mail senden
+                </button>
+              </div>
+            `;
+			}
+
 			cultureGrid.insertAdjacentHTML("beforeend", `
           <div class="not-found-box">
             <div class="not-found-title">🔍 "${escapeHtml(rawQuery)}" nicht gefunden</div>
             <div class="not-found-text">Die Pflanze ist nicht in der Datenbank oder du hast eine spezielle Frage?</div>
             <div class="not-found-actions">
               <a href="javascript:void(0)" onclick="openAiMenu()" class="action-pill primary">🤖 KI fragen</a>
+              <a href="javascript:void(0)" onclick="requestSingleMissingPlant('${safeQ}')" class="action-pill secondary">✉️ Sofort senden</a>
+              <a href="javascript:void(0)" onclick="addWishPlant('${safeQ}')" class="action-pill accent">➕ Auf Wunschliste</a>
             </div>
+            ${wishListHtml}
           </div>
         `);
 			return;
@@ -4651,5 +4722,4 @@
 		});
 	}
 </script>
-
 </html>
