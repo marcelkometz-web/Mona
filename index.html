@@ -4658,8 +4658,31 @@
 				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
 			}
 
-			// SOFORT drucken! Verzögerungen werden von iOS/Safari sonst geblockt.
-			window.print();
+			// Prüfen, ob wir im Web-App-Modus (Standalone) sind oder im normalen Browser
+			const isPwa = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+			if (isPwa) {
+				// FÜR DIE APP: Wir erzeugen ein unsichtbares Druck-Dokument im Hintergrund, 
+				// das iOS auch im Homescreen-Modus zwingend zum Drucken/PDF-Erstellen bringt.
+				const panelHtml = document.getElementById('detailPanel').innerHTML;
+				const printWindow = window.open('', '_blank', 'height=600,width=800');
+				if (printWindow) {
+					printWindow.document.write('<!DOCTYPE html><html><head><title>Garten Kultur</title><style>body{font-family:sans-serif;padding:20px;color:#000;background:#fff;} .print-btn, .close-btn, .sheet-handle, .beet-status-box, .notes-textarea{display:none !important;} .print-only-note{display:block !important;white-space:pre-wrap;}</style></head><body>');
+					printWindow.document.write(panelHtml);
+					printWindow.document.write('</body></html>');
+					printWindow.document.close();
+					printWindow.focus();
+					setTimeout(() => {
+						printWindow.print();
+						printWindow.close();
+					}, 500);
+				} else {
+					alert("Pop-up-Blocker aktiv? Bitte erlaube Pop-ups für diese App, um PDFs zu drucken.");
+				}
+			} else {
+				// FÜR DEN BROWSER: Direkt normal drucken
+				window.print();
+			}
 		} catch (e) {
 			alert("Drucken wird von diesem Browser blockiert.");
 		}
