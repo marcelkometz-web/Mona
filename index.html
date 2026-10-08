@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+<head>
   <meta charset="UTF-8">
+  <script>
+    // Verhindert das weiße Aufblitzen sofort beim Laden
+    (function() {
+      try {
+        var theme = localStorage.getItem("ramonas_garten_theme_v1");
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark-mode");
+          document.documentElement.style.backgroundColor = "#0f1712";
+        }
+      } catch(e) {}
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
