@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ramonas-garten-v2';
+const CACHE_NAME = 'ramonas-garten-v3';
 
 // 1. ZWINGEND ERFORDERLICH: Ohne diese Dateien DARF die Installation nicht gelingen!
 const CORE_ASSETS = [
