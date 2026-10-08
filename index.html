@@ -343,20 +343,17 @@
     body.dark-mode .theme-btn.active { color: #052e16; }
 
     @media print {
-      body { padding: 0; background: #fff !important; color: #000 !important; }
+      body { padding: 0 !important; background: #fff !important; color: #000 !important; }
       .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box,
       .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn,
-      .subfilter-bar, .notes-section, .card-star { display: none !important; }
-      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, #backupModalOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
-      .modal-overlay#modalOverlay.open { position: static !important; display: block !important;
-        background: none !important; backdrop-filter: none !important; }
-      .detail-panel { max-width: 100% !important; max-height: none !important;
-        box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; }
-      .detail-title { font-size: 1.8rem !important; color: #000 !important; }
+      .subfilter-bar, .notes-section, .card-star, .beet-status-box { display: none !important; }
+      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, #backupModalOverlay { display: none !important; }
+      .modal-overlay { position: static !important; display: block !important; background: none !important; backdrop-filter: none !important; }
+      .detail-panel { max-width: 100% !important; max-height: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; overflow: visible !important; }
+      .detail-title { font-size: 1.6rem !important; color: #000 !important; }
       .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
-      .v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
+      .v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #ccc !important; background: #fff !important; color: #000 !important; }
       .companion-grid { grid-template-columns: 1fr 1fr !important; }
-      .beet-status-box { display: none !important; }
     }
   </style>
 </head>
@@ -2789,9 +2786,55 @@
     impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
 
     function printCurrentDetail() {
-      try { window.print(); } catch (e) { alert("Drucken wird von diesem Browser blockiert."); }
-    }
+      trigVib();
+      const content = document.getElementById('detailPanel');
+      if (!content) return;
 
+      // Erstelle ein sauberes Druckdokument
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        // Fallback falls Popups blockiert sind
+        window.print();
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="de">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Pflanzenprofil Druck</title>
+          <style>
+            * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+            body { padding: 20px; color: #1c3b2b; background: #fff; line-height: 1.45; }
+            .sheet-handle, .close-btn, .print-btn, .subfilter-bar, .beet-status-box, .notes-section { display: none !important; }
+            .detail-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+            .badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid #ccc; margin-right: 4px; }
+            .v-chip { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; border: 1px solid #ccc; margin: 2px; }
+            .v-info-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin: 12px 0; background: #f8fafc; }
+            .info-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
+            .metric-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; background: #f8fafc; }
+            .metric-label { font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; }
+            .metric-val { font-size: 0.85rem; font-weight: 700; color: #1c3b2b; margin-top: 4px; }
+            .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #e2e8f0; border-left: 4px solid #1c3b2b; border-radius: 6px; padding: 10px 12px; margin: 10px 0; font-size: 0.85rem; }
+            .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+            .companion-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.82rem; }
+          </style>
+        </head>
+        <body>
+          ${content.innerHTML}
+        </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 350);
+    }
      function renderDetailModal() {
       const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
       if (!k) return;
