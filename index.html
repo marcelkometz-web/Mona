@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,7 +7,7 @@
 		// Verhindert das Aufblitzen: Weiß bleibt weiß, Dunkel bleibt dunkel
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v8") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
 				var isDark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
 				var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
 				if (isDark) {
@@ -1322,7 +1323,7 @@
 				print-color-adjust: exact !important;
 			}
 
-			/* 2. Entfernt die 100vh Mindesthöhe, die den schwarzen Kasten erzeugt */
+			/* 2. Entfernt die Mindesthöhe für den Druck */
 			html, body {
 				height: auto !important;
 				min-height: 0 !important;
@@ -1333,7 +1334,7 @@
 				background: #ffffff !important;
 			}
 
-			/* 3. Blendet alles außerhalb des Detail-Modals aus */
+			/* 3. Blendet alles ausserhalb des Modals aus */
 			body > *:not(.modal-overlay.open) {
 				display: none !important;
 			}
@@ -1346,9 +1347,11 @@
 				display: none !important;
 			}
 
-			/* 4. Overlay komplett weiß und ohne Hintergrundschatten/Feste Höhe */
+			/* 4. Overlay vollflächig weiß */
 			.modal-overlay.open {
-				position: static !important;
+				position: absolute !important;
+				top: 0 !important;
+				left: 0 !important;
 				display: block !important;
 				background: #ffffff !important;
 				background-color: #ffffff !important;
@@ -1359,7 +1362,7 @@
 				height: auto !important;
 				min-height: 0 !important;
 				width: 100% !important;
-				z-index: 1 !important;
+				z-index: 99999 !important;
 			}
 
 			/* 5. Detail-Panel vollflächig weiß */
@@ -1404,7 +1407,6 @@
 				color: #1c3b2b !important;
 			}
 
-			/* Infoboxen mit hellem Hintergrund & Rand */
 			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box, .notes-section {
 				border: 1px solid #d1d5db !important;
 				background: #f9fafb !important;
@@ -1449,7 +1451,7 @@
 				color: #000000 !important;
 			}
 		}
-
+		
 		.floating-reload-btn {
 			position: fixed;
 			left: 18px;
@@ -1481,7 +1483,7 @@
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v8</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v2</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1648,7 +1650,7 @@
 	</button>
 
 	<script>
-	const APP_VERSION = "v8";
+	const APP_VERSION = "v2";
 	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
@@ -3446,7 +3448,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v8";
+	const THEME_KEY = "ramonas_garten_theme_v2";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3482,7 +3484,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v8";
+	const SETTINGS_KEY = "ramonas_garten_settings_v2";
 
 	function getSettings() {
 		try {
@@ -3504,7 +3506,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v8";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v2";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3520,7 +3522,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v8";
+	const NOTES_KEY = "ramonas_garten_notizen_v2";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3589,7 +3591,7 @@
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
 
-	const BEET_KEY = "ramonas_garten_beet_v8";
+	const BEET_KEY = "ramonas_garten_beet_v2";
 
 	function normalizeBeetEntry(entry) {
 		if (!entry) return { status: 'none', beds: [] };
@@ -3611,7 +3613,7 @@
 		try {
 			let beet = JSON.parse(localStorage.getItem(BEET_KEY));
 			if (!beet) {
-				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v8"));
+				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v2"));
 				if (old && typeof old === 'object') {
 					beet = {};
 					Object.keys(old).forEach(k => {
@@ -3762,7 +3764,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v8";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
