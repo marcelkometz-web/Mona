@@ -11,20 +11,22 @@ und Planungs-App für Smartphone, Tablet und PC. Sie läuft direkt im Webbrowser
 kann als Progressive Web App (PWA) auf dem Homescreen installiert werden und 
 speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
 
-2. HAUPTFUNKTIONEN & NEUERUNGEN (VERSION 4.0)
+2. HAUPTFUNKTIONEN & NEUERUNGEN (VERSION 7.0)
 ------------------------------------------------------------
-• 🛒 NEU: Saatgut- & Jungpflanzen-Direktbestellung:
+*** NEU IN VERSION 7.0 ***
+• 🛒 Saatgut- & Jungpflanzen-Direktbestellung:
   - Jede einzelne Sorte im Detail-Steckbrief verfügt nun über einen direkten 
-    Bestell-Button ("🛒 Samen / Jungpflanzen bestellen").
+    Bestell-Button ("🛒 Samen / Pflanzen bestellen").
   - Öffnet mit einem Fingertipp eine gezielte Web-Suche nach Saatgut und 
     Bezugsquellen für genau die ausgewählte Sorte.
 
-• 🖨️ NEU: Druck- & PDF-Export für iOS & Android optimiert:
+• 🖨️ Druck- & PDF-Export für iOS & Android optimiert:
   - Sparsames, weißes Drucklayout: Selbst wenn auf dem Smartphone der Dark Mode 
     aktiv ist, wird der Steckbrief mit weißem Hintergrund und tiefschwarzer Schrift gedruckt.
-  - Verhindert massiven Toner- und Tintenverbrauch (keine schwarzen Kacheln mehr).
+  - Verhindert massiven Toner- und Tintenverbrauch (keine schwarzen Kacheln mehr auf Seite 1 oder 2).
   - Saubere Seitenumbrüche: Tabellen, Boxen und Notizen brechen nicht mitten im Block um.
-  - Eigene Garten-Notizen werden automatisch als formatierter Text auf Seite 2 mitgedruckt.
+  - Eigene Garten-Notizen werden automatisch als formatierter Text mitgedruckt.
+  - Asynchrone Fokus-Entkopplung für zuverlässiges Drucken direkt aus installierten iOS-PWAs.
 
 • 🎨 Ergonomie & Theme-Feinschliff:
   - Flackerfreier App-Start: Das Vorlade-Skript synchronisiert Hintergrundfarbe und 
@@ -32,6 +34,7 @@ speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
   - Schwebender Aktualisieren-Button (🔄) sitzt ergonomisch unten links über der Navigationsleiste.
   - Safari Safe-Area Dark Mode: Die untere Leiste am iPhone-Bildschirmrand 
     schließt im Modus "Midnight Garden" nahtlos dunkel ab (#0f1712).
+**************************
 
 • 📚 Umfassende Enzyklopädie & Garten-Praxis:
   Enthält Gemüsekulturen, Obst- und Beerensträucher, ein- und mehrjährige Kräuter 
@@ -167,4 +170,3 @@ Kräuter:
 
 Viel Freude und reiche Ernte im Kleingarten!
 ============================================================
-
