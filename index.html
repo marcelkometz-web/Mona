@@ -356,17 +356,18 @@
   </style>
 </head>
 <body>
-
-  <div class="top-bar">
-    <div class="left-title">🌱 Ramonas Garten Anzucht</div>
-    <div class="clock" id="liveClock">Lade Zeit...</div>
+<div class="top-bar">
+  <div class="left-title" style="white-space: normal; overflow: visible; display: flex; align-items: center; gap: 6px;">
+    <span>🌱 Ramonas Garten</span>
+    <span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v10</span>
   </div>
+  <div class="clock" id="liveClock">Lade Zeit...</div>
+</div>
 
-  <header>
-    <h1>🌱 Kleingarten Enzyklopädie</h1>
-    <p class="subtitle">Mobile optimiert mit Favoriten, Notizen & Saison-Radar</p>
-  </header>
-
+<header>
+  <h1>🌱 Kleingarten Enzyklopädie</h1>
+  <p class="subtitle">Mobile optimiert mit Favoriten, Notizen & Saison-Radar</p>
+</header>
   <div class="search-box" id="searchBoxContainer">
     <input type="text" id="searchInput" placeholder="🔍 Frage an KI oder Pflanze suchen...">
     <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px;">
@@ -517,6 +518,8 @@
   </div>
 
   <script>
+    const APP_VERSION = "v10";
+
     const gartenDaten = [
       {
         id: "liebstoeckel", name: "Liebstöckel & Würzkräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
