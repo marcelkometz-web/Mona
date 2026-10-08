@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -1439,19 +1440,13 @@
 				display: none !important;
 			}
 
-			.print-only-note {
-				display: block !important;
-				white-space: pre-wrap;
-				font-size: 0.9rem;
-				padding: 10px;
-				border: 1px solid #d1d5db;
-				border-radius: 8px;
-				margin-top: 8px;
-				background: #ffffff !important;
-				color: #000000 !important;
+		/* DRUCK-CSS PERFEKT FÜR iOS SAFARI & PWA (GARANTIERT 100% WEISS & ZUVERLÄSSIG) */
+		@media print {
+			@page {
+				size: A4 portrait;
+				margin: 12mm 15mm;
 			}
-		}
-		
+
 			/* 1. Erzwingt helles Farbschema für alle Elemente */
 			:root,
 			html,
@@ -1608,6 +1603,7 @@
 				color: #000000 !important;
 			}
 		}
+
 		.floating-reload-btn {
 			position: fixed;
 			left: 18px;
@@ -1633,6 +1629,7 @@
 			transform: scale(0.9) rotate(90deg);
 		}
 	</style>
+
 </head>
 <body>
 	<div class="top-bar">
