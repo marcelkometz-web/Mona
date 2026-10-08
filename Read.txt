@@ -2,7 +2,7 @@
 🌱 RAMONAS GARTEN ANZUCHT - DOKUMENTATION & BEDIENUNGSANLEITUNG
 ============================================================
 Entwickelt von: Marcel Kometz
-Version: 2026.10 (Kleingarten-Edition)
+Version: 2.0 (Kleingarten-Edition | Stand: Oktober 2026)
 
 1. ÜBER DIESE APP
 ------------------------------------------------------------
@@ -11,7 +11,7 @@ und Planungs-App für Smartphone, Tablet und PC. Sie läuft direkt im Webbrowser
 kann als Progressive Web App (PWA) auf dem Homescreen installiert werden und 
 speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
 
-2. HAUPTFUNKTIONEN
+2. HAUPTFUNKTIONEN & NEUERUNGEN (VERSION 2.0)
 ------------------------------------------------------------
 • 📚 Umfassende Enzyklopädie:
   Enthält Gemüsekulturen, Obst- und Beerensträucher sowie ein- und mehrjährige Kräuter.
@@ -33,19 +33,28 @@ speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
   - Kulinarische Verwendung & Lagereigenschaften
   - Sorten-Filterung nach Typen (z. B. Busch-, Stangen- oder Feuerbohnen)
 
-• 🏡 Mein Beet (Beet-Manager):
-  - Verwaltung individueller Gartenbeete (Standard: 8 Beete, in den Einstellungen anpassbar).
-  - Status pro Sorte zuweisen: "🌱 Im Beet" oder "🧺 Geerntet".
-  - Feste Zuweisung einer Sorte zu einer konkreten Beetnummer.
-  - Dynamischer Belegungszähler im Auswahl-Dropdown (zeigt direkt an, welche Beete belegt oder leer sind).
-  - Komfort-Zuweisung: Direktsprung aus leeren Beeten zur Gesamtauswahl.
-  - "🧹 Alle leeren"-Funktion zum schnellen Saisonwechsel.
+• 🏡 Mein Beet (Erweiterter Beet-Manager):
+  - Flexible Beet-Skalierung: Frei konfigurierbar von 1 bis zu 50 Beeten.
+  - Multi-Beet-Zuweisung: Einer Sorte können nun mehrere Beete gleichzeitig 
+    zugewiesen werden (z. B. Beet 1, 3 und 5 gleichzeitig belegt).
+  - Übersichtliche Beet-Tags mit Sofort-Löschkreuz (✕) pro Einzelbeet.
+  - Status pro Sorte: "🌱 Im Beet" oder "🧺 Geerntet".
+  - Dynamischer Belegungszähler im Dropdown mit Anzeige belegter Sorten.
+  - "🧹 Alle leeren"-Funktion mit Sicherheitsabfrage zum schnellen Saisonwechsel.
+
+• 🎨 Optimiertes UI & iOS-Safari-Feinschliff:
+  - Saubere Typografie: Silbentrennung korrigiert – Wörter wie "Cranberry" 
+    oder "Zuckermelone" brechen im Ganzen um und werden nicht zerschnitten.
+  - Kartenkacheln mit Flexbox zentriert für harmonische Texthöhen.
+  - Safari Safe-Area Dark Mode: Die untere Leiste am iPhone-Bildschirmrand 
+    schließt im Modus "Midnight Garden" nahtlos dunkel ab (#0f1712).
+  - Schwebender Schnellaktualisierungs-Button (🔄) für schnelle Browser-Refreshes.
 
 • 🔍 Intelligente Schnellsuche:
   - Findet Pflanzennamen, Sorten, Geschmacksprofile, Verwendungszwecke und Pflegetipps.
-  - Fehlertolerante Suche (Tippfehler werden verziehen).
+  - Fehlertolerante Suche (Tippfehler werden durch Levenshtein-Algorithmus verziehen).
   - Text-Hervorhebung der Suchbegriffe direkt auf den Kacheln und in den Detailkarten.
-  - Direktanbindung an KI ("🤖 KI fragen") für individuelle Gartenfragen.
+  - Direktanbindung an KI ("🤖 KI fragen") via System-Teilen, ChatGPT oder Perplexity.
 
 • 📅 Saison-Radar (Aussaat-Filter):
   Filtert die Datenbank mit einem Klick auf Kulturen, die im aktuellen Kalendermonat
@@ -56,12 +65,15 @@ speichert alle Benutzerdaten zu 100 % lokal und privat auf dem Gerät.
   - Speichere pflanzenspezifische Notizen direkt im jeweiligen Steckbrief.
   - Allgemeines Notizbuch für anstehende Arbeiten mit Datumsstempel.
   - Kalendererinnerungen (.ics-Export) für wichtige Aussaat- oder Düngestationen.
-  - Notizen direkt per E-Mail versenden.
+  - Notizen direkt per E-Mail versenden (Einzelnotiz oder Komplettauszug).
 
 • ⚙️ Einstellungen & Datensicherung:
-  - Umschaltung zwischen Hellmodus und "🌙 Midnight Garden" (Dark Mode).
-  - Festlegung der Anzahl deiner Beete im Garten.
-  - Backup erstellen: Export der gesamten Gartendaten als .json-Datei oder per E-Mail.
+  - Farbschema-Wahl: "☀️ Hellmodus" oder "🌙 Midnight Garden" (Dark Mode).
+  - Festlegung der Anzahl deiner Beete im Garten (1 bis 50).
+  - 3-Wege-Backup: 
+    1. Direkt als .json-Datei auf das Gerät herunterladen.
+    2. Datei teilen / in "Dateien" (iCloud / Google Drive) sichern.
+    3. Backup-Hinweis per E-Mail versenden.
   - Backup wiederherstellen: Sicheres Einlesen einer gespeicherten Sicherungsdatei.
 
 3. KULTUREN-ÜBERSICHT
@@ -70,43 +82,48 @@ Gemüse:
 - Artischocke (5 Sorten)
 - Aubergine (4 Sorten)
 - Blumenkohl & Spargelkohl (14 Sorten)
-- Bohnen (16 Sorten)
+- Bohnen (Busch-, Stangen-, Feuerbohnen) (16 Sorten)
 - Brokkoli (10 Sorten)
 - Chili, Paprika & Peperoni (11 Sorten)
-- Erbsen (10 Sorten)
+- Daikon & Sommerrettich (3 Sorten)
+- Erbsen (Markerbsen, Zuckerschoten) (10 Sorten)
 - Fenchel (Knollenfenchel) (5 Sorten)
 - Grünkohl, Chinakohl & Weißkohl (10 Sorten)
-- Gurke (10 Sorten)
-- Kartoffel (10 Sorten)
-- Knoblauch (10 Sorten)
-- Kohlrabi (8 Sorten)
-- Kürbis (6 Sorten)
+- Gurke (Salat-, Snack- & Einlegegurken) (10 Sorten)
+- Kartoffel (Festkochend, Mehlig, Bunt) (10 Sorten)
+- Knoblauch (Hardneck & Softneck) (10 Sorten)
+- Kohlrabi (9 Sorten)
+- Kürbis (Speise- & Lagerkürbisse) (6 Sorten)
 - Lauch & Frühlingszwiebeln (8 Sorten)
 - Mai- & Herbstrüben (5 Sorten)
-- Mangold (5 Sorten)
-- Möhren (7 Sorten)
-- Pak Choi (5 Sorten)
+- Mangold (Stiel- & Regenbogenmangold) (5 Sorten)
+- Möhren (Früh-, Sommer- & Lagermöhren) (7 Sorten)
+- Pak Choi (Baby & Riesenformen) (5 Sorten)
 - Palmkohl & Spitzkohl (4 Sorten)
 - Pastinake & Schwarzwurzel (5 Sorten)
+- Postelein & Winter-Portulak (2 Sorten)
+- Puffbohne (Dicke Bohne / Saubohne) (3 Sorten)
 - Radicchio & Endivie (5 Sorten)
 - Radieschen & Rettich (7 Sorten)
 - Rosenkohl (5 Sorten)
-- Rote Bete (9 Sorten)
-- Salate & Rucola (8 Sorten)
+- Rote Bete (Rot, Gelb, Gestreift, Weiß) (9 Sorten)
+- Salate & Rucola (Kopf-, Pflück-, Asia-Salate) (8 Sorten)
 - Knollensellerie & Stangensellerie (7 Sorten)
 - Spargel & Rhabarber (5 Sorten)
-- Spinat (9 Sorten)
+- Spinat (Frühjahrs-, Sommer- & Winterspinat) (9 Sorten)
+- Steckrübe (Kohlrübe) (3 Sorten)
 - Süßkartoffel (5 Sorten)
-- Tomate (16 Sorten)
+- Tomate (Fleisch-, Stab-, Wild- & Cocktailtomaten) (16 Sorten)
 - Topinambur (5 Sorten)
-- Zucchini (8 Sorten)
+- Wurzelpetersilie & Kerbelrübe (3 Sorten)
+- Zucchini (Busch-, Kletter- & Ufo-Sorten) (8 Sorten)
 - Zuckermais (5 Sorten)
 - Zwiebeln & Schalotten (12 Sorten)
 
 Obst & Beeren:
 - Aronia & Cranberry (4 Sorten)
-- Erdbeeren (12 Sorten)
-- Heidelbeere (5 Sorten)
+- Erdbeeren (Garten-, Wald- & Monatserdbeeren) (12 Sorten)
+- Heidelbeere (Moorbeet-Kultur) (5 Sorten)
 - Johannis-, Him- & Brombeeren (8 Sorten)
 - Physalis (Andenbeere & Tomatillo) (5 Sorten)
 - Stachelbeere (5 Sorten)
@@ -119,13 +136,13 @@ Kräuter:
 
 4. TECHNISCHE HINWEISE & OFFLINE-NUTZUNG
 ------------------------------------------------------------
-• Browser-Speicher: Alle Favoriten, Notizen und Beet-Einträge verbleiben im 
-  lokalen Speicher (localStorage) deines Webbrowsers.
+• Browser-Speicher: Alle Favoriten, Notizen, Beeteinstellungen und Beetzuweisungen 
+  liegen geschützt im lokalen Speicher (localStorage) deines Webbrowsers.
 • Daten löschen vermeiden: Bitte leere für diese Website nicht den Browser-Cache / 
   die Websitedaten, ohne vorher über "⚙️ Einstell." ein Backup herunterzuladen.
-• Home-Bildschirm (PWA):
+• Home-Bildschirm (PWA-Installation):
   - Auf iOS (Safari): Tippe auf das "Teilen"-Symbol (Viereck mit Pfeil nach oben) 
-    und wähle "Zum Home-Bildschirm hinzufügen".
+    und wähle "Zum Home-Bildschirm".
   - Auf Android (Chrome): Tippe auf das Dreipunkt-Menü und wähle "App installieren" 
     oder "Zum Startbildschirm hinzufügen".
 
