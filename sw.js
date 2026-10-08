@@ -1,9 +1,13 @@
-const CACHE_NAME = 'ramonas-garten-v9';
+const CACHE_NAME = 'ramonas-garten-v10';
 
-// Alle Dateien, die für den vollständigen Offline-Betrieb nötig sind
-const PRECACHE_ASSETS = [
+// 1. ZWINGEND ERFORDERLICH: Ohne diese Datei DARF die Installation nicht gelingen!
+const CORE_ASSETS = [
   './',
-  './index.html',
+  './index.html'
+];
+
+// 2. OPTIONALE ASSETS: Fehlt hier etwas, soll die App trotzdem offline starten
+const OPTIONAL_ASSETS = [
   './manifest.webmanifest',
   './Read.txt',
   './apple-touch-icon.png',
@@ -11,14 +15,18 @@ const PRECACHE_ASSETS = [
   './icon-512.png'
 ];
 
-// Installation: Fehlertolerantes Vorab-Caching
+// Installation: Harte Trennung zwischen lebenswichtig und optional
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return Promise.allSettled(
-        PRECACHE_ASSETS.map((asset) =>
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // Schritt A: Kern-Dateien MÜSSEN erfolgreich sein (wirft Fehler bei Fehlschlag)
+      await cache.addAll(CORE_ASSETS);
+
+      // Schritt B: Optionale Assets tolerant nachladen
+      await Promise.allSettled(
+        OPTIONAL_ASSETS.map((asset) =>
           cache.add(asset).catch((err) => {
-            console.warn(`[SW] Vorab-Cache für ${asset} übersprungen:`, err);
+            console.warn(`[SW] Optionales Asset ${asset} nicht geladen:`, err);
           })
         )
       );
@@ -26,11 +34,20 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Aktivierung: Alte Versionen dieses Projekts löschen, fremde Caches unberührt lassen
+// Aktivierung: Sicheres Löschen alter Caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
+    caches.open(CACHE_NAME).then(async (currentCache) => {
+      // Prüfen, ob die index.html im aktuellen Cache wirklich existiert
+      const hasCore = await currentCache.match('./index.html');
+      if (!hasCore) {
+        console.warn('[SW] Neuer Cache ist unvollständig. Alte Caches werden geschont.');
+        return;
+      }
+
+      // Erst jetzt veraltete ramonas-garten-Caches aufräumen
+      const cacheNames = await caches.keys();
+      await Promise.all(
         cacheNames.map((name) => {
           if (name.startsWith('ramonas-garten-') && name !== CACHE_NAME) {
             return caches.delete(name);
@@ -41,14 +58,12 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Abfragen behandeln
+// Fetch-Strategie
 self.addEventListener('fetch', (event) => {
   const request = event.request;
-
-  // Nur GET-Anfragen verarbeiten
   if (request.method !== 'GET') return;
 
-  // 1. Navigation & HTML: Network-First (für unmittelbare Updates auf dem iPhone)
+  // 1. Navigation / HTML: Network-First (frische Version laden, bei Funkloch Cache)
   if (request.mode === 'navigate' || (request.headers.get('accept') && request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(request)
@@ -61,26 +76,26 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(() => {
           return caches.match(request).then((cached) => {
-            return cached || caches.match('./index.html');
+            return cached || caches.match('./index.html') || caches.match('./');
           });
         })
     );
     return;
   }
 
-  // 2. Statische Assets (Icons, Read.txt, Manifest): Cache-First mit Netzwerk-Fallback
+  // 2. Statische Dateien (Read.txt, Icons, Manifest): Stale-While-Revalidate
+  // Liefert sofort aus dem Cache, aktualisiert ihn aber unbemerkt im Hintergrund bei Netz
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+      const fetchPromise = fetch(request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const copy = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         }
-        const copy = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         return networkResponse;
-      });
+      }).catch(() => null);
+
+      return cachedResponse || fetchPromise;
     })
   );
 });
