@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 
@@ -8,7 +7,7 @@
 		// Verhindert das weiße Aufblitzen sofort beim Laden
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v2") || localStorage.getItem("ramonas_garten_theme_v1");
+				var theme = localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
 				if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
@@ -82,6 +81,7 @@
 		html.dark-mode {
 			background-color: #0f1712 !important;
 		}
+
 		html.dark-mode body,
 		body.dark-mode {
 			--bg: #0f1712;
@@ -199,6 +199,7 @@
 			color: var(--text);
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 		}
+
 		input[type="text"] {
 			padding-right: 85px;
 		}
@@ -288,6 +289,7 @@
 			align-items: center;
 			gap: 8px;
 		}
+
 		.grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
@@ -340,6 +342,7 @@
 		.item-card.search-active-match {
 			animation: searchPulse 2s infinite ease-in-out;
 		}
+
 		.item-icon {
 			font-size: 2.1rem;
 			margin-bottom: 4px;
@@ -469,6 +472,7 @@
 			gap: 10px;
 			flex-wrap: wrap;
 		}
+
 		.wish-queue-box {
 			margin-top: 16px;
 			background: var(--box-note-bg);
@@ -625,6 +629,7 @@
 			white-space: pre-wrap;
 			line-height: 1.45;
 		}
+
 		.single-send-btn {
 			background: var(--tag-bg);
 			border: 1px solid var(--border);
@@ -783,6 +788,7 @@
 			background: var(--primary);
 			color: #fff;
 		}
+
 		.close-btn {
 			background: var(--tag-bg);
 			border: 1px solid var(--border);
@@ -941,6 +947,7 @@
 			font-weight: 700;
 			color: var(--primary);
 		}
+
 		.boden-box {
 			font-size: 0.88rem;
 			background: var(--box-note-bg);
@@ -1019,7 +1026,7 @@
 		.notes-textarea:focus {
 			border-color: var(--accent);
 		}
-		
+
 		/* Wird nur beim Drucken sichtbar */
 		.print-only-note {
 			display: none;
@@ -1069,6 +1076,7 @@
 			gap: 4px;
 			font-size: 0.85rem;
 		}
+
 		footer.app-footer {
 			text-align: center;
 			padding: 25px 15px 15px 15px;
@@ -1215,6 +1223,7 @@
 			background: #ef4444;
 			color: #fff;
 		}
+
 		.theme-toggle-group {
 			display: flex;
 			gap: 8px;
@@ -1343,11 +1352,11 @@
 				grid-template-columns: 1fr 1fr !important;
 				page-break-inside: avoid;
 			}
-			
+
 			.notes-textarea {
 				display: none !important;
 			}
-			
+
 			.print-only-note {
 				display: block !important;
 				white-space: pre-wrap;
@@ -1387,11 +1396,12 @@
 		}
 	</style>
 </head>
+
 <body>
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v2</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v3</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1534,7 +1544,7 @@
 		<button class="nav-item" data-cat="Kräuter" onclick="setMainCategory('Kräuter'); trigVib();">
 			<span class="nav-icon">🌿</span><span>Kräuter</span>
 		</button>
-				<button class="nav-item" data-cat="Garten-Praxis" onclick="setMainCategory('Garten-Praxis'); trigVib();">
+		<button class="nav-item" data-cat="Garten-Praxis" onclick="setMainCategory('Garten-Praxis'); trigVib();">
 			<span class="nav-icon">♻️</span><span>Praxis</span>
 		</button>
 		<button class="nav-item" data-cat="Favoriten" onclick="setMainCategory('Favoriten'); trigVib();">
@@ -1559,9 +1569,8 @@
 	</button>
 </body>
 <script>
-	const APP_VERSION = "v2";
-	const gartenDaten = [
-		{
+	const APP_VERSION = "v3";
+	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
 			oberkategorie: "Garten-Praxis",
@@ -1617,8 +1626,7 @@
 				{ name: "Klassische Brennnesseljauche", typ: "Stickstoffbombe", aussehen: "Braune, stark schäumende Flüssigkeit mit intensivem Gärgeruch.", geschmack: "Extrem nährstoffreich, voller Stickstoff und Chlorophyll.", verwendung: "Der perfekte Frühlingsdünger, um Tomaten, Kohl und Kürbisse zu sattem Blattwachstum anzuregen." },
 				{ name: "Brennnessel-Beinwell-Mix", typ: "All-in-One Power-Jauche", aussehen: "Kombination aus Brennnesseln und Beinwellblättern im selben Fass.", geschmack: "Liefert neben Stickstoff massenhaft Kalium, Phosphor und Spurenelemente.", verwendung: "Die ideale Universallösung ab Sommerbeginn für blühende und früchtetragende Pflanzen." }
 			]
-		}
-		,
+		},
 		{
 			id: "praxis_beinwell",
 			name: "Beinwelljauche (Blüten- & Frucht-Turbo)",
@@ -1645,7 +1653,7 @@
 			sorten: [
 				{ name: "Beinwell-Blattjauche", typ: "Kalium-Booster", aussehen: "Dunkelgrüne, stark riechende Gärflüssigkeit.", geschmack: "Hoher Kalium- und Spurenelemente-Gehalt.", verwendung: "Sorgt für pralle Tomaten, süße Erdbeeren und reiche Ernten bei allen Fruchtgemüsen." },
 				{ name: "Bocking 14 (Steriler Beinwell)", typ: "Die Super-Pflanze", aussehen: "Große, raue Blätter; bildet keine lästigen Samen aus und wuchert nicht unkontrolliert.", geschmack: "Maximale Nährstoffdichte in den Blättern.", verwendung: "Der beste im Garten anbaubare Rohstoff für Jauche und Mulch." }
-			]	
+			]
 		},
 		{
 			id: "praxis_mulchen",
@@ -1879,8 +1887,7 @@
 				{ name: "Nero di Toscana", typ: "Toskanischer Palmkohl (Cavolo Nero)", aussehen: "Lange, schmale, tief blau-schwarzgrüne Wedel mit blasiger Struktur.", geschmack: "Milder und nussiger als Grünkohl, zart und herzhaft.", verwendung: "Klassiker der italienischen Ribollita-Suppe, Pasta oder als knusprige Kohl-Chips." },
 				{ name: "Sweet Jumbo", typ: "Zucker-Spitzkohl", aussehen: "Sehr gleichmäßige, helle Spitzkohlköpfe mit lockerer Füllung.", geschmack: "Auffallend süßlich und saftig ohne Kohlstrenge.", verwendung: "Schmeckt roh gehobelt als feiner Krautsalat (Coleslaw) oder gedünstet in Sahne." }
 			]
-		}
-		,
+		},
 		{
 			id: "artischocke",
 			name: "Artischocke",
@@ -2060,8 +2067,7 @@
 				{ name: "Preisgewinner", typ: "Feuerbohne", gruppe: "Feuerbohnen", aussehen: "Prächtige rote Blüten mit riesigen rauen grünen Schoten.", geschmack: "Kräftig-würzig; die violetten Kerne sind sehr cremig.", verwendung: "Jung als Brechbohne, reif als nahrhafte Riesenbohne für Salate." },
 				{ name: "Hangdown Grünkernig", typ: "Dicke Bohne (Puffbohne)", gruppe: "Dicke Bohnen", aussehen: "Dicke samtig gefütterte Schoten mit großen grünen Kernen.", geschmack: "Deftig, erbsig, leicht mehlig und nussig.", verwendung: "Frühsommer-Klassiker mit Speck, Zwiebeln und Mehlschwitze." }
 			]
-		}
-		,
+		},
 		{
 			id: "brokkoli",
 			name: "Brokkoli",
@@ -2379,8 +2385,7 @@
 				{ name: "Music", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Riesige Zehen mit rosa-weißem Schimmer.", geschmack: "Kräftig, feurig, beim Braten süßlich-mild.", verwendung: "Sehr winterhart, ideal zum Rösten." },
 				{ name: "Chesnok Red", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Auffällig lila gestreifte Haut.", geschmack: "Sehr volles, edles Aroma.", verwendung: "Gourmet-Knoblauch für Saucen und Fleischgerichte." }
 			]
-		}
-		,
+		},
 		{
 			id: "kohlrabi",
 			name: "Kohlrabi",
@@ -2516,8 +2521,7 @@
 				{ name: "Butternut", typ: "Moschuskürbis", aussehen: "Birnenförmig mit heller cremefarbener Schale.", geschmack: "Buttrig-weich, nussig-süß mit sehr kleiner Kernhöhle.", verwendung: "Püree, Kürbis-Gnocchi und Backen." },
 				{ name: "Spaghetti-Kürbis", typ: "Gartenkürbis", aussehen: "Länglich, hellgelb, glatte Schale.", geschmack: "Mild, nimmt Saucen perfekt auf. Fleisch zerfällt beim Kochen zu 'Spaghetti'.", verwendung: "Im Ganzen kochen und wie Nudeln mit Bolognese servieren." }
 			]
-		}
-		,
+		},
 		{
 			id: "zucchini",
 			name: "Zucchini",
@@ -2616,8 +2620,7 @@
 				{ name: "Golden Bantam", typ: "Samenechter Zuckermais", aussehen: "Goldgelbe Kolben mit prallen Körnern.", geschmack: "Kräftig-süßer echter Maisgeschmack.", verwendung: "Gegrillt mit Butter und Salz." },
 				{ name: "Sweet Nugget", typ: "Extra süß", aussehen: "Große, gleichmäßig gefüllte gelbe Kolben.", geschmack: "Extrem zuckersüß und saftig.", verwendung: "Kochen, grillen oder die Körner für Salate dünsten." }
 			]
-		}
-		,
+		},
 		{
 			id: "mangold",
 			name: "Mangold",
@@ -2719,8 +2722,7 @@
 				{ name: "Senga Sengana", typ: "Kult-Erdbeere", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
 				{ name: "Mieze Schindler", typ: "Gourmet-Erdbeere", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Delikatesse! Naschen (braucht Befruchtersorte wie Senga Sengana)." }
 			]
-		}
-		,
+		},
 		{
 			id: "strauchbeeren",
 			name: "Johannis-, Him- & Brombeeren",
@@ -2847,8 +2849,7 @@
 				{ name: "Schönbrunner Gold", typ: "Riesen-Physalis", aussehen: "Große, leuchtend orange Beeren in pergamentartiger Lampion-Hülle.", geschmack: "Herrlich süß-säuerlich, intensiv nach Ananas und Stachelbeere.", verwendung: "Direkt frisch aus der Hülle naschen, als Dessert-Deko." },
 				{ name: "Toma Verde", typ: "Mexikanische Tomatillo", aussehen: "Apfelgroße, feste grüne Früchte, die ihre pergamentartige Hülle komplett sprengen.", geschmack: "Fruchtig-säuerlich, frisch und pikant mit feiner Kräuternote.", verwendung: "Die unverzichtbare Hauptzutat für authentische mexikanische Salsa Verde." }
 			]
-		}
-		,
+		},
 		{
 			id: "pakchoi",
 			name: "Pak Choi",
@@ -2976,8 +2977,7 @@
 				{ name: "French Breakfast", typ: "Zweifarbig", aussehen: "Länglich zylindrisch, oben leuchtend rot, unten weiße Spitze.", geschmack: "Sehr zart, knackig und saftig.", verwendung: "Klassisch französisch mit Salz und Butter." },
 				{ name: "Eiszapfen", typ: "Weißes Radieschen", aussehen: "Lange weiße spitz zulaufende Zapfen.", geschmack: "Etwas pikanter und würziger als rote Sorten.", verwendung: "Gerieben oder in dünnen Scheiben aufs Butterbrot." }
 			]
-		}
-		,
+		},
 		{
 			id: "radicchio",
 			name: "Radicchio & Endivie",
@@ -3108,8 +3108,7 @@
 				{ name: "Sylvetta", typ: "Wilde Rauke (Rucola)", aussehen: "Tief gezahnte schmale Blätter mit gelben Blüten.", geschmack: "Scharf, nussig, intensiv pfeffrig.", verwendung: "Mehrjährig; perfekt auf Pizza und in Pasta." },
 				{ name: "Vit", typ: "Feldsalat", aussehen: "Dunkelgrüne, runde, kräftige Rosetten.", geschmack: "Nussig, saftig, knackig.", verwendung: "Klassischer Wintersalat mit Speck und Ei." }
 			]
-		}
-		,
+		},
 		{
 			id: "sellerie",
 			name: "Sellerie",
@@ -3208,8 +3207,7 @@
 				{ name: "Verdil", typ: "Aromatischer Winterspinat", aussehen: "Längliche, spitze, mittelgrüne Blätter mit aufrechtem, lockerem Wuchs.", geschmack: "Ausgesprochen intensiv aromatisch, würzig und süßlich nach ersten Frösten.", verwendung: "Sehr frostharte Traditionssorte; überwintert im Freiland für früheste Ernten ab März/April." },
 				{ name: "Winterriesen", typ: "Winterspinat", aussehen: "Sehr breite, kälteresistente Blattrosetten.", geschmack: "Vollmundig und gehaltvoll.", verwendung: "Ernte im Spätherbst und zeitigen Frühjahr." }
 			]
-		}
-		,
+		},
 		{
 			id: "topinambur",
 			name: "Topinambur",
@@ -3323,6 +3321,7 @@
 			]
 		}
 	];
+
 	function trigVib() {
 		try { if (navigator.vibrate) { navigator.vibrate(30); } } catch (e) {}
 	}
@@ -3342,7 +3341,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v2";
+	const THEME_KEY = "ramonas_garten_theme_v3";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3378,7 +3377,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v2";
+	const SETTINGS_KEY = "ramonas_garten_settings_v3";
 
 	function getSettings() {
 		try {
@@ -3400,7 +3399,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v2";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v3";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3416,7 +3415,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v2";
+	const NOTES_KEY = "ramonas_garten_notizen_v3";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3658,7 +3657,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v3";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
@@ -4651,6 +4650,7 @@
 
 	function closeImpressum() { impressumOverlay.classList.remove("open"); }
 	impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
+
 	function printCurrentDetail() {
 		trigVib();
 		try {
@@ -4658,10 +4658,10 @@
 			// kopieren wir den Inhalt in unser verstecktes Print-Div.
 			const textarea = document.querySelector('.notes-textarea');
 			const printNoteDiv = document.getElementById('printNoteText');
-			if(textarea && printNoteDiv) {
+			if (textarea && printNoteDiv) {
 				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
 			}
-			
+
 			// Kurze Verzögerung für Safari/iOS, damit das CSS sauber greift
 			setTimeout(() => {
 				window.print();
@@ -4875,4 +4875,5 @@
 		});
 	}
 </script>
+
 </html>
