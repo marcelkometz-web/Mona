@@ -1280,37 +1280,34 @@
 
 		/* DRUCK-CSS OPTIMIERT */
 		@media print {
-			body {
+			html, body {
+				height: auto !important;
+				min-height: auto !important;
+				overflow: visible !important;
 				padding: 0 !important;
+				margin: 0 !important;
 				background: #fff !important;
 				color: #000 !important;
 			}
 
-			.top-bar,
-			header,
-			.search-box,
-			.status-row,
-			#cultureGrid,
-			.not-found-box,
-			.bottom-nav,
-			footer.app-footer,
-			.close-btn,
-			.sheet-handle,
-			.print-btn,
-			.subfilter-bar,
-			.card-star,
-			.floating-reload-btn,
-			.beet-status-box {
+			.top-bar, header, .search-box, .status-row, #cultureGrid, 
+			.not-found-box, .bottom-nav, footer.app-footer, .close-btn, 
+			.sheet-handle, .print-btn, .subfilter-bar, .card-star, 
+			.floating-reload-btn, .beet-status-box {
 				display: none !important;
 			}
 
 			.modal-overlay {
-				position: static !important;
+				position: absolute !important;
+				top: 0 !important;
+				left: 0 !important;
 				display: block !important;
 				background: none !important;
 				backdrop-filter: none !important;
 				padding: 0 !important;
+				margin: 0 !important;
 				height: auto !important;
+				width: 100% !important;
 			}
 
 			.detail-panel {
@@ -1320,6 +1317,7 @@
 				box-shadow: none !important;
 				border: none !important;
 				padding: 0 !important;
+				margin: 0 !important;
 				color: #000 !important;
 				background: #fff !important;
 				position: static !important;
@@ -1335,22 +1333,21 @@
 			.info-metrics {
 				grid-template-columns: repeat(3, 1fr) !important;
 				page-break-inside: avoid;
+				break-inside: avoid;
 			}
 
-			.v-info-box,
-			.boden-box,
-			.duenger-box,
-			.giessen-box,
-			.tipp-box {
-				border: 1px solid #000 !important;
+			.v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box {
+				border: 1px solid #ccc !important;
 				background: #fff !important;
 				color: #000 !important;
 				page-break-inside: avoid;
+				break-inside: avoid;
 			}
 
 			.companion-grid {
 				grid-template-columns: 1fr 1fr !important;
 				page-break-inside: avoid;
+				break-inside: avoid;
 			}
 
 			.notes-textarea {
@@ -1362,37 +1359,12 @@
 				white-space: pre-wrap;
 				font-size: 0.9rem;
 				padding: 10px;
-				border: 1px solid #000;
+				border: 1px solid #ccc;
 				border-radius: 8px;
 				margin-top: 10px;
 				background: #fff !important;
 				color: #000 !important;
 			}
-		}
-
-		.floating-reload-btn {
-			position: fixed;
-			right: 18px;
-			bottom: calc(75px + env(safe-area-inset-bottom, 0px));
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			background: var(--card-bg);
-			border: 2px solid var(--border);
-			color: var(--primary);
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 1.35rem;
-			cursor: pointer;
-			z-index: 999;
-			transition: transform 0.2s ease, background-color 0.2s ease;
-			-webkit-tap-highlight-color: transparent;
-		}
-
-		.floating-reload-btn:active {
-			transform: scale(0.9) rotate(90deg);
 		}
 	</style>
 </head>
@@ -4654,23 +4626,19 @@
 	function printCurrentDetail() {
 		trigVib();
 		try {
-			// Damit Notizen gedruckt werden (da Textareas oft im Druckbug verschwinden),
-			// kopieren wir den Inhalt in unser verstecktes Print-Div.
+			// Notizen für den Druck ins versteckte Div kopieren
 			const textarea = document.querySelector('.notes-textarea');
 			const printNoteDiv = document.getElementById('printNoteText');
 			if (textarea && printNoteDiv) {
 				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
 			}
 
-			// Kurze Verzögerung für Safari/iOS, damit das CSS sauber greift
-			setTimeout(() => {
-				window.print();
-			}, 300);
+			// SOFORT drucken! Verzögerungen werden von iOS/Safari sonst geblockt.
+			window.print();
 		} catch (e) {
 			alert("Drucken wird von diesem Browser blockiert.");
 		}
 	}
-
 	function renderDetailModal() {
 		const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
 		if (!k) return;
