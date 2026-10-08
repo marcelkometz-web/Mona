@@ -8,17 +8,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramonas Garten">
   <meta name="theme-color" content="#1c3b2b">
-  <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>Ramonas Garten Anzucht</title>
-  <script>
-    try {
-      if (localStorage.getItem("ramonas_garten_theme_v1") === "dark") {
-        document.documentElement.classList.add("dark-mode");
-      }
-    } catch (e) {}
-  </script>
   <style>
     :root {
       --bg: #f5f7f5;
@@ -43,7 +35,7 @@
       --color-anbau: #16a34a;
     }
 
-        html.dark-mode, body.dark-mode {
+    body.dark-mode {
       --bg: #0f1712;
       --card-bg: #18241c;
       --primary: #4ade80;
@@ -145,15 +137,15 @@
       100% { box-shadow: 0 0 0 0 rgba(196,108,73,0.4); border-color: var(--accent); } }
     .item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out; }
     .item-icon { font-size: 2rem; margin-bottom: 6px; }
-.item-title { 
-  font-weight: 700; 
-  font-size: 0.88rem; 
-  color: var(--text); 
-  word-break: break-word; 
-  hyphens: auto; 
-  -webkit-hyphens: auto; 
-  line-height: 1.25; 
-}
+    .item-title { 
+      font-weight: 700; 
+      font-size: 0.88rem; 
+      color: var(--text); 
+      word-break: break-word; 
+      hyphens: auto; 
+      -webkit-hyphens: auto; 
+      line-height: 1.25; 
+    }
     .item-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;
       background: var(--tag-bg); display: inline-block; padding: 2px 6px; border-radius: 8px; }
     .match-pill { display: inline-block; margin-top: 5px; font-size: 0.7rem;
@@ -342,18 +334,24 @@
     .theme-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
     body.dark-mode .theme-btn.active { color: #052e16; }
 
+    .beet-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; padding: 2px 6px; font-size: 0.75rem; font-weight: 700; margin-right: 4px; margin-top: 4px; }
+    .beet-tag-remove { cursor: pointer; color: #ef4444; font-weight: 900; }
+
     @media print {
-      body { padding: 0 !important; background: #fff !important; color: #000 !important; }
+      body { padding: 0; background: #fff !important; color: #000 !important; }
       .top-bar, header, .search-box, .status-row, #cultureGrid, .not-found-box,
       .bottom-nav, footer.app-footer, .close-btn, .sheet-handle, .print-btn,
-      .subfilter-bar, .notes-section, .card-star, .beet-status-box { display: none !important; }
-      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, #backupModalOverlay { display: none !important; }
-      .modal-overlay { position: static !important; display: block !important; background: none !important; backdrop-filter: none !important; }
-      .detail-panel { max-width: 100% !important; max-height: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; overflow: visible !important; }
-      .detail-title { font-size: 1.6rem !important; color: #000 !important; }
+      .subfilter-bar, .notes-section, .card-star { display: none !important; }
+      #readmeOverlay, #impressumOverlay, #beetQuickOverlay, #aiModalOverlay, #backupModalOverlay, .modal-overlay:not(#modalOverlay) { display: none !important; }
+      .modal-overlay#modalOverlay.open { position: static !important; display: block !important;
+        background: none !important; backdrop-filter: none !important; }
+      .detail-panel { max-width: 100% !important; max-height: none !important;
+        box-shadow: none !important; border: none !important; padding: 0 !important; color: #000 !important; background: #fff !important; }
+      .detail-title { font-size: 1.8rem !important; color: #000 !important; }
       .info-metrics { grid-template-columns: repeat(3, 1fr) !important; }
-      .v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #ccc !important; background: #fff !important; color: #000 !important; }
+      .v-info-box, .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
       .companion-grid { grid-template-columns: 1fr 1fr !important; }
+      .beet-status-box { display: none !important; }
     }
   </style>
 </head>
@@ -394,7 +392,6 @@
       <a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
     </p>
   </footer>
-
   <div class="modal-overlay" id="modalOverlay">
     <div class="detail-panel" id="detailPanel"></div>
   </div>
@@ -435,8 +432,11 @@
         <button onclick="downloadBackupFile()" style="background: #0284c7; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
           <span style="font-size: 1.2rem;">📥</span> Als Datei speichern (Download)
         </button>
+        <button onclick="shareBackupFile()" style="background: #16a34a; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">📤</span> Datei teilen / In Dateien sichern
+        </button>
         <button onclick="sendBackupEmail()" style="background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          <span style="font-size: 1.2rem;">✉️</span> Per E-Mail senden
+          <span style="font-size: 1.2rem;">✉️</span> Per E-Mail senden (Kurzversion)
         </button>
       </div>
       
@@ -517,163 +517,8 @@
   </div>
 
   <script>
-    function trigVib() {
-      try { if (navigator.vibrate) { navigator.vibrate(30); } } catch(e) {}
-    }
-    
-    function closeAllModals() {
-      document.querySelectorAll('.modal-overlay.open').forEach(el => el.classList.remove('open'));
-    }
-
-    function updateClock() {
-      const el = document.getElementById('liveClock');
-      if (!el) return;
-      const now = new Date();
-      const dateStr = now.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      const hh = String(now.getHours()).padStart(2, '0');
-      const mm = String(now.getMinutes()).padStart(2, '0');
-      const ss = String(now.getSeconds()).padStart(2, '0');
-      el.innerHTML = `${dateStr}<br>${hh}:${mm}:${ss} Uhr`;
-    }
-    const THEME_KEY = "ramonas_garten_theme_v1";
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f1712');
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1c3b2b');
-      }
-    }
-    function getSavedTheme() {
-      return localStorage.getItem(THEME_KEY) || 'light';
-    }
-    window.setAppTheme = function(theme) {
-      trigVib();
-      localStorage.setItem(THEME_KEY, theme);
-      applyTheme(theme);
-      filterUndRender();
-    };
-
-    applyTheme(getSavedTheme());
-
-    const SETTINGS_KEY = "ramonas_garten_settings_v1";
-    function getSettings() {
-      try {
-        let s = JSON.parse(localStorage.getItem(SETTINGS_KEY));
-        if(!s || !s.bedCount) return { bedCount: 8 };
-        return s;
-      } catch(e) { return { bedCount: 8 }; }
-    }
-    window.saveSettings = function() {
-      trigVib();
-      const countInput = document.getElementById('settingBedCount');
-      const count = parseInt(countInput ? countInput.value : 8) || 8;
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify({ bedCount: count }));
-      aktiverBeetFilter = "Alle";
-      alert('Einstellungen erfolgreich gespeichert!');
-      filterUndRender();
-    };
-    function getBackupObject() {
-      return {
-        favorites: getFavorites(),
-        notes: getNotes(),
-        generalNotes: getGeneralNotes(),
-        beetStatus: getBeetStatus(),
-        settings: getSettings(),
-        theme: getSavedTheme(),
-        exportDate: new Date().toISOString()
-      };
-    }
-
-    window.exportData = function() {
-      trigVib();
-      closeAllModals();
-      document.getElementById('backupModalOverlay').classList.add('open');
-    };
-
-    window.closeBackupModal = function() {
-      document.getElementById('backupModalOverlay').classList.remove('open');
-    };
-
-    window.downloadBackupFile = function() {
-      trigVib();
-      const exportObj = getBackupObject();
-      const jsonStr = JSON.stringify(exportObj, null, 2);
-      const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.setAttribute("href", url);
-      a.setAttribute("download", `Ramonas_Garten_Backup_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      closeBackupModal();
-    };
-
-    window.sendBackupEmail = function() {
-      trigVib();
-      const exportObj = getBackupObject();
-      const jsonStr = JSON.stringify(exportObj, null, 2);
-      const dateStr = new Date().toLocaleDateString('de-DE');
-      const subject = encodeURIComponent(`🌱 Ramonas Garten - Datensicherung vom ${dateStr}`);
-      const body = encodeURIComponent(
-        `Hallo,\n\n` +
-        `hier ist eine Datensicherung deiner Garten-App "Ramonas Garten Anzucht" vom ${dateStr}.\n\n` +
-        `--------------------------------------------------\n` +
-        `SO STELLST DU DIESES BACKUP WIEDER HER:\n` +
-        `--------------------------------------------------\n\n` +
-        `1. KOPIEREN:\n` +
-        `Kopiere den gesamten Datenblock ganz unten (alles zwischen den Zeilen === BACKUP START === und === BACKUP ENDE ===, inklusive der geschweiften Klammern { und }).\n\n` +
-        `2. DATEI ERSTELLEN:\n` +
-        `• Am iPhone / iPad: Öffne die Notizen-App (oder eine Text-App), füge den Text ein, tippe auf Teilen und wähle "In Dateien sichern". Nenne die Datei "backup.json".\n` +
-        `• Am Computer (PC / Mac): Öffne ein Textprogramm (wie Notepad/Editor oder TextEdit), füge den Text ein und speichere die Datei unter dem Namen "backup.json" ab.\n\n` +
-        `3. IN DIE APP LADEN:\n` +
-        `Öffne die Garten-App, gehe unten auf "⚙️ Einstell." und tippe auf den Button "📤 Backup aufspielen". Wähle dort deine erstellte Datei aus – fertig!\n\n` +
-        `=== BACKUP START ===\n` +
-        `${jsonStr}\n` +
-        `=== BACKUP ENDE ===\n\n` +
-        `🌱 Liebe Grüße aus dem Garten!`
-      );
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
-      closeBackupModal();
-    };
-
-    window.triggerImport = function() {
-      trigVib();
-      const fi = document.getElementById('importFileInput');
-      if (fi) fi.click();
-    };
-    window.importData = function(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = JSON.parse(e.target.result);
-          if (!data || typeof data !== 'object') throw new Error("Ungültiges Format");
-          if (!confirm("Möchtest du dieses Backup wirklich wiederherstellen?\n\nDeine aktuellen Notizen, Favoriten und Beeteinträge werden ersetzt.")) {
-            event.target.value = ""; return;
-          }
-          if (data.favorites) localStorage.setItem(FAVORITES_KEY, JSON.stringify(data.favorites));
-          if (data.notes) localStorage.setItem(NOTES_KEY, JSON.stringify(data.notes));
-          if (data.generalNotes) localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(data.generalNotes));
-          if (data.beetStatus) localStorage.setItem(BEET_KEY, JSON.stringify(data.beetStatus));
-          if (data.settings) localStorage.setItem(SETTINGS_KEY, JSON.stringify(data.settings));
-          if (data.theme) { localStorage.setItem(THEME_KEY, data.theme); applyTheme(data.theme); }
-          trigVib();
-          alert("✅ Backup erfolgreich wiederhergestellt!");
-          updateNotesBadge(); filterUndRender();
-        } catch (err) {
-          alert("❌ Fehler beim Einlesen des Backups.");
-        } finally { event.target.value = ""; }
-      };
-      reader.readAsText(file);
-    };
-
     const gartenDaten = [
-		      {
+      {
         id: "liebstoeckel", name: "Liebstöckel & Würzkräuter", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
         anbau: "🌿 Jungpflanze (Kauf empfohlen)", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, tiefgründiger und humoser Boden",
@@ -711,8 +556,7 @@
           { name: "Early Black", typ: "Frühe Amerikanische Cranberry", aussehen: "Dichtes Moospolster mit tief dunkelvioletten, fast schwarzen Beeren.", geschmack: "Spritzig-sauer, hocharomatisch mit festem Fruchtfleisch.", verwendung: "Reift schon im September ab; hervorragend zum Einfrieren und für Muffins." }
         ]
       },
-
-		      {
+      {
         id: "mairuebe", name: "Mai- & Herbstrüben", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🌱",
         anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
         standort: "Sonnig bis halbschattig, feuchter und humoser Boden",
@@ -751,7 +595,6 @@
           { name: "Sweet Jumbo", typ: "Zucker-Spitzkohl", aussehen: "Sehr gleichmäßige, helle Spitzkohlköpfe mit lockerer Füllung.", geschmack: "Auffallend süßlich und saftig ohne Kohlstrenge.", verwendung: "Schmeckt roh gehobelt als feiner Krautsalat (Coleslaw) oder gedünstet in Sahne." }
         ]
       },
-
       {
         id: "artischocke", name: "Artischocke", oberkategorie: "Gemüse", kategorie: "Blütengemüse", icon: "🪷",
         anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧 Mittel",
@@ -805,12 +648,11 @@
         guteNachbarn: "Sellerie, Bohnen, Tomaten", schlechteNachbarn: "Zwiebeln, Knoblauch, Kartoffeln",
         filterGruppen: ["Klassisch Weiß", "Farbige Sorten", "Spezialitäten"],
         sorten: [
-				  { name: "Susana", typ: "Gelber Blumenkohl", gruppe: "Farbige Sorten", aussehen: "Feste, dottergelbe Köpfe mit dicht geschlossenen Röschen.", geschmack: "Mild, süßlich-aromatisch mit feiner Butternote.", verwendung: "Bleibt beim schonenden Garen gelb; ideal für Grillgemüse und Gratins." },
+          { name: "Susana", typ: "Gelber Blumenkohl", gruppe: "Farbige Sorten", aussehen: "Feste, dottergelbe Köpfe mit dicht geschlossenen Röschen.", geschmack: "Mild, süßlich-aromatisch mit feiner Butternote.", verwendung: "Bleibt beim schonenden Garen gelb; ideal für Grillgemüse und Gratins." },
           { name: "Depurple", typ: "Violetter Gourmet-Kohl", gruppe: "Farbige Sorten", aussehen: "Auffällig tief violett gefärbte Röschen mit weißem Strunk.", geschmack: "Leicht nussig und zarter als herkömmliche weiße Sorten.", verwendung: "Perfekt als farbenfrohe Rohkost mit Dips oder kurz gedünstet." },
           { name: "Veronica", typ: "Romanesco", gruppe: "Spezialitäten", aussehen: "Klassische spitz zulaufende, hellgrüne Minarette-Türmchen.", geschmack: "Sehr fein, knackig mit edlem Haselnuss-Aroma.", verwendung: "Dämpfen oder im Ganzen servieren; zerfällt beim Kochen nicht." },
           { name: "Spigariello", typ: "Neapolitanischer Spargelkohl", gruppe: "Spezialitäten", aussehen: "Dunkelgrüne, gezahnte Blätter mit kleinen zarten Knospenbüscheln.", geschmack: "Kräftig-würzig, mineralisch, erinnert an wilden Brokkoli.", verwendung: "Traditionell in Olivenöl mit Knoblauch geschwenkt oder auf Pizza." },
-
-          	{ name: "Snowball", typ: "Weiß", gruppe: "Klassisch Weiß", aussehen: "Schneeweißer, fester, runder Kopf mit schützenden Hüllblättern.", geschmack: "Fein-nussig, angenehm mild mit der typischen sanften Blumenkohl-Süße.", verwendung: "Der klassische Hausgarten-Blumenkohl mit Sauce Hollandaise oder zerlassener Semmelbrösel-Butter." },
+          { name: "Snowball", typ: "Weiß", gruppe: "Klassisch Weiß", aussehen: "Schneeweißer, fester, runder Kopf mit schützenden Hüllblättern.", geschmack: "Fein-nussig, angenehm mild mit der typischen sanften Blumenkohl-Süße.", verwendung: "Der klassische Hausgarten-Blumenkohl mit Sauce Hollandaise oder zerlassener Semmelbrösel-Butter." },
           { name: "Erfurter Zwerg", typ: "Frühsorte Weiß", gruppe: "Klassisch Weiß", aussehen: "Kompakte, elfenbeinweiße Köpfe auf kürzerem Strunk, perfekt für kleine Beete.", geschmack: "Sehr feine, zarte Struktur, mild-aromatisch und besonders bekömmlich.", verwendung: "Hervorragend als Frühlingsgemüse, roh mit Kräuter-Dip oder kurz blanchiert." },
           { name: "Neckarperle", typ: "Traditionssorte", gruppe: "Klassisch Weiß", aussehen: "Reinweiße, feste Röschen, dicht geschlossen und unempfindlich.", geschmack: "Vollmundig, buttrig und herzhafter als reine Frühsorten.", verwendung: "Universell einsetzbar, friert hervorragend ein und behält beim Kochen die Struktur." },
           { name: "Herbstriesen", typ: "Spätsorte Weiß", gruppe: "Klassisch Weiß", aussehen: "Mächtige, schwere Köpfe mit tief dunkelgrünem Außenblatt.", geschmack: "Kräftig-würziger Kohlgeschmack mit satter Textur.", verwendung: "Ideal für große Herbst-Aufläufe, Gemüseeintöpfe und zum Einfrieren." },
@@ -836,7 +678,7 @@
         guteNachbarn: "Sellerie, Tomaten, Spinat, Bohnen", schlechteNachbarn: "Zwiebeln, Knoblauch, andere Kohlarten",
         filterGruppen: ["Frühwirsing", "Herbstwirsing", "Winterwirsing"],
         sorten: [
-				  { name: "Goldvital", typ: "Gelber Sommerwirsing", gruppe: "Frühwirsing", aussehen: "Locker gefüllte Köpfe mit hellgrünen bis zart goldgelben Innenblättern.", geschmack: "Sehr mild, fast süßlich-buttrig und frei von strengem Kohlgeschmack.", verwendung: "Perfekt für zartes Sommergemüse, milde Salate oder kurz in Rahm geschwenkt." },
+          { name: "Goldvital", typ: "Gelber Sommerwirsing", gruppe: "Frühwirsing", aussehen: "Locker gefüllte Köpfe mit hellgrünen bis zart goldgelben Innenblättern.", geschmack: "Sehr mild, fast süßlich-buttrig und frei von strengem Kohlgeschmack.", verwendung: "Perfekt für zartes Sommergemüse, milde Salate oder kurz in Rahm geschwenkt." },
           { name: "Wirosa", typ: "Später Herbstwirsing (F1)", gruppe: "Herbstwirsing", aussehen: "Schwere, feste, dunkelgrüne Köpfe mit stark gekrauster Blattstruktur.", geschmack: "Vollmundig, herzhaft und angenehm nussig.", verwendung: "Sehr ertragreich und platzfest; ideal für klassische Kohlrouladen und Aufläufe." },
           { name: "Eisenkopf", typ: "Historischer Winterwirsing", gruppe: "Winterwirsing", aussehen: "Mittelgroße, extrem dichte, blaugrün bereifte Köpfe mit feiner Blasenstruktur.", geschmack: "Kräftig-deftig, entwickelt nach Frost eine feine, aromatische Süße.", verwendung: "Trotzt Schnee und Frost im Beet; der Klassiker für winterliche Eintöpfe mit Mettwurst." },
           { name: "Vorbote 3", typ: "Frühwirsing", gruppe: "Frühwirsing", aussehen: "Zartes hellgelbgrünes Blattwerk mit spitz-rundem Kopf.", geschmack: "Sehr fein, buttrig-mild, ohne jede Kohlstrenge.", verwendung: "Feines Frühlingsgemüse, blitzschnell gegart als Beilage oder im Salat." },
@@ -891,13 +733,12 @@
         tipp: "Nach der Ernte des Hauptkopfes Pflanze stehen lassen! Bildet wochenlang Seitentriebe.",
         guteNachbarn: "Sellerie, Buschbohnen, Salat", schlechteNachbarn: "Zwiebeln, andere Kohlarten",
         sorten: [
-					{ name: "Santee", typ: "Winter-Sprossenbrokkoli (F1)", aussehen: "Viele tiefviolette Röschen an kräftigen, zarten lila Stielen; buschiger Wuchs.", geschmack: "Fein-süßlich, intensiv nussig und fast spargelartig.", verwendung: "Sehr winterhart; liefert im zeitigen Frühjahr (Februar bis April) frische Ernten vor allen anderen." },
+          { name: "Santee", typ: "Winter-Sprossenbrokkoli (F1)", aussehen: "Viele tiefviolette Röschen an kräftigen, zarten lila Stielen; buschiger Wuchs.", geschmack: "Fein-süßlich, intensiv nussig und fast spargelartig.", verwendung: "Sehr winterhart; liefert im zeitigen Frühjahr (Februar bis April) frische Ernten vor allen anderen." },
           { name: "Ironman", typ: "Kompakter Sommerbrokkoli (F1)", aussehen: "Schwerer, hochgewölbter, blaugrüner Hauptkopf mit extrem feiner Körnung.", geschmack: "Knackig-saftig, mild und frei von Bitterstoffen.", verwendung: "Ausgesprochen robust gegen Hitze und Mehltau; ideal für Sommer- und Herbstanbau." },
           { name: "Romanesco Precoce", typ: "Früher Türmchenbrokkoli", aussehen: "Hellgrüne, kegelförmige Mini-Türmchen in faszinierend geometrischem Muster.", geschmack: "Mild, mandelartig und deutlich feiner als Standard-Brokkoli.", verwendung: "Kurz im Ganzen gedämpft oder in Butter geschwenkt; behält beim Kochen seine feste Textur." },
-					{ name: "Cima di Rapa", typ: "Stängelkohl / Rapsbrokkoli", aussehen: "Zarte grüne Stängel mit vielen kleinen Knospen und gezackten Blättern.", geschmack: "Leicht herb, nussig mit einer angenehmen pikant-senfigen Schärfe.", verwendung: "Klassiker der süditalienischen Küche (z. B. mit Orecchiette, Knoblauch und Chili)." },
+          { name: "Cima di Rapa", typ: "Stängelkohl / Rapsbrokkoli", aussehen: "Zarte grüne Stängel mit vielen kleinen Knospen und gezackten Blättern.", geschmack: "Leicht herb, nussig mit einer angenehmen pikant-senfigen Schärfe.", verwendung: "Klassiker der süditalienischen Küche (z. B. mit Orecchiette, Knoblauch und Chili)." },
           { name: "Summer Purple", typ: "Sommer-Sprossenbrokkoli", aussehen: "Reich verzweigte Büschel mit leuchtend violetten Röschen an schlanken Trieben.", geschmack: "Milder und spürbar süßlicher als Standard-Brokkoli.", verwendung: "Kurz in Olivenöl oder Butter anbraten; schrumpft kaum ein." },
           { name: "Green Magic", typ: "Sommerbrokkoli", aussehen: "Kompakter, dichter, mittelgrüner Hauptkopf mit feiner Körnung.", geschmack: "Sehr frisch, knackig und saftig ohne bittere Noten.", verwendung: "Hervorragend hitzetolerant; perfekt für Aufläufe, Salate und Dünsten." },
-
           { name: "Calabrese", typ: "Klassiker", aussehen: "Großer, dunkelgrüner Hauptkopf mit feinen Röschen.", geschmack: "Mild, süßlich-kohlartig, sehr saftig.", verwendung: "Dünsten, Suppen, Aufläufe." },
           { name: "De Cicco", typ: "Frühsorte", aussehen: "Mittelgroßer Kopf, bildet danach Dutzende Nebentriebe.", geschmack: "Sehr zart mit nussiger Note.", verwendung: "Perfekt für fortlaufende Ernte im Kleingarten." },
           { name: "Marathon", typ: "Herbstbrokkoli", aussehen: "Extrem fester, kuppelförmiger blaugrüner Kopf.", geschmack: "Kräftig-aromatisch, kältetolerant.", verwendung: "Späternte bis in den November." },
@@ -918,15 +759,13 @@
         guteNachbarn: "Basilikum, Tomaten", schlechteNachbarn: "Fenchel",
         filterGruppen: ["Blockpaprika", "Spitzpaprika", "Spezial-Paprika", "Chili / Peperoni"],
         sorten: [
-				  { name: "Golden Bell", typ: "Gelber Blockpaprika", gruppe: "Blockpaprika", aussehen: "Vierkantige, dickwandige Früchte, die von Hellgrün zu sattem Goldgelb abreifen.", geschmack: "Ausgesprochen saftig, knackig und mild-fruchtig mit angenehmer Süße.", verwendung: "Bester Farbkontrast für bunte Paprikapfannen, Salate oder gefüllt mit Hackfleisch und Reis." },
+          { name: "Golden Bell", typ: "Gelber Blockpaprika", gruppe: "Blockpaprika", aussehen: "Vierkantige, dickwandige Früchte, die von Hellgrün zu sattem Goldgelb abreifen.", geschmack: "Ausgesprochen saftig, knackig und mild-fruchtig mit angenehmer Süße.", verwendung: "Bester Farbkontrast für bunte Paprikapfannen, Salate oder gefüllt mit Hackfleisch und Reis." },
           { name: "Aji Amarillo", typ: "Peruanischer Gourmet-Chili", gruppe: "Chili / Peperoni", aussehen: "Schlanke, bis 15 cm lange Schoten mit leuchtend tief oranger Reifefärbung.", geschmack: "Fruchtig nach Mango und Maracuja mit feiner, anhaltender Schärfe (ca. 30.000–50.000 Scoville).", verwendung: "Das Herz der peruanischen Küche; genial für Ceviche, Saucen, Marinaden und Fischgerichte." },
           { name: "Feuerküsschen", typ: "Kompakte Topf-Peperoni", gruppe: "Chili / Peperoni", aussehen: "Kleiner, dichter Busch mit unzähligen aufrecht stehenden, spitzen Schoten (grün zu rot).", geschmack: "Pikant-scharf mit frischer Pfeffernote.", verwendung: "Perfekt für Topf, Balkonkasten oder Fensterbank; ideal zum Trocknen oder Einlegen." },
-
-				  { name: "Yolo Wonder", typ: "Klassischer Blockpaprika", gruppe: "Blockpaprika", aussehen: "Dickwandige, quadratisch-kubische Früchte, von dunkelgrün zu saftig rot reifend.", geschmack: "Fleischig, knackig, voll ausgereift herrlich süß.", verwendung: "Der Klassiker zum Füllen mit Hackfleisch/Reis oder für bunte Salate." },
+          { name: "Yolo Wonder", typ: "Klassischer Blockpaprika", gruppe: "Blockpaprika", aussehen: "Dickwandige, quadratisch-kubische Früchte, von dunkelgrün zu saftig rot reifend.", geschmack: "Fleischig, knackig, voll ausgereift herrlich süß.", verwendung: "Der Klassiker zum Füllen mit Hackfleisch/Reis oder für bunte Salate." },
           { name: "Ramiro", typ: "Riesen-Spitzpaprika", gruppe: "Spitzpaprika", aussehen: "Bis zu 25 cm lange, spitz zulaufende Schoten in leuchtendem Rot oder Gelb.", geschmack: "Besonders intensiv fruchtig-süß mit sehr dünner, bekömmlicher Haut.", verwendung: "Perfekt zum Rohsnacken, für Antipasti aus dem Ofen oder direkt vom Grill." },
           { name: "Cayenne", typ: "Scharfe Schote", gruppe: "Chili / Peperoni", aussehen: "Lange, dünne, leicht geschwungene Schoten, die kräftig rot abreifen.", geschmack: "Klassische, geradlinige Pfefferschärfe (30.000–50.000 Scoville).", verwendung: "Ideal zum Trocknen und Mahlen als Chilipulver oder für pikante Marinaden." },
           { name: "Habanero Orange", typ: "Tropischer Extrem-Chili", gruppe: "Chili / Peperoni", aussehen: "Laternenförmige, gefurchte Früchte in leuchtendem Mandarinen-Orange.", geschmack: "Sehr fruchtig-exotisch, gefolgt von extremer Schärfe (150.000–300.000 Scoville).", verwendung: "Sparsam dosiert für feurige BBQ-Saucen, Salsas und Chili-Öle." },
-
           { name: "California Wonder", typ: "Blockpaprika", gruppe: "Blockpaprika", aussehen: "Groß, vierkantig, dickfleischig, reift rot.", geschmack: "Knackig, saftig, reif zuckersüß.", verwendung: "Roh im Salat, gefüllt mit Hackfleisch." },
           { name: "Palermo", typ: "Gourmet-Spitzpaprika", gruppe: "Spitzpaprika", aussehen: "Sehr lange, spitz zulaufende rote Früchte.", geschmack: "Extrem süß, dünnschalig, fast ohne Schärfe.", verwendung: "Roh snacken, Grillen, Ofengemüse." },
           { name: "Pimiento de Padrón", typ: "Tapas-Paprika", gruppe: "Chili / Peperoni", aussehen: "Kleine grüne stumpfe Schoten.", geschmack: "Meist mild-herb, jede zehnte Schote pikant scharf.", verwendung: "Klassisch in Olivenöl braten und mit grobem Meersalz bestreuen." },
@@ -950,8 +789,7 @@
           { name: "Delikata", typ: "Zuckerschote / Kaiserschote", aussehen: "Lange, hellgrüne, flache Schoten ohne Pergamentschicht an ca. 80 cm hohen Ranken.", geschmack: "Knackig-frisch mit ausgeprägter, nussig-süßer Note.", verwendung: "Im Ganzen roh snacken, kurz in Butter schwenken oder für knackige Wok-Gerichte." },
           { name: "Senator", typ: "Historische Klettererbse", aussehen: "Stark rankende Traditionspflanze (bis 180 cm) mit paarweise hängenden, riesigen Schoten.", geschmack: "Vollmundig, kräftig-erbsig mit feiner Süße.", verwendung: "Ideal für hohe Rankgitter; liefert über viele Wochen hinweg kontinuierliche Ernten." },
           { name: "Shiraz", typ: "Violette Zuckerschote", aussehen: "Attraktive zweifarbige Blüten und auffallend lila-violette, flache Schoten.", geschmack: "Süßlich, saftig und mild mit knackigem Biss.", verwendung: "Wunderschön als farblicher Akzent roh im Sommersalat oder nur ganz kurz blanchiert." },
-
- 				  { name: "Norli", typ: "Frühe Zuckerschote", aussehen: "Flache, zarte, mittelgrüne Schoten an niedrigen, standfesten Pflanzen (ca. 50 cm).", geschmack: "Ausgeprägt süß, saftig, knackig und garantiert ohne Pergamentschicht.", verwendung: "Sehr früh reif; perfekt zum Rohknabbern direkt im Beet oder kurz in Butter geschwenkt." },
+          { name: "Norli", typ: "Frühe Zuckerschote", aussehen: "Flache, zarte, mittelgrüne Schoten an niedrigen, standfesten Pflanzen (ca. 50 cm).", geschmack: "Ausgeprägt süß, saftig, knackig und garantiert ohne Pergamentschicht.", verwendung: "Sehr früh reif; perfekt zum Rohknabbern direkt im Beet oder kurz in Butter geschwenkt." },
           { name: "Wonder von Kelvedon", typ: "Markerbse", aussehen: "Dunkelgrüne, leicht gebogene, prall gefüllte Hülsen mit 6–8 dicken Körnern.", geschmack: "Hervorragend zuckersüß mit cremig-zartem Biss.", verwendung: "Klassiker zum Pulen, als feines Erbsengemüse oder zum Einfrieren für den Winter." },
           { name: "Blauwschokker", typ: "Historische Kapuzinererbse", aussehen: "Spektakuläre rot-violette Blüten und tief dunkelblaue bis violette Schoten.", geschmack: "Jung als süße Kaiserschote genießbar; ausgereift als nahrhafte, nussige Trockenerbse.", verwendung: "Wunderschöne Kletterpflanze (bis 160 cm) und Delikatesse für deftige Erbseneintöpfe." },
           { name: "Kleine Rheinländerin", typ: "Markerbse", aussehen: "Kompakte niedrige Pflanze mit prallen grünen Hülsen.", geschmack: "Zuckersüß und saftig.", verwendung: "Frisch pulen, Beilagengemüse." },
@@ -992,11 +830,10 @@
         tipp: "Grünkohl wird durch Frost süß.",
         guteNachbarn: "Sellerie, Radieschen", schlechteNachbarn: "Kohlarten, Zwiebeln",
         sorten: [
-	        { name: "Lerchenzungen", typ: "Historischer Grünkohl", aussehen: "Schmale, feingekrauste, hellgrüne Wedel an hochwachsendem, standfestem Strunk.", geschmack: "Ausgeprägt aromatisch, nussig und wird nach Frost besonders süß und mild.", verwendung: "Traditionelle norddeutsche Sorte; perfekt für klassische Eintöpfe oder schonend gedünstet." },
+          { name: "Lerchenzungen", typ: "Historischer Grünkohl", aussehen: "Schmale, feingekrauste, hellgrüne Wedel an hochwachsendem, standfestem Strunk.", geschmack: "Ausgeprägt aromatisch, nussig und wird nach Frost besonders süß und mild.", verwendung: "Traditionelle norddeutsche Sorte; perfekt für klassische Eintöpfe oder schonend gedünstet." },
           { name: "Redbor", typ: "Purpur-Krauskohl (F1)", aussehen: "Spektakulär dunkel-violette, krause Blätter, die sich bei Kälte noch intensiver färben.", geschmack: "Kräftig-würzig mit feiner Herbe; gewinnt durch Frost deutlich an Süße.", verwendung: "Optisches Highlight im Winterbeet; ideal für bunte Gemüsepfannen und gesunde Grünkohl-Chips." },
           { name: "Frostara", typ: "Winterfester Zwerggrünkohl", aussehen: "Kompakte, niedrige Pflanzen mit dicht geschlossenen, blaugrünen Blattrosetten.", geschmack: "Sehr zart, fein-aromatisch und frei von bitterer Kohlstrenge.", verwendung: "Extrem kältetolerant und windfest; ideal für kleinere Beete oder windige Lagen." },
-			
-				  { name: "Scarlet", typ: "Violetter Krauskohl", aussehen: "Spektakulär rot-violett bis purpur gefärbte, stark gekräuselte Wedel an hohen Strunken.", geschmack: "Herzhaft-würzig, wird nach den ersten Frostnächten wunderbar süß.", verwendung: "Ein farblicher Star im winterlichen Beet; super für Grünkohl-Chips und bunte Pfannengerichte." },
+          { name: "Scarlet", typ: "Violetter Krauskohl", aussehen: "Spektakulär rot-violett bis purpur gefärbte, stark gekräuselte Wedel an hohen Strunken.", geschmack: "Herzhaft-würzig, wird nach den ersten Frostnächten wunderbar süß.", verwendung: "Ein farblicher Star im winterlichen Beet; super für Grünkohl-Chips und bunte Pfannengerichte." },
           { name: "Halbhoher Grüner Krauser", typ: "Klassischer Grünkohl", aussehen: "Dicht gekrauste, moosgrüne Blätter an robustem, standfestem Stamm.", geschmack: "Traditionell kräftig-deftig und aromatisch.", verwendung: "Sehr frosthart; die bewährte Standardsorte für den norddeutschen Grünkohleintopf." },
           { name: "Granat", typ: "Chinakohl", aussehen: "Längliche, feste, walzenförmige Köpfe mit zart gewellten, hellgrünen Blättern.", geschmack: "Sehr saftig, knackig und mild mit feiner Frische.", verwendung: "Schossfeste Sorte für die Sommer-/Herbsternte; ideal für frische Salate, Wok und Kimchi." },
           { name: "Dithmarscher Früher", typ: "Früh-Weißkohl", aussehen: "Mittelgroße, rundliche Köpfe mit zarter Blattrippung.", geschmack: "Angenehm mild, saftig und deutlich feiner als späte Lagerkohlsorten.", verwendung: "Erste Weißkohlernte im Frühsommer; toll für Krautsalat (Coleslaw) oder Schmorkohl." },
@@ -1018,14 +855,13 @@
         tipp: "Nur mit lauwarmem Wasser gießen! Kaltes Wasser verursacht bittere Früchte.",
         guteNachbarn: "Dill, Bohnen, Zwiebeln", schlechteNachbarn: "Tomaten, Radieschen",
         sorten: [
-				  { name: "Picolino", typ: "Mini-Snackgurke (F1)", aussehen: "Glatte, dunkelgrüne, ca. 12–14 cm lange Mini-Früchte an sehr ertragreichen Ranken.", geschmack: "Extrem knackig, saftig, dünnschalig und garantiert vollkommen bitterfrei.", verwendung: "Perfekt als handlicher Pausensnack für unterwegs, für Kinder oder frische Sommer-Dips." },
+          { name: "Picolino", typ: "Mini-Snackgurke (F1)", aussehen: "Glatte, dunkelgrüne, ca. 12–14 cm lange Mini-Früchte an sehr ertragreichen Ranken.", geschmack: "Extrem knackig, saftig, dünnschalig und garantiert vollkommen bitterfrei.", verwendung: "Perfekt als handlicher Pausensnack für unterwegs, für Kinder oder frische Sommer-Dips." },
           { name: "Delikatess", typ: "Klassische Landgurke", aussehen: "Mittelgrüne, walzenförmige Früchte mit feinen weißen Stacheln und zarter Schale.", geschmack: "Sehr aromatisch, traditionell gurkig-frisch mit festem Kerngehäuse.", verwendung: "Jung geerntet spitze als Einlegegurke; voll ausgewachsen ein herrlicher Salatklassiker." },
           { name: "Crystal Apple", typ: "Apfelgurke (Historisch)", aussehen: "Kleine, runde, cremeweiße bis blassgelbe Früchte in der Größe eines kleinen Apfels.", geschmack: "Ungewöhnlich mild, leicht süßlich, extrem saftig und vollkommen säurearm.", verwendung: "Gourmet-Hingucker; kann ungeschält wie ein Apfel aus der Hand gegessen oder gehobelt werden." },
-				  { name: "Marketmore", typ: "Freilandgurke", aussehen: "Dunkelgrüne, gerade Früchte mit robuster, leicht noppiger Schale.", geschmack: "Klassisch frisch, kräftig, knackig und garantiert bitterfrei.", verwendung: "Sehr ertragreich im Freilandbeet; ideal für klassischen Gurkensalat." },
+          { name: "Marketmore", typ: "Freilandgurke", aussehen: "Dunkelgrüne, gerade Früchte mit robuster, leicht noppiger Schale.", geschmack: "Klassisch frisch, kräftig, knackig und garantiert bitterfrei.", verwendung: "Sehr ertragreich im Freilandbeet; ideal für klassischen Gurkensalat." },
           { name: "Tanja", typ: "Schlangengurke (Freiland)", aussehen: "Schlanke, ca. 30 cm lange, glatte Früchte an wüchsigen Ranken.", geschmack: "Dünne Schale, saftig und erfrischend mild.", verwendung: "Perfekte Salatgurke für den ungeschützten Gartenanbau." },
           { name: "Vorgebirgstrauben", typ: "Einlege- / Gewürzgurke", aussehen: "Kleine, feste, feinstachelige Früchte, die in Büscheln wachsen.", geschmack: "Sehr knackig mit festem Kernhaus.", verwendung: "Der Traditionshit zum Einwecken als saure Gurken oder Senfgurken." },
           { name: "White Wonder", typ: "Weiße Delikatesse", aussehen: "Cremeweiße bis elfenbeinfarbene, walzenförmige Früchte.", geschmack: "Besonders mild, säurearm und sehr bekömmlich.", verwendung: "Optischer Hingucker im gemischten Sommersalat." },
-
           { name: "Chinesische Schlange", typ: "Salatgurke", aussehen: "Sehr lange, schlanke, leicht gebogene dunkelgrüne Früchte.", geschmack: "Erfrischend, dünnschalig, bitterfrei und saftig.", verwendung: "Frischer Gurkensalat mit Dill und Schmand." },
           { name: "Passandra", typ: "Snackgurke", aussehen: "Glatt, ca. 15-18 cm lang, handlich dunkelgrün.", geschmack: "Sehr knackig, saftig und aromatisch.", verwendung: "Direkt als Pausensnack für unterwegs." },
           { name: "Zitronengurke", typ: "Spezialität", aussehen: "Rund und gelb wie ein Tennisball oder eine Zitrone.", geschmack: "Fruchtig-mild, erfrischend süßlich.", verwendung: "Hingucker im Sommersalat." }
@@ -1065,13 +901,11 @@
         guteNachbarn: "Dicke Bohnen, Tagetes, Spinat", schlechteNachbarn: "Tomaten, Sellerie, Kürbis",
         filterGruppen: ["Festkochend", "Vorwiegend festkochend", "Mehligkochend", "Alte und besondere Sorten"],
         sorten: [
-				          { name: "Allians", typ: "Festkochende Premiumsorte", gruppe: "Festkochend", aussehen: "Langovale, ebenmäßige Knollen mit glatter gelber Schale und tiefgelbem Fleisch.", geschmack: "Ausgeprägt cremig-fein, vollmundig buttrig mit festem, feinem Biss.", verwendung: "Gilt als moderne Nachfolgerin der Linda; perfekt für feinen Kartoffelsalat, Gratins und Rosmarinkartoffeln." },
-
-				  { name: "Belana", typ: "Festkochend", gruppe: "Festkochend", aussehen: "Ovale Knollen mit glatter, gelber Schale und tiefgelbem Fleisch.", geschmack: "Ausgeprägt cremig-fein mit vollem, edlem Speisekartoffel-Aroma.", verwendung: "Gilt als Nachfolgerin der Linda; spitze für Kartoffelsalat und Gratins." },
+          { name: "Allians", typ: "Festkochende Premiumsorte", gruppe: "Festkochend", aussehen: "Langovale, ebenmäßige Knollen mit glatter gelber Schale und tiefgelbem Fleisch.", geschmack: "Ausgeprägt cremig-fein, vollmundig buttrig mit festem, feinem Biss.", verwendung: "Gilt als moderne Nachfolgerin der Linda; perfekt für feinen Kartoffelsalat, Gratins und Rosmarinkartoffeln." },
+          { name: "Belana", typ: "Festkochend", gruppe: "Festkochend", aussehen: "Ovale Knollen mit glatter, gelber Schale und tiefgelbem Fleisch.", geschmack: "Ausgeprägt cremig-fein mit vollem, edlem Speisekartoffel-Aroma.", verwendung: "Gilt als Nachfolgerin der Linda; spitze für Kartoffelsalat und Gratins." },
           { name: "Laura", typ: "Vorwiegend festkochend", gruppe: "Vorwiegend festkochend", aussehen: "Auffällig rote, glatte Schale mit kräftig tiefgelbem Fleisch.", geschmack: "Vollmundig, angenehm buttrig und leicht cremig im Biss.", verwendung: "Beste Allround-Sorte für Pommes, Ofenkartoffeln, Salzkartoffeln und Püree." },
           { name: "Gunda", typ: "Frühe Mehligkochende", gruppe: "Mehligkochend", aussehen: "Rundovale Knollen mit genetzter Schale und hellem Fruchtfleisch.", geschmack: "Sehr herzhaft, erdig-würzig und locker in der Textur.", verwendung: "Perfekt für sämige Kartoffelsuppen, lockeren Kartoffelbrei und Knödel." },
           { name: "Rote Emmalie", typ: "Rote Edelsorte", gruppe: "Alte und besondere Sorten", aussehen: "Längliche Hörnchenform mit roter Schale und durchgehend pink-rotem Fleisch.", geschmack: "Fein-würzig, zart cremig mit einer dezent nussigen Note.", verwendung: "Wunderschön bunt im gemischten Salat oder als geröstete Ofenspalten." },
-
           { name: "Linda", typ: "Festkochend", gruppe: "Festkochend", aussehen: "Langovale Knollen mit tiefgelbem Fleisch.", geschmack: "Intensiv buttrig, cremig-vollmundig, unerreichte Spitzenklasse.", verwendung: "Kartoffelsalat, Rosmarinkartoffeln, Pellkartoffeln." },
           { name: "Annabelle", typ: "Frühkartoffel", gruppe: "Festkochend", aussehen: "Feinschalig, länglich mit zartgelbem Fleisch.", geschmack: "Sehr feines mildes Aroma mit festem Biss.", verwendung: "Pellkartoffeln mit Schale im Frühsommer." },
           { name: "Agria", typ: "Mehligkochend", gruppe: "Mehligkochend", aussehen: "Große ovale Knollen mit rauer Schale.", geschmack: "Herzhaft, erdig, stärkereich.", verwendung: "Pommes frites, Püree, Knödel." },
@@ -1093,15 +927,13 @@
         guteNachbarn: "Erdbeeren, Tomaten, Möhren", schlechteNachbarn: "Erbsen, Bohnen, Kohl",
         filterGruppen: ["Harthals (Hardneck)", "Weichhals (Softneck)"],
         sorten: [
-				          { name: "Germidour", typ: "Weichhals", gruppe: "Weichhals (Softneck)", aussehen: "Große, weiße Knollen mit markant violett gestreifter Schale.", geschmack: "Mild-würzig, aromatisch und ohne aggressive Schärfe.", verwendung: "Sehr zuverlässige französische Sorte; schossfest und gut für Zöpfe geeignet." },
+          { name: "Germidour", typ: "Weichhals", gruppe: "Weichhals (Softneck)", aussehen: "Große, weiße Knollen mit markant violett gestreifter Schale.", geschmack: "Mild-würzig, aromatisch und ohne aggressive Schärfe.", verwendung: "Sehr zuverlässige französische Sorte; schossfest und gut für Zöpfe geeignet." },
           { name: "Printanor", typ: "Frühjahrs-Weichhals", gruppe: "Weichhals (Softneck)", aussehen: "Kompakte, reinweiße Knollen mit vielen eng anliegenden Zehen.", geschmack: "Kräftig-aromatisch, leicht pikant mit vollem Geschmack.", verwendung: "Klassiker für die Frühjahrssteckung; monatelang haltbar ohne Auszutreiben." },
           { name: "Red Duke", typ: "Harthals (Rocambole)", gruppe: "Harthals (Hardneck)", aussehen: "Weiße Außenhaut mit auffallend rot-violett gefärbten Innenzehen.", geschmack: "Feurig-scharf, intensiv und komplex mit reichem Nachgeschmack.", verwendung: "Liebhabersorte aus Tschechien; fantastisch zum Einlegen und für Knoblauchbrot." },
           { name: "Purple Glazer", typ: "Harthals (Glazed Purple)", gruppe: "Harthals (Hardneck)", aussehen: "Faszinierend glänzende Knollen mit silbrig-violetten Längsstreifen.", geschmack: "Sehr vollmundig, mildert beim Schmoren zu nussiger Süße ab.", verwendung: "Hervorragend im Ganzen im Ofen geröstet oder für feine Saucen." },
-
-				  { name: "Messidrome", typ: "Weichhals (Artischocken-Typ)", gruppe: "Weichhals (Softneck)", aussehen: "Große, schneeweiße Knollen mit vielen gleichmäßigen Zehen.", geschmack: "Angenehm mild-würzig ohne übermäßige Schärfe, sehr bekömmlich.", verwendung: "Klassischer französischer Gourmet-Knoblauch; sehr lange lagerfähig." },
+          { name: "Messidrome", typ: "Weichhals (Artischocken-Typ)", gruppe: "Weichhals (Softneck)", aussehen: "Große, schneeweiße Knollen mit vielen gleichmäßigen Zehen.", geschmack: "Angenehm mild-würzig ohne übermäßige Schärfe, sehr bekömmlich.", verwendung: "Klassischer französischer Gourmet-Knoblauch; sehr lange lagerfähig." },
           { name: "Thermidrome", typ: "Weichhals (Artischocken-Typ)", gruppe: "Weichhals (Softneck)", aussehen: "Große weiße Knollen mit zarten rosa-violetten Streifen.", geschmack: "Aromatisch, rund und vollmundig mit feiner Knoblauchnote.", verwendung: "Ideal für die Herbststeckung; liefert extrem zuverlässige, hohe Erträge." },
           { name: "German Extra Hardy", typ: "Harthals (Porzellan-Typ)", gruppe: "Harthals (Hardneck)", aussehen: "Elfenbeinweiße Außenhaut mit 4–6 riesigen, prallen Einzelzehen.", geschmack: "Kräftig, feurig-würzig; entfaltet beim Anbraten eine milde Süße.", verwendung: "Extrem frosthart für den Winter; fantastisch zum Schmoren und Rösten." },
-
           { name: "Arno", typ: "Weichhals", gruppe: "Weichhals (Softneck)", aussehen: "Klassisch weiße Knollen, lässt sich flechten.", geschmack: "Angenehm mild-würzig.", verwendung: "Lange lagerfähig, universal in der Küche." },
           { name: "Music", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Riesige Zehen mit rosa-weißem Schimmer.", geschmack: "Kräftig, feurig, beim Braten süßlich-mild.", verwendung: "Sehr winterhart, ideal zum Rösten." },
           { name: "Chesnok Red", typ: "Harthals", gruppe: "Harthals (Hardneck)", aussehen: "Auffällig lila gestreifte Haut.", geschmack: "Sehr volles, edles Aroma.", verwendung: "Gourmet-Knoblauch für Saucen und Fleischgerichte." }
@@ -1120,11 +952,10 @@
         tipp: "Konstante Feuchte verhindert Aufplatzen.",
         guteNachbarn: "Kartoffeln, Erbsen, Spinat", schlechteNachbarn: "Kohlarten, Fenchel",
         sorten: [
-				  { name: "Delikatesse Blauer", typ: "Violetter Freilandkohlrabi", aussehen: "Mittelgroße, abgeflacht-runde Knollen in kräftigem Blau-Violett mit grünem Fruchtfleisch.", geschmack: "Ausgesprochen fein-aromatisch, nussig und zart ohne Schärfe.", verwendung: "Wunderbar für die frühe bis spätere Freilandkultur; neigt kaum zum Holzigwerden und schmeckt roh spitze." },
+          { name: "Delikatesse Blauer", typ: "Violetter Freilandkohlrabi", aussehen: "Mittelgroße, abgeflacht-runde Knollen in kräftigem Blau-Violett mit grünem Fruchtfleisch.", geschmack: "Ausgesprochen fein-aromatisch, nussig und zart ohne Schärfe.", verwendung: "Wunderbar für die frühe bis spätere Freilandkultur; neigt kaum zum Holzigwerden und schmeckt roh spitze." },
           { name: "Blaro", typ: "Kompakter Frühkohlrabi", aussehen: "Intensiv blau-violette, ebenmäßig runde Knollen mit kurzem Blattansatz.", geschmack: "Sehr zartes, süßliches Fleisch mit feiner Kohlrabinote.", verwendung: "Optimal für Frühbeet, Gewächshaus und die früheste Freilandsaat; wächst extrem schnell heran." },
           { name: "Gigant", typ: "Großknolliger Lagerkohlrabi", aussehen: "Mächtige, hellgrüne bis weiße Knollen, die mehrere Kilo schwer werden können.", geschmack: "Bleibt trotz der enormen Größe butterweich, saftig und mild-süß.", verwendung: "Ideal für die Herbsternte und zur kühlen Einlagerung für den Winter; fantastisch für Eintöpfe und Aufläufe." },
-
-				  { name: "Superschmelz", typ: "Riesenkohlrabi", aussehen: "Mächtige, weiße Knollen, die bis zu 8 kg schwer werden können, ohne zu platzen.", geschmack: "Bleibt trotz extremer Größe butterzart, saftig und mild-süßlich ohne Verholzung.", verwendung: "Spitzenreiter für Spätsommer und Herbst; ideal für Vorräte, Ofengemüse und feine Suppen." },
+          { name: "Superschmelz", typ: "Riesenkohlrabi", aussehen: "Mächtige, weiße Knollen, die bis zu 8 kg schwer werden können, ohne zu platzen.", geschmack: "Bleibt trotz extremer Größe butterzart, saftig und mild-süßlich ohne Verholzung.", verwendung: "Spitzenreiter für Spätsommer und Herbst; ideal für Vorräte, Ofengemüse und feine Suppen." },
           { name: "Azur Star", typ: "Blauer Frühkohlrabi", aussehen: "Tiefblaue bis violette, flachrunde Knollen mit dunkelblauen Blattstielen.", geschmack: "Sehr feines, kohlrabitypisch süßlich-nussiges Aroma mit zartem Biss.", verwendung: "Sehr frühe Sorte mit geringer Schossneigung; perfekt roh für die Brotzeit oder zum Dünsten." },
           { name: "Lanro", typ: "Weißer Sommerkohlrabi", aussehen: "Glatte, elfenbeinweiße Knollen mit aufrechtem, kompaktem Laub.", geschmack: "Ausgeprägt zart, knackig und saftig mit frischer Milde.", verwendung: "Schossfest und hitzeverträglich; zuverlässiger Standard für Folgesaaten von Mai bis August." },
           { name: "Blauer Delikatess", typ: "Blauer Kohlrabi", aussehen: "Wunderschön violette Schale, innen reinweiß.", geschmack: "Zart, nussig, verholzt deutlich langsamer.", verwendung: "Roh als Rohkost oder gedämpft mit Petersilienbutter." },
@@ -1146,7 +977,7 @@
         guteNachbarn: "Tomaten, Gurken, Salat", schlechteNachbarn: "Fenchel",
         filterGruppen: ["Basilikum", "Petersilie", "Dill", "Sonstige"],
         sorten: [
-				  { name: "Dark Opal", typ: "Rotes Basilikum", gruppe: "Basilikum", aussehen: "Wunderschön glänzende, tief dunkelviolette bis fast schwarze Blätter.", geschmack: "Würzig-aromatisch mit einer leichten Nelkennote, etwas herber als grünes Basilikum.", verwendung: "Spektakulärer Blickfang im Caprese-Salat, für lilafarbenes Kräuteröl und Blütenessig." },
+          { name: "Dark Opal", typ: "Rotes Basilikum", gruppe: "Basilikum", aussehen: "Wunderschön glänzende, tief dunkelviolette bis fast schwarze Blätter.", geschmack: "Würzig-aromatisch mit einer leichten Nelkennote, etwas herber als grünes Basilikum.", verwendung: "Spektakulärer Blickfang im Caprese-Salat, für lilafarbenes Kräuteröl und Blütenessig." },
           { name: "Mooskrause 2", typ: "Krause Petersilie", gruppe: "Petersilie", aussehen: "Dicht stehende, intensiv moosartig gekräuselte dunkelgrüne Blattpolster.", geschmack: "Fein-würzig, frisch und knackig mit robuster Blattstruktur.", verwendung: "Klassisches Garnierkraut; fällt in Suppen und Eintöpfen nicht so schnell zusammen wie glatte Sorten." },
           { name: "Tetra", typ: "Spitzen-Blattdill", gruppe: "Dill", aussehen: "Besonders buschig wachsende, dichte Fiederblätter an kräftigen Stängeln.", geschmack: "Sehr intensiv ätherisch, frisch und anisartig-süßlich.", verwendung: "Schießt viel langsamer in die Blüte als Standardsorten; ideal für kontinuierliche Blatt-Ernten." },
           { name: "Santo", typ: "Echter Blattkoriander", gruppe: "Sonstige", aussehen: "Hellgrüne, feingefiederte Blätter, die Petersilie ähneln.", geschmack: "Frisch, zitronig-herb und typisch exotisch-würzig.", verwendung: "Unverzichtbar für asiatische Currys, mexikanische Salsas, Tacos und Guacamole." },
@@ -1169,7 +1000,7 @@
         guteNachbarn: "Rosen, Kohl, Lavendel", schlechteNachbarn: "Basilikum, Schnittlauch",
         filterGruppen: ["Schnittlauch", "Thymian", "Salbei", "Minze", "Rosmarin", "Lavendel"],
         sorten: [
-				  { name: "Prager Stängellauch", typ: "Grober Schnittlauch", gruppe: "Schnittlauch", aussehen: "Kräftige, aufrechte, dunkelgrüne Röhren mit dekorativen violetten Blütenkugeln.", geschmack: "Würzig, lauchig-frisch mit angenehmer Schärfe.", verwendung: "Universell auf Butterbrot, in Rührei, Kräuterquark und Sommersalaten." },
+          { name: "Prager Stängellauch", typ: "Grober Schnittlauch", gruppe: "Schnittlauch", aussehen: "Kräftige, aufrechte, dunkelgrüne Röhren mit dekorativen violetten Blütenkugeln.", geschmack: "Würzig, lauchig-frisch mit angenehmer Schärfe.", verwendung: "Universell auf Butterbrot, in Rührei, Kräuterquark und Sommersalaten." },
           { name: "Zitronenthymian Aureus", typ: "Bunter Zitronenthymian", gruppe: "Thymian", aussehen: "Kompakter Polsterwuchs mit goldgelb panaschierten kleinen Blättchen.", geschmack: "Auffallend fruchtig nach frischer Zitrone gepaart mit warmem Thymianaroma.", verwendung: "Traumhaft zu Geflügel, Fisch, Grillgemüse und für erfrischende Kräutertees." },
           { name: "Berggarten", typ: "Breitblättriger Salbei", gruppe: "Salbei", aussehen: "Auffallend große, silbrig-graue, samtige Blätter an buschigem Halbstrauch.", geschmack: "Kräftig-harzig, aromatisch-herb ohne muffige Bitternote.", verwendung: "Sehr winterhart und blühfaul (daher extra viele Blätter); perfekt für Saltimbocca und Salbeibutter." },
           { name: "Schokominze", typ: "Aromaminze", gruppe: "Minze", aussehen: "Dunkelgrüne Blätter mit auffällig braun-violetten Blattstängeln und Adern.", geschmack: "Feine Pfefferminznote, die im Abgang an dunkle Minzschokolade (After Eight) erinnert.", verwendung: "Hervorragend für Desserts, Eiscreme, Sommercocktails und aromatischen Aufguss." },
@@ -1192,7 +1023,7 @@
         tipp: "Brauchen extrem viel Platz, Nährstoffe und Sonne. Am besten direkt auf den Kompost.",
         guteNachbarn: "Mais, Bohnen", schlechteNachbarn: "Gurken, Kartoffeln",
         sorten: [
-				  { name: "Muskat de Provence", typ: "Moschuskürbis", aussehen: "Große, flachrunde, tief gerippte Früchte; reift von dunkelgrün zu warmem Ockerbraun ab.", geschmack: "Intensiv fruchtig, süßlich mit samtig-cremigem, dunkelorangefarbenem Fleisch.", verwendung: "Gourmet-Kürbis für feine Suppen, Chutneys, Pürees und zum Backen; monatelang lagerfähig." },
+          { name: "Muskat de Provence", typ: "Moschuskürbis", aussehen: "Große, flachrunde, tief gerippte Früchte; reift von dunkelgrün zu warmem Ockerbraun ab.", geschmack: "Intensiv fruchtig, süßlich mit samtig-cremigem, dunkelorangefarbenem Fleisch.", verwendung: "Gourmet-Kürbis für feine Suppen, Chutneys, Pürees und zum Backen; monatelang lagerfähig." },
           { name: "Sweet Dumpling", typ: "Mikrowellen- / Patidou-Kürbis", aussehen: "Kleine, gerippte Früchte mit cremeweißer Schale und dunkelgrünen Streifen.", geschmack: "Ausgeprägt süß, nussig und erinnert an Esskastanien (Maronen).", verwendung: "Perfekt im Ganzen im Ofen oder der Mikrowelle gebacken; Schale kann mitgegessen werden." },
           { name: "Gelber Zentner", typ: "Riesenkürbis", aussehen: "Mächtige, breitrunde Früchte mit genetzter, gelb-oranger Schale bis 20 kg und mehr.", geschmack: "Mild, saftig und leicht süßlich.", verwendung: "Der Traditionshit zum Einwecken (süß-sauer), für Marmeladen, Kürbisbrot und Schnitzereien." },
           { name: "Uchiki Kuri", typ: "Hokkaido-Kürbis", aussehen: "Zwiebelförmig, intensiv leuchtend orangerot.", geschmack: "Kräftig nussig, erinnert an Maronen und Süßkartoffeln.", verwendung: "Schale essbar! Ideal für samtige Kürbissuppe und Ofenspalten." },
@@ -1259,7 +1090,7 @@
         tipp: "Windbestäuber! Niemals in einer langen Reihe pflanzen, sondern immer im Block (z.B. 4x4 Pflanzen), sonst bleiben die Kolben leer.",
         guteNachbarn: "Bohnen, Kürbis, Kartoffeln", schlechteNachbarn: "Sellerie, Rote Bete",
         sorten: [
-				  { name: "Dリス (Dulis)", typ: "Extra-Süßer Zuckermais (sh2)", aussehen: "Lange, ebenmäßig gefüllte Kolben mit strahlend goldgelben Körnern.", geschmack: "Extrem zuckersüß, knackig und sehr saftig.", verwendung: "Wandelt Zucker nur sehr langsam in Stärke um; perfekt frisch gegrillt mit Butter und Salz." },
+          { name: "Dリス (Dulis)", typ: "Extra-Süßer Zuckermais (sh2)", aussehen: "Lange, ebenmäßig gefüllte Kolben mit strahlend goldgelben Körnern.", geschmack: "Extrem zuckersüß, knackig und sehr saftig.", verwendung: "Wandelt Zucker nur sehr langsam in Stärke um; perfekt frisch gegrillt mit Butter und Salz." },
           { name: "Double Standard", typ: "Bicolor-Zuckermais", aussehen: "Attraktive Kolben mit gemischten weißen und gelben Körnern.", geschmack: "Hervorragende Balance aus traditionellem Maisaroma und knackiger Süße.", verwendung: "Sehr kältetolerant im Frühjahr; frühe Ernte im Hausgarten zum Kochen und Grillen." },
           { name: "Black Aztek", typ: "Historischer Schwarzmais", aussehen: "Kolben mit Körnern, die bei Reife von Milchweiß zu Tiefschwarz-Violett wechseln.", geschmack: "Jung milchreif süßlich; voll ausgereift kräftig-erdig und nussig.", verwendung: "Jung wie Zuckermais kochen; vollreif getrocknet hervorragend für blau-schwarzes Maismehl und Polenta." },
           { name: "Golden Bantam", typ: "Samenechter Zuckermais", aussehen: "Goldgelbe Kolben mit prallen Körnern.", geschmack: "Kräftig-süßer echter Maisgeschmack.", verwendung: "Gegrillt mit Butter und Salz." },
@@ -1299,7 +1130,7 @@
         tipp: "Keimen langsam (bis zu 3-4 Wochen). Mische ein paar Radieschensamen unter, diese keimen in 3 Tagen und 'markieren' die Reihe.",
         guteNachbarn: "Zwiebeln, Lauch, Dill", schlechteNachbarn: "Pastinaken, Sellerie",
         sorten: [
-				  { name: "Nantaise 2", typ: "Frühe Sommermöhre", aussehen: "Gleichmäßig zylindrische, stumpf endende Wurzeln in leuchtendem Orangerot.", geschmack: "Zart, knackig, sehr süß mit feinem Kern und kaum Holzanteil.", verwendung: "Der bewährte Klassiker für Bundmöhren, Frischverzehr und Rohkostsalate." },
+          { name: "Nantaise 2", typ: "Frühe Sommermöhre", aussehen: "Gleichmäßig zylindrische, stumpf endende Wurzeln in leuchtendem Orangerot.", geschmack: "Zart, knackig, sehr süß mit feinem Kern und kaum Holzanteil.", verwendung: "Der bewährte Klassiker für Bundmöhren, Frischverzehr und Rohkostsalate." },
           { name: "Purple Haze", typ: "Violette Gourmet-Möhre", aussehen: "Lange, glatte Wurzeln mit tiefvioletter Außenhaut und leuchtend orangem Innenkern.", geschmack: "Intensiv süß-aromatisch mit knackigem, saftigem Biss.", verwendung: "Optisches Highlight in Salaten und Rohkostplatten (gekocht färbt sie leicht aus)." },
           { name: "Pariser Markt", typ: "Runde Kugelkarotte", aussehen: "Kleine, kreisrunde bis kugelige Wurzeln wie dicke Radieschen.", geschmack: "Besonders zart, saftig und mild-süßlich.", verwendung: "Ideal für schwere oder flachgründige Böden und Balkonkübel; extrem schnell erntereif." },
           { name: "White Satin", typ: "Weiße Speisemöhre", aussehen: "Glatte, schlanke, reinweiße Wurzeln ohne Grünkragen.", geschmack: "Ungewöhnlich süß, saftig und vollkommen ohne erdige Bitterstoffe.", verwendung: "Schmeckt roh hervorragend und bringt farbliche Abwechslung ins Wok- oder Ofengemüse." },
@@ -1321,17 +1152,15 @@
         tipp: "Nach drei bis vier Jahren lässt der Ertrag stark nach, dann die Beete mit Ablegern komplett neu anlegen.",
         guteNachbarn: "Knoblauch, Zwiebeln, Spinat", schlechteNachbarn: "Kohlarten",
         sorten: [
-				{ name: "Mara des Bois", typ: "Gourmet-Monatserdbeere", aussehen: "Mittelgroße, kegelförmige, intensiv rote Beeren an kompakten Pflanzen.", geschmack: "Ausgeprägtes Waldbeer-Aroma kombiniert mit der Süße einer Gartenerdbeere.", verwendung: "Immertragend von Juni bis Oktober; ideal zum Frischverzehr direkt aus Kübel oder Balkonkasten." },
+          { name: "Mara des Bois", typ: "Gourmet-Monatserdbeere", aussehen: "Mittelgroße, kegelförmige, intensiv rote Beeren an kompakten Pflanzen.", geschmack: "Ausgeprägtes Waldbeer-Aroma kombiniert mit der Süße einer Gartenerdbeere.", verwendung: "Immertragend von Juni bis Oktober; ideal zum Frischverzehr direkt aus Kübel oder Balkonkasten." },
           { name: "Florence", typ: "Späte Gartenerdbeere", aussehen: "Große, feste, dunkelrote Früchte mit ebenmäßiger Kegelform.", geschmack: "Vollaromatisch süß mit feiner, angenehm spritziger Säure.", verwendung: "Späte Ernte (ab Ende Juni/Juli); sehr widerstandsfähig gegen Mehltau und Wurzelkrankheiten." },
           { name: "Honeoye", typ: "Sehr frühe Freilandsorte", aussehen: "Mittelgroße bis große, glänzend dunkelrote Früchte mit festem Fruchtfleisch.", geschmack: "Frisch, kräftig-fruchtig und angenehm süß-säuerlich.", verwendung: "Eine der ersten Sorten im Gartenjahr (ab Ende Mai); ideal für Kuchenbelag und Konfitüre." },
           { name: "Polka", typ: "Mittelfrüher Ertragssieger", aussehen: "Prall-runde, gleichmäßig leuchtend rote Beeren mit glatter Schale.", geschmack: "Hervorragend süß, sehr saftig und aromatisch rund.", verwendung: "Ausgesprochen pflegeleicht und ertragreich; ein Favorit für Naschbeete und Erdbeerdesserts." },
           { name: "Ananaserdbeere (Natural Albino)", typ: "Weiße Besonderheit", aussehen: "Kleine, weiße Beeren mit auffallend roten Nüsschen (Samenpunkten).", geschmack: "Ungewöhnlich süß und erfrischend mit deutlicher Ananas-Note.", verwendung: "Optischer und geschmacklicher Exot; Vögel übersehen sie oft wegen der fehlenden Rotfärbung." },
           { name: "Rügen", typ: "Klassische Walderdbeere", aussehen: "Kleine, längliche, tiefrote Früchte an ausläuferfreien Polstern.", geschmack: "Intensiv süß mit dem echten, betörenden Bukett wilder Walderdbeeren.", verwendung: "Trägt durchgehend den ganzen Sommer; perfekt als Beeteinfassung oder für Töpfe." },
-
-				  { name: "Korona", typ: "Mitteltriebige Garten-Erdbeere", aussehen: "Große, leuchtend dunkelrote Früchte mit weichem Fruchtfleisch.", geschmack: "Hervorragend süß, sehr saftig und voll aromatisch.", verwendung: "Eine der beliebtesten Nasch- und Dessert-Erdbeeren für den Hausgarten." },
+          { name: "Korona", typ: "Mitteltriebige Garten-Erdbeere", aussehen: "Große, leuchtend dunkelrote Früchte mit weichem Fruchtfleisch.", geschmack: "Hervorragend süß, sehr saftig und voll aromatisch.", verwendung: "Eine der beliebtesten Nasch- und Dessert-Erdbeeren für den Hausgarten." },
           { name: "Malwina", typ: "Sehr späte Edelsorte", aussehen: "Große, glänzende, intensiv tief dunkelrote Beeren.", geschmack: "Vollmundig süß mit ausgeprägtem Waldbeeren-Aroma bei Vollreife.", verwendung: "Verlängert die Erdbeersaison bis in den Juli hinein; sehr robust gegen Blattkrankheiten." },
           { name: "Ostara", typ: "Monatserdbeere (immertragend)", aussehen: "Mittelgroße, kegelförmige, hellrote Beeren an kompakten Pflanzen.", geschmack: "Kräftig-fruchtig, süß-säuerlich und erfrischend.", verwendung: "Trägt kontinuierlich von Juni bis zum ersten Frost; perfekt für Balkonkästen und Naschecken." },
-
           { name: "Elsanta", typ: "Erdbeer-Klassiker", aussehen: "Große, feste, kegelförmige, glänzend hellrote Früchte.", geschmack: "Sehr saftig, ausgewogen süß-säuerlich mit herrlichem Erdbeeraroma.", verwendung: "Perfekt zum Frischverzehr, für Torten, Desserts und feine Marmelade." },
           { name: "Senga Sengana", typ: "Kult-Erdbeere", aussehen: "Mittelgroß, tiefrot durchgefärbt.", geschmack: "Unübertroffen intensiv süß-säuerlich.", verwendung: "Marmelade, Kuchen, Einwecken." },
           { name: "Mieze Schindler", typ: "Gourmet-Erdbeere", aussehen: "Kleine dunkle Früchte mit eingesenkten Nüsschen.", geschmack: "Purer Walderdbeergeschmack, extrem süß.", verwendung: "Delikatesse! Naschen (braucht Befruchtersorte wie Senga Sengana)." }
@@ -1350,11 +1179,10 @@
         tipp: "Johannisbeeren tragen am besten am 2- bis 3-jährigen Holz, ältere dunkle Triebe konsequent rausschneiden.",
         guteNachbarn: "Knoblauch", schlechteNachbarn: "Keine",
         sorten: [
-				  { name: "Rovada", typ: "Rote Johannisbeere (Spätsorte)", aussehen: "Sehr lange, dicht behangene Trauben mit großen, leuchtend rubinroten Beeren.", geschmack: "Mild-säuerlich, herrlich saftig und spritzig.", verwendung: "Extrem ertragreich und spät reifend (Juli/August); top für Gelees, Kuchen und Saft." },
+          { name: "Rovada", typ: "Rote Johannisbeere (Spätsorte)", aussehen: "Sehr lange, dicht behangene Trauben mit großen, leuchtend rubinroten Beeren.", geschmack: "Mild-säuerlich, herrlich saftig und spritzig.", verwendung: "Extrem ertragreich und spät reifend (Juli/August); top für Gelees, Kuchen und Saft." },
           { name: "Weiße Versailler", typ: "Weiße Johannisbeere", aussehen: "Lange Rispen mit fast durchscheinenden, bernsteingelben Perlen.", geschmack: "Spürbar süßer und milder als rote Sorten, ganz ohne scharfe Säure.", verwendung: "Die beste Johannisbeere zum puren Naschen direkt vom Strauch." },
           { name: "Tulameen", typ: "Sommerhimbeere", aussehen: "Sehr große, leuchtend rote, zapfenförmige und feste Früchte.", geschmack: "Unübertroffenes, edles Sommerhimbeer-Aroma mit perfekter Süße.", verwendung: "Königin der Sommerhimbeeren; trägt im Juni/Juli am zweijährigen Holz." },
           { name: "Loch Ness", typ: "Stachellose Brombeere", aussehen: "Riesige, glänzend tiefschwarze Beeren an aufrechten, dornenlosen Ruten.", geschmack: "Vollaromatisch süß, saftig und mild-fruchtig bei Vollreife.", verwendung: "Sehr ertragreich und absolut stachellos; ideal für Spalier und Naschgarten." },
-
           { name: "Autumn Bliss", typ: "Herbsthimbeere", aussehen: "Dicke, samtig rote Früchte bis zum Frost.", geschmack: "Aromatisch-süß, madenfrei.", verwendung: "Desserts, Einfrieren, Frischverzehr. Alle Ruten im Winter radikal bodennah abschneiden!" },
           { name: "Jonkheer van Tets", typ: "Rote Johannisbeere", aussehen: "Lange Trauben mit großen, leuchtend roten Beeren.", geschmack: "Angenehm erfrischend säuerlich.", verwendung: "Für Gelee, Saft und Rote Grütze." },
           { name: "Titania", typ: "Schwarze Johannisbeere", aussehen: "Mattschwarze, große Beeren an robustem Strauch.", geschmack: "Intensives Cassis-Aroma, sehr gesund.", verwendung: "Likör, Sirup, Cassis-Marmelade." },
@@ -1371,13 +1199,13 @@
         abstandPflanze: "120 cm", abstandReihe: "150 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
         zeitVorzucht: "Strauch", zeitBeet: "Herbst oder Frühjahr", zeitErnte: "Jul-Aug",
         monateAussaat: [3, 4, 10, 11],
-        tipp: "Achte beim Kauf zwingend auf mehltauresistente Sorten! Alte Sorten verlieren oft im Juli alle Blätter durch den Pilz.",
+        tipp: "Achte beim Kauf auf mehltauresistente Sorten! Alte Sorten verlieren im Juli oft frühzeitig Blätter.",
         guteNachbarn: "Keine speziellen", schlechteNachbarn: "Keine speziellen",
         sorten: [
           { name: "Captivator", typ: "Dornenarme Rote Stachelbeere", aussehen: "Mittelgroße, birnenförmige, dunkelrote bis purpurfarbene Beeren an fast dornenlosen Trieben.", geschmack: "Sehr süß, aromatisch und saftig mit dünner, unbehaarter Schale.", verwendung: "Erleichtert die Ernte enorm; fantastisch zum Frischverzehr direkt für Kinder und Naschgärten." },
           { name: "Hinnonmäki Gelb", typ: "Gelbe Gourmet-Stachelbeere", aussehen: "Runde, leuchtend goldgelbe Beeren mit leicht durchscheinender Schale.", geschmack: "Außergewöhnlich süß mit feinem Honigaroma und milder Säure.", verwendung: "Sehr widerstandsfähig gegen Mehltau; herrlich für Desserts und feine Konfitüren." },
           { name: "Hinnonmäki Rot", typ: "Rote Stachelbeere", aussehen: "Mittelgroße, dunkelrote, leicht behaarte Beeren.", geschmack: "Besonders süß und fruchtig, wenn sie vollreif ist.", verwendung: "Direkt vom Strauch naschen, sehr widerstandsfähig." },
-          { name: "Invicta", typ: "Grüne Stachelbeere", aussehen: "Große, ovale, hellgrüne bis gelbliche Beeren, stark bedornt.", geschmack: "Süß-säuerlich, sehr aromatisch, klassischer Geschmack.", verwendung: "Hervorragend für Kuchen, Kompott und Marmelade. (Stark mehltauresistent)." },
+          { name: "Invicta", typ: "Grüne Stachelbeere", aussehen: "Große, ovale, hellgrüne bis gelbliche Beeren, stark bedornt.", geschmack: "Süß-säuerlich, sehr aromatisch, klassischer Geschmack.", verwendung: "Hervorragend für Kuchen, Kompott und Marmelade. (Sehr mehltauresistent)." },
           { name: "Mucurines", typ: "Großfrüchtige Grün-Gelbe", aussehen: "Sehr große, glatte, hellgrüne Früchte, die bei Vollreife bernsteinfarben leuchten.", geschmack: "Vollmundig süß-säuerlich mit kräftigem, traditionellem Stachelbeergeschmack.", verwendung: "Extrem robuster Massenträger; platzt auch bei starkem Sommerregen selten auf." }
         ]
       },
@@ -1434,7 +1262,7 @@
         tipp: "Aussaat erst ab Juli! Wenn Pak Choi im Frühjahr gesät wird, schießt er durch die langen Tage sofort in die Blüte und ist ungenießbar.",
         guteNachbarn: "Möhren, Zwiebeln, Salate", schlechteNachbarn: "Andere Kohlarten",
         sorten: [
-				  { name: "Bonsai", typ: "Baby Pak Choi", aussehen: "Kompakte, gedrungene Mini-Rosetten (ca. 10–15 cm) mit dicken weißen Stielen.", geschmack: "Besonders zart, knackig und mild-süßlich ohne Schärfe.", verwendung: "Perfekt im Ganzen kurz in der Pfanne oder im Wok angebraten; ideal für kleine Beete und Balkonkästen." },
+          { name: "Bonsai", typ: "Baby Pak Choi", aussehen: "Kompakte, gedrungene Mini-Rosetten (ca. 10–15 cm) mit dicken weißen Stielen.", geschmack: "Besonders zart, knackig und mild-süßlich ohne Schärfe.", verwendung: "Perfekt im Ganzen kurz in der Pfanne oder im Wok angebraten; ideal für kleine Beete und Balkonkästen." },
           { name: "Green Fortune", typ: "Grünstieliger Shanghai-Typ (F1)", aussehen: "Löffelförmige, zartgrüne Stängel mit dunkelgrün glänzenden Blättern.", geschmack: "Fein, saftig und erfrischend mit sehr zarter Faserung.", verwendung: "Sehr schossfest und wüchsig; ein Allrounder für Wok-Gemüse, Suppen und milde Salate." },
           { name: "Canton White", typ: "Klassischer Riesen-Pak-Choi", aussehen: "Breite, reinweiße, fleischige Rippen mit tief dunkelgrünem Fächerlaub.", geschmack: "Knackig-saftig mit einer dezenten, frischen Senfnote.", verwendung: "Sehr ertragreich für die Spätsommer- und Herbstaussaat; behält beim Braten wunderbar seinen Biss." },
           { name: "Taisai", typ: "Weißer Pak Choi", aussehen: "Reinweiße, dicke, fleischige Blattstiele mit dunkelgrünen Blättern.", geschmack: "Sehr mild, zart-knackig mit einem Hauch Senf-Aroma.", verwendung: "Kurz im Wok gebraten, behält extrem gut seinen Biss." },
@@ -1496,7 +1324,7 @@
         tipp: "Gleichmäßig gießen gegen Pelzigkeit.",
         guteNachbarn: "Möhren, Salat", schlechteNachbarn: "Gurken, Kohl",
         sorten: [
-				  { name: "Sora", typ: "Platzfestes Radieschen", aussehen: "Leuchtend rote, ebenmäßig runde Knollen mit festem Fruchtfleisch.", geschmack: "Frisch, mild-würzig und bleibt auch bei sommerlicher Wärme lange zart.", verwendung: "Eines der besten Radieschen für den Sommeranbau; neigt kaum zum Pelzigwerden." },
+          { name: "Sora", typ: "Platzfestes Radieschen", aussehen: "Leuchtend rote, ebenmäßig runde Knollen mit festem Fruchtfleisch.", geschmack: "Frisch, mild-würzig und bleibt auch bei sommerlicher Wärme lange zart.", verwendung: "Eines der besten Radieschen für den Sommeranbau; neigt kaum zum Pelzigwerden." },
           { name: "Zlata", typ: "Gelbes Radieschen", aussehen: "Ungewöhnlich ockergelbe bis goldbraune, runde Knollen mit reinweißem Inneren.", geschmack: "Pikant-würzig mit feiner Schärfe und knackiger Textur.", verwendung: "Schöner optischer Kontrast auf Rohkosttellern, Brotzeitplatten und in bunten Salaten." },
           { name: "Runder Schwarzer Winter", typ: "Winterrettich", aussehen: "Große, kugelrunde Knollen mit pechschwarzer Schale und schneeweißem Fleisch.", geschmack: "Kräftig-feurig und herzhaft scharf; verliert durch Salzen etwas an Schärfe.", verwendung: "Sehr lange im Sandkeller lagerbar; geraspelt mit Schmand oder traditionell als Hustensirup mit Honig." },
           { name: "Münchner Bier", typ: "Sommerrettich", aussehen: "Walzenförmige, ca. 20 cm lange weiße Wurzeln mit kräftigem Laub.", geschmack: "Würzig-scharf, saftig und erfrischend im Biss.", verwendung: "Der bayerische Biergarten-Klassiker; hauchdünn spiralförmig aufgeschnitten und gesalzen." },
@@ -1541,8 +1369,7 @@
           { name: "Burpees Golden", typ: "Gelbe Speisebete", aussehen: "Runde Knollen mit oranger Außenhaut und leuchtend sonnengelbem Fleisch.", geschmack: "Auffallend mild, süßlich und fruchtig ohne die typisch schwere Erdnase.", verwendung: "Färbt beim Schneiden und Kochen nicht ab; fantastisch roh gerieben oder als warmes Gemüse." },
           { name: "Tonda di Chioggia", typ: "Gestreifte Gourmetbete", aussehen: "Helle Außenhaut; beim Aufschneiden zeigt sich ein faszinierendes rot-weißes Ringelmuster.", geschmack: "Deutlich feiner und süßer als dunkle Sorten, knackig im Biss.", verwendung: "Bester Hingucker hauchdünn gehobelt als Rote-Bete-Carpaccio oder roh im Sommersalat." },
           { name: "Avalanche", typ: "Reinweiße Delikatessbete", aussehen: "Ebenmäßig runde, vollkommen elfenbeinweiße Knollen mit hellem Blattansatz.", geschmack: "Sehr mild, süß und komplett frei von erdigen Bitterstoffen.", verwendung: "Perfekt für helle Cremesuppen, Pürees und Salate ohne Ausbluten auf dem Teller." },
-
-				  { name: "Chioggia", typ: "Ringelbete (Traditionssorte)", aussehen: "Runde Knolle mit hellroter Schale; innen faszinierend weiß-rot geringelt.", geschmack: "Deutlich milder und süßer als klassische rote Sorten, ganz ohne schwere Erdnase.", verwendung: "Ein Kunstwerk hauchdünn als Carpaccio gehobelt oder roh im Salat (Muster verblasst beim Kochen)." },
+          { name: "Chioggia", typ: "Ringelbete (Traditionssorte)", aussehen: "Runde Knolle mit hellroter Schale; innen faszinierend weiß-rot geringelt.", geschmack: "Deutlich milder und süßer als klassische rote Sorten, ganz ohne schwere Erdnase.", verwendung: "Ein Kunstwerk hauchdünn als Carpaccio gehobelt oder roh im Salat (Muster verblasst beim Kochen)." },
           { name: "Forono", typ: "Walzenförmige Bete", aussehen: "Lange, zylindrische Knollen mit glatter, dunkelroter Außenhaut.", geschmack: "Sehr saftig, aromatisch-süß und butterzart im Fruchtfleisch.", verwendung: "Wächst platzsparend im Beet und lässt sich perfekt in gleichmäßige, runde Scheiben schneiden." },
           { name: "Detroit Dark Red", typ: "Runder Klassiker", aussehen: "Tief dunkelrote, ebenmäßige Kugelknollen mit kleinem Blattansatz.", geschmack: "Vollmundig, erdig-würzig mit reicher Süße.", verwendung: "Sehr ertragreich, blutet beim Garen kaum aus; ideal zum Einkochen, für Borschtsch und Ofengemüse." },
           { name: "Rote Kugel 2", typ: "Rote Bete", aussehen: "Glattwandige, runde Knolle mit tief blutrotem Fleisch.", geschmack: "Süßlich, erdig-vollmundig.", verwendung: "Gekocht im Salat, Ofengemüse, Borschtsch." },
@@ -1583,11 +1410,10 @@
         tipp: "Lichtkeimer, Samen nur leicht andrücken.",
         guteNachbarn: "Erdbeeren, Kohl, Radieschen", schlechteNachbarn: "Petersilie",
         sorten: [
-				  { name: "Forellenschluss", typ: "Römersalat (Romana)", aussehen: "Aufrechte, hellgrüne Blätter mit auffälligen weinroten Tupfen (wie eine Bachforelle).", geschmack: "Knackig-saftig mit süßlich-buttrigem Herzen und feinem Biss.", verwendung: "Klassischer Caesar Salad oder rustikale Sommersalate; schießt sehr langsam." },
+          { name: "Forellenschluss", typ: "Römersalat (Romana)", aussehen: "Aufrechte, hellgrüne Blätter mit auffälligen weinroten Tupfen (wie eine Bachforelle).", geschmack: "Knackig-saftig mit süßlich-buttrigem Herzen und feinem Biss.", verwendung: "Klassischer Caesar Salad oder rustikale Sommersalate; schießt sehr langsam." },
           { name: "Lollo Rosso", typ: "Pflück- / Schnittsalat", aussehen: "Dicht gekrauste Rosetten mit leuchtend burgunderroten Blatträndern.", geschmack: "Nussig, leicht herb-würzig, bleibt im Dressing lange standfest und knackig.", verwendung: "Bunte Salatteller, Burger-Belag oder blattweise fortlaufende Ernte." },
           { name: "Grazer Krauthäuptel", typ: "Bataviasalat", aussehen: "Geschlossener Kopf mit zart gewellten, hellgrünen Blättern und feinem rotem Rand.", geschmack: "Extrem knackig, saftig und erfrischend süßlich ohne Bitterstoffe.", verwendung: "Traditioneller Sommerklassiker; hitzetolerant und schossfest im Hochsommer." },
           { name: "Wasabino", typ: "Asia-Salat / Senfkohl", aussehen: "Fein gezackte, hellgrüne Wedel mit lebendiger Blattstruktur.", geschmack: "Erfrischend scharf mit der typischen, feinen Meerrettich- bzw. Wasabi-Note.", verwendung: "Frischer Kick in gemischten Salaten oder kurz im Wok durchgeschwenkt." },
-
           { name: "Merveille de Quatre Saisons", typ: "Kopfsalat", aussehen: "Rotbraun getuschte Außenblätter, innen zartgrünes Herz.", geschmack: "Buttrig-weich, sehr mild und saftig.", verwendung: "Der französische König der Sommersalate." },
           { name: "Salad Bowl", typ: "Pflücksalat", aussehen: "Dicht stehende, tief geschlitzte hellgrüne Eichblatt-Blätter.", geschmack: "Nussig, knackig, schießt extrem langsam.", verwendung: "Blattweise fortlaufend ernten." },
           { name: "Sylvetta", typ: "Wilde Rauke (Rucola)", aussehen: "Tief gezahnte schmale Blätter mit gelben Blüten.", geschmack: "Scharf, nussig, intensiv pfeffrig.", verwendung: "Mehrjährig; perfekt auf Pizza und in Pasta." },
@@ -1607,12 +1433,11 @@
         tipp: "Herz (Mitte der Pflanze) darf beim Einsetzen auf keinen Fall mit Erde bedeckt werden.",
         guteNachbarn: "Kohl, Tomaten, Lauch", schlechteNachbarn: "Kartoffeln, Mais",
         sorten: [
-				  { name: "Monarch", typ: "Weißfleischiger Allrounder", aussehen: "Große, kugelrunde Knollen mit glatter, heller Außenhaut und reinweißem Fruchtfleisch.", geschmack: "Ausgesprochen würzig, nussig und aromatisch ohne muffige Erdnase.", verwendung: "Verfärbt sich beim Kochen nicht; der Klassiker für Waldorfsalat, Suppengrün und Püree." },
+          { name: "Monarch", typ: "Weißfleischiger Allrounder", aussehen: "Große, kugelrunde Knollen mit glatter, heller Außenhaut und reinweißem Fruchtfleisch.", geschmack: "Ausgesprochen würzig, nussig und aromatisch ohne muffige Erdnase.", verwendung: "Verfärbt sich beim Kochen nicht; der Klassiker für Waldorfsalat, Suppengrün und Püree." },
           { name: "Ibis", typ: "Schossfester Sommersellerie", aussehen: "Mittelgroße, hochsitzende runde Knollen mit hohem Wurzelboden (sehr leicht zu putzen).", geschmack: "Zart, mild-würzig mit saftigem, dichtem Fleisch.", verwendung: "Sehr resistent gegen Schossen bei Kälteeinbrüchen; ideal für frühe Ernten ab August." },
           { name: "Mentor", typ: "Lagerfähiger Spätsellerie (F1)", aussehen: "Ebenmäßig glatte, feste Rundknollen mit tiefem Blattansatz und festem Kern.", geschmack: "Fein-würzig, voll und cremig beim Garen.", verwendung: "Sehr widerstandsfähig gegen Septoria-Blattflecken; hervorragend im Sandkeller bis ins Frühjahr lagerbar." },
           { name: "Wiener Riesen", typ: "Österreichische Auslese", aussehen: "Breitrunde, schwere Knollen mit feiner, elfenbeinfarbener Schnittfläche.", geschmack: "Intensiv aromatisch mit süßlich-würziger Nuance.", verwendung: "Ausgezeichnet als vegetarisches Sellerieschnitzel paniert gebraten oder im Ofen geschmort." },
           { name: "Balena", typ: "Moderner Profi-Knollensellerie (F1)", aussehen: "Gleichmäßige, fast kreisrunde Knollen mit sehr wenig Wurzelputzaufwand.", geschmack: "Sehr fein-aromatisch, mild und saftig ohne Neigung zu Hohlräumen.", verwendung: "Höchste Ertragssicherheit; top für feine Sellerie-Cremesuppen und Rohkostsalate." },
-
           { name: "Prager Riesen", typ: "Knollensellerie", aussehen: "Große, schwere, weißfleischige Knollen mit wenig Wurzelbart.", geschmack: "Würzig, erdig, intensiv aromatisch.", verwendung: "Suppengrün, Püree, Sellerieschnitzel." },
           { name: "Tango", typ: "Staudensellerie", aussehen: "Aufrechte, knackige, dunkelgrüne Stangen.", geschmack: "Saftig, frisch-herb mit leicht salziger Note.", verwendung: "Roh als Snack mit Dip, für Bolognese und Salate." }
         ]
@@ -1698,19 +1523,19 @@
           { name: "Berner Rose", typ: "Historische Fleischtomate", aussehen: "Himbeer- bis rosafarbene, dünnschalige, saftige Großfrüchte.", geschmack: "Unübertroffen saftig, weich, vollmundig-süß mit feiner Würze.", verwendung: "Eine absolute Liebhabersorte für den puren Rohverzehr mit Meersalz." },
           { name: "Brandywine", typ: "Historische Fleischtomate", aussehen: "Große, rosarote, leicht gerippte Früchte an kartoffelblättrigen Pflanzen.", geschmack: "Tiefes, altes Tomatenaroma – intensiv süß-würzig und cremig.", verwendung: "Feinschmecker-Sorte für dicke Burgerscheiben und Tomatensalat." },
           { name: "Dattelwein", typ: "Birnen- / Cocktailtomate", aussehen: "Kleine, birnenförmige, leuchtend gelbe Früchte an riesigen Trauben.", geschmack: "Zuckersüß, mild und herrlich saftig.", verwendung: "Super Naschtomate für Kinder, Salate oder zum Dörren." },
-          { name: "Gelbe Johannisbeere", typ: "Wildtomate", aussehen: "Erbsengroße, goldgelbe Minitomaten an stark wuchernden, riesigen Büschen.", geschmack: "Knackig-saftig, süß-säuerlich und herrlich erfrischend.", verwendung: "Hochgradig resistent gegen Krautfäule; muss nicht ausgegeizt werden und trägt unermüdlich." },
+          { name: "Gelbe Johannisbeere", typ: "Wildtomate", aussehen: "Erbsengroße, goldgelbe Minitomaten an stark wuchernden, riesigen Büschen.", geschmack: "Knackig-saftig, süß-säuerlich und herrlich erfrischend.", verwendung: "Sehr widerstandsfähig gegen Krautfäule; muss nicht ausgegeizt werden und trägt unermüdlich." },
           { name: "Green Zebra", typ: "Gestreifte Salattomate", aussehen: "Mittelgroß mit spektakulärer gelb-smaragdgrüner Streifung bei Vollreife.", geschmack: "Spritzig-würzig mit feiner, fruchtiger Säure und tollem Biss.", verwendung: "Bringt Farbe in Salate; hervorragend in Scheiben zu Mozzarella." },
           { name: "Harzfeuer F1", typ: "Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, leuchtend rote Früchte an kräftigen Rispen.", geschmack: "Sehr ausgewogenes Verhältnis von Süße und traditioneller Tomatensäure.", verwendung: "Der bewährte deutsche Allrounder für Brotzeit, Salat und Scheiben." },
           { name: "Moneymaker", typ: "Klassische Stabtomate", aussehen: "Mittelgroße, ebenmäßig runde, glänzende rote Früchte an gleichmäßigen Rispen.", geschmack: "Traditionell saftig, ausgewogen mild-säuerlich und klassisch frisch.", verwendung: "Extrem verlässlicher, robuster Massenträger; top für Salat, Suppen und Scheiben." },
           { name: "Ochsenherz", typ: "Fleischtomate", aussehen: "Riesige, herzförmige, stark gerippte rote Früchte bis zu 500 Gramm.", geschmack: "Sehr fleischig, süß-aromatisch, schmilzt auf der Zunge.", verwendung: "Hervorragend für Caprese mit Mozzarella oder dicke Steaks auf dem Burger." },
           { name: "Philovita", typ: "Kirschtomate (F1)", aussehen: "Kleine, tiefrote, glänzende Cocktailtomaten an festen Rispen.", geschmack: "Explosiv süß-aromatischer Geschmack mit knackiger Haut.", verwendung: "Extrem widerstandsfähig gegen Krautfäule; top für Freiland und Kübel." },
           { name: "Roma", typ: "Klassische Eiertomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Gallertmasse und dicken Wänden.", geschmack: "Mild, aromatisch und intensiv tomatig beim Einkochen.", verwendung: "Sehr ertragreich; der Klassiker für hausgemachte Pizzasaucen, Sugo und zum Dörren." },
-          { name: "Rote Murmel", typ: "Wildtomate", aussehen: "Unzählige kirschgroße rote Früchtchen an buschig wuchernder Pflanze.", geschmack: "Knackig, extrem fruchtig-süß mit kräftigem Biss.", verwendung: "100% resistent gegen Krautfäule im Freiland; muss nicht ausgegeizt werden!" },
+          { name: "Rote Murmel", typ: "Wildtomate", aussehen: "Unzählige kirschgroße rote Früchtchen an buschig wuchernder Pflanze.", geschmack: "Knackig, extrem fruchtig-süß mit kräftigem Biss.", verwendung: "Sehr widerstandsfähig gegen Krautfäule im Freiland; muss nicht ausgegeizt werden!" },
           { name: "San Marzano", typ: "Flaschentomate", aussehen: "Längliche, feste, tiefrote Früchte mit wenig Hohlraum.", geschmack: "Fruchtig-herb, intensiv, mit sehr wenig Wasser und kaum Kernen.", verwendung: "Die weltberühmte italienische Pizzasaucen- und Einkochtomate." },
           { name: "Schwarze Krim", typ: "Dunkle Fleischtomate", aussehen: "Dunkelbraun-rot mit olivgrünen Schultern, flachrund gerippt.", geschmack: "Würzig, süß, fast rauchig mit einer natürlich leicht salzigen Note.", verwendung: "Ein optisches und geschmackliches Highlight in Salaten." },
           { name: "Sungold", typ: "Orange Kirschtomate (F1)", aussehen: "Kleine, leuchtend mandarine-orangefarbene Kirschtomaten an langen Rispen.", geschmack: "Extrem zuckersüß, tropisch-fruchtig mit erfrischender, feiner Säure.", verwendung: "Eine der süßesten Naschtomaten überhaupt; ideal direkt vom Strauch oder für Kinder." },
           { name: "Zuckertraube", typ: "Cocktailtomate", aussehen: "Lange Rispen voller kleiner, kugelrunder, glänzender roter Beeren.", geschmack: "Zuckersüß, extrem saftig und aromatisch.", verwendung: "Die beste Naschtomate direkt vom Strauch für Kinder und Gartenpausen." }
-       ]
+        ]
       },
       {
         id: "zwiebel", name: "Zwiebeln & Schalotten", oberkategorie: "Gemüse", kategorie: "Zwiebelgewächse", icon: "🧅",
@@ -1739,167 +1564,69 @@
           { name: "Stuttgarter Riesen", typ: "Steckzwiebel", gruppe: "Steckzwiebeln", aussehen: "Flachrunde, gelbbraune feste Zwiebeln.", geschmack: "Kräftig-würzig, gute Schärfe.", verwendung: "Der unangefochtene Klassiker, hervorragend lagerfähig." },
           { name: "Tropea Rossa Lunga", typ: "Rote Flaschenzwiebel", gruppe: "Saatzwiebeln", aussehen: "Längliche, torpedoförmige Knollen mit glänzender, weinroter Schale.", geschmack: "Berühmt süß, feinaromatisch und mild; kaum brennend.", verwendung: "Süditalienische Gourmetsorte; ideal roh im Sommersalat, gegrillt oder karamellisiert." }
         ]
-      },
-      // === NEUE GEMÜSE-KULTUREN ===
-      {
-        id: "edamame",name: "Edamame (Sojabohne)", oberkategorie: "Gemüse", kategorie: "Hülsenfrüchte", icon: "🫛",
-        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
-        standort: "Vollsonnig und sehr warm (brauchen durchgehend warme Temperaturen).",
-        boden: "Locker, humos und gut durchwärmt.",
-        duenger: "Schwachzehrer: Sammelt als Leguminose eigenen Stickstoff. Eine kleine Gabe Kompost reicht völlig aus.",
-        giessen: "Ab der Blüte und während der Hülsenbildung zwingend regelmäßig und reichlich wässern.",
-        abstandPflanze: "15 cm", abstandReihe: "40 cm", saattiefe: "3-4 cm", bedarf: "Schwachzehrer",
-        zeitVorzucht: "April", zeitBeet: "Mitte Mai", zeitErnte: "Aug-Sep",
-        monateAussaat: [4, 5],
-        tipp: "Nicht warten, bis sie trocken sind! Edamame wird geerntet, wenn die Hülsen noch leuchtend grün und die Bohnen prall sind.",
-        guteNachbarn: "Kartoffeln, Mais", schlechteNachbarn: "Zwiebeln, Knoblauch, Erbsen",
-        sorten: [
-          { name: "Green Shell", typ: "Frühe Edamame", aussehen: "Kräftig grüne, fein behaarte Hülsen mit jeweils 2-3 dicken Bohnen.", geschmack: "Nussig, leicht süßlich und knackig im Biss.", verwendung: "In Salzwasser gedämpft und als warmer Snack pur aus der Schale gezuzelt." },
-          { name: "Hokkai Green", typ: "Busch-Sojabohne", aussehen: "Standfester, ca. 60 cm hoher Busch mit enormem Behang.", geschmack: "Vollmundig, sehr aromatischer Bohnengeschmack.", verwendung: "Perfekt für asiatische Bowls, Salate oder Wok-Gerichte." }
-        ]
-      },
-      {
-        id: "steckruebe", name: "Steckrübe (Kohlrübe)", oberkategorie: "Gemüse", kategorie: "Wurzeln", icon: "🍠",
-        anbau: "🪴 Vorzucht -> Jungpflanze", wasser: "💧💧💧 Hoch",
-        standort: "Sonnig bis halbschattig, eher kühlere Lagen.",
-        boden: "Nährstoffreich, schwer und lehmig. Die Erde sollte gut Feuchtigkeit speichern.",
-        duenger: "Mittelzehrer: Vor dem Pflanzen Kompost einarbeiten. Im Spätsommer eine milde Jauchengabe.",
-        giessen: "Konstant feucht halten! Wenn die Rübe austrocknet, wird sie pelzig, holzig und bitter.",
-        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "1-2 cm", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Mai", zeitBeet: "Jun-Jul", zeitErnte: "Okt-Dez",
-        monateAussaat: [5, 6, 7],
-        tipp: "Absolut frosthart! Du kannst die Rüben im Winter einfach im Beet stehen lassen und frisch bei Bedarf ernten.",
-        guteNachbarn: "Bohnen, Erbsen, Sellerie, Lauch", schlechteNachbarn: "Kohlrabi, Radieschen, Rettich",
-        sorten: [
-          { name: "Wilhelmsburger", typ: "Gelbe Steckrübe", aussehen: "Riesige, runde Knollen mit grün-rotem Kopf und gelbem Fleisch.", geschmack: "Fein-würzig, erdig, leicht süßlich (besonders nach dem ersten Frost).", verwendung: "Der absolute Klassiker für deftige Wintereintöpfe, Steckrüben-Püree oder Ofengemüse." },
-          { name: "Nadmorska", typ: "Weiße Steckrübe", aussehen: "Helle Außenhaut und schneeweißes Fleisch.", geschmack: "Milder und etwas feiner als gelbe Sorten.", verwendung: "Toll geraspelt in Winter-Rohkostsalaten oder in feinen Cremesuppen." }
-        ]
-      },
-      {
-        id: "chicoree", name: "Chicorée & Zuckerhut", oberkategorie: "Gemüse", kategorie: "Blattgemüse", icon: "🥬",
-        anbau: "🫘 Direktsaat", wasser: "💧💧 Mittel",
-        standort: "Sonnig bis halbschattig.",
-        boden: "Sehr tiefgründig und steinfrei, damit sich eine lange, gerade Pfahlwurzel (wie bei Möhren) bilden kann.",
-        duenger: "Mittelzehrer: Reagiert auf zu viel Stickstoff mit lockeren Blättern, also sehr sparsam düngen.",
-        giessen: "Normale Feuchtigkeit, verträgt Trockenheit durch die tiefe Wurzel besser als Kopfsalat.",
-        abstandPflanze: "15 cm", abstandReihe: "30 cm", saattiefe: "1 cm", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Nur Direktsaat", zeitBeet: "Jun-Jul", zeitErnte: "Sep-Dez",
-        monateAussaat: [6, 7],
-        tipp: "Chicorée muss im Herbst ausgebuddelt, das Laub gekappt und die Wurzel komplett im Dunkeln (z. B. in einem Eimer mit Sand im Keller) angetrieben werden!",
-        guteNachbarn: "Möhren, Tomaten, Bohnen", schlechteNachbarn: "Kartoffeln",
-        sorten: [
-          { name: "Zoom (F1)", typ: "Klassischer Treib-Chicorée", aussehen: "Im Beet wächst eine unauffällige Blatt-Rosette; nach der Treiberei im Dunkeln entstehen die dichten, gelb-weißen Zapfen.", geschmack: "Angenehm bitter, knackig, sehr frisch.", verwendung: "In Hälften gebraten oder roh in Salaten mit Orangen/Mandarine (gleicht Bitterkeit aus)." },
-          { name: "Zuckerhut Auslese", typ: "Herbst-Endivie", aussehen: "Wächst direkt im Beet zu einem langen, spitz zulaufenden, festen Kopf (wie ein Zuckerhut).", geschmack: "Herb, bitter, knackig. Verliert durch lauwarmes Waschen an Bitterkeit.", verwendung: "Bleibt bis in den Dezember im Freiland stehen; perfekter, extrem lagerfähiger Wintersalat." }
-        ]
-      },
-
-      // === NEUE OBST-KULTUREN ===
-      {
-        id: "apfel", name: "Apfel (Busch- & Säulenbaum)", oberkategorie: "Obst", kategorie: "Kernobst", icon: "🍏",
-        anbau: "🌿 Baum / Jungpflanze", wasser: "💧💧 Mittel",
-        standort: "Sonnig bis halbschattig, luftig (verhindert Pilzkrankheiten wie Schorf).",
-        boden: "Tiefgründig, nährstoffreich, nicht zu nass. Auf staunassen Böden faulen die Wurzeln.",
-        duenger: "Mittelzehrer: Im Frühjahr (März) reifen Kompost und etwas Hornspäne auf die Baumscheibe streuen.",
-        giessen: "Als Jungbaum im ersten Jahr regelmäßig wässern. Später nur bei extremen Dürreperioden im Sommer durchdringend gießen.",
-        abstandPflanze: "80 cm (Säule) / 300 cm (Busch)", abstandReihe: "100 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Baumschule", zeitBeet: "Herbst / Frühjahr", zeitErnte: "Aug-Okt",
-        monateAussaat: [3, 4, 10, 11],
-        tipp: "Für kleine Gärten immer 'Säulenäpfel' oder Bäume auf der schwachwachsenden Unterlage 'M9' kaufen. Baumscheibe immer grasfrei halten!",
-        guteNachbarn: "Kapuzinerkresse, Ringelblume, Knoblauch", schlechteNachbarn: "Gras / Rasen direkt am Stamm",
-        sorten: [
-          { name: "Topaz", typ: "Winterapfel", aussehen: "Gelb-rote, leicht gestreifte Schale, knackiges Fleisch.", geschmack: "Erfrischend säuerlich, würzig und extrem saftig.", verwendung: "Spitzen-Lagerapfel, der robust gegen Apfelschorf ist." },
-          { name: "Elstar", typ: "Herbstapfel", aussehen: "Sonnengelbe bis karminrote Schale.", geschmack: "Ausgewogen süß-säuerlich, hoch aromatisch.", verwendung: "Perfekt zum direkten Naschen, für Apfelmus und Kuchen." },
-          { name: "Rondo", typ: "Säulenapfel", aussehen: "Sehr schmaler, senkrechter Wuchs, rote bis dunkelrote Früchte.", geschmack: "Süß-säuerlich und knackig.", verwendung: "Ideal für große Kübel auf Balkon/Terrasse oder als Nasch-Hecke." }
-        ]
-      },
-      {
-        id: "kiwi", name: "Kiwi & Mini-Kiwi (Arguta)", oberkategorie: "Obst", kategorie: "Kletterobst", icon: "🥝",
-        anbau: "🌿 Jungpflanze", wasser: "💧💧💧 Hoch",
-        standort: "Warm, sonnig und extrem windgeschützt. Braucht ein starkes Rankgerüst (Pergola/Spalier).",
-        boden: "Humusreich, leicht sauer (gerne etwas Rhododendronerde beimischen) und gleichmäßig feucht.",
-        duenger: "Starkzehrer: Vor dem Austrieb im Frühjahr kräftig mit reifem Kompost und Hornspänen versorgen.",
-        giessen: "Über die großen Blätter verdunstet viel Wasser. Bei Hitze und Fruchtbildung sehr reichlich gießen.",
-        abstandPflanze: "200 cm", abstandReihe: "300 cm", saattiefe: "Pflanzung", bedarf: "Starkzehrer",
-        zeitVorzucht: "Rankpflanze", zeitBeet: "Mai", zeitErnte: "Okt-Nov",
-        monateAussaat: [4, 5],
-        tipp: "Klassische Kiwis sind oft zweihäusig: Du brauchst eine männliche Pflanze, um mehrere weibliche zu bestäuben. Mini-Kiwis sind meist selbstfruchtend!",
-        guteNachbarn: "Waldbeeren, schattenliebende Unterpflanzen", schlechteNachbarn: "Apfelbäume",
-        sorten: [
-          { name: "Issai", typ: "Selbstfruchtende Mini-Kiwi", aussehen: "Stachelbeerengroße, unbehaarte grüne Früchte an kräftigen Ranken.", geschmack: "Zuckersüß, intensiv nach Kiwi, kann direkt mit Schale gegessen werden.", verwendung: "Perfektes Naschobst direkt von der Pergola." },
-          { name: "Hayward", typ: "Weibliche Riesen-Kiwi", aussehen: "Die klassische Supermarkt-Kiwi: Groß, braun, behaart.", geschmack: "Erfrischend süß-säuerlich.", verwendung: "Toll zum Löffeln, braucht einen männlichen Befruchter (z.B. Sorte 'Atlas')." }
-        ]
-      },
-      {
-        id: "feige", name: "Feige", oberkategorie: "Obst", kategorie: "Südfrucht", icon: "🪴",
-        anbau: "🌿 Jungpflanze / Strauch", wasser: "💧💧 Mittel",
-        standort: "Absolut vollsonnig und windgeschützt (am besten direkt an einer wärmenden Südwand).",
-        boden: "Durchlässig, kiesig-lehmig, leicht kalkhaltig. Kommt gut mit etwas kargeren Böden zurecht.",
-        duenger: "Schwachzehrer: Zu viel Dünger führt nur zu extrem langen Trieben und riesigen Blättern, aber kaum zu Früchten. Sparsam bleiben!",
-        giessen: "Tiefwurzler. Im Freiland nach dem Anwachsen fast nicht mehr gießen. Im Kübel regelmäßig wässern, aber Staunässe zwingend vermeiden.",
-        abstandPflanze: "250 cm", abstandReihe: "250 cm", saattiefe: "Pflanzung", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Strauch", zeitBeet: "Apr-Mai", zeitErnte: "Aug-Okt",
-        monateAussaat: [4, 5],
-        tipp: "In kälteren Regionen am besten im großen Kübel anbauen und hell & kühl im Haus überwintern.",
-        guteNachbarn: "Lavendel, Rosmarin, Salbei", schlechteNachbarn: "Keine speziellen",
-        sorten: [
-          { name: "Brown Turkey", typ: "Winterharte Hausfeige", aussehen: "Birnenförmige Früchte, reifen von grün zu violett-braun ab.", geschmack: "Honigsüß, weich, mit dem typisch crunchigen Kernchen-Biss.", verwendung: "Frisch vom Baum essen oder für Ziegenkäse-Feigen-Crostini." },
-          { name: "Ronde de Bordeaux", typ: "Frühe Feige", aussehen: "Kleinere, kugelrunde, fast schwarze Früchte mit blutrotem Inneren.", geschmack: "Extrem aromatisch, fein und edel.", verwendung: "Eine der frosthärtesten Sorten überhaupt (-15 Grad)." }
-        ]
-      },
-
-      // === NEUE KRÄUTER-KULTUREN ===
-      {
-        id: "baerlauch", name: "Bärlauch", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
-        anbau: "🥔 Zwiebeln / Rhizome stecken", wasser: "💧💧💧 Hoch",
-        standort: "Schattig bis halbschattig, gerne als Unterpflanzung von Bäumen oder Hecken.",
-        boden: "Humusreich, feucht, waldähnlich. Am besten das Beet mit etwas Falllaub abdecken.",
-        duenger: "Schwachzehrer: Laubkompost im Herbst ist die einzige Nahrung, die er braucht.",
-        giessen: "Im zeitigen Frühjahr feucht halten. Nach der Blüte zieht er die Blätter ein und überdauert den Sommer im Boden – dann ruhen lassen.",
-        abstandPflanze: "10 cm", abstandReihe: "15 cm", saattiefe: "5 cm", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Zwiebeln", zeitBeet: "Okt-Nov", zeitErnte: "März-Mai",
-        monateAussaat: [10, 11],
-        tipp: "LEBENSGEFAHR bei Verwechslung mit Maiglöckchen oder Herbstzeitlose! Bärlauchblätter riechen beim Zerreiben zwischen den Fingern intensiv nach Knoblauch.",
-        guteNachbarn: "Obstbäume, Beerensträucher, Farne", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Wilder Bärlauch", typ: "Waldknoblauch", aussehen: "Längliche, zarte, grasgrüne Blätter, später weiße Sternblüten.", geschmack: "Kräftig nach feinem Knoblauch, ohne den strengen Geruch danach.", verwendung: "Klassiker für Frühlings-Pesto, Kräuterbutter, Suppen und Dips. Vor der Blüte ernten!" }
-        ]
-      },
-      {
-        id: "heilkraeuter", name: "Ringelblume & Kamille", oberkategorie: "Kräuter", kategorie: "Kräuter (Einjährig)", icon: "🌼",
-        anbau: "🫘 Direktsaat", wasser: "💧 Niedrig",
-        standort: "Vollsonnig und luftig.",
-        boden: "Anspruchslos, kommt auch mit sehr mageren und steinigen Böden gut zurecht.",
-        duenger: "Schwachzehrer: Keinerlei Dünger notwendig.",
-        giessen: "Sehr pflegeleicht. Nur bei absoluter Dürre wässern. Staunässe führt sofort zu Fäulnis.",
-        abstandPflanze: "15 cm", abstandReihe: "25 cm", saattiefe: "Lichtkeimer (Saat nur andrücken)", bedarf: "Schwachzehrer",
-        zeitVorzucht: "Direktsaat", zeitBeet: "Apr-Mai", zeitErnte: "Jun-Okt",
-        monateAussaat: [4, 5],
-        tipp: "Ringelblumen sind der beste Beschützer im Gemüsebeet! Sie vertreiben durch ihre Wurzelausscheidungen Nematoden (Fadenwürmer) und fördern die Bodengesundheit.",
-        guteNachbarn: "Tomaten, Kartoffeln, Möhren, Kohl", schlechteNachbarn: "Keine",
-        sorten: [
-          { name: "Calendula officinalis", typ: "Echte Ringelblume", aussehen: "Leuchtend gelb-orangefarbene Strahlenblüten.", geschmack: "Leicht harzig-würzig (die Blütenblätter).", verwendung: "Wunderschön im Salat, als Gründüngung im Beet oder für hausgemachte Heilsalben." },
-          { name: "Matricaria chamomilla", typ: "Echte Kamille", aussehen: "Feines, gefiedertes Kraut mit typischen weiß-gelben Körbchenblüten.", geschmack: "Angenehm mild, blumig, typisch beruhigend.", verwendung: "Frische oder getrocknete Blüten für Magen-Tee und Inhalationen." }
-        ]
-      },
-      {
-        id: "melisse_minze", name: "Zitronenmelisse & Minze", oberkategorie: "Kräuter", kategorie: "Kräuter (Mehrjährig)", icon: "🌿",
-        anbau: "🌿 Jungpflanze / Ableger", wasser: "💧💧 Mittel",
-        standort: "Halbschattig bis sonnig. Im Halbschatten bleiben die Blätter zarter und saftiger.",
-        boden: "Locker, nährstoffreich und nicht zu trocken.",
-        duenger: "Mittelzehrer: Im Frühjahr eine leichte Gabe Kompost reicht völlig.",
-        giessen: "Regelmäßig wässern, sie mögen es nicht, komplett auszutrocknen.",
-        abstandPflanze: "40 cm", abstandReihe: "40 cm", saattiefe: "Pflanzung", bedarf: "Mittelzehrer",
-        zeitVorzucht: "Jungpflanze", zeitBeet: "Mai", zeitErnte: "Ganzjährig / Sommer",
-        monateAussaat: [4, 5],
-        tipp: "ACHTUNG: Pfefferminze wuchert gnadenlos! Sie breitet sich durch unterirdische Ausläufer rasend schnell aus. Am besten mitsamt einem unten offenen Plastiktopf (als Wurzelsperre) einpflanzen.",
-        guteNachbarn: "Tomaten, Rosen", schlechteNachbarn: "Kamille",
-        sorten: [
-          { name: "Echte Zitronenmelisse", typ: "Melisse", aussehen: "Hellgrüne, genoppte Blätter, wächst buschig.", geschmack: "Erfrischend intensiv nach Zitronenschale, mild.", verwendung: "Für frischen Eistee, Cocktails, Desserts und asiatische Gerichte." },
-          { name: "Englische Mitcham-Minze", typ: "Pfefferminze", aussehen: "Dunkelgrüne, glatte Blätter mit roten Stängeln.", geschmack: "Scharf, kühlend, extrem hoher Mentholgehalt.", verwendung: "Der absolute Klassiker für heißen Pfefferminztee." },
-          { name: "Hugo-Minze", typ: "Cocktail-Minze", aussehen: "Zartgrünes Laub.", geschmack: "Süßlicher, weniger mentholscharf, sehr fruchtig.", verwendung: "Perfekt für Cocktails wie Mojito, Hugo oder Sommerbowlen." }
-        ]
       }
-];
+    ];
+
+    function trigVib() {
+      try { if (navigator.vibrate) { navigator.vibrate(30); } } catch(e) {}
+    }
+    
+    function closeAllModals() {
+      document.querySelectorAll('.modal-overlay.open').forEach(el => el.classList.remove('open'));
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('liveClock').innerHTML = `${dateStr}<br>${hh}:${mm}:${ss} Uhr`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const THEME_KEY = "ramonas_garten_theme_v1";
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f1712');
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1c3b2b');
+      }
+    }
+    function getSavedTheme() {
+      return localStorage.getItem(THEME_KEY) || 'light';
+    }
+    window.setAppTheme = function(theme) {
+      trigVib();
+      localStorage.setItem(THEME_KEY, theme);
+      applyTheme(theme);
+      filterUndRender();
+    };
+
+    applyTheme(getSavedTheme());
+
+    const SETTINGS_KEY = "ramonas_garten_settings_v1";
+    function getSettings() {
+      try {
+        let s = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+        if(!s || typeof s.bedCount !== 'number') return { bedCount: 8 };
+        s.bedCount = Math.min(Math.max(parseInt(s.bedCount) || 8, 1), 50);
+        return s;
+      } catch(e) { return { bedCount: 8 }; }
+    }
+    window.saveSettings = function() {
+      trigVib();
+      const countInput = document.getElementById('settingBedCount');
+      let count = parseInt(countInput ? countInput.value : 8) || 8;
+      count = Math.min(Math.max(count, 1), 50);
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify({ bedCount: count }));
+      aktiverBeetFilter = "Alle";
+      alert(`Einstellungen erfolgreich gespeichert! (${count} Beete konfiguriert)`);
+      filterUndRender();
+    };
 
     const FAVORITES_KEY = "ramonas_garten_favoriten_v1";
     function getFavorites() {
@@ -1932,18 +1659,56 @@
       filterUndRender();
     };
 
-    const BEET_KEY = "ramonas_garten_beet_v3";
-    function getBeetStatus() {
-      try { return JSON.parse(localStorage.getItem(BEET_KEY)) || {}; } catch (e) { return {}; }
+    const BEET_KEY = "ramonas_garten_beet_v4";
+    function normalizeBeetEntry(entry) {
+      if (!entry) return { status: 'none', beds: [] };
+      if (typeof entry === 'string') {
+        return { status: entry, beds: [] };
+      }
+      let st = entry.status || 'none';
+      let beds = [];
+      if (Array.isArray(entry.beds)) {
+        beds = entry.beds.map(n => parseInt(n)).filter(n => !isNaN(n));
+      } else if (entry.beetNum) {
+        const num = parseInt(entry.beetNum);
+        if (!isNaN(num)) beds = [num];
+      }
+      return { status: st, beds: [...new Set(beds)] };
     }
+
+    function getBeetStatus() {
+      try {
+        let beet = JSON.parse(localStorage.getItem(BEET_KEY));
+        if (!beet) {
+          const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v3"));
+          if (old && typeof old === 'object') {
+            beet = {};
+            Object.keys(old).forEach(k => {
+              beet[k] = normalizeBeetEntry(old[k]);
+            });
+            localStorage.setItem(BEET_KEY, JSON.stringify(beet));
+          } else {
+            return {};
+          }
+        }
+        Object.keys(beet).forEach(k => {
+          beet[k] = normalizeBeetEntry(beet[k]);
+        });
+        return beet;
+      } catch (e) { return {}; }
+    }
+
     window.setBeetStatus = function(kId, sorteName, status) {
       trigVib();
       let beet = getBeetStatus();
       const key = kId + '__' + sorteName;
-      let currentVal = beet[key] || { status: 'none', beetNum: '' };
-      if (typeof currentVal === 'string') currentVal = { status: currentVal, beetNum: '' };
-      if (!status || status === 'none') delete beet[key];
-      else { currentVal.status = status; beet[key] = currentVal; }
+      let currentVal = beet[key] || { status: 'none', beds: [] };
+      if (!status || status === 'none') {
+        delete beet[key];
+      } else {
+        currentVal.status = status;
+        beet[key] = currentVal;
+      }
       try { localStorage.setItem(BEET_KEY, JSON.stringify(beet)); } catch (e) {}
       filterUndRender();
       if(document.getElementById('detailPanel') && document.getElementById('detailPanel').innerHTML !== "") {
@@ -1953,12 +1718,37 @@
         renderBeetQuickModal(kId);
       }
     };
-    window.updateBeetNum = function(kId, sorteName, num) {
+
+    window.addBeetNumber = function(kId, sorteName, num) {
+      const bNum = parseInt(num);
+      if (isNaN(bNum) || bNum < 1) return;
+      trigVib();
       let beet = getBeetStatus();
       const key = kId + '__' + sorteName;
-      if(beet[key]) {
-        if(typeof beet[key] === 'string') beet[key] = { status: beet[key], beetNum: num };
-        else beet[key].beetNum = num;
+      let item = beet[key] || { status: 'sown', beds: [] };
+      if (!item.beds.includes(bNum)) {
+        item.beds.push(bNum);
+        item.beds.sort((a,b) => a - b);
+      }
+      if (item.status === 'none') item.status = 'sown';
+      beet[key] = item;
+      localStorage.setItem(BEET_KEY, JSON.stringify(beet));
+      filterUndRender();
+      if(document.getElementById('detailPanel') && document.getElementById('detailPanel').innerHTML !== "") {
+        renderDetailModal();
+      }
+      if(document.getElementById('beetQuickOverlay').classList.contains('open')) {
+        renderBeetQuickModal(kId);
+      }
+    };
+
+    window.removeBeetNumber = function(kId, sorteName, num) {
+      const bNum = parseInt(num);
+      trigVib();
+      let beet = getBeetStatus();
+      const key = kId + '__' + sorteName;
+      if (beet[key]) {
+        beet[key].beds = beet[key].beds.filter(n => n !== bNum);
         localStorage.setItem(BEET_KEY, JSON.stringify(beet));
       }
       filterUndRender();
@@ -1969,6 +1759,7 @@
         renderBeetQuickModal(kId);
       }
     };
+
     window.clearAllBeets = function() {
       trigVib();
       if(confirm("Möchtest du wirklich alle Beete leeren?\n\nAlle aktuellen Aussaat- und Erntezuweisungen werden entfernt.")) {
@@ -1981,16 +1772,23 @@
         }
       }
     };
+
     function getCultureBeetStatus(kId) {
       const beet = getBeetStatus();
       const keys = Object.keys(beet).filter(key => key.startsWith(kId + '__'));
-      if (keys.length === 0) return { status: 'none', count: 0 };
+      if (keys.length === 0) return { status: 'none', count: 0, beds: [] };
       let hasSown = false;
+      const allBeds = [];
       keys.forEach(key => {
-        const val = typeof beet[key] === 'string' ? beet[key] : beet[key].status;
-        if (val === 'sown') hasSown = true;
+        const val = beet[key];
+        if (val.status === 'sown') hasSown = true;
+        if (val.beds && val.beds.length > 0) allBeds.push(...val.beds);
       });
-      return { status: hasSown ? 'sown' : 'harvested', count: keys.length };
+      return { 
+        status: hasSown ? 'sown' : 'harvested', 
+        count: keys.length,
+        beds: [...new Set(allBeds)].sort((a,b) => a - b)
+      };
     }
 
     const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v2";
@@ -2018,20 +1816,27 @@
     window.triggerManualSave = function() {
       trigVib();
       const textarea = document.getElementById("generalNoteInput");
+      const timeInput = document.getElementById("reminderTimeInput");
       if (textarea && textarea.value.trim() !== "") {
         saveGeneralNote(textarea.value);
+        const savedText = textarea.value;
+        const savedTime = timeInput ? timeInput.value : "";
         filterUndRender();
         setTimeout(() => {
+          const newTextarea = document.getElementById("generalNoteInput");
+          const newTime = document.getElementById("reminderTimeInput");
+          if (newTextarea) newTextarea.value = savedText;
+          if (newTime && savedTime) newTime.value = savedTime;
           const btn = document.getElementById("saveNoteBtn");
           if (btn) {
-            btn.innerHTML = "✅ Gespeichert!";
+            btn.innerHTML = "✅ Gespeichert & bereit für Kalender!";
             btn.style.background = "var(--accent)";
             setTimeout(() => {
               if(document.getElementById("saveNoteBtn")) {
                 document.getElementById("saveNoteBtn").innerHTML = "💾 Notiz speichern";
                 document.getElementById("saveNoteBtn").style.background = "var(--primary)";
               }
-            }, 2000);
+            }, 2500);
           }
         }, 50);
       } else {
@@ -2046,32 +1851,32 @@
         alert("Bitte gib zuerst einen Text in das Notizfeld ein.");
         return;
       }
-      const subject = encodeURIComponent("Aktuelle Garten-Notiz");
-      const body = encodeURIComponent(textarea.value.trim() + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
+      const subject = encodeURIComponent("Garten-Notiz");
+      const body = encodeURIComponent(textarea.value.trim().substring(0, 1000) + "\n\n---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     };
     window.sendGeneralNoteEmail = function() {
       trigVib();
       const general = getGeneralNotes();
       if (general.length === 0) { alert("Du hast noch keine allgemeinen Notizen gespeichert!"); return; }
-      let text = "Meine gesammelten Garten-Notizen:\n\n";
-      general.forEach(n => { text += `[${n.date}]\n${n.text}\n\n`; });
+      let text = "Meine Garten-Notizen (Auszug):\n\n";
+      general.slice(0, 10).forEach(n => { text += `[${n.date}]\n${n.text}\n\n`; });
       const subject = encodeURIComponent("Alle Garten-Notizen");
-      const body = encodeURIComponent(text + "---\nGesendet aus der Ramonas Garten Anzucht App");
+      const body = encodeURIComponent(text.substring(0, 1500) + "\n---\nGesendet aus der Ramonas Garten Anzucht App");
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     };
     window.sendSinglePlantNoteEmail = function(plantName, noteText) {
       trigVib();
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz: ${plantName}`);
-      const body = encodeURIComponent(`Notiz zu ${plantName}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
+      const body = encodeURIComponent(`Notiz zu ${plantName}:\n\n${noteText.trim().substring(0, 1200)}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     };
     window.sendSingleGeneralNoteEmail = function(dateStr, noteText) {
       trigVib();
       if (!noteText || noteText.trim() === "") return;
       const subject = encodeURIComponent(`Garten-Notiz (${dateStr})`);
-      const body = encodeURIComponent(`Garten-Notiz vom ${dateStr}:\n\n${noteText.trim()}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
+      const body = encodeURIComponent(`Garten-Notiz vom ${dateStr}:\n\n${noteText.trim().substring(0, 1200)}\n\n---\nGesendet aus der Ramonas Garten Anzucht App`);
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     };
 
@@ -2116,6 +1921,136 @@
       if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
     }
 
+    function getBackupObject() {
+      return {
+        app: "RamonasGartenAnzucht",
+        version: "4.0",
+        favorites: getFavorites(),
+        notes: getNotes(),
+        generalNotes: getGeneralNotes(),
+        beetStatus: getBeetStatus(),
+        settings: getSettings(),
+        theme: getSavedTheme(),
+        exportDate: new Date().toISOString()
+      };
+    }
+
+    window.exportData = function() {
+      trigVib();
+      closeAllModals();
+      document.getElementById('backupModalOverlay').classList.add('open');
+    };
+
+    window.closeBackupModal = function() {
+      document.getElementById('backupModalOverlay').classList.remove('open');
+    };
+
+    window.downloadBackupFile = function() {
+      trigVib();
+      const exportObj = getBackupObject();
+      const jsonStr = JSON.stringify(exportObj, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute("href", url);
+      a.setAttribute("download", `Ramonas_Garten_Backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      closeBackupModal();
+    };
+
+    window.shareBackupFile = async function() {
+      trigVib();
+      const exportObj = getBackupObject();
+      const jsonStr = JSON.stringify(exportObj, null, 2);
+      const fileName = `Ramonas_Garten_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      const file = new File([jsonStr], fileName, { type: "application/json" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: '🌱 Ramonas Garten Backup',
+            text: 'Garten-Datensicherung als JSON-Datei',
+            files: [file]
+          });
+          closeBackupModal();
+          return;
+        } catch(e) {
+          if (e.name !== 'AbortError') console.error(e);
+        }
+      }
+      downloadBackupFile();
+    };
+
+    window.sendBackupEmail = function() {
+      trigVib();
+      const dateStr = new Date().toLocaleDateString('de-DE');
+      const subject = encodeURIComponent(`🌱 Ramonas Garten - Backup-Hinweis vom ${dateStr}`);
+      const body = encodeURIComponent(
+        `Hallo Ramona & Marcel,\n\n` +
+        `um alle Gartendaten sicher aufzubewahren, nutze bitte direkt in der App den Button "Als Datei speichern" oder "Datei teilen / In Dateien sichern".\n\n` +
+        `Dort wird die vollständige Datei (backup.json) abgespeichert, die jederzeit über "Backup aufspielen" wiederhergestellt werden kann.\n\n` +
+        `Liebe Grüße aus dem Garten!`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      closeBackupModal();
+    };
+
+    window.triggerImport = function() {
+      trigVib();
+      const fi = document.getElementById('importFileInput');
+      if (fi) fi.click();
+    };
+
+    window.importData = function(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!data || typeof data !== 'object') throw new Error("Format ungültig");
+          if (!data.favorites && !data.notes && !data.beetStatus && !data.generalNotes) {
+            throw new Error("Keine gültige Ramonas-Garten-Sicherung");
+          }
+          if (!confirm("Möchtest du dieses Backup wirklich wiederherstellen?\n\nDeine aktuellen Notizen, Favoriten und Beeteinträge werden ersetzt.")) {
+            event.target.value = ""; return;
+          }
+          if (Array.isArray(data.favorites)) {
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(data.favorites));
+          }
+          if (data.notes && typeof data.notes === 'object' && !Array.isArray(data.notes)) {
+            localStorage.setItem(NOTES_KEY, JSON.stringify(data.notes));
+          }
+          if (Array.isArray(data.generalNotes)) {
+            localStorage.setItem(GENERAL_NOTES_KEY, JSON.stringify(data.generalNotes));
+          }
+          if (data.beetStatus && typeof data.beetStatus === 'object') {
+            const cleanBeet = {};
+            Object.keys(data.beetStatus).forEach(k => {
+              cleanBeet[k] = normalizeBeetEntry(data.beetStatus[k]);
+            });
+            localStorage.setItem(BEET_KEY, JSON.stringify(cleanBeet));
+          }
+          if (data.settings && typeof data.settings.bedCount === 'number') {
+            const count = Math.min(Math.max(parseInt(data.settings.bedCount) || 8, 1), 50);
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify({ bedCount: count }));
+          }
+          if (data.theme && (data.theme === 'dark' || data.theme === 'light')) {
+            localStorage.setItem(THEME_KEY, data.theme);
+            applyTheme(data.theme);
+          }
+          trigVib();
+          alert("✅ Backup erfolgreich und sicher wiederhergestellt!");
+          updateNotesBadge();
+          filterUndRender();
+        } catch (err) {
+          alert("❌ Fehler: Die ausgewählte Datei ist keine gültige Sicherungsdatei.");
+        } finally { event.target.value = ""; }
+      };
+      reader.readAsText(file);
+    };
     function openAiMenu() {
       trigVib();
       const q = searchInput.value.trim();
@@ -2225,14 +2160,7 @@
     }
 
     function jsStr(s) {
-      return "'" + String(s)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'")
-        .replace(/"/g, "&quot;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/&/g, "&amp;")
-        + "'";
+      return JSON.stringify(String(s || ""));
     }
 
     function escapeHtml(text) {
@@ -2243,8 +2171,7 @@
     function highlightMatch(text, query) {
       if (!text) return "";
       const raw = String(text);
-      const escaped = escapeHtml(raw);
-      if (!query || query.trim() === "") return escaped;
+      if (!query || query.trim() === "") return escapeHtml(raw);
       const q = query.trim();
       const lowerRaw = raw.toLowerCase();
       const lowerQ = q.toLowerCase();
@@ -2255,7 +2182,7 @@
         const after = raw.slice(idx + q.length);
         return escapeHtml(before) + '<mark class="search-highlight">' + escapeHtml(match) + '</mark>' + escapeHtml(after);
       }
-      return escaped;
+      return escapeHtml(raw);
     }
 
     window.clearSearch = function() {
@@ -2327,12 +2254,12 @@
 
             <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">⚙️ Beet-Einstellungen</div>
             <div style="margin-bottom: 20px;">
-              <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Anzahl deiner Beete im Garten:</label>
+              <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Anzahl deiner Beete im Garten (1 bis 50):</label>
               <div style="display: flex; gap: 10px;">
                 <input type="number" id="settingBedCount" value="${appSettings.bedCount}" min="1" max="50" style="flex: 1; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
                 <button onclick="saveSettings()" style="background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;">Speichern</button>
               </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Diese Anzahl wird für das Zuweisen von Beeten pro Sorte genutzt.</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Du kannst nun jeder Sorte flexibel mehrere Beete gleichzeitig zuweisen.</p>
             </div>
 
             <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
@@ -2340,7 +2267,7 @@
             <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">💾 Daten-Sicherheit & Backup</div>
             <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text); margin-bottom: 16px;"><strong>Wo speichert die App?</strong><br>Alle deine Favoriten, Notizen, Beeteinstellungen und Beetzuordnungen liegen geschützt im lokalen Speicher deines Browsers (<em>localStorage</em>). Komplett offline und privat.</p>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-              <button onclick="exportData()" style="width: 100%; background: #0284c7; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📥 Backup erstellen (Speichern oder Mail)</button>
+              <button onclick="exportData()" style="width: 100%; background: #0284c7; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📥 Backup erstellen (Speichern / Teilen)</button>
               <input type="file" id="importFileInput" accept=".json,application/json" style="display: none;" onchange="importData(event)">
               <button onclick="triggerImport()" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📤 Backup aufspielen (Upload / Wiederherstellen)</button>
             </div>
@@ -2469,12 +2396,8 @@
         } else if (aktiveKategorie === "Mein Beet") {
           if (cStatusObj.status === 'none') katMatch = false;
           else if (aktiverBeetFilter !== "Alle") {
-            const keys = Object.keys(beet).filter(key => key.startsWith(k.id + '__'));
-            katMatch = keys.some(key => {
-              const val = beet[key];
-              const bNum = typeof val === 'string' ? '' : (val.beetNum || '');
-              return bNum == aktiverBeetFilter;
-            });
+            const filterNum = parseInt(aktiverBeetFilter);
+            katMatch = cStatusObj.beds.includes(filterNum);
           }
         } else if (aktiveKategorie !== "Alle") {
           katMatch = (k.oberkategorie === aktiveKategorie);
@@ -2525,14 +2448,13 @@
 
       if (aktiveKategorie === "Mein Beet") {
         const bedCount = appSettings.bedCount || 8;
-        
-        // Zählt automatisch, wie viele Sorten in welchem Beet stehen
         const bedBelegung = {};
         Object.keys(beet).forEach(k => {
-          const val = beet[k];
-          const bNum = typeof val === 'string' ? '' : (val.beetNum || '');
-          if (bNum) {
-            bedBelegung[bNum] = (bedBelegung[bNum] || 0) + 1;
+          const entry = beet[k];
+          if (entry && entry.beds && entry.beds.length > 0) {
+            entry.beds.forEach(bNum => {
+              bedBelegung[bNum] = (bedBelegung[bNum] || 0) + 1;
+            });
           }
         });
 
@@ -2545,12 +2467,11 @@
         `;
         for(let i=1; i<=bedCount; i++) {
           const count = bedBelegung[i] || 0;
-          const statusText = count > 0 ? `(${count} Pflanze${count > 1 ? 'n' : ''})` : `(Leer)`;
-          bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i}${statusText}</option>`;
+          const statusText = count > 0 ? `(${count} Sorte${count > 1 ? 'n' : ''})` : `(Leer)`;
+          bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i} ${statusText}</option>`;
         }
         bedFilterHtml += `
               </select>
-
               <div style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #fff; pointer-events: none; font-size: 0.8rem;">▼</div>
             </div>
             <button class="clear-all-beets-btn" style="margin-left: 0; padding: 12px 16px; font-size: 0.85rem; border-radius: 12px; display: flex; align-items: center;" onclick="clearAllBeets()" title="Alle Beeteinträge löschen">🧹 Alle leeren</button>
@@ -2621,8 +2542,9 @@
             const hintBadgeHtml = matchHint ? `<div class="match-pill">${highlightMatch(matchHint, query)}</div>` : "";
             let beetBadgeHtml = "";
             if (cStatusObj.status !== 'none') {
-              if (cStatusObj.status === 'sown') beetBadgeHtml = `<div class="card-beet-badge sown">🌱 ${cStatusObj.count} im Beet</div>`;
-              else beetBadgeHtml = `<div class="card-beet-badge harvested">🧺 ${cStatusObj.count} Geerntet</div>`;
+              const bedTags = cStatusObj.beds.length > 0 ? ` [B:${cStatusObj.beds.join(',')}]` : '';
+              if (cStatusObj.status === 'sown') beetBadgeHtml = `<div class="card-beet-badge sown">🌱 ${cStatusObj.count} im Beet${bedTags}</div>`;
+              else beetBadgeHtml = `<div class="card-beet-badge harvested">🧺 ${cStatusObj.count} Geerntet${bedTags}</div>`;
             }
             card.innerHTML = `
               ${beetBadgeHtml}
@@ -2665,7 +2587,7 @@
 
       const inBeetSorten = k.sorten.filter(s => {
         const data = beet[k.id + '__' + s.name];
-        return data && (typeof data === 'string' ? data !== 'none' : data.status !== 'none');
+        return data && data.status !== 'none';
       });
 
       let sortenCardsHtml = "";
@@ -2678,14 +2600,26 @@
         `;
       } else {
         inBeetSorten.forEach(s => {
-          const bData = beet[k.id + '__' + s.name] || { status: 'none', beetNum: '' };
-          const bStatus = typeof bData === 'string' ? bData : bData.status;
-          const bNum = typeof bData === 'string' ? '' : (bData.beetNum || '');
+          const bData = beet[k.id + '__' + s.name] || { status: 'none', beds: [] };
+          const bStatus = bData.status;
+          const assignedBeds = bData.beds || [];
           const jsSorteName = jsStr(s.name);
 
-          let bedOptions = `<option value="">-- Beet wählen --</option>`;
+          let tagsHtml = "";
+          assignedBeds.forEach(bNum => {
+            tagsHtml += `
+              <span class="beet-tag">
+                Beet ${bNum} 
+                <span class="beet-tag-remove" onclick="removeBeetNumber('${k.id}', ${jsSorteName}, ${bNum})" title="Beet-Zuweisung entfernen">✕</span>
+              </span>
+            `;
+          });
+
+          let bedOptions = `<option value="">+ Beet hinzufügen...</option>`;
           for(let i=1; i<=bedCount; i++) {
-            bedOptions += `<option value="${i}" ${bNum == i ? 'selected' : ''}>Beet ${i}</option>`;
+            if (!assignedBeds.includes(i)) {
+              bedOptions += `<option value="${i}">Beet ${i}</option>`;
+            }
           }
 
           sortenCardsHtml += `
@@ -2705,11 +2639,14 @@
                   ❌ Entfernen
                 </button>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
-                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap;">Beet-Nr:</label>
-                <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 6px 10px; font-size: 0.8rem; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border); color: var(--text);">
-                  ${bedOptions}
-                </select>
+              <div style="margin-top: 6px;">
+                <div style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); margin-bottom: 2px;">Zugewiesene Beete:</div>
+                <div>${tagsHtml || '<span style="font-size: 0.75rem; color: var(--text-muted);">Noch keinem Beet zugeordnet</span>'}</div>
+                <div style="margin-top: 6px;">
+                  <select onchange="if(this.value){ addBeetNumber('${k.id}', ${jsSorteName}, this.value); this.value=''; }" style="padding: 6px 10px; font-size: 0.8rem; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border); color: var(--text);">
+                    ${bedOptions}
+                  </select>
+                </div>
               </div>
             </div>
           `;
@@ -2747,13 +2684,26 @@
       const k = gartenDaten.find(i => i.id === id);
       const query = searchInput.value.toLowerCase().trim();
       gewaehlteSorteIdx = 0;
+      aktiverSubFilter = "Alle";
+
       if (k && query !== "") {
-        const foundIdx = k.sorten.findIndex(s =>
+        let foundIdx = k.sorten.findIndex(s =>
           isCleanMatch(s.name, query) || isCleanMatch(s.typ, query) || isCleanMatch(s.gruppe, query)
         );
-        if (foundIdx !== -1) gewaehlteSorteIdx = foundIdx;
+        if (foundIdx === -1) {
+          foundIdx = k.sorten.findIndex(s =>
+            isCleanMatch(s.aussehen, query) || isCleanMatch(s.geschmack, query) ||
+            isCleanMatch(s.verwendung, query) || isCleanMatch(s.eigenschaft, query)
+          );
+        }
+        if (foundIdx !== -1) {
+          gewaehlteSorteIdx = foundIdx;
+          if (k.sorten[foundIdx].gruppe) {
+            aktiverSubFilter = k.sorten[foundIdx].gruppe;
+          }
+        }
       }
-      aktiverSubFilter = "Alle";
+      
       closeAllModals();
       renderDetailModal();
       modalOverlay.classList.add("open");
@@ -2786,61 +2736,14 @@
     impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
 
     function printCurrentDetail() {
-      trigVib();
-      const content = document.getElementById('detailPanel');
-      if (!content) return;
-
-      // Erstelle ein sauberes Druckdokument
-      const printWindow = window.open('', '_blank');
-      if (!printWindow) {
-        // Fallback falls Popups blockiert sind
-        window.print();
-        return;
-      }
-
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Pflanzenprofil Druck</title>
-          <style>
-            * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-            body { padding: 20px; color: #1c3b2b; background: #fff; line-height: 1.45; }
-            .sheet-handle, .close-btn, .print-btn, .subfilter-bar, .beet-status-box, .notes-section { display: none !important; }
-            .detail-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
-            .badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid #ccc; margin-right: 4px; }
-            .v-chip { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; border: 1px solid #ccc; margin: 2px; }
-            .v-info-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin: 12px 0; background: #f8fafc; }
-            .info-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
-            .metric-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; background: #f8fafc; }
-            .metric-label { font-size: 0.65rem; color: #64748b; font-weight: 800; text-transform: uppercase; }
-            .metric-val { font-size: 0.85rem; font-weight: 700; color: #1c3b2b; margin-top: 4px; }
-            .boden-box, .duenger-box, .giessen-box, .tipp-box { border: 1px solid #e2e8f0; border-left: 4px solid #1c3b2b; border-radius: 6px; padding: 10px 12px; margin: 10px 0; font-size: 0.85rem; }
-            .companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-            .companion-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.82rem; }
-          </style>
-        </head>
-        <body>
-          ${content.innerHTML}
-        </body>
-        </html>
-      `);
-
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 350);
+      try { window.print(); } catch (e) { alert("Drucken wird von diesem Browser blockiert."); }
     }
-     function renderDetailModal() {
+
+    function renderDetailModal() {
       const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
       if (!k) return;
 
       const prevScrollTop = detailPanel.scrollTop;
-
       const query = searchInput.value.toLowerCase().trim();
       let sichtbareSorten = k.sorten;
       if (k.filterGruppen && aktiverSubFilter !== "Alle") {
@@ -2853,9 +2756,9 @@
 
       const beet = getBeetStatus();
       const jsSorteName = jsStr(sorte.name);
-      const bData = beet[k.id + '__' + sorte.name] || { status: 'none', beetNum: '' };
-      const bStatus = typeof bData === 'string' ? bData : bData.status;
-      const bNum = typeof bData === 'string' ? '' : (bData.beetNum || '');
+      const bData = beet[k.id + '__' + sorte.name] || { status: 'none', beds: [] };
+      const bStatus = bData.status;
+      const assignedBeds = bData.beds || [];
 
       let subFilterHtml = "";
       if (k.filterGruppen) {
@@ -2872,18 +2775,30 @@
       sichtbareSorten.forEach((s, idx) => {
         const highlightedName = highlightMatch(s.name, query);
         const chipData = beet[k.id + '__' + s.name];
-        const chipStatus = chipData ? (typeof chipData === 'string' ? chipData : chipData.status) : 'none';
-        const chipNum = chipData ? (typeof chipData === 'string' ? '' : chipData.beetNum) : '';
+        const chipStatus = chipData ? chipData.status : 'none';
+        const chipBeds = chipData ? (chipData.beds || []) : [];
         let chipIcon = "";
-        if(chipStatus === 'sown') chipIcon = `🌱 ${chipNum ? `[B${chipNum}] ` : ''}`;
+        if(chipStatus === 'sown') chipIcon = `🌱 ${chipBeds.length > 0 ? `[B:${chipBeds.join(',')}] ` : ''}`;
         if(chipStatus === 'harvested') chipIcon = "🧺 ";
         sortenChipsHtml += `<button class="v-chip ${idx === gewaehlteSorteIdx ? 'active' : ''}" onclick="waehleSorte(${idx})">${chipIcon}${highlightedName}</button>`;
       });
 
       const bedCount = getSettings().bedCount || 8;
-      let bedOptions = `<option value="">-- Beet wählen --</option>`;
+      let bedTagsHtml = "";
+      assignedBeds.forEach(bNum => {
+        bedTagsHtml += `
+          <span class="beet-tag">
+            Beet ${bNum} 
+            <span class="beet-tag-remove" onclick="removeBeetNumber('${k.id}', ${jsSorteName}, ${bNum})" title="Beet entfernen">✕</span>
+          </span>
+        `;
+      });
+
+      let bedOptions = `<option value="">+ Beet zuweisen...</option>`;
       for(let i=1; i<=bedCount; i++) {
-        bedOptions += `<option value="${i}" ${bNum == i ? 'selected' : ''}>Beet ${i}</option>`;
+        if (!assignedBeds.includes(i)) {
+          bedOptions += `<option value="${i}">Beet ${i}</option>`;
+        }
       }
 
       const highlightedSorteName = highlightMatch(sorte.name, query);
@@ -2940,10 +2855,13 @@
               <button class="action-pill ${bStatus==='harvested' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='harvested' ? '#ca8a04' : ''}; color: ${bStatus==='harvested' ? '#fff' : ''}; border-color: ${bStatus==='harvested' ? '#ca8a04' : ''};" onclick="setBeetStatus('${k.id}', ${jsSorteName}, 'harvested')">🧺 Geerntet</button>
             </div>
             <div style="margin-top: 12px; display: ${bStatus !== 'none' ? 'block' : 'none'};">
-              <label style="font-size: 0.75rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 4px;">📍 In welchem Beet steht diese Sorte?</label>
-              <select onchange="updateBeetNum('${k.id}', ${jsSorteName}, this.value)" style="padding: 8px 10px; font-size: 0.85rem; background: var(--input-bg); color: var(--text);">
-                ${bedOptions}
-              </select>
+              <label style="font-size: 0.75rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 4px;">📍 Beete dieser Sorte:</label>
+              <div>${bedTagsHtml || '<span style="font-size: 0.75rem; color: var(--text-muted);">Noch kein Beet zugewiesen</span>'}</div>
+              <div style="margin-top: 6px;">
+                <select onchange="if(this.value){ addBeetNumber('${k.id}', ${jsSorteName}, this.value); this.value=''; }" style="padding: 8px 10px; font-size: 0.85rem; background: var(--input-bg); color: var(--text);">
+                  ${bedOptions}
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -2982,12 +2900,14 @@
       `;
       detailPanel.scrollTop = prevScrollTop;
     }
-     window.setSubFilter = function(gName) {
+
+    window.setSubFilter = function(gName) {
       trigVib();
       aktiverSubFilter = gName;
       gewaehlteSorteIdx = 0;
       renderDetailModal();
     };
+
     window.waehleSorte = function(idx) {
       trigVib();
       gewaehlteSorteIdx = idx;
@@ -3010,11 +2930,10 @@
     });
 
     window.addEventListener("DOMContentLoaded", () => {
-      updateClock();
-      setInterval(updateClock, 1000);
       updateNotesBadge();
       filterUndRender();
     });
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch((err) => {
