@@ -1,6 +1,6 @@
 const CACHE_NAME = 'ramonas-garten-v2';
 
-// 1. ZWINGEND ERFORDERLICH: Ohne diese Datei DARF die Installation nicht gelingen!
+// 1. ZWINGEND ERFORDERLICH: Ohne diese Dateien DARF die Installation nicht gelingen!
 const CORE_ASSETS = [
   './',
   './index.html'
@@ -19,7 +19,7 @@ const OPTIONAL_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // Schritt A: Kern-Dateien MÜSSEN erfolgreich sein (wirft Fehler bei Fehlschlag)
+      // Schritt A: Kern-Dateien MÜSSEN erfolgreich sein
       await cache.addAll(CORE_ASSETS);
 
       // Schritt B: Optionale Assets tolerant nachladen
@@ -39,13 +39,13 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (currentCache) => {
       // Prüfen, ob die index.html im aktuellen Cache wirklich existiert
-      const hasCore = await currentCache.match('./index.html');
+      const hasCore = (await currentCache.match('./index.html')) || (await currentCache.match('./'));
       if (!hasCore) {
         console.warn('[SW] Neuer Cache ist unvollständig. Alte Caches werden geschont.');
         return;
       }
 
-      // Erst jetzt veraltete ramonas-garten-Caches aufräumen
+      // Veraltete ramonas-garten-Caches aufräumen
       const cacheNames = await caches.keys();
       await Promise.all(
         cacheNames.map((name) => {
@@ -63,6 +63,10 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
 
+  // Nur Anfragen des eigenen Ursprungs abfangen
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
   // 1. Navigation / HTML: Network-First (frische Version laden, bei Funkloch Cache)
   if (request.mode === 'navigate' || (request.headers.get('accept') && request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
@@ -74,28 +78,29 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch(() => {
-          return caches.match(request).then((cached) => {
-            return cached || caches.match('./index.html') || caches.match('./');
-          });
+        .catch(async () => {
+          const cached = await caches.match(request);
+          return cached || (await caches.match('./index.html')) || (await caches.match('./'));
         })
     );
     return;
   }
 
   // 2. Statische Dateien (Read.txt, Icons, Manifest): Stale-While-Revalidate
-  // Liefert sofort aus dem Cache, aktualisiert ihn aber unbemerkt im Hintergrund bei Netz
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
-      const fetchPromise = fetch(request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const copy = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-        }
-        return networkResponse;
-      }).catch(() => null);
+      const fetchPromise = fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const copy = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return networkResponse;
+        })
+        .catch(() => null);
 
-      return cachedResponse || fetchPromise;
+      // Liefert Cache sofort, falls vorhanden – sonst wartet er auf das Netzwerk
+      return cachedResponse || fetchPromise.then((res) => res || new Response('', { status: 404, statusText: 'Not Found' }));
     })
   );
 });
