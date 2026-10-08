@@ -3,15 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<script>
-		// Verhindert das weiße Aufblitzen sofort beim Laden
+		// Verhindert das Aufblitzen: Weiß bleibt weiß, Dunkel bleibt dunkel
 		(function() {
 			try {
-				var theme = localStorage.getItem("ramonas_garten_theme_v4") || localStorage.getItem("ramonas_garten_theme_v1");
-				if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+				var theme = localStorage.getItem("ramonas_garten_theme_v5") || localStorage.getItem("ramonas_garten_theme_v3") || localStorage.getItem("ramonas_garten_theme_v1");
+				var isDark = theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+				var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
+				if (isDark) {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
-					var meta = document.getElementById("dynamicThemeColor") || document.querySelector('meta[name="theme-color"]');
 					if (meta) meta.setAttribute("content", "#0f1712");
+				} else {
+					document.documentElement.classList.remove("dark-mode");
+					document.documentElement.style.backgroundColor = "#f5f7f5";
+					if (meta) meta.setAttribute("content", "#f5f7f5");
 				}
 			} catch (e) {}
 		})();
@@ -21,9 +26,7 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
 	<meta name="apple-mobile-web-app-title" content="Ramonas Garten">
-	<meta name="theme-color" content="#1c3b2b" media="(prefers-color-scheme: light)">
-	<meta name="theme-color" content="#0f1712" media="(prefers-color-scheme: dark)">
-	<meta name="theme-color" id="dynamicThemeColor" content="#0f1712">
+	<meta name="theme-color" id="dynamicThemeColor" content="#f5f7f5">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<link rel="manifest" href="manifest.webmanifest">
 	<title>Ramonas Garten Anzucht</title>
@@ -1434,7 +1437,7 @@
 		}
 		.floating-reload-btn {
 			position: fixed;
-			right: 18px;
+			left: 18px;
 			bottom: calc(75px + env(safe-area-inset-bottom, 0px));
 			width: 48px;
 			height: 48px;
@@ -1462,7 +1465,7 @@
 	<div class="top-bar">
 		<div class="left-title">
 			<span>🌱 Ramonas Garten Hilfe</span>
-			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v4</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v5</span>
 		</div>
 		<div class="clock" id="liveClock">Lade Zeit...</div>
 	</div>
@@ -1629,7 +1632,7 @@
 	</button>
 
 	<script>
-	const APP_VERSION = "v4";
+	const APP_VERSION = "v5";
 	const gartenDaten = [{
 			id: "praxis_kompost",
 			name: "Kompost & Humusaufbau",
@@ -3427,7 +3430,7 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
-	const THEME_KEY = "ramonas_garten_theme_v4";
+	const THEME_KEY = "ramonas_garten_theme_v5";
 
 	function applyTheme(theme) {
 		const isDark = (theme === 'dark');
@@ -3463,7 +3466,7 @@
 
 	applyTheme(getSavedTheme());
 
-	const SETTINGS_KEY = "ramonas_garten_settings_v4";
+	const SETTINGS_KEY = "ramonas_garten_settings_v5";
 
 	function getSettings() {
 		try {
@@ -3485,7 +3488,7 @@
 		filterUndRender();
 	};
 
-	const FAVORITES_KEY = "ramonas_garten_favoriten_v4";
+	const FAVORITES_KEY = "ramonas_garten_favoriten_v5";
 
 	function getFavorites() {
 		try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch (e) { return []; }
@@ -3501,7 +3504,7 @@
 		filterUndRender();
 	}
 
-	const NOTES_KEY = "ramonas_garten_notizen_v4";
+	const NOTES_KEY = "ramonas_garten_notizen_v5";
 
 	function getNotes() {
 		try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; }
@@ -3570,7 +3573,7 @@
 		window.location.href = `mailto:marcelkometz@icloud.com?subject=${subject}&body=${body}`;
 	};
 
-	const BEET_KEY = "ramonas_garten_beet_v4";
+	const BEET_KEY = "ramonas_garten_beet_v5";
 
 	function normalizeBeetEntry(entry) {
 		if (!entry) return { status: 'none', beds: [] };
@@ -3592,7 +3595,7 @@
 		try {
 			let beet = JSON.parse(localStorage.getItem(BEET_KEY));
 			if (!beet) {
-				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v4"));
+				const old = JSON.parse(localStorage.getItem("ramonas_garten_beet_v5"));
 				if (old && typeof old === 'object') {
 					beet = {};
 					Object.keys(old).forEach(k => {
@@ -3743,7 +3746,7 @@
 		};
 	}
 
-	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v4";
+	const GENERAL_NOTES_KEY = "ramonas_garten_general_notes_v5";
 
 	function getGeneralNotes() {
 		try { return JSON.parse(localStorage.getItem(GENERAL_NOTES_KEY)) || []; } catch (e) { return []; }
