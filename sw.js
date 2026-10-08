@@ -1,6 +1,6 @@
-const CACHE_NAME = 'ramonas-garten-v8';
+const CACHE_NAME = 'ramonas-garten-v9';
 
-// Dateien, die für den vollen Offline-Betrieb benötigt werden
+// Alle Dateien, die für den vollständigen Offline-Betrieb nötig sind
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
       return Promise.allSettled(
         PRECACHE_ASSETS.map((asset) =>
           cache.add(asset).catch((err) => {
-            console.warn(`[Service Worker] Vorab-Cache für ${asset} übersprungen:`, err);
+            console.warn(`[SW] Vorab-Cache für ${asset} übersprungen:`, err);
           })
         )
       );
@@ -26,7 +26,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Aktivierung: Nur veraltete Caches dieser App aufräumen
+// Aktivierung: Alte Versionen dieses Projekts löschen, fremde Caches unberührt lassen
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -41,34 +41,34 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Abfragen verarbeiten
+// Abfragen behandeln
 self.addEventListener('fetch', (event) => {
   const request = event.request;
 
-  // Nur GET-Requests cachen
+  // Nur GET-Anfragen verarbeiten
   if (request.method !== 'GET') return;
 
-  // 1. Navigation / HTML: Network-First (Updates sofort laden, Offline aus Cache)
+  // 1. Navigation & HTML: Network-First (für unmittelbare Updates auf dem iPhone)
   if (request.mode === 'navigate' || (request.headers.get('accept') && request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(request)
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+            const copy = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           }
           return networkResponse;
         })
         .catch(() => {
-          return caches.match(request).then((cachedResponse) => {
-            return cachedResponse || caches.match('./index.html');
+          return caches.match(request).then((cached) => {
+            return cached || caches.match('./index.html');
           });
         })
     );
     return;
   }
 
-  // 2. Statische Assets (Bilder, Manifest, Textdateien): Cache-First mit Netzwerk-Fallback
+  // 2. Statische Assets (Icons, Read.txt, Manifest): Cache-First mit Netzwerk-Fallback
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
@@ -77,8 +77,8 @@ self.addEventListener('fetch', (event) => {
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
         }
-        const responseClone = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+        const copy = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         return networkResponse;
       });
     })
