@@ -767,7 +767,7 @@
 			flex-shrink: 0;
 		}
 
-		.print-btn {
+		.share-btn {
 			background: var(--primary-light);
 			border: 1px solid var(--primary);
 			color: var(--primary);
@@ -783,7 +783,7 @@
 			transition: all 0.2s;
 		}
 
-		.print-btn:hover {
+		.share-btn:hover {
 			background: var(--primary);
 			color: #fff;
 		}
@@ -4592,26 +4592,44 @@
 	function closeImpressum() { impressumOverlay.classList.remove("open"); }
 	impressumOverlay.addEventListener("click", (e) => { if (e.target === impressumOverlay) closeImpressum(); });
 
-	function printCurrentDetail() {
+	function shareCurrentPlant() {
 		trigVib();
-		try {
-			const textarea = document.querySelector('.notes-textarea');
-			const printNoteDiv = document.getElementById('printNoteText');
-			if (textarea && printNoteDiv) {
-				printNoteDiv.innerText = textarea.value.trim() !== "" ? textarea.value : "Keine Notizen vorhanden.";
-			}
-			// iOS Safari PWA Fix: Fokus lösen und Druckaufruf entkoppeln
-			if (document.activeElement) {
-				document.activeElement.blur();
-			}
-			setTimeout(() => {
-				window.focus();
-				window.print();
-			}, 150);
-		} catch (e) {
-			alert("Drucken wird von diesem Browser blockiert.");
+		const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
+		if (!k) return;
+
+		let sichtbareSorten = k.sorten;
+		if (k.filterGruppen && aktiverSubFilter !== "Alle") {
+			sichtbareSorten = k.sorten.filter(s => s.gruppe === aktiverSubFilter);
+		}
+		const sorte = sichtbareSorten[gewaehlteSorteIdx] || k.sorten[0];
+		const notes = getNotes();
+		const currentNote = notes[k.id] ? `\n\n📝 Meine Notiz:\n${notes[k.id]}` : "";
+
+		const shareText = `🌱 ${k.name} (${sorte.name})\n` +
+			`──────────────────\n` +
+			`• Kategorie: ${k.oberkategorie} / ${k.kategorie}\n` +
+			`• Standort: ${k.standort}\n` +
+			`• Vorzucht/Aussaat: ${k.zeitVorzucht}\n` +
+			`• Ins Beet: ${k.zeitBeet}\n` +
+			`• Erntezeit: ${k.zeitErnte}\n` +
+			`• Gießen: ${k.giessen}\n` +
+			`• Tipp: ${k.tipp}` +
+			currentNote;
+
+		if (navigator.share) {
+			navigator.share({
+				title: `${k.icon} ${k.name} - ${sorte.name}`,
+				text: shareText
+			}).catch(() => {});
+		} else if (navigator.clipboard) {
+			navigator.clipboard.writeText(shareText).then(() => {
+				alert("✅ Pflanzen-Infos in die Zwischenablage kopiert!");
+			});
+		} else {
+			window.location.href = `mailto:?subject=${encodeURIComponent(k.name)}&body=${encodeURIComponent(shareText)}`;
 		}
 	}
+
 
 	function renderDetailModal() {
 		const k = gartenDaten.find(i => i.id === gewaehlteKulturId);
@@ -4707,7 +4725,7 @@
             </div>
           </div>
           <div class="header-actions">
-            <button class="print-btn" onclick="printCurrentDetail()" title="Als PDF speichern oder drucken">🖨️ PDF / Druck</button>
+            <button class="share-btn" onclick="shareCurrentPlant()" title="Pflanzen-Details teilen">📤 Teilen</button>
             <button class="close-btn" onclick="closeDetailModal()">✕</button>
           </div>
         </div>
