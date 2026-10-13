@@ -1518,14 +1518,20 @@
 	setInterval(updateClock, 1000);
 	updateClock();
 
+	// =========================================
+	// 4 THEMEN VERWALTUNG
+	// =========================================
 	const THEME_KEY = "ramonas_garten_theme_v2";
 
 	function applyTheme(theme) {
 		const validThemes = ['light', 'dark', 'herbst', 'salbei'];
 		const activeTheme = validThemes.includes(theme) ? theme : 'light';
+
+		// Attribut auf html-Tag setzen
 		document.documentElement.setAttribute('data-theme', activeTheme);
 		document.body.setAttribute('data-theme', activeTheme);
 
+		// Dark-Mode Klassen-Kompatibilität wahren
 		if (activeTheme === 'dark') {
 			document.documentElement.classList.add('dark-mode');
 			document.body.classList.add('dark-mode');
@@ -1534,12 +1540,22 @@
 			document.body.classList.remove('dark-mode');
 		}
 
-		const colors = { light: '#1c3b2b', dark: '#0f1712', herbst: '#854d0e', salbei: '#2d5a49' };
+		// Theme-Color für mobile Browserleiste
+		const colors = {
+			light: '#1c3b2b',
+			dark: '#0f1712',
+			herbst: '#854d0e',
+			salbei: '#2d5a49'
+		};
 		const metaColor = colors[activeTheme] || '#1c3b2b';
-		document.querySelectorAll('meta[name="theme-color"]').forEach(meta => meta.setAttribute('content', metaColor));
+		document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+			meta.setAttribute('content', metaColor);
+		});
 	}
 
-	function getSavedTheme() { return localStorage.getItem(THEME_KEY) || 'light'; }
+	function getSavedTheme() {
+		return localStorage.getItem(THEME_KEY) || 'light';
+	}
 
 	window.setAppTheme = function(theme) {
 		trigVib();
@@ -1547,6 +1563,7 @@
 		applyTheme(theme);
 		filterUndRender();
 	};
+
 	applyTheme(getSavedTheme());
 
 	window.saveSettings = async function() {
