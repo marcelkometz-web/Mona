@@ -312,6 +312,7 @@
 			text-transform: uppercase;
 			letter-spacing: 0.5px;
 			white-space: nowrap;
+			flex-shrink: 0;
 		}
 
 		.status-actions {
@@ -319,6 +320,14 @@
 			align-items: center;
 			gap: 6px;
 			margin-left: auto;
+			overflow-x: auto;
+			scrollbar-width: none;
+			-webkit-overflow-scrolling: touch;
+			padding-bottom: 2px;
+		}
+
+		.status-actions::-webkit-scrollbar {
+			display: none;
 		}
 
 		.row-btn {
@@ -521,6 +530,7 @@
 			gap: 10px;
 			flex-wrap: wrap;
 		}
+
 		.wish-queue-box {
 			margin-top: 16px;
 			background: var(--box-note-bg);
@@ -1323,7 +1333,7 @@
 	<footer class="app-footer">
 		<p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
 		<p>
-			<a href="https://marcelkometz-web.github.io/diegartenmutti-rezepte/" target="_blank" style="color: var(--primary); font-weight: 800; text-decoration: underline; margin-right: 12px;">🍳 Zu den Rezepten</a>
+			<a href="https://marcelkometz-web.github.io/diegartenmutti-rezepte/" onclick="openRezepteApp(); return false;" style="color: var(--primary); font-weight: 800; text-decoration: underline; margin-right: 12px;">🍳 Zu den Rezepten</a>
 			<a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
 			<a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
 		</p>
@@ -1406,6 +1416,7 @@
 	// SCHNELL-WECHSEL ZUR REZEPTE-APP
 	// =========================================
 	window.openRezepteApp = function() {
+		trigVib();
 		window.location.href = 'https://marcelkometz-web.github.io/diegartenmutti-rezepte/';
 	};
 
@@ -1870,8 +1881,10 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
   ]
 }`;
 
-		// Robuste Modellauswahl
+		// Robuste Modellauswahl inkl. neuester Flash-Generationen
 		const modelsToTry = [
+			'gemini-3.8-flash',
+			'gemini-3.5-flash-lite',
 			'gemini-2.5-flash',
 			'gemini-2.0-flash',
 			'gemini-1.5-flash'
@@ -1937,6 +1950,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			if (statusCount) statusCount.innerText = `Kulturen: ${gartenDaten.length}`;
 		}
 	};
+
 	// =========================================
 	// WUNSCHLISTE & BEETE
 	// =========================================
