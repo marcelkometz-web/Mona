@@ -9,7 +9,7 @@ window.openRezepteApp = function() {
 // SUPABASE INITIALISIERUNG
 // =========================================
 const SUPABASE_URL = 'https://kzxzhpebugvzyqfjqedx.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_8-MkCdXRxN-GagE0g4GYrQ_TY3I6RmD';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6eHpocGVidWd2enlxZmpxZWR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MDU5MTgsImV4cCI6MjEwNzE4MTkxOH0.QYQrl8gacfbjLz5wpPjYoK_VBV50spYqpNtqPXiftCU';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let gartenDaten = [];
@@ -19,8 +19,11 @@ let myGeneralNotes = [];
 let myWishes = [];
 let myBeetStatus = {};
 
-// Einstellungen ohne fest kodierten API-Schlüssel initialisieren
-let appSettings = { bedCount: 8, geminiApiKey: "" };
+// LEERES SETTINGS-OBJEKT: Schlüssel wird dynamisch aus der DB oder lokal geladen!
+let appSettings = { 
+	bedCount: 8, 
+	geminiApiKey: "" 
+};
 
 async function loadDataFromSupabase() {
 	const statusEl = document.getElementById("statusCount");
@@ -87,7 +90,6 @@ async function loadDataFromSupabase() {
 			});
 		}
 
-		// API-Schlüssel aus der Datenbank laden, falls vorhanden
 		if (setRes.data && setRes.data.length > 0) {
 			appSettings.bedCount = setRes.data[0].bed_count || 8;
 			appSettings.geminiApiKey = setRes.data[0].gemini_api_key || localStorage.getItem("gemini_api_key") || "";
@@ -124,9 +126,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// =========================================
-// THEMENVERWALTUNG INKL. AUTOMATIK
-// =========================================
 const THEME_KEY = "ramonas_garten_theme_v2";
 
 function getSeasonTheme() {
@@ -188,7 +187,7 @@ window.saveSettings = async function() {
 	if (apiKey) localStorage.setItem("gemini_api_key", apiKey);
 	
 	aktiverBeetFilter = "Alle";
-	alert(`Einstellungen gespeichert! (Dein API-Key liegt nun in der Cloud für alle Familien-Geräte bereit)`);
+	alert(`Einstellungen gespeichert! (Dein API-Key liegt nun sicher in eurer Datenbank)`);
 	filterUndRender();
 
 	await supabaseClient.from('garten_settings').upsert({ id: 1, bed_count: count, gemini_api_key: apiKey });
@@ -417,9 +416,6 @@ function updateNotesBadge() {
 	if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
 }
 
-// =========================================
-// GARTEN KI ABFRAGE (HEADER-FIX FÜR AQ. SCHLÜSSEL)
-// =========================================
 window.askGardenGemini = async function() {
 	trigVib();
 	const promptInput = document.getElementById("gardenAiPrompt");
@@ -434,12 +430,9 @@ window.askGardenGemini = async function() {
 	}
 
 	let activeKey = appSettings.geminiApiKey;
-	if (!activeKey) {
-		activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
-		if (!activeKey) return;
-		activeKey = activeKey.trim();
-		appSettings.geminiApiKey = activeKey;
-		await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
+	if (!activeKey || activeKey === "") {
+		alert("Bitte trage zuerst deinen Gemini API-Schlüssel in den App-Einstellungen ein!");
+		return;
 	}
 
 	const chosenModel = modelSelect ? modelSelect.value : 'gemini-3.8-flash';
@@ -493,9 +486,6 @@ window.askGardenGemini = async function() {
 	}
 };
 
-// =========================================
-// KAMERA-SCAN FÜR SORTEN-TÜTCHEN & FOTO-UPLOAD
-// =========================================
 let selectedImageBase64 = null;
 let selectedImageMimeType = null;
 
@@ -524,12 +514,9 @@ window.analyzeSeedPacketAndSave = async function() {
 	}
 
 	let activeKey = appSettings.geminiApiKey;
-	if (!activeKey) {
-		activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
-		if (!activeKey) return;
-		activeKey = activeKey.trim();
-		appSettings.geminiApiKey = activeKey;
-		await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
+	if (!activeKey || activeKey === "") {
+		alert("Bitte trage zuerst deinen Gemini API-Schlüssel in den App-Einstellungen ein!");
+		return;
 	}
 
 	const modelSelect = document.getElementById("selectedGeminiModel");
@@ -540,37 +527,37 @@ window.analyzeSeedPacketAndSave = async function() {
 	const promptText = `Analysiere dieses Foto von einem Saatgut-Tütchen. Erkenne den Namen der Pflanze, die genaue Sorte sowie alle sichtbaren Angaben (Aussaat, Ernte, Abstand, Tipps).
 Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`\`json, ohne zusätzlichen Text) nach exakt dieser Struktur:
 {
-"id": "eindeutige_kleingeschriebene_id_ohne_umlaute",
-"name": "Erkannter Deutscher Pflanzenname",
-"oberkategorie": "Gemüse",
-"kategorie": "Fruchtgemüse",
-"icon": "🍅",
-"anbau": "🪴 Vorzucht -> Jungpflanze",
-"wasser": "💧💧 Mittel",
-"standort": "Sonnig und geschützt",
-"boden": "Nährstoffreich",
-"giessen": "Regelmäßig gießen",
-"abstand_pflanze": "40 cm",
-"abstand_reihe": "60 cm",
-"saattiefe": "1-2 cm",
-"bedarf": "Starkzehrer",
-"zeit_vorzucht": "Mär-Apr",
-"zeit_beet": "Mai",
-"zeit_ernte": "Jul-Okt",
-"monate_aussaat": [3, 4, 5],
-"tipp": "Aus dem Tütchen ausgelesener Profitipp",
-"gute_nachbarn": "Tomaten, Basilikum",
-"schlechte_nachbarn": "Kartoffeln",
-"filter_gruppen": null,
-"sorten": [
-{
-  "name": "Auf dem Tütchen erkannter Sortenname",
-  "typ": "Sorte",
-  "aussehen": "Beschreibung laut Tütchen",
-  "geschmack": "Geschmack",
-  "verwendung": "Frischverzehr"
-}
-]
+  "id": "eindeutige_kleingeschriebene_id_ohne_umlaute",
+  "name": "Erkannter Deutscher Pflanzenname",
+  "oberkategorie": "Gemüse",
+  "kategorie": "Fruchtgemüse",
+  "icon": "🍅",
+  "anbau": "🪴 Vorzucht -> Jungpflanze",
+  "wasser": "💧💧 Mittel",
+  "standort": "Sonnig und geschützt",
+  "boden": "Nährstoffreich",
+  "giessen": "Regelmäßig gießen",
+  "abstand_pflanze": "40 cm",
+  "abstand_reihe": "60 cm",
+  "saattiefe": "1-2 cm",
+  "bedarf": "Starkzehrer",
+  "zeit_vorzucht": "Mär-Apr",
+  "zeit_beet": "Mai",
+  "zeit_ernte": "Jul-Okt",
+  "monate_aussaat": [3, 4, 5],
+  "tipp": "Aus dem Tütchen ausgelesener Profitipp",
+  "gute_nachbarn": "Tomaten, Basilikum",
+  "schlechte_nachbarn": "Kartoffeln",
+  "filter_gruppen": null,
+  "sorten": [
+    {
+      "name": "Auf dem Tütchen erkannter Sortenname",
+      "typ": "Sorte",
+      "aussehen": "Beschreibung laut Tütchen",
+      "geschmack": "Geschmack",
+      "verwendung": "Frischverzehr"
+    }
+  ]
 }`;
 
 	try {
@@ -630,20 +617,14 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 	}
 };
 
-// =========================================
-// GEMINI VOLLAUTOMATISCHES PFLANZEN-ANLEGEN
-// =========================================
 window.generatePlantWithGemini = async function(plantName) {
 	trigVib();
 	if (!plantName || plantName.trim() === "") return;
 
 	let activeKey = appSettings.geminiApiKey;
-	if (!activeKey) {
-		activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
-		if (!activeKey) return;
-		activeKey = activeKey.trim();
-		appSettings.geminiApiKey = activeKey;
-		await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
+	if (!activeKey || activeKey === "") {
+		alert("Bitte trage zuerst deinen Gemini API-Schlüssel in den App-Einstellungen ein!");
+		return;
 	}
 
 	const statusCount = document.getElementById("statusCount");
@@ -652,38 +633,38 @@ window.generatePlantWithGemini = async function(plantName) {
 	const promptText = `Erstelle ein vollständiges Kleingarten-Profil für die Pflanze oder Sorte "${plantName}".
 Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`\`json, ohne zusätzlichen Text), das exakt dieser Struktur entspricht:
 {
-"id": "eindeutige_kleingeschriebene_id_ohne_umlaute",
-"name": "Deutscher Pflanzenname",
-"oberkategorie": "Gemüse",
-"kategorie": "z.B. Fruchtgemüse / Wurzeln / Kohlgemüse / Beerensträucher",
-"icon": "passendes Pflanzen-Emoji",
-"anbau": "🪴 Vorzucht -> Jungpflanze oder 🫘 Direktsaat",
-"wasser": "💧 Niedrig / 💧💧 Mittel / 💧💧💧 Hoch",
-"standort": "Licht- und Wärmebedarf kurz",
-"boden": "Bodenbeschaffenheit kurz",
-"duenger": "Nährstoffbedarf und Dünger",
-"giessen": "Gießempfehlung",
-"abstand_pflanze": "z.B. 40 cm",
-"abstand_reihe": "z.B. 60 cm",
-"saattiefe": "z.B. 1-2 cm",
-"bedarf": "Starkzehrer / Mittelzehrer / Schwachzehrer",
-"zeit_vorzucht": "z.B. Mär-Apr oder -",
-"zeit_beet": "z.B. Mai-Jun",
-"zeit_ernte": "z.B. Jul-Okt",
-"monate_aussaat": [3, 4, 5],
-"tipp": "Prägnanter Profi-Kleingartentipp",
-"gute_nachbarn": "Gute Nachbarn kommagetrennt",
-"schlechte_nachbarn": "Schlechte Nachbarn kommagetrennt",
-"filter_gruppen": null,
-"sorten": [
-{
-  "name": "Sortenname",
-  "typ": "Wuchsform oder Typus",
-  "aussehen": "Beschreibung der Frucht/Blätter",
-  "geschmack": "Geschmacksnoten",
-  "verwendung": "Küchen- oder Verwendungszweck"
-}
-]
+  "id": "eindeutige_kleingeschriebene_id_ohne_umlaute",
+  "name": "Deutscher Pflanzenname",
+  "oberkategorie": "Gemüse",
+  "kategorie": "z.B. Fruchtgemüse / Wurzeln / Kohlgemüse / Beerensträucher",
+  "icon": "passendes Pflanzen-Emoji",
+  "anbau": "🪴 Vorzucht -> Jungpflanze oder 🫘 Direktsaat",
+  "wasser": "💧 Niedrig / 💧💧 Mittel / 💧💧💧 Hoch",
+  "standort": "Licht- und Wärmebedarf kurz",
+  "boden": "Bodenbeschaffenheit kurz",
+  "duenger": "Nährstoffbedarf und Dünger",
+  "giessen": "Gießempfehlung",
+  "abstand_pflanze": "z.B. 40 cm",
+  "abstand_reihe": "z.B. 60 cm",
+  "saattiefe": "z.B. 1-2 cm",
+  "bedarf": "Starkzehrer / Mittelzehrer / Schwachzehrer",
+  "zeit_vorzucht": "z.B. Mär-Apr oder -",
+  "zeit_beet": "z.B. Mai-Jun",
+  "zeit_ernte": "z.B. Jul-Okt",
+  "monate_aussaat": [3, 4, 5],
+  "tipp": "Prägnanter Profi-Kleingartentipp",
+  "gute_nachbarn": "Gute Nachbarn kommagetrennt",
+  "schlechte_nachbarn": "Schlechte Nachbarn kommagetrennt",
+  "filter_gruppen": null,
+  "sorten": [
+    {
+      "name": "Sortenname",
+      "typ": "Wuchsform oder Typus",
+      "aussehen": "Beschreibung der Frucht/Blätter",
+      "geschmack": "Geschmacksnoten",
+      "verwendung": "Küchen- oder Verwendungszweck"
+    }
+  ]
 }`;
 
 	const modelsToTry = [
@@ -754,9 +735,6 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 	}
 };
 
-// =========================================
-// WUNSCHLISTE & BEETE
-// =========================================
 function getWishList() { return myWishes; }
 
 window.addWishPlant = async function(plantName) {
@@ -1168,9 +1146,9 @@ function filterUndRender() {
 
 			<div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🤖 Gemini API-Schlüssel</div>
 			<div style="margin-bottom: 20px;">
-			  <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Google Gemini API-Key (für die Cloud):</label>
-			  <input type="password" id="settingGeminiKey" value="${escapeHtml(appSettings.geminiApiKey || '')}" placeholder="Gib deinen API-Key ein..." style="width: 100%; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
-			  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Dieser Schlüssel wird in eurer privaten Supabase-Datenbank sicher gespeichert, damit Ramona ihn nicht auf ihrem Gerät eingeben muss.</p>
+			  <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Google Gemini API-Key:</label>
+			  <input type="password" id="settingGeminiKey" value="" placeholder="AIzaSy... oder AQ.Ab..." style="width: 100%; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
+			  <p style="font-size: 0.75rem; color: #16a34a; margin-top: 6px; font-weight: bold;">🔒 Trage deinen Schlüssel hier ein und klicke auf Speichern. Er wird dann unsichtbar auf Supabase abgelegt und kann von allen Geräten aus genutzt werden.</p>
 			</div>
 
 			<button onclick="saveSettings()" style="width: 100%; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.95rem;">💾 Alle Einstellungen speichern</button>
@@ -1192,7 +1170,6 @@ function filterUndRender() {
 		const notedIds = Object.keys(myNotes).filter(id => myNotes[id] && myNotes[id].trim() !== "");
 		statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + myGeneralNotes.length}`;
 		cultureGrid.innerHTML = `
-		  <!-- LILA KI-FELD MIT MODELL-AUSWAHLMENÜ -->
 		  <div class="ki-box">
 			<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
 			  <label style="color:#a371f7; font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:6px;">✨ Garten-KI Assistent</label>
@@ -1992,9 +1969,6 @@ if (sInput) {
 	});
 }
 
-// =========================================
-// APP START (PFLANZEN LADEN)
-// =========================================
 window.addEventListener("DOMContentLoaded", () => {
 	loadDataFromSupabase();
 });
