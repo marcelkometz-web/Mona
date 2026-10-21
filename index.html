@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<script>
-		// Erkennt die Jahreszeit und verhindert Aufblitzen beim Laden (bleibt hier für Performance)
 		(function() {
 			try {
 				var savedTheme = localStorage.getItem("ramonas_garten_theme_v2") || "auto";
@@ -45,7 +44,7 @@
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<link rel="manifest" href="manifest.webmanifest">
 	
-	<!-- Verknüpfung zur externen CSS-Datei -->
+	<!-- CSS Datei einbinden -->
 	<link rel="stylesheet" href="style.css">
 	
 	<title>Ramonas Garten Anzucht</title>
@@ -146,7 +145,7 @@
 		</div>
 	</div>
 
-		<div class="modal-overlay" id="impressumOverlay">
+	<div class="modal-overlay" id="impressumOverlay">
 		<div class="detail-panel" style="max-width: 520px;">
 			<div class="sheet-handle"></div>
 			<div class="detail-header">
@@ -154,30 +153,21 @@
 				<button class="close-btn" onclick="closeImpressum(); trigVib();">✕</button>
 			</div>
 			<div style="font-size: 0.85rem; line-height: 1.6; color: var(--text);">
-				
-				<!-- Knalliger Hinweis auf reines Privatprojekt -->
 				<div style="background: rgba(163, 113, 247, 0.1); color: #a371f7; padding: 12px; border-radius: 10px; margin-bottom: 18px; font-weight: 800; border: 1px solid rgba(163, 113, 247, 0.4);">
 					ℹ️ Wichtiger Hinweis: Diese App ist ein rein privates, nicht-kommerzielles Familien-Projekt zur Gartenverwaltung.
 				</div>
-
 				<p style="margin: 8px 0;"><strong>Angaben gemäß § 5 DDG:</strong><br>
 				Marcel Kometz<br>
 				Manfredstr. 15<br>
 				47178 Duisburg</p>
-
 				<p style="margin: 12px 0 8px 0;"><strong>Kontakt:</strong><br>
 				Telefon: 015901486107<br>
 				E-Mail: <a href="mailto:marcelkometz@icloud.com" style="color: var(--accent); font-weight: 700; text-decoration: none;">marcelkometz@icloud.com</a></p>
-
 				<p style="margin: 16px 0 8px 0;"><strong>Verantwortlich für den Inhalt:</strong><br>
 				Marcel Kometz (Anschrift wie oben)</p>
-
 				<hr style="border: 0; border-top: 1px solid var(--border); margin: 18px 0;">
-
 				<p style="margin: 8px 0; font-size: 0.95rem; color: var(--primary);"><strong>Haftungsausschluss (Disclaimer)</strong></p>
-				
 				<p style="margin: 8px 0; color: var(--text-muted); text-align: justify;"><strong>Haftung für Inhalte:</strong> Als private Betreiber übernehmen wir keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten gärtnerischen Informationen, Pflanzen-Profile oder der von der künstlichen Intelligenz (KI) generierten Antworten. Die Nutzung der App-Tipps erfolgt auf eigene Gefahr.</p>
-				
 				<p style="margin: 12px 0 8px 0; color: var(--text-muted); text-align: justify;"><strong>Datenschutz & Cloud:</strong> Diese App nutzt eine private Supabase-Datenbank zur Synchronisierung innerhalb der Familie. Es werden keine personenbezogenen Daten von Drittnutzern gesammelt, analysiert oder zu Werbezwecken weiterverarbeitet. Hinterlegte API-Schlüssel werden ausschließlich lokal auf dem Endgerät oder in der passwortgeschützten privaten Datenbank abgelegt.</p>
 			</div>
 		</div>
@@ -198,7 +188,7 @@
 
 	<button class="floating-reload-btn" onclick="trigVib(); loadDataFromSupabase();" title="Aus der Cloud aktualisieren">🔄</button>
 	
-	<!-- Verknüpfung zur externen JavaScript-Datei -->
+	<!-- JS Datei einbinden -->
 	<script src="app.js"></script>
 </body>
 </html>
