@@ -2,30 +2,27 @@
 <html lang="de">
 <head>
 	<meta charset="UTF-8">
+	<!-- Mini-Script gegen Aufblitzen im Darkmode -->
 	<script>
 		(function() {
 			try {
-				var savedTheme = localStorage.getItem("ramonas_garten_theme_v2") || "auto";
-				var targetTheme = savedTheme;
-				if (savedTheme === "auto") {
-					var month = new Date().getMonth() + 1;
-					if (month >= 3 && month <= 5) targetTheme = "salbei";
-					else if (month >= 6 && month <= 8) targetTheme = "light";
-					else if (month >= 9 && month <= 11) targetTheme = "herbst";
-					else targetTheme = "dark";
+				var st = localStorage.getItem("ramonas_garten_theme_v2") || "auto";
+				if (st === "auto") {
+					var m = new Date().getMonth() + 1;
+					if (m >= 3 && m <= 5) st = "salbei";
+					else if (m >= 6 && m <= 8) st = "light";
+					else if (m >= 9 && m <= 11) st = "herbst";
+					else st = "dark";
 				}
-				document.documentElement.setAttribute('data-theme', targetTheme);
-				if (targetTheme === "dark") {
+				document.documentElement.setAttribute('data-theme', st);
+				if (st === "dark") {
 					document.documentElement.classList.add("dark-mode");
 					document.documentElement.style.backgroundColor = "#0f1712";
-				} else if (targetTheme === "herbst") {
-					document.documentElement.classList.remove("dark-mode");
+				} else if (st === "herbst") {
 					document.documentElement.style.backgroundColor = "#fbf6f0";
-				} else if (targetTheme === "salbei") {
-					document.documentElement.classList.remove("dark-mode");
+				} else if (st === "salbei") {
 					document.documentElement.style.backgroundColor = "#eef3f1";
 				} else {
-					document.documentElement.classList.remove("dark-mode");
 					document.documentElement.style.backgroundColor = "#f5f7f5";
 				}
 			} catch (e) {}
@@ -168,7 +165,7 @@
 				<hr style="border: 0; border-top: 1px solid var(--border); margin: 18px 0;">
 				<p style="margin: 8px 0; font-size: 0.95rem; color: var(--primary);"><strong>Haftungsausschluss (Disclaimer)</strong></p>
 				<p style="margin: 8px 0; color: var(--text-muted); text-align: justify;"><strong>Haftung für Inhalte:</strong> Als private Betreiber übernehmen wir keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten gärtnerischen Informationen, Pflanzen-Profile oder der von der künstlichen Intelligenz (KI) generierten Antworten. Die Nutzung der App-Tipps erfolgt auf eigene Gefahr.</p>
-				<p style="margin: 12px 0 8px 0; color: var(--text-muted); text-align: justify;"><strong>Datenschutz & Cloud:</strong> Diese App nutzt eine private Supabase-Datenbank zur Synchronisierung innerhalb der Familie. Es werden keine personenbezogenen Daten von Drittnutzern gesammelt, analysiert oder zu Werbezwecken weiterverarbeitet. Hinterlegte API-Schlüssel werden ausschließlich lokal auf dem Endgerät oder in der passwortgeschützten privaten Datenbank abgelegt.</p>
+				<p style="margin: 12px 0 8px 0; color: var(--text-muted); text-align: justify;"><strong>Datenschutz & Cloud:</strong> Diese App nutzt eine private Supabase-Datenbank zur Synchronisierung innerhalb der Familie. Es werden keine personenbezogenen Daten von Drittnutzern für Marketingzwecke gesammelt. Wir weisen darauf hin, dass Benutzereingaben (insb. an die KI gesendete Texte und Bilder) durch externe Dienste wie Google Gemini, OpenAI (ChatGPT) und Perplexity verarbeitet werden.</p>
 			</div>
 		</div>
 	</div>
