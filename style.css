@@ -93,462 +93,78 @@ html[data-theme="salbei"] {
 	background-color: #eef3f1 !important;
 }
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+html { background-color: var(--bg); min-height: 100%; }
+body { background-color: var(--bg); color: var(--text); min-height: 100vh; min-height: -webkit-fill-available; padding: 15px; padding-top: max(15px, env(safe-area-inset-top, 15px)); padding-bottom: calc(95px + env(safe-area-inset-bottom, 20px)); max-width: 1200px; margin: 0 auto; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
 
-html {
-	background-color: var(--bg);
-	min-height: 100%;
-}
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 12px 16px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); gap: 10px; }
+.left-title { font-size: 1.05rem; font-weight: 800; color: var(--primary); text-align: left; letter-spacing: 0.2px; display: flex; align-items: center; gap: 6px; flex: 1; }
+.clock { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: var(--tag-bg); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; color: var(--text-muted); text-align: right; line-height: 1.25; flex-shrink: 0; }
 
-body {
-	background-color: var(--bg);
-	color: var(--text);
-	min-height: 100vh;
-	min-height: -webkit-fill-available;
-	padding: 15px;
-	padding-top: max(15px, env(safe-area-inset-top, 15px));
-	padding-bottom: calc(95px + env(safe-area-inset-bottom, 20px));
-	max-width: 1200px;
-	margin: 0 auto;
-	-webkit-tap-highlight-color: transparent;
-	transition: background-color 0.3s ease, color 0.3s ease;
-}
+header { text-align: center; margin-bottom: 16px; padding: 16px 14px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); background-color: #163323; background-image: linear-gradient(rgba(18, 43, 29, 0.85), rgba(18, 43, 29, 0.92)), url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.16'%3E%3Cpath d='M25 35c3-10 12-15 15-15s5 10-5 18l-10-3zm55 45c-8 2-14-3-15-10s8-12 15-5l0 15zm-45 15l8-14 6 4-8 14-6-4zm50-60l4-8 8 4-4 8-8-4z'/%3E%3Ccircle cx='95' cy='25' r='5'/%3E%3Ccircle cx='20' cy='95' r='4'/%3E%3Cpath d='M60 15c-2 8-8 12-14 10 6 6 14 4 14-10z'/%3E%3Cpath d='M70 100c2-8 8-12 14-10-6-6-14-4-14 10z'/%3E%3C/g%3E%3C/svg%3E"); background-size: cover, 130px 130px; }
+h1 { font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); }
+p.subtitle { font-size: 0.82rem; color: #d1fae5; margin-top: 4px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
 
-.top-bar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 15px;
-	padding: 12px 16px;
-	background: var(--glass-bg);
-	backdrop-filter: blur(24px) saturate(180%);
-	-webkit-backdrop-filter: blur(24px) saturate(180%);
-	border-radius: 16px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-	gap: 10px;
-}
+.search-box { position: relative; margin-bottom: 14px; }
+input[type="text"], input[type="datetime-local"], input[type="number"], input[type="password"], select { width: 100%; padding: 13px 16px; font-size: 1rem; border-radius: 12px; border: 2px solid var(--border); outline: none; transition: border-color 0.2s, background-color 0.2s; background: var(--input-bg); color: var(--text); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); }
+input[type="text"] { padding-right: 85px; }
+input:focus, select:focus { border-color: var(--accent); }
 
-.left-title {
-	font-size: 1.05rem;
-	font-weight: 800;
-	color: var(--primary);
-	text-align: left;
-	letter-spacing: 0.2px;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	flex: 1;
-}
+.clear-search-btn { background: #64748b; border: none; border-radius: 50%; width: 24px; height: 24px; color: #fff; font-size: 0.85rem; font-weight: 800; cursor: pointer; display: none; align-items: center; justify-content: center; }
+.status-row { display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding: 12px 16px; background: var(--card-bg); border-radius: 14px; border: 2px solid var(--accent); box-shadow: 0 4px 15px rgba(196, 108, 73, 0.18); text-align: center; }
+.status-bar { font-size: 0.95rem; color: var(--accent); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
 
-.clock {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-	background: var(--tag-bg);
-	padding: 4px 8px;
-	border-radius: 6px;
-	border: 1px solid var(--border);
-	font-size: 0.72rem;
-	color: var(--text-muted);
-	text-align: right;
-	line-height: 1.25;
-	flex-shrink: 0;
-}
-
-header {
-	text-align: center;
-	margin-bottom: 16px;
-	padding: 16px 14px;
-	border-radius: 16px;
-	border: 1px solid var(--border);
-	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-	background-color: #163323;
-	background-image: linear-gradient(rgba(18, 43, 29, 0.85), rgba(18, 43, 29, 0.92)),
-		url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.16'%3E%3Cpath d='M25 35c3-10 12-15 15-15s5 10-5 18l-10-3zm55 45c-8 2-14-3-15-10s8-12 15-5l0 15zm-45 15l8-14 6 4-8 14-6-4zm50-60l4-8 8 4-4 8-8-4z'/%3E%3Ccircle cx='95' cy='25' r='5'/%3E%3Ccircle cx='20' cy='95' r='4'/%3E%3Cpath d='M60 15c-2 8-8 12-14 10 6 6 14 4 14-10z'/%3E%3Cpath d='M70 100c2-8 8-12 14-10-6-6-14-4-14 10z'/%3E%3C/g%3E%3C/svg%3E");
-	background-size: cover, 130px 130px;
-}
-
-h1 {
-	font-size: 1.4rem;
-	color: #ffffff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-p.subtitle {
-	font-size: 0.82rem;
-	color: #d1fae5;
-	margin-top: 4px;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.search-box {
-	position: relative;
-	margin-bottom: 14px;
-}
-
-input[type="text"],
-input[type="datetime-local"],
-input[type="number"],
-input[type="password"],
-select {
-	width: 100%;
-	padding: 13px 16px;
-	font-size: 1rem;
-	border-radius: 12px;
-	border: 2px solid var(--border);
-	outline: none;
-	transition: border-color 0.2s, background-color 0.2s;
-	background: var(--input-bg);
-	color: var(--text);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-input[type="text"] {
-	padding-right: 85px;
-}
-
-input:focus,
-select:focus {
-	border-color: var(--accent);
-}
-
-.clear-search-btn {
-	background: #64748b;
-	border: none;
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	color: #fff;
-	font-size: 0.85rem;
-	font-weight: 800;
-	cursor: pointer;
-	display: none;
-	align-items: center;
-	justify-content: center;
-}
-
-/* ZÄHLER IM HEADER */
-.status-row {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 12px;
-	padding: 12px 16px;
-	background: var(--card-bg);
-	border-radius: 14px;
-	border: 2px solid var(--accent);
-	box-shadow: 0 4px 15px rgba(196, 108, 73, 0.18);
-	text-align: center;
-}
-
-.status-bar {
-	font-size: 0.95rem;
-	color: var(--accent);
-	font-weight: 900;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-}
-
-/* AKTIONSLISTE DARUNTER */
-.action-bar-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 8px;
-	margin-bottom: 14px;
-}
-
-.action-bar-btn {
-	background: var(--card-bg);
-	color: var(--primary);
-	border: 1px solid var(--border);
-	border-radius: 12px;
-	padding: 10px 8px;
-	font-size: 0.8rem;
-	font-weight: 800;
-	text-align: center;
-	cursor: pointer;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 5px;
-	transition: transform 0.15s, background 0.15s;
-}
+.action-bar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.action-bar-btn { background: var(--card-bg); color: var(--primary); border: 1px solid var(--border); border-radius: 12px; padding: 10px 8px; font-size: 0.8rem; font-weight: 800; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: center; gap: 5px; transition: transform 0.15s, background 0.15s; }
 .action-bar-btn:active { transform: scale(0.96); background: var(--primary-light); }
 
-/* SCANNER-BANNER */
-.scanner-banner {
-	background: var(--card-bg);
-	border: 1px solid rgba(163, 113, 247, 0.4);
-	border-radius: 14px;
-	padding: 12px 16px;
-	margin-bottom: 16px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	box-shadow: 0 4px 12px rgba(163, 113, 247, 0.08);
-	gap: 10px;
-}
+.scanner-banner { background: var(--card-bg); border: 1px solid rgba(163, 113, 247, 0.4); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(163, 113, 247, 0.08); gap: 10px; }
+.scanner-banner-text { font-size: 0.85rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.scanner-banner-btn { background: #a371f7; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; box-shadow: 0 2px 8px rgba(163, 113, 247, 0.3); }
 
-.scanner-banner-text {
-	font-size: 0.85rem;
-	font-weight: 700;
-	color: var(--text);
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
+.ki-box { background: rgba(163, 113, 247, 0.08); border: 1px solid rgba(163, 113, 247, 0.4); border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
+.ki-btn { background: #a371f7; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer; font-size: 0.95rem; }
+.ki-output-box { display: none; margin-top: 12px; background: var(--card-sub); border: 1px solid rgba(163, 113, 247, 0.3); border-radius: 10px; padding: 12px; font-size: 0.9rem; line-height: 1.5; color: var(--text); white-space: pre-wrap; }
 
-.scanner-banner-btn {
-	background: #a371f7;
-	color: #fff;
-	border: none;
-	border-radius: 10px;
-	padding: 8px 14px;
-	font-weight: 800;
-	font-size: 0.82rem;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	white-space: nowrap;
-	box-shadow: 0 2px 8px rgba(163, 113, 247, 0.3);
-}
+.group-section { margin-bottom: 24px; }
+.group-title { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; }
 
-.ki-box {
-	background: rgba(163, 113, 247, 0.08);
-	border: 1px solid rgba(163, 113, 247, 0.4);
-	border-radius: 14px;
-	padding: 16px;
-	margin-bottom: 20px;
-	box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-}
+.item-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 14px 8px 12px 8px; text-align: center; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); user-select: none; position: relative; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-height: 140px; }
+.item-card:hover, .item-card.selected { border-color: var(--primary); background: var(--primary-light); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+@keyframes searchPulse { 0% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); } 50% { box-shadow: 0 0 0 6px rgba(196, 108, 73, 0.15); border-color: #a85839; } 100% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); } }
+.item-card.search-active-match { animation: searchPulse 2s infinite ease-in-out; }
+.item-icon { font-size: 2.1rem; margin-bottom: 4px; line-height: 1.1; }
+.item-title { font-weight: 700; font-size: 0.82rem; color: var(--text); line-height: 1.25; display: flex; align-items: center; justify-content: center; flex: 1; margin: 4px 0; }
+.item-sub { font-size: 0.70rem; color: var(--text-muted); background: var(--tag-bg); display: inline-block; padding: 3px 7px; border-radius: 8px; margin-top: auto; white-space: nowrap; }
 
-.ki-btn {
-	background: #a371f7;
-	color: #fff;
-	border: none;
-	border-radius: 10px;
-	padding: 12px;
-	font-weight: bold;
-	width: 100%;
-	margin-top: 10px;
-	cursor: pointer;
-	font-size: 0.95rem;
-}
-
-.ki-output-box {
-	display: none;
-	margin-top: 12px;
-	background: var(--card-sub);
-	border: 1px solid rgba(163, 113, 247, 0.3);
-	border-radius: 10px;
-	padding: 12px;
-	font-size: 0.9rem;
-	line-height: 1.5;
-	color: var(--text);
-	white-space: pre-wrap;
-}
-
-.group-section {
-	margin-bottom: 24px;
-}
-
-.group-title {
-	font-size: 1.25rem;
-	font-weight: 800;
-	color: var(--primary);
-	margin-bottom: 10px;
-	padding-bottom: 6px;
-	border-bottom: 2px solid var(--border);
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-	gap: 10px;
-}
-
-.item-card {
-	background: var(--card-bg);
-	border: 1px solid var(--border);
-	border-radius: 16px;
-	padding: 14px 8px 12px 8px;
-	text-align: center;
-	cursor: pointer;
-	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-	user-select: none;
-	position: relative;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 140px;
-}
-
-.item-card:hover, .item-card.selected {
-	border-color: var(--primary);
-	background: var(--primary-light);
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-@keyframes searchPulse {
-	0% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); }
-	50% { box-shadow: 0 0 0 6px rgba(196, 108, 73, 0.15); border-color: #a85839; }
-	100% { box-shadow: 0 0 0 0 rgba(196, 108, 73, 0.4); border-color: var(--accent); }
-}
-
-.item-card.search-active-match {
-	animation: searchPulse 2s infinite ease-in-out;
-}
-
-.item-icon {
-	font-size: 2.1rem;
-	margin-bottom: 4px;
-	line-height: 1.1;
-}
-
-.item-title {
-	font-weight: 700;
-	font-size: 0.82rem;
-	color: var(--text);
-	line-height: 1.25;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex: 1;
-	margin: 4px 0;
-}
-
-.item-sub {
-	font-size: 0.70rem;
-	color: var(--text-muted);
-	background: var(--tag-bg);
-	display: inline-block;
-	padding: 3px 7px;
-	border-radius: 8px;
-	margin-top: auto;
-	white-space: nowrap;
-}
-
-.match-pill {
-	display: inline-block;
-	margin-top: 5px;
-	font-size: 0.7rem;
-	font-weight: 800;
-	color: var(--highlight-text);
-	background: var(--highlight);
-	padding: 2px 6px;
-	border-radius: 6px;
-	border: 1px solid var(--border);
-}
-
-mark.search-highlight {
-	background: var(--highlight);
-	color: var(--highlight-text);
-	padding: 1px 4px;
-	border-radius: 3px;
-	font-weight: 900;
-}
-
-.card-star {
-	position: absolute;
-	top: 8px;
-	right: 10px;
-	font-size: 1.2rem;
-	color: #64748b;
-	cursor: pointer;
-}
-
+.match-pill { display: inline-block; margin-top: 5px; font-size: 0.7rem; font-weight: 800; color: var(--highlight-text); background: var(--highlight); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); }
+mark.search-highlight { background: var(--highlight); color: var(--highlight-text); padding: 1px 4px; border-radius: 3px; font-weight: 900; }
+.card-star { position: absolute; top: 8px; right: 10px; font-size: 1.2rem; color: #64748b; cursor: pointer; }
 .card-star.active { color: var(--star); }
-
-.card-beet-badge {
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	font-size: 0.65rem;
-	font-weight: 800;
-	padding: 2px 6px;
-	border-radius: 6px;
-	z-index: 2;
-}
-
+.card-beet-badge { position: absolute; top: 8px; left: 8px; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 6px; z-index: 2; }
 .card-beet-badge.sown { background: #166534; color: #dcfce7; border: 1px solid #22c55e; }
 .card-beet-badge.harvested { background: #854d0e; color: #fef08a; border: 1px solid #eab308; }
 
-.not-found-box {
-	background: var(--card-bg);
-	border: 2px dashed var(--border);
-	border-radius: 16px;
-	padding: 24px 20px;
-	text-align: center;
-	margin: 20px 0;
-}
-
+.not-found-box { background: var(--card-bg); border: 2px dashed var(--border); border-radius: 16px; padding: 24px 20px; text-align: center; margin: 20px 0; }
 .not-found-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
 .not-found-text { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.45; }
 .not-found-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-
-.action-pill {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	padding: 10px 16px;
-	border-radius: 8px;
-	font-size: 0.85rem;
-	font-weight: 700;
-	text-decoration: none;
-	cursor: pointer;
-	border: 1px solid transparent;
-}
-
+.action-pill { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; }
 .action-pill.primary { background: #1c3b2b; color: #fff; }
 .action-pill.secondary { background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); }
 .action-pill.accent { background: var(--accent); color: #ffffff; }
 
-.modal-overlay {
-	display: none;
-	position: fixed;
-	top: 0; left: 0; width: 100%; height: 100%;
-	background: rgba(0, 0, 0, 0.65);
-	backdrop-filter: blur(5px);
-	z-index: 1000;
-	align-items: flex-end;
-	justify-content: center;
-}
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px); z-index: 1000; align-items: flex-end; justify-content: center; }
 @media (min-width: 850px) { .modal-overlay { align-items: center; } }
 .modal-overlay.open { display: flex; }
 
-.detail-panel {
-	background: var(--card-bg);
-	width: 100%; max-width: 650px; max-height: 85vh;
-	border-radius: 24px 24px 0 0;
-	padding: 24px 20px;
-	box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3);
-	overflow-y: auto;
-	border: 1px solid var(--border);
-}
+.detail-panel { background: var(--card-bg); width: 100%; max-width: 650px; max-height: 85vh; border-radius: 24px 24px 0 0; padding: 24px 20px; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3); overflow-y: auto; border: 1px solid var(--border); }
 @media (min-width: 850px) { .detail-panel { border-radius: 20px; } }
-
 .sheet-handle { width: 40px; height: 5px; background: var(--border); border-radius: 3px; margin: -10px auto 18px auto; }
 @media (min-width: 850px) { .sheet-handle { display: none; } }
-
 .detail-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; gap: 8px; }
 .detail-title { font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 8px; font-weight: 800; }
-
 .share-btn { background: var(--primary-light); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
 .close-btn { background: var(--tag-bg); border: 1px solid var(--border); font-size: 1.2rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); }
 
@@ -591,8 +207,7 @@ footer.app-footer p { margin-bottom: 6px; }
 
 .bottom-nav {
 	position: fixed; bottom: 0; left: 0; width: 100%;
-	background: var(--glass-bg);
-	backdrop-filter: blur(24px) saturate(180%);
+	background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%);
 	border-top: 1px solid var(--glass-border);
 	display: flex; justify-content: flex-start; overflow-x: auto;
 	gap: 14px; padding: 8px 35px calc(8px + env(safe-area-inset-bottom, 0px)) 12px;
@@ -610,3 +225,141 @@ footer.app-footer p { margin-bottom: 6px; }
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35); display: flex; align-items: center; justify-content: center;
 	font-size: 1.35rem; cursor: pointer; z-index: 999;
 }
+	</style>
+</head>
+<body>
+	<div class="top-bar">
+		<div class="left-title">
+			<span>🌱 Ramonas Garten Hilfe</span>
+			<span id="appVersionBadge" style="font-size: 0.65rem; font-weight: 800; background: var(--tag-bg); color: var(--accent); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">v4 Supabase-Sync</span>
+		</div>
+		<div class="clock" id="liveClock">Lade Zeit...</div>
+	</div>
+
+	<header>
+		<h1>🌱 Kleingarten Enzyklopädie</h1>
+		<p class="subtitle">Live verbunden mit der Cloud</p>
+	</header>
+
+	<div class="search-box" id="searchBoxContainer">
+		<input type="text" id="searchInput" placeholder="🔍 Frage an KI oder Pflanze suchen...">
+		<div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px;">
+			<button id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" title="Suche leeren">✕</button>
+			<button id="askAiBtn" onclick="openAiMenu()" style="background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Frag deine KI">🤖</button>
+		</div>
+	</div>
+
+	<!-- PERFEKT MITTIG UND KNALLIG: Der Zähler -->
+	<div class="status-row" id="statusRowContainer">
+		<div class="status-bar" id="statusCount">Kulturen: Lädt...</div>
+	</div>
+
+	<!-- SAUBERE AKTIONSLISTE DARUNTER -->
+	<div class="action-bar-grid" id="actionBarGrid">
+		<button onclick="openRezepteApp(); trigVib();" class="action-bar-btn">🍳 Rezepte</button>
+		<button onclick="openReadme(); trigVib();" class="action-bar-btn">📄 Read.txt</button>
+		<button onclick="openImpressum(); trigVib();" class="action-bar-btn">⚖️ Impressum</button>
+	</div>
+
+	<!-- SCHICKER SCANNER-BANNER -->
+	<div class="scanner-banner" id="scannerBanner">
+		<div class="scanner-banner-text">
+			<span>📷</span> <span>Sorten-Tütchen scannen & eintragen</span>
+		</div>
+		<input type="file" id="startSeedPacketInput" accept="image/*" capture="environment" style="display: none;" onchange="handleSeedPacketImage(event)">
+		<button type="button" class="scanner-banner-btn" onclick="document.getElementById('startSeedPacketInput').click(); trigVib();">
+			✨ Tütchen fotografieren
+		</button>
+	</div>
+	<div id="seedImagePreview" style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-bottom: 8px;"></div>
+
+	<div id="cultureGrid"></div>
+
+	<footer class="app-footer">
+		<p>© Ramonas Garten Anzucht | Entwickelt von Marcel Kometz</p>
+		<p>
+			<a href="https://marcelkometz-web.github.io/diegartenmutti-rezepte/" onclick="openRezepteApp(); return false;" style="color: var(--primary); font-weight: 800; text-decoration: underline; margin-right: 12px;">🍳 Zu den Rezepten</a>
+			<a href="#readme" onclick="openReadme(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer; margin-right: 12px;">📄 Read.txt</a>
+			<a href="#impressum" onclick="openImpressum(); return false;" style="color: var(--accent); text-decoration: underline; cursor: pointer;">⚖️ Impressum & Rechtliches</a>
+		</p>
+	</footer>
+	
+	<div class="modal-overlay" id="modalOverlay">
+		<div class="detail-panel" id="detailPanel"></div>
+	</div>
+
+	<div class="modal-overlay" id="beetQuickOverlay">
+		<div class="detail-panel" style="max-width: 520px;" id="beetQuickPanel"></div>
+	</div>
+
+	<div class="modal-overlay" id="aiModalOverlay">
+		<div class="detail-panel" style="max-width: 420px; text-align: center;">
+			<div class="sheet-handle"></div>
+			<div class="detail-title" style="justify-content: center; margin-bottom: 8px;">🤖 Frag deine KI</div>
+			<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Sende deine Frage oder dein Anliegen direkt an eine installierte App oder öffne sie im Browser mit Garten-Spezialisten-Modus.</p>
+			<div style="display: flex; flex-direction: column; gap: 10px;">
+				<button onclick="askAiShare()" style="background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">📤 An installierte App senden (Teilen)</button>
+				<button onclick="askAiChatGPT()" style="background: #10a37f; color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">🟢 In ChatGPT Web öffnen</button>
+				<button onclick="askAiPerplexity()" style="background: #2dd4bf; color: #052e16; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer;">🧠 In Perplexity Web öffnen</button>
+			</div>
+			<button onclick="closeAiMenu()" style="margin-top: 16px; background: var(--tag-bg); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%;">Abbrechen</button>
+		</div>
+	</div>
+
+	<div class="modal-overlay" id="backupModalOverlay">
+		<div class="detail-panel" style="max-width: 420px; text-align: center;">
+			<div class="sheet-handle"></div>
+			<div class="detail-title" style="justify-content: center; margin-bottom: 8px;">💾 Cloud-Synchronisation</div>
+			<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Deine Daten werden automatisch live in eurer Supabase-Datenbank gesichert und synchronisiert.</p>
+			<button onclick="closeBackupModal()" style="margin-top: 16px; background: var(--primary); color: #fff; border: 1px solid var(--border); padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%;">Okay, verstanden</button>
+		</div>
+	</div>
+
+	<div class="modal-overlay" id="readmeOverlay">
+		<div class="detail-panel" style="max-width: 580px;">
+			<div class="sheet-handle"></div>
+			<div class="detail-header">
+				<div class="detail-title">📄 Read.txt</div>
+				<button class="close-btn" onclick="closeReadme(); trigVib();">✕</button>
+			</div>
+			<div id="readmeBody" class="readme-content" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; color: var(--text);">Lade Read.txt...</div>
+		</div>
+	</div>
+
+	<div class="modal-overlay" id="impressumOverlay">
+		<div class="detail-panel" style="max-width: 520px;">
+			<div class="sheet-handle"></div>
+			<div class="detail-header">
+				<div class="detail-title">⚖️ Impressum & Datenschutz</div>
+				<button class="close-btn" onclick="closeImpressum(); trigVib();">✕</button>
+			</div>
+			<div style="font-size: 0.85rem; line-height: 1.6; color: var(--text);">
+				<div style="background: rgba(163, 113, 247, 0.1); color: #a371f7; padding: 12px; border-radius: 10px; margin-bottom: 18px; font-weight: 800; border: 1px solid rgba(163, 113, 247, 0.4);">
+					ℹ️ Wichtiger Hinweis: Diese App ist ein rein privates, nicht-kommerzielles Familien-Projekt zur Gartenverwaltung.
+				</div>
+				<p style="margin: 8px 0;"><strong>Angaben gemäß § 5 DDG:</strong><br>
+				Marcel Kometz<br>
+				Manfredstr. 15<br>
+				47178 Duisburg</p>
+				<p style="margin: 12px 0 8px 0;"><strong>Kontakt:</strong><br>
+				Telefon: 015901486107<br>
+				E-Mail: <a href="mailto:marcelkometz@icloud.com" style="color: var(--accent); font-weight: 700; text-decoration: none;">marcelkometz@icloud.com</a></p>
+				<p style="margin: 16px 0 8px 0;"><strong>Verantwortlich für den Inhalt:</strong><br>
+				Marcel Kometz (Anschrift wie oben)</p>
+				<hr style="border: 0; border-top: 1px solid var(--border); margin: 18px 0;">
+				<p style="margin: 8px 0; font-size: 0.95rem; color: var(--primary);"><strong>Haftungsausschluss (Disclaimer)</strong></p>
+				<p style="margin: 8px 0; color: var(--text-muted); text-align: justify;"><strong>Haftung für Inhalte:</strong> Als private Betreiber übernehmen wir keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten gärtnerischen Informationen, Pflanzen-Profile oder der von der künstlichen Intelligenz (KI) generierten Antworten. Die Nutzung der App-Tipps erfolgt auf eigene Gefahr.</p>
+				<p style="margin: 12px 0 8px 0; color: var(--text-muted); text-align: justify;"><strong>Datenschutz & Cloud:</strong> Diese App nutzt eine private Supabase-Datenbank zur Synchronisierung innerhalb der Familie. Es werden keine personenbezogenen Daten von Drittnutzern gesammelt, analysiert oder zu Werbezwecken weiterverarbeitet. Hinterlegte API-Schlüssel werden ausschließlich lokal auf dem Endgerät oder in der passwortgeschützten privaten Datenbank abgelegt.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="bottom-nav">
+		<button class="nav-item active" data-cat="Alle" onclick="setMainCategory('Alle'); trigVib();"><span class="nav-icon">🌐</span><span>Alle</span></button>
+		<button class="nav-item" data-cat="Gemüse" onclick="setMainCategory('Gemüse'); trigVib();"><span class="nav-icon">🥦</span><span>Gemüse</span></button>
+		<button class="nav-item" data-cat="Obst" onclick="setMainCategory('Obst'); trigVib();"><span class="nav-icon">🍎</span><span>Obst</span></button>
+		<button class="nav-item" data-cat="Kräuter" onclick="setMainCategory('Kräuter'); trigVib();"><span class="nav-icon">🌿</span><span>Kräuter</span></button>
+		<button class="nav-item" data-cat="Garten-Praxis" onclick="setMainCategory('Garten-Praxis'); trigVib();"><span class="nav-icon">♻️</span><span>Praxis</span></button>
+		<button class="nav-item" data-cat="Favoriten" onclick="setMainCategory('Favoriten'); trigVib();"><span class="nav-icon">⭐</span><span>Favoriten</span></button>
+		<button class="nav-item" data-cat="Mein Beet" onclick="setMainCategory('Mein Beet'); trigVib();"><span class="nav-icon">🏡</span><span>Mein Beet</span></button>
+		<button class="nav-item" data-cat="
