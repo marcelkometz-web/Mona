@@ -25,6 +25,17 @@ let appSettings = {
 	geminiApiKey: "" 
 };
 
+// Hilfsfunktion für sichere Textausgabe (Schutz vor HTML-Injection)
+function escapeHtml(text) {
+	if (text === null || text === undefined) return "";
+	return String(text)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#039;");
+}
+
 async function loadDataFromSupabase() {
 	const statusEl = document.getElementById("statusCount");
 	if (statusEl) statusEl.innerText = "Lade Daten aus der Cloud...";
@@ -75,7 +86,12 @@ async function loadDataFromSupabase() {
 					myNotes[n.id] = n.text;
 				}
 			});
-			myGeneralNotes.sort((a, b) => (b.id || "").localeCompare(a.id || ""));
+			// Sicher nach der generierten ID sortieren
+			myGeneralNotes.sort((a, b) => {
+				const timeA = parseInt(a.id.replace('gen_', '')) || 0;
+				const timeB = parseInt(b.id.replace('gen_', '')) || 0;
+				return timeB - timeA;
+			});
 		}
 
 		if (wishRes.data) myWishes = wishRes.data.map(w => w.name);
@@ -190,7 +206,8 @@ window.saveSettings = async function() {
 	alert(`Einstellungen gespeichert! (Dein API-Key liegt nun sicher in eurer Datenbank)`);
 	filterUndRender();
 
-	await supabaseClient.from('garten_settings').upsert({ id: 1, bed_count: count, gemini_api_key: apiKey });
+	const { error } = await supabaseClient.from('garten_settings').upsert({ id: 1, bed_count: count, gemini_api_key: apiKey });
+	if (error) alert("Cloud-Fehler beim Speichern der Einstellungen: " + error.message);
 };
 
 function getSettings() { return appSettings; }
@@ -204,29 +221,41 @@ window.toggleFavorite = async function(id, event) {
 	else myFavs.push(id);
 	filterUndRender();
 
-	if (isFav) await supabaseClient.from('garten_favoriten').delete().eq('kultur_id', id);
-	else await supabaseClient.from('garten_favoriten').insert({ kultur_id: id });
+	if (isFav) {
+		const {error} = await supabaseClient.from('garten_favoriten').delete().eq('kultur_id', id);
+		if (error) console.error(error);
+	} else {
+		const {error} = await supabaseClient.from('garten_favoriten').insert({ kultur_id: id });
+		if (error) console.error(error);
+	}
 };
 
 function getNotes() { return myNotes; }
 function getGeneralNotes() { return myGeneralNotes; }
 
-window.saveNote = async function(id, text) {
+let noteSaveTimeout = {};
+window.saveNote = function(id, text) {
 	const safeText = text ? text.trim() : "";
 	if (!safeText) delete myNotes[id];
 	else myNotes[id] = safeText;
 	updateNotesBadge();
 
-	if (!safeText) {
-		await supabaseClient.from('garten_notizen').delete().eq('id', id);
-	} else {
-		await supabaseClient.from('garten_notizen').upsert({ 
-			id: id, 
-			is_general: false, 
-			text: safeText,
-			created_at: new Date().toISOString()
-		});
-	}
+	// Debounce, um die Cloud bei schlechtem Netz nicht zu fluten
+	if(noteSaveTimeout[id]) clearTimeout(noteSaveTimeout[id]);
+	noteSaveTimeout[id] = setTimeout(async () => {
+		if (!safeText) {
+			const { error } = await supabaseClient.from('garten_notizen').delete().eq('id', id);
+			if (error) alert("Fehler beim Löschen der Notiz: " + error.message);
+		} else {
+			const { error } = await supabaseClient.from('garten_notizen').upsert({ 
+				id: id, 
+				is_general: false, 
+				text: safeText,
+				created_at: new Date().toISOString()
+			});
+			if (error) alert("Cloud-Speicherfehler: " + error.message);
+		}
+	}, 600);
 };
 
 window.deleteNoteFromOverview = function(id) {
@@ -247,13 +276,14 @@ window.saveGeneralNoteWithTitle = async function(title, text) {
 	updateNotesBadge();
 	filterUndRender();
 
-	await supabaseClient.from('garten_notizen').insert({
+	const { error } = await supabaseClient.from('garten_notizen').insert({
 		id: newId,
 		is_general: true,
 		title: safeTitle,
 		text: safeText,
 		created_at: dateStr
 	});
+	if (error) alert("Cloud-Fehler beim Speichern: " + error.message);
 };
 
 window.updateGeneralNote = async function(id, newTitle, newText) {
@@ -263,14 +293,15 @@ window.updateGeneralNote = async function(id, newTitle, newText) {
 	note.text = (newText || "").trim();
 	filterUndRender();
 
-	await supabaseClient.from('garten_notizen').upsert({
+	const { error } = await supabaseClient.from('garten_notizen').upsert({
 		id: id,
 		is_general: true,
 		title: note.title,
 		text: note.text,
 		created_at: note.date
 	});
-	alert("✅ Notiz erfolgreich aktualisiert!");
+	if (error) alert("Fehler beim Speichern: " + error.message);
+	else alert("✅ Notiz erfolgreich aktualisiert!");
 };
 
 window.deleteGeneralNote = async function(id) {
@@ -280,7 +311,8 @@ window.deleteGeneralNote = async function(id) {
 	updateNotesBadge();
 	filterUndRender();
 
-	await supabaseClient.from('garten_notizen').delete().eq('id', id);
+	const { error } = await supabaseClient.from('garten_notizen').delete().eq('id', id);
+	if (error) alert("Fehler beim Löschen: " + error.message);
 };
 
 window.triggerManualSave = function() {
@@ -373,6 +405,14 @@ window.sendSinglePlantNoteEmail = function(plantName, noteText) {
 	window.location.href = `mailto:?subject=${subject}&body=${body}`;
 };
 
+// =========================================
+// ICS Zeitzonen und Escaping-Fix
+// =========================================
+function formatDateToLocalICS(d) {
+	const pad = n => n < 10 ? '0'+n : n;
+	return d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + 'T' + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds());
+}
+
 window.createCalendarReminder = function() {
 	trigVib();
 	const titleInput = document.getElementById("generalNoteTitle");
@@ -383,19 +423,21 @@ window.createCalendarReminder = function() {
 	const eventDate = new Date(timeInput.value);
 	if (isNaN(eventDate.getTime())) { alert("Ungültiges Datum gewählt!"); return; }
 
-	function formatDateToICS(d) { return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z"; }
-	const nowStr = formatDateToICS(new Date());
-	const startStr = formatDateToICS(eventDate);
-	const endStr = formatDateToICS(new Date(eventDate.getTime() + 30 * 60 * 1000));
+	const nowStr = formatDateToLocalICS(new Date());
+	const startStr = formatDateToLocalICS(eventDate);
+	const endStr = formatDateToLocalICS(new Date(eventDate.getTime() + 30 * 60 * 1000));
 	const summary = (titleInput && titleInput.value.trim() !== "") ? titleInput.value.trim() : textarea.value.trim().split("\n")[0].substring(0, 50);
-	const description = textarea.value.trim().replace(/\n/g, "\\n");
+	
+	// WICHTIG: Sonderzeichen für .ics Dateien escapen
+	const description = textarea.value.trim().replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+	
 	const icsContent = [
 		"BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Ramonas Garten Anzucht//Erinnerung//DE",
 		"CALSCALE:GREGORIAN", "BEGIN:VEVENT", `UID:${Date.now()}@ramonas-garten.app`,
 		`DTSTAMP:${nowStr}`, `DTSTART:${startStr}`, `DTEND:${endStr}`,
 		`SUMMARY:🌱 Garten: ${summary}`, `DESCRIPTION:${description}`,
 		"BEGIN:VALARM", "TRIGGER:-PT15M", "ACTION:DISPLAY",
-		"DESCRIPTION:Erinnerung: " + summary, "END:VALARM",
+		"DESCRIPTION:Erinnerung: " + summary.replace(/,/g, "\\,").replace(/;/g, "\\;"), "END:VALARM",
 		"END:VEVENT", "END:VCALENDAR"
 	].join("\r\n");
 	const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
@@ -416,6 +458,9 @@ function updateNotesBadge() {
 	if (label) label.innerText = count > 0 ? `Notizen (${count})` : "Notizen";
 }
 
+// =========================================
+// GARTEN KI ABFRAGE
+// =========================================
 window.askGardenGemini = async function() {
 	trigVib();
 	const promptInput = document.getElementById("gardenAiPrompt");
@@ -461,6 +506,7 @@ window.askGardenGemini = async function() {
 		});
 
 		if (!response.ok) {
+			if (response.status === 404) throw new Error(`Das gewählte Modell (${chosenModel}) existiert auf den Google-Servern noch nicht oder ist falsch geschrieben.`);
 			const errBody = await response.text();
 			throw new Error(`Fehler (${response.status}):${errBody}`);
 		}
@@ -486,6 +532,9 @@ window.askGardenGemini = async function() {
 	}
 };
 
+// =========================================
+// KAMERA-SCAN FÜR SORTEN-TÜTCHEN & FOTO-UPLOAD
+// =========================================
 let selectedImageBase64 = null;
 let selectedImageMimeType = null;
 
@@ -587,6 +636,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 		});
 
 		if (!response.ok) {
+			if (response.status === 404) throw new Error(`Das gewählte Modell (${chosenModel}) existiert auf den Google-Servern noch nicht oder ist falsch geschrieben.`);
 			const errBody = await response.text();
 			throw new Error(`Fehler (${response.status}): ${errBody}`);
 		}
@@ -617,6 +667,9 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 	}
 };
 
+// =========================================
+// GEMINI VOLLAUTOMATISCHES PFLANZEN-ANLEGEN
+// =========================================
 window.generatePlantWithGemini = async function(plantName) {
 	trigVib();
 	if (!plantName || plantName.trim() === "") return;
@@ -735,6 +788,9 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 	}
 };
 
+// =========================================
+// WUNSCHLISTE & BEETE
+// =========================================
 function getWishList() { return myWishes; }
 
 window.addWishPlant = async function(plantName) {
@@ -744,7 +800,8 @@ window.addWishPlant = async function(plantName) {
 	if (!myWishes.includes(cleanName)) {
 		myWishes.push(cleanName);
 		filterUndRender();
-		await supabaseClient.from('garten_wuensche').insert({ name: cleanName });
+		const { error } = await supabaseClient.from('garten_wuensche').insert({ name: cleanName });
+		if (error) alert("Fehler beim Speichern des Wunsches: " + error.message);
 	}
 };
 
@@ -752,14 +809,16 @@ window.removeWishPlant = async function(plantName) {
 	trigVib();
 	myWishes = myWishes.filter(item => item !== plantName);
 	filterUndRender();
-	await supabaseClient.from('garten_wuensche').delete().eq('name', plantName);
+	const { error } = await supabaseClient.from('garten_wuensche').delete().eq('name', plantName);
+	if (error) console.error(error);
 };
 
 window.clearWishList = async function() {
 	trigVib();
 	myWishes = [];
 	filterUndRender();
-	await supabaseClient.from('garten_wuensche').delete().neq('name', '___leer___');
+	const { error } = await supabaseClient.from('garten_wuensche').delete().neq('name', '___leer___');
+	if (error) console.error(error);
 };
 
 window.requestSingleMissingPlant = function(plantName) {
@@ -798,14 +857,16 @@ window.setBeetStatus = async function(kId, sorteName, status) {
 	if (document.getElementById('beetQuickOverlay') && document.getElementById('beetQuickOverlay').classList.contains('open')) renderBeetQuickModal(kId);
 
 	if (!status || status === 'none') {
-		await supabaseClient.from('garten_beete').delete().match({ kultur_id: kId, sorte_name: sorteName });
+		const { error } = await supabaseClient.from('garten_beete').delete().match({ kultur_id: kId, sorte_name: sorteName });
+		if (error) console.error(error);
 	} else {
-		await supabaseClient.from('garten_beete').upsert({
+		const { error } = await supabaseClient.from('garten_beete').upsert({
 			kultur_id: kId,
 			sorte_name: sorteName,
 			status: status,
 			beds: currentVal.beds
 		});
+		if (error) console.error(error);
 	}
 };
 
@@ -838,12 +899,13 @@ window.addBeetNumber = async function(kId, sorteName, num) {
 	if (document.getElementById('modalOverlay') && document.getElementById('modalOverlay').classList.contains('open')) renderDetailModal();
 	if (document.getElementById('beetQuickOverlay') && document.getElementById('beetQuickOverlay').classList.contains('open')) renderBeetQuickModal(kId);
 
-	await supabaseClient.from('garten_beete').upsert({
+	const { error } = await supabaseClient.from('garten_beete').upsert({
 		kultur_id: kId,
 		sorte_name: sorteName,
 		status: item.status,
 		beds: item.beds
 	});
+	if (error) console.error(error);
 };
 
 window.addBeetNumberByIdx = function(kId, idx, num) {
@@ -867,12 +929,13 @@ window.removeBeetNumber = async function(kId, sorteName, num) {
 		if (document.getElementById('modalOverlay') && document.getElementById('modalOverlay').classList.contains('open')) renderDetailModal();
 		if (document.getElementById('beetQuickOverlay') && document.getElementById('beetQuickOverlay').classList.contains('open')) renderBeetQuickModal(kId);
 
-		await supabaseClient.from('garten_beete').upsert({
+		const { error } = await supabaseClient.from('garten_beete').upsert({
 			kultur_id: kId,
 			sorte_name: sorteName,
 			status: myBeetStatus[key].status,
 			beds: myBeetStatus[key].beds
 		});
+		if (error) console.error(error);
 	}
 };
 
@@ -887,6 +950,9 @@ window.removeBeetNumberByIdx = function(kId, idx, num) {
 	if (s) removeBeetNumber(kId, s.name, num);
 };
 
+// =========================================
+// SICHERES LÖSCHEN ALLER BEETE (Fehler-Fix)
+// =========================================
 window.clearAllBeets = async function() {
 	trigVib();
 	if (confirm("Möchtest du wirklich alle Beete leeren?\n\nAlle aktuellen Aussaat- und Erntezuweisungen werden entfernt.")) {
@@ -894,8 +960,10 @@ window.clearAllBeets = async function() {
 		myBeetStatus = {};
 		alert("✅ Alle Beete wurden erfolgreich geleert!");
 		filterUndRender();
-		if (document.getElementById('beetQuickOverlay').classList.contains('open')) closeBeetQuickModal();
-		await supabaseClient.from('garten_beete').delete().neq('status', '___leer___');
+		if (document.getElementById('beetQuickOverlay') && document.getElementById('beetQuickOverlay').classList.contains('open')) closeBeetQuickModal();
+		
+		const { error } = await supabaseClient.from('garten_beete').delete().not('kultur_id', 'is', null);
+		if (error) alert("Cloud-Speicherfehler beim Löschen: " + error.message);
 	}
 };
 
@@ -1022,11 +1090,6 @@ function isCleanMatch(target, query) {
 	});
 }
 
-function escapeHtml(text) {
-	if (text === null || text === undefined) return "";
-	return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-}
-
 function highlightMatch(text, query) {
 	if (!text) return "";
 	const raw = String(text);
@@ -1147,8 +1210,8 @@ function filterUndRender() {
 			<div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🤖 Gemini API-Schlüssel</div>
 			<div style="margin-bottom: 20px;">
 			  <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Google Gemini API-Key:</label>
-			  <input type="password" id="settingGeminiKey" value="" placeholder="AIzaSy... oder AQ.Ab..." style="width: 100%; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
-			  <p style="font-size: 0.75rem; color: #16a34a; margin-top: 6px; font-weight: bold;">🔒 Trage deinen Schlüssel hier ein und klicke auf Speichern. Er wird dann unsichtbar auf Supabase abgelegt und kann von allen Geräten aus genutzt werden.</p>
+			  <input type="password" id="settingGeminiKey" value="${escapeHtml(appSettings.geminiApiKey || '')}" placeholder="AIzaSy... oder AQ.Ab..." style="width: 100%; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
+			  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Dieser Schlüssel wird in eurer privaten Supabase-Datenbank sicher gespeichert, damit Ramona ihn nicht auf ihrem Gerät eingeben muss.</p>
 			</div>
 
 			<button onclick="saveSettings()" style="width: 100%; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.95rem;">💾 Alle Einstellungen speichern</button>
@@ -1170,6 +1233,7 @@ function filterUndRender() {
 		const notedIds = Object.keys(myNotes).filter(id => myNotes[id] && myNotes[id].trim() !== "");
 		statusCount.innerText = `Gespeicherte Notizen: ${notedIds.length + myGeneralNotes.length}`;
 		cultureGrid.innerHTML = `
+		  <!-- LILA KI-FELD MIT MODELL-AUSWAHLMENÜ -->
 		  <div class="ki-box">
 			<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
 			  <label style="color:#a371f7; font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:6px;">✨ Garten-KI Assistent</label>
@@ -1256,7 +1320,7 @@ function filterUndRender() {
 				const title = document.createElement("div");
 				title.className = "note-card-title";
 				title.onclick = () => openKulturDetail(k.id);
-				title.innerHTML = `<span>${k.icon}</span> <span>${escapeHtml(k.name)}</span>`;
+				title.innerHTML = `<span>${escapeHtml(k.icon)}</span> <span>${escapeHtml(k.name)}</span>`;
 				
 				const actions = document.createElement("div");
 				actions.className = "note-card-actions";
@@ -1487,7 +1551,7 @@ function filterUndRender() {
 		if (gruppe.items.length > 0) {
 			const section = document.createElement("div");
 			section.className = "group-section";
-			section.innerHTML = `<div class="group-title">${gruppe.icon} ${gName}</div><div class="grid" id="grid-${gName}"></div>`;
+			section.innerHTML = `<div class="group-title">${escapeHtml(gruppe.icon)} ${escapeHtml(gName)}</div><div class="grid" id="grid-${gName}"></div>`;
 			cultureGrid.appendChild(section);
 			const innerGrid = section.querySelector(".grid");
 
@@ -1518,7 +1582,7 @@ function filterUndRender() {
 				card.innerHTML = `
             ${beetBadgeHtml}
             <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)" title="Als Favorit merken">★</span>
-            <div class="item-icon">${k.icon}</div>
+            <div class="item-icon">${escapeHtml(k.icon)}</div>
             <div class="item-title">${highlightedTitle}</div>
             <div class="item-sub">${sortenCount} Sorten</div>
             ${hintBadgeHtml}
@@ -1626,7 +1690,7 @@ function renderBeetQuickModal(id) {
 		<div class="sheet-handle"></div>
 		<div class="detail-header" style="margin-bottom: 12px;">
 		  <div>
-			<div class="detail-title" style="font-size: 1.25rem;">${k.icon} ${escapeHtml(k.name)}</div>
+			<div class="detail-title" style="font-size: 1.25rem;">${escapeHtml(k.icon)} ${escapeHtml(k.name)}</div>
 			<p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Schnellverwaltung deiner Beete</p>
 		  </div>
 		  <button class="close-btn" onclick="closeBeetQuickModal()">✕</button>
@@ -1790,7 +1854,8 @@ function renderDetailModal() {
 		subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === 'Alle' ? 'active' : ''}" onclick="setSubFilter('Alle')">Alle (${k.sorten.length})</button>`;
 		k.filterGruppen.forEach(gName => {
 			const count = k.sorten.filter(s => s.gruppe === gName).length;
-			subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === gName ? 'active' : ''}" onclick="setSubFilter('${gName}')">${gName} (${count})</button>`;
+			const safeGroup = escapeHtml(gName).replace(/'/g, "\\'");
+			subFilterHtml += `<button class="sub-btn ${aktiverSubFilter === gName ? 'active' : ''}" onclick="setSubFilter('${safeGroup}')">${escapeHtml(gName)} (${count})</button>`;
 		});
 		subFilterHtml += `</div>`;
 	}
@@ -1834,6 +1899,9 @@ function renderDetailModal() {
 	const highlightedDuenger = highlightMatch(k.duenger, query);
 	const highlightedGiessen = highlightMatch(k.giessen, query);
 	const highlightedWasser = k.wasser ? highlightMatch(k.wasser, query) : "";
+	
+	const safeKulturName = escapeHtml(k.name).replace(/'/g, "\\'");
+	const safeSorteName = escapeHtml(sorte.name).replace(/'/g, "\\'");
 
 	let sorteDetailsHtml = "";
 	if (sorte.aussehen && sorte.geschmack) {
@@ -1851,9 +1919,9 @@ function renderDetailModal() {
 		<div class="sheet-handle"></div>
 		<div class="detail-header">
 		  <div>
-			<div class="detail-title">${k.icon} ${highlightMatch(k.name, query)}</div>
+			<div class="detail-title">${escapeHtml(k.icon)} ${highlightMatch(k.name, query)}</div>
 			<div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-			  <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
+			  <span class="badge" style="background:var(--primary-light); color:var(--primary);">${escapeHtml(k.oberkategorie)} / ${highlightMatch(k.kategorie, query)}</span>
 			  <span class="badge">${highlightedBedarf}</span>
 			  ${highlightedWasser ? `<span class="badge wasser-badge">${highlightedWasser}</span>` : ""}
 			</div>
@@ -1873,7 +1941,7 @@ function renderDetailModal() {
 			  <div>
 				<strong>${highlightedSorteName}</strong> <em>(${highlightedSorteTyp})</em>
 			  </div>
-			  <button class="action-pill accent" style="padding: 6px 12px; font-size: 0.76rem;" onclick="orderSeedsOnline('${k.name}', '${sorte.name}')" title="Samen oder Pflanzen online suchen">
+			  <button class="action-pill accent" style="padding: 6px 12px; font-size: 0.76rem;" onclick="orderSeedsOnline('${safeKulturName}', '${safeSorteName}')" title="Samen oder Pflanzen online suchen">
 				🛒 Samen / Pflanzen bestellen
 			  </button>
 			</div>
@@ -1900,13 +1968,13 @@ function renderDetailModal() {
 
 		<div class="info-metrics">
 		  <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-standort);">${highlightedStandort}</div></div>
-		  ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-anbau);">${k.anbau}</div></div>` : ''}
-		  <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze || '-'}</div></div>
-		  <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe || '-'}</div></div>
-		  <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe || '-'}</div></div>
-		  <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitVorzucht || '-'}</div></div>
-		  <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitBeet || '-'}</div></div>
-		  <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${k.zeitErnte || '-'}</div></div>
+		  ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-anbau);">${escapeHtml(k.anbau)}</div></div>` : ''}
+		  <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${escapeHtml(k.abstandPflanze) || '-'}</div></div>
+		  <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${escapeHtml(k.abstandReihe) || '-'}</div></div>
+		  <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${escapeHtml(k.saattiefe) || '-'}</div></div>
+		  <div class="metric-card"><div class="metric-label">Aussaat / Vorzucht</div><div class="metric-val" style="font-size:0.75rem;">${escapeHtml(k.zeitVorzucht) || '-'}</div></div>
+		  <div class="metric-card"><div class="metric-label">Ins Beet / Freiland</div><div class="metric-val" style="font-size:0.75rem;">${escapeHtml(k.zeitBeet) || '-'}</div></div>
+		  <div class="metric-card"><div class="metric-label">Erntefenster</div><div class="metric-val" style="font-size:0.75rem;">${escapeHtml(k.zeitErnte) || '-'}</div></div>
 		</div>
 
 		<div class="giessen-box">💧 <strong>Gießempfehlung (bei Trockenheit):</strong><br>${highlightedGiessen}</div>
@@ -1922,11 +1990,11 @@ function renderDetailModal() {
 		<div class="companion-grid">
 		  <div class="companion-box good-box">
 			<div class="comp-title">✅ Gute Nachbarn</div>
-			<div>${k.guteNachbarn || '-'}</div>
+			<div>${escapeHtml(k.guteNachbarn) || '-'}</div>
 		  </div>
 		  <div class="companion-box bad-box">
 			<div class="comp-title">❌ Schlechte Nachbarn</div>
-			<div>${k.schlechteNachbarn || '-'}</div>
+			<div>${escapeHtml(k.schlechteNachbarn) || '-'}</div>
 		  </div>
 		</div>
 	  `;
