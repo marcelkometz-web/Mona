@@ -285,7 +285,7 @@
 			justify-content: center;
 		}
 
-		/* ZÄHLER IM HEADER - PERFEKT MITTIG UND KNALLIG */
+		/* PERFEKT MITTIG & KNALLIG: Der Zähler im Header */
 		.status-row {
 			display: flex;
 			justify-content: center;
@@ -588,7 +588,7 @@
 			background: var(--card-bg);
 			width: 100%; max-width: 650px; max-height: 85vh;
 			border-radius: 24px 24px 0 0;
-			padding: 24px 20px 30px 20px;
+			padding: 24px 20px;
 			box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3);
 			overflow-y: auto;
 			border: 1px solid var(--border);
@@ -598,26 +598,11 @@
 		.sheet-handle { width: 40px; height: 5px; background: var(--border); border-radius: 3px; margin: -10px auto 18px auto; }
 		@media (min-width: 850px) { .sheet-handle { display: none; } }
 
-		/* FESTER STICKY-HEADER MIT MITWANDERNDEM SCHLIESSEN-KNOPF */
-		.detail-header { 
-			display: flex; 
-			justify-content: space-between; 
-			align-items: flex-start; 
-			border-bottom: 1px solid var(--border); 
-			padding-bottom: 12px; 
-			margin-bottom: 16px; 
-			gap: 8px; 
-			position: sticky;
-			top: -24px;
-			background: var(--card-bg);
-			z-index: 50;
-			padding-top: 14px;
-			margin-top: -14px;
-		}
+		.detail-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; gap: 8px; }
 		.detail-title { font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 8px; font-weight: 800; }
 		
 		.share-btn { background: var(--primary-light); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
-		.close-btn { background: var(--tag-bg); border: 1px solid var(--border); font-size: 1.2rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); flex-shrink: 0; }
+		.close-btn { background: var(--tag-bg); border: 1px solid var(--border); font-size: 1.2rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); }
 
 		.badge { display: inline-block; padding: 4px 8px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; background: var(--tag-bg); margin-top: 6px; margin-right: 4px; border: 1px solid var(--border); }
 		.badge.wasser-badge { background: #0369a1; color: #e0f2fe; border: 1px solid #38bdf8; }
@@ -646,36 +631,11 @@
 		.notes-title { font-size: 0.85rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
 		.notes-textarea { width: 100%; min-height: 80px; padding: 10px 12px; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 8px; outline: none; background: var(--input-bg); color: var(--text); }
 
-		/* KRISTALLKLARE NACHBAR-BOXEN IN ALLEN FARBSCHEMATA */
 		.companion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-		.companion-box { padding: 12px; border-radius: 10px; font-size: 0.88rem; line-height: 1.45; }
-		.good-box { background: var(--good); border: 1px solid #22c55e; color: #166534; font-weight: 600; }
-		.bad-box { background: var(--bad); border: 1px solid #ef4444; color: #991b1b; font-weight: 600; }
-		.comp-title { font-weight: 800; margin-bottom: 6px; font-size: 0.88rem; }
-
-		html.dark-mode .good-box, html[data-theme="dark"] .good-box {
-			background: rgba(34, 197, 94, 0.15) !important;
-			border: 1.5px solid rgba(74, 222, 128, 0.45) !important;
-			color: #bbf7d0 !important;
-		}
-		html.dark-mode .good-box .comp-title, html[data-theme="dark"] .good-box .comp-title {
-			color: #4ade80 !important;
-		}
-
-		html.dark-mode .bad-box, html[data-theme="dark"] .bad-box {
-			background: rgba(239, 68, 68, 0.15) !important;
-			border: 1.5px solid rgba(248, 113, 113, 0.45) !important;
-			color: #fecaca !important;
-		}
-		html.dark-mode .bad-box .comp-title, html[data-theme="dark"] .bad-box .comp-title {
-			color: #f87171 !important;
-		}
-
-		/* BUTTON VERSTECKEN WENN EIN MODAL OFFEN IST */
-		body:has(.modal-overlay.open) #gardenAiTrigger,
-		body:has(.modal-overlay.open) .floating-reload-btn {
-			display: none !important;
-		}
+		.companion-box { padding: 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.4; }
+		.good-box { background: var(--good); border: 1px solid #22c55e; color: #166534; }
+		.bad-box { background: var(--bad); border: 1px solid #ef4444; color: #991b1b; }
+		.comp-title { font-weight: 800; margin-bottom: 6px; font-size: 0.85rem; }
 
 		footer.app-footer { text-align: center; padding: 25px 15px 15px 15px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 40px; }
 		footer.app-footer p { margin-bottom: 6px; }
@@ -699,30 +659,8 @@
 			width: 48px; height: 48px; border-radius: 50%; background: var(--card-bg);
 			border: 2px solid var(--border); color: var(--primary);
 			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35); display: flex; align-items: center; justify-content: center;
-			font-size: 1.35rem; cursor: pointer; z-index: 950;
+			font-size: 1.35rem; cursor: pointer; z-index: 999;
 		}
-
-		/* Schwebender Button oben drüber platziert */
-		#gardenAiTrigger {
-			position: fixed;
-			bottom: calc(75px + env(safe-area-inset-bottom, 0px));
-			right: 18px;
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			background: linear-gradient(135deg, #2ea043, #1f6feb);
-			color: #fff;
-			font-size: 1.4rem;
-			border: 2px solid var(--border);
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-			cursor: pointer;
-			z-index: 950;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			transition: transform 0.2s ease;
-		}
-		#gardenAiTrigger:active { transform: scale(0.92); }
 	</style>
 </head>
 <body>
@@ -881,6 +819,7 @@
 		if (statusEl) statusEl.innerText = "Lade Daten aus der Cloud...";
 		
 		try {
+			// Sicherstellen, dass die Daten geladen werden
 			const katalogRes = await supabaseClient.from('pflanzen_katalog').select('*');
 			const favRes = await supabaseClient.from('garten_favoriten').select('*');
 			const notesRes = await supabaseClient.from('garten_notizen').select('*');
@@ -943,9 +882,9 @@
 
 			if (setRes.data && setRes.data.length > 0) {
 				appSettings.bedCount = setRes.data[0].bed_count || 8;
-				appSettings.geminiApiKey = setRes.data[0].gemini_api_key || "";
+				appSettings.geminiApiKey = setRes.data[0].gemini_api_key || localStorage.getItem("gemini_api_key") || "";
 			} else {
-				appSettings.geminiApiKey = "";
+				appSettings.geminiApiKey = localStorage.getItem("gemini_api_key") || "";
 			}
 
 			filterUndRender();
@@ -1038,11 +977,13 @@
 		appSettings.bedCount = count;
 		appSettings.geminiApiKey = apiKey;
 		
+		if (apiKey) localStorage.setItem("gemini_api_key", apiKey);
+		
 		aktiverBeetFilter = "Alle";
-		alert(`Einstellungen & API-Schlüssel erfolgreich für die Familie gespeichert!`);
+		alert(`Einstellungen gespeichert! (Dein API-Key liegt nun sicher lokal auf deinem Gerät)`);
 		filterUndRender();
 
-		await supabaseClient.from('garten_settings').upsert({ id: 1, bed_count: count, gemini_api_key: apiKey });
+		await supabaseClient.from('garten_settings').upsert({ id: 1, bed_count: count });
 	};
 
 	function getSettings() { return appSettings; }
@@ -1284,12 +1225,13 @@
 			return;
 		}
 
-		let activeKey = appSettings.geminiApiKey;
+		let activeKey = appSettings.geminiApiKey || localStorage.getItem("gemini_api_key");
 		if (!activeKey) {
-			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
+			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein:", "");
 			if (!activeKey) return;
 			activeKey = activeKey.trim();
 			appSettings.geminiApiKey = activeKey;
+			localStorage.setItem("gemini_api_key", activeKey);
 			await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
 		}
 
@@ -1307,8 +1249,7 @@
 			const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${chosenModel}:generateContent?key=${activeKey}`, {
 				method: "POST",
 				headers: { 
-					"Content-Type": "application/json",
-					"x-goog-api-key": activeKey
+					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
 					contents: [{ parts: [{ text: systemPrompt }] }],
@@ -1320,7 +1261,7 @@
 
 			if (!response.ok) {
 				const errBody = await response.text();
-				throw new Error(`Fehler (${response.status}): ${errBody}`);
+				throw new Error(`Fehler (${response.status}):${errBody}`);
 			}
 
 			const data = await response.json();
@@ -1374,16 +1315,16 @@
 			return;
 		}
 
-		let activeKey = appSettings.geminiApiKey;
+		let activeKey = appSettings.geminiApiKey || localStorage.getItem("gemini_api_key");
 		if (!activeKey) {
-			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
+			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein:", "");
 			if (!activeKey) return;
 			activeKey = activeKey.trim();
 			appSettings.geminiApiKey = activeKey;
+			localStorage.setItem("gemini_api_key", activeKey);
 			await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
 		}
 
-		// Standard auf 3.8-flash, wenn kein Dropdown da ist (z.B. auf der Hauptseite)
 		const modelSelect = document.getElementById("selectedGeminiModel");
 		const chosenModel = modelSelect ? modelSelect.value : 'gemini-3.8-flash';
 		const statusCount = document.getElementById("statusCount");
@@ -1429,8 +1370,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${chosenModel}:generateContent?key=${activeKey}`, {
 				method: "POST",
 				headers: { 
-					"Content-Type": "application/json",
-					"x-goog-api-key": activeKey
+					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
 					contents: [{
@@ -1489,12 +1429,13 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 		trigVib();
 		if (!plantName || plantName.trim() === "") return;
 
-		let activeKey = appSettings.geminiApiKey;
+		let activeKey = appSettings.geminiApiKey || localStorage.getItem("gemini_api_key");
 		if (!activeKey) {
-			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein (wird für die Familie gespeichert):", "");
+			activeKey = prompt("Bitte gib deinen Google Gemini API-Key ein:", "");
 			if (!activeKey) return;
 			activeKey = activeKey.trim();
 			appSettings.geminiApiKey = activeKey;
+			localStorage.setItem("gemini_api_key", activeKey);
 			await supabaseClient.from('garten_settings').upsert({ id: 1, gemini_api_key: activeKey });
 		}
 
@@ -1553,8 +1494,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 				const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`, {
 					method: "POST",
 					headers: { 
-						"Content-Type": "application/json",
-						"x-goog-api-key": activeKey
+						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
 						contents: [{ parts: [{ text: promptText }] }],
@@ -2018,11 +1958,11 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 
             <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
 
-            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🤖 Gemini API-Schlüssel (Familien-Cloud)</div>
+            <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">🤖 Gemini API-Schlüssel</div>
             <div style="margin-bottom: 20px;">
-              <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Google Gemini API-Key:</label>
+              <label style="display: block; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">Google Gemini API-Key (wird in Supabase hinterlegt):</label>
               <input type="password" id="settingGeminiKey" value="${escapeHtml(appSettings.geminiApiKey || '')}" placeholder="AIzaSy..." style="width: 100%; padding: 10px 14px; font-size: 1rem; border-radius: 8px; border: 1px solid var(--border); outline: none;">
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Dieser Schlüssel wird für dich und Ramona in eurer privaten Datenbank gesichert.</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Ermöglicht das automatische Generieren und Anlegen neuer Pflanzen mit einem Klick.</p>
             </div>
 
             <button onclick="saveSettings()" style="width: 100%; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.95rem;">💾 Alle Einstellungen speichern</button>
@@ -2148,7 +2088,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 					sendBtn.textContent = "✉️ Senden";
 					sendBtn.onclick = () => sendSinglePlantNoteEmail(k.name, noteText);
 
-					const delBtn = document.createElement("delete-note-btn");
+					const delBtn = document.createElement("button");
 					delBtn.className = "delete-note-btn";
 					delBtn.textContent = "🗑️ Löschen";
 					delBtn.onclick = () => deleteNoteFromOverview(k.id);
@@ -2277,7 +2217,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			for (let i = 1; i <= bedCount; i++) {
 				const count = bedBelegung[i] || 0;
 				const statusText = count > 0 ? `(${count} Sorte${count > 1 ? 'n' : ''})` : `(Leer)`;
-				bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i}${statusText}</option>`;
+				bedFilterHtml += `<option value="${i}" ${aktiverBeetFilter == i ? 'selected' : ''}>🏡 Beet ${i} ${statusText}</option>`;
 			}
 			bedFilterHtml += `
               </select>
@@ -2362,7 +2302,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			if (gruppe.items.length > 0) {
 				const section = document.createElement("div");
 				section.className = "group-section";
-				section.innerHTML = `<div class="group-title">${gruppe.icon}${gName}</div><div class="grid" id="grid-${gName}"></div>`;
+				section.innerHTML = `<div class="group-title">${gruppe.icon} ${gName}</div><div class="grid" id="grid-${gName}"></div>`;
 				cultureGrid.appendChild(section);
 				const innerGrid = section.querySelector(".grid");
 
@@ -2395,7 +2335,8 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
               <span class="card-star ${isFav ? 'active' : ''}" onclick="toggleFavorite('${k.id}', event)" title="Als Favorit merken">★</span>
               <div class="item-icon">${k.icon}</div>
               <div class="item-title">${highlightedTitle}</div>
-              <div class="item-sub">${sortenCount} Sorten</div>${hintBadgeHtml}
+              <div class="item-sub">${sortenCount} Sorten</div>
+              ${hintBadgeHtml}
             `;
 					innerGrid.appendChild(card);
 				});
@@ -2457,7 +2398,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 					tagsHtml += `
               <span class="beet-tag">
                 Beet ${bNum} 
-                <span class="beet-tag-remove" onclick="removeBeetNumberByIdx('${k.id}', ${actualIdx},${bNum})" title="Beet-Zuweisung entfernen">✕</span>
+                <span class="beet-tag-remove" onclick="removeBeetNumberByIdx('${k.id}', ${actualIdx}, ${bNum})" title="Beet-Zuweisung entfernen">✕</span>
               </span>
             `;
 				});
@@ -2476,15 +2417,15 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
                 <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">${s.typ ? escapeHtml(s.typ) : ''}</span>
               </div>
               <div class="quick-status-row">
-                <button class="quick-status-btn ${bStatus==='sown' ? 'active-sown' : ''}" onclick="setBeetStatusByIdx('${k.id}',${actualIdx}, 'sown')">🌱 Ausgesät</button>
-                <button class="quick-status-btn ${bStatus==='harvested' ? 'active-harvested' : ''}" onclick="setBeetStatusByIdx('${k.id}',${actualIdx}, 'harvested')">🧺 Geerntet</button>
-                <button class="quick-status-btn btn-remove" onclick="setBeetStatusByIdx('${k.id}',${actualIdx}, 'none')" title="Aus dem Beet entfernen">❌ Entfernen</button>
+                <button class="quick-status-btn ${bStatus==='sown' ? 'active-sown' : ''}" onclick="setBeetStatusByIdx('${k.id}', ${actualIdx}, 'sown')">🌱 Ausgesät</button>
+                <button class="quick-status-btn ${bStatus==='harvested' ? 'active-harvested' : ''}" onclick="setBeetStatusByIdx('${k.id}', ${actualIdx}, 'harvested')">🧺 Geerntet</button>
+                <button class="quick-status-btn btn-remove" onclick="setBeetStatusByIdx('${k.id}', ${actualIdx}, 'none')" title="Aus dem Beet entfernen">❌ Entfernen</button>
               </div>
               <div style="margin-top: 6px;">
                 <div style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); margin-bottom: 2px;">Zugewiesene Beete:</div>
                 <div>${tagsHtml || '<span style="font-size: 0.75rem; color: var(--text-muted);">Noch kein Beet zugewiesen</span>'}</div>
                 <div style="margin-top: 6px;">
-                  <select onchange="if(this.value){ addBeetNumberByIdx('${k.id}',${actualIdx}, this.value); this.value=''; }" style="padding: 6px 10px; font-size: 0.8rem; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border); color: var(--text);">
+                  <select onchange="if(this.value){ addBeetNumberByIdx('${k.id}', ${actualIdx}, this.value); this.value=''; }" style="padding: 6px 10px; font-size: 0.8rem; background: var(--input-bg); border-radius: 6px; border: 1px solid var(--border); color: var(--text);">
                     ${bedOptions}
                   </select>
                 </div>
@@ -2500,7 +2441,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			<div class="sheet-handle"></div>
 			<div class="detail-header" style="margin-bottom: 12px;">
 			  <div>
-				<div class="detail-title" style="font-size: 1.25rem;">${k.icon}${escapeHtml(k.name)}</div>
+				<div class="detail-title" style="font-size: 1.25rem;">${k.icon} ${escapeHtml(k.name)}</div>
 				<p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Schnellverwaltung deiner Beete</p>
 			  </div>
 			  <button class="close-btn" onclick="closeBeetQuickModal()">✕</button>
@@ -2614,7 +2555,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 
 		const shareText = `🌱 ${k.name} (${sorte.name})\n` +
 			`──────────────────\n` +
-			`• Kategorie: ${k.oberkategorie} /${k.kategorie}\n` +
+			`• Kategorie: ${k.oberkategorie} / ${k.kategorie}\n` +
 			`• Standort: ${k.standort || '-'}\n` +
 			`• Vorzucht/Aussaat: ${k.zeitVorzucht || '-'}\n` +
 			`• Ins Beet: ${k.zeitBeet || '-'}\n` +
@@ -2625,7 +2566,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 
 		if (navigator.share) {
 			navigator.share({
-				title: `${k.icon} ${k.name} -${sorte.name}`,
+				title: `${k.icon} ${k.name} - ${sorte.name}`,
 				text: shareText
 			}).catch(() => {});
 		} else if (navigator.clipboard) {
@@ -2687,7 +2628,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			bedTagsHtml += `
           <span class="beet-tag">
             Beet ${bNum} 
-            <span class="beet-tag-remove" onclick="removeBeetNumberByIdx('${k.id}', ${gewaehlteSorteIdx},${bNum})" title="Beet entfernen">✕</span>
+            <span class="beet-tag-remove" onclick="removeBeetNumberByIdx('${k.id}', ${gewaehlteSorteIdx}, ${bNum})" title="Beet entfernen">✕</span>
           </span>
         `;
 		});
@@ -2713,7 +2654,8 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 		if (sorte.aussehen && sorte.geschmack) {
 			sorteDetailsHtml = `
           <div class="v-detail-line"><strong>🎨 Aussehen:</strong> ${highlightMatch(sorte.aussehen, query)}</div>
-          <div class="v-detail-line"><strong>👅 Geschmack:</strong> ${highlightMatch(sorte.geschmack, query)}</div>${sorte.verwendung ? `<div class="v-detail-line"><strong>🍽️ Verwendung:</strong> ${highlightMatch(sorte.verwendung, query)}</div>` : ''}
+          <div class="v-detail-line"><strong>👅 Geschmack:</strong> ${highlightMatch(sorte.geschmack, query)}</div>
+          ${sorte.verwendung ? `<div class="v-detail-line"><strong>🍽️ Verwendung:</strong> ${highlightMatch(sorte.verwendung, query)}</div>` : ''}
         `;
 		} else if (sorte.eigenschaft) {
 			sorteDetailsHtml = `<div class="v-detail-line">${highlightMatch(sorte.eigenschaft, query)}</div>`;
@@ -2724,20 +2666,22 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			<div class="sheet-handle"></div>
 			<div class="detail-header">
 			  <div>
-				<div class="detail-title">${k.icon}${highlightMatch(k.name, query)}</div>
+				<div class="detail-title">${k.icon} ${highlightMatch(k.name, query)}</div>
 				<div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-				  <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} /${highlightMatch(k.kategorie, query)}</span>
-				  <span class="badge">${highlightedBedarf}</span>${highlightedWasser ? `<span class="badge wasser-badge">${highlightedWasser}</span>` : ""}
+				  <span class="badge" style="background:var(--primary-light); color:var(--primary);">${k.oberkategorie} / ${highlightMatch(k.kategorie, query)}</span>
+				  <span class="badge">${highlightedBedarf}</span>
+				  ${highlightedWasser ? `<span class="badge wasser-badge">${highlightedWasser}</span>` : ""}
 				</div>
 			  </div>
-			  <div class="header-actions" style="display:flex; align-items:center; gap:8px;">
+			  <div class="header-actions">
 				<button class="share-btn" onclick="shareCurrentPlant()" title="Pflanzen-Details teilen">📤 Teilen</button>
 				<button class="close-btn" onclick="closeDetailModal()">✕</button>
 			  </div>
 			</div>
 
 			<div class="varieties-section">
-			  <div class="varieties-title">Verfügbare Sorten (${sichtbareSorten.length}):</div>${subFilterHtml}
+			  <div class="varieties-title">Verfügbare Sorten (${sichtbareSorten.length}):</div>
+			  ${subFilterHtml}
 			  <div class="variety-chips">${sortenChipsHtml}</div>
 			  <div class="v-info-box">
 				<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
@@ -2753,15 +2697,15 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			  <div class="beet-status-box" style="background: var(--box-note-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 14px;">
 				<div style="font-size: 0.85rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">🏡 Beet-Status für ${highlightedSorteName}</div>
 				<div style="display: flex; gap: 8px; flex-wrap: wrap;">
-				  <button class="action-pill ${bStatus==='none' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem;" onclick="setBeetStatusByIdx('${k.id}',${gewaehlteSorteIdx}, 'none')">✖️ Nicht im Beet</button>
-				  <button class="action-pill ${bStatus==='sown' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='sown' ? '#16a34a' : ''}; color: ${bStatus==='sown' ? '#fff' : ''}; border-color: ${bStatus==='sown' ? '#16a34a' : ''};" onclick="setBeetStatusByIdx('${k.id}',${gewaehlteSorteIdx}, 'sown')">🌱 Im Beet</button>
-				  <button class="action-pill ${bStatus==='harvested' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='harvested' ? '#ca8a04' : ''}; color: ${bStatus==='harvested' ? '#fff' : ''}; border-color: ${bStatus==='harvested' ? '#ca8a04' : ''};" onclick="setBeetStatusByIdx('${k.id}',${gewaehlteSorteIdx}, 'harvested')">🧺 Geerntet</button>
+				  <button class="action-pill ${bStatus==='none' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem;" onclick="setBeetStatusByIdx('${k.id}', ${gewaehlteSorteIdx}, 'none')">✖️ Nicht im Beet</button>
+				  <button class="action-pill ${bStatus==='sown' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='sown' ? '#16a34a' : ''}; color: ${bStatus==='sown' ? '#fff' : ''}; border-color: ${bStatus==='sown' ? '#16a34a' : ''};" onclick="setBeetStatusByIdx('${k.id}', ${gewaehlteSorteIdx}, 'sown')">🌱 Im Beet</button>
+				  <button class="action-pill ${bStatus==='harvested' ? 'primary' : 'secondary'}" style="flex: 1; justify-content: center; font-size: 0.75rem; background: ${bStatus==='harvested' ? '#ca8a04' : ''}; color: ${bStatus==='harvested' ? '#fff' : ''}; border-color: ${bStatus==='harvested' ? '#ca8a04' : ''};" onclick="setBeetStatusByIdx('${k.id}', ${gewaehlteSorteIdx}, 'harvested')">🧺 Geerntet</button>
 				</div>
 				<div style="margin-top: 12px; display: ${bStatus !== 'none' ? 'block' : 'none'};">
 				  <label style="font-size: 0.75rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 4px;">📍 Beete dieser Sorte:</label>
 				  <div>${bedTagsHtml || '<span style="font-size: 0.75rem; color: var(--text-muted);">Noch kein Beet zugewiesen</span>'}</div>
 				  <div style="margin-top: 6px;">
-					<select onchange="if(this.value){ addBeetNumberByIdx('${k.id}',${gewaehlteSorteIdx}, this.value); this.value=''; }" style="padding: 8px 10px; font-size: 0.85rem; background: var(--input-bg); color: var(--text);">
+					<select onchange="if(this.value){ addBeetNumberByIdx('${k.id}', ${gewaehlteSorteIdx}, this.value); this.value=''; }" style="padding: 8px 10px; font-size: 0.85rem; background: var(--input-bg); color: var(--text);">
 					  ${bedOptions}
 					</select>
 				  </div>
@@ -2770,7 +2714,8 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 			</div>
 
 			<div class="info-metrics">
-			  <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-standort);">${highlightedStandort}</div></div>${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-anbau);">${k.anbau}</div></div>` : ''}
+			  <div class="metric-card" style="grid-column: span 2;"><div class="metric-label">☀️ Standort / Lichtbedarf</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-standort);">${highlightedStandort}</div></div>
+			  ${k.anbau ? `<div class="metric-card" style="grid-column: span 2;"><div class="metric-label">🌱 Anbaumethode</div><div class="metric-val" style="font-size:0.82rem; color: var(--color-anbau);">${k.anbau}</div></div>` : ''}
 			  <div class="metric-card"><div class="metric-label">Pflanzabstand</div><div class="metric-val">${k.abstandPflanze || '-'}</div></div>
 			  <div class="metric-card"><div class="metric-label">Reihenabstand</div><div class="metric-val">${k.abstandReihe || '-'}</div></div>
 			  <div class="metric-card"><div class="metric-label">Saattiefe</div><div class="metric-val">${k.saattiefe || '-'}</div></div>
@@ -2799,12 +2744,6 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 				<div>${k.schlechteNachbarn || '-'}</div>
 			  </div>
 			</div>
-
-			<div style="margin-top: 24px; margin-bottom: 20px;">
-			  <button onclick="closeDetailModal()" style="width: 100%; padding: 14px; background: var(--tag-bg); color: var(--text); border: 1.5px solid var(--border); border-radius: 12px; font-weight: 800; font-size: 0.95rem; cursor: pointer;">
-				✕ Schließen
-			  </button>
-			</div>
 		  `;
 		  detailPanel.scrollTop = prevScrollTop;
 		}
@@ -2812,7 +2751,7 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 
 	window.orderSeedsOnline = function(kulturName, sorteName) {
 		trigVib();
-		const term = encodeURIComponent(`${kulturName}${sorteName} Samen Jungpflanzen kaufen`);
+		const term = encodeURIComponent(`${kulturName} ${sorteName} Samen Jungpflanzen kaufen`);
 		window.open(`https://www.google.com/search?q=${term}`, '_blank');
 	};
 
@@ -2860,347 +2799,5 @@ Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt (ohne Markdown, ohne \`\`
 		});
 	}
 	</script>
-	<!-- ========================================== -->
-<!-- 🌿 START: GARTEN-KI & PFLANZEN-DOKTOR     -->
-<!-- ========================================== -->
-
-<!-- Schwebender Button unten rechts -->
-<button id="gardenAiTrigger" onclick="toggleGardenAiModal()" title="Pflanzen-Doktor">🌿</button>
-
-<!-- KI Chat & Foto-Modal -->
-<div id="gardenAiModal">
-  <div class="garden-ai-header">
-    <div class="garden-ai-title">🌱 Pflanzen-Doktor & Berater</div>
-    <button class="garden-ai-close" onclick="toggleGardenAiModal()">✕</button>
-  </div>
-
-  <div class="garden-ai-messages" id="gardenAiChat">
-    <div class="g-msg g-bot">
-      Hallo! Ich bin dein Garten- und Anzucht-Assistent. 
-      <br><br>
-      📸 <b>Mache ein Foto</b> von kranken Blättern, Trieben oder Schädlingen oder <b>tippe eine Frage</b> zur Aussaat, Mischkultur oder Beetpflege ein!
-    </div>
-  </div>
-
-  <!-- Foto Vorschau (falls Foto gewählt) -->
-  <div id="gImagePreviewWrap">
-    <img id="gImagePreview" src="" alt="Vorschau">
-    <button type="button" onclick="clearGardenPhoto()">Foto entfernen ✕</button>
-  </div>
-
-  <!-- Eingabeleiste mit Foto-Knopf -->
-  <div class="garden-ai-input-area">
-    <label class="g-photo-btn" title="Foto machen oder wählen">
-      📸
-      <input type="file" id="gPhotoInput" accept="image/*" capture="environment" style="display:none;" onchange="handleGardenPhoto(event)">
-    </label>
-    <input type="text" id="gUserInput" placeholder="Frage stellen oder Foto senden..." onkeypress="if(event.key==='Enter') sendGardenAiMessage()">
-    <button class="g-send-btn" onclick="sendGardenAiMessage()">➤</button>
-  </div>
-</div>
-
-<style>
-  /* Modal Fenster */
-  #gardenAiModal {
-    display: none;
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    left: 15px;
-    top: max(20px, env(safe-area-inset-top));
-    background: #141716;
-    border: 1px solid rgba(46, 160, 67, 0.35);
-    border-radius: 20px;
-    flex-direction: column;
-    z-index: 9999;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    overflow: hidden;
-    overscroll-behavior: contain;
-  }
-  @media(min-width: 600px) {
-    #gardenAiModal {
-      left: auto;
-      top: auto;
-      width: 420px;
-      height: 620px;
-      bottom: 85px;
-      right: 25px;
-    }
-  }
-
-  .garden-ai-header {
-    background: #1c221e;
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    touch-action: none;
-  }
-  .garden-ai-title { font-weight: 700; font-size: 1rem; color: #56d364; }
-  .garden-ai-close {
-    background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer;
-  }
-
-  .garden-ai-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    touch-action: pan-y;
-  }
-  .g-msg {
-    max-width: 86%;
-    padding: 12px 15px;
-    border-radius: 16px;
-    font-size: 0.92rem;
-    line-height: 1.45;
-    word-wrap: break-word;
-    position: relative;
-  }
-  .g-user {
-    align-self: flex-end;
-    background: #2ea043;
-    color: #fff;
-    border-bottom-right-radius: 4px;
-  }
-  .g-bot {
-    align-self: flex-start;
-    background: #222924;
-    color: #e6edf3;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-bottom-left-radius: 4px;
-    padding-bottom: 26px;
-  }
-  .g-speak-btn {
-    position: absolute;
-    bottom: 4px;
-    right: 8px;
-    background: transparent;
-    border: none;
-    color: #56d364;
-    font-size: 0.78rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  #gImagePreviewWrap {
-    display: none;
-    padding: 8px 12px;
-    background: #181d1a;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
-  }
-  #gImagePreview { max-height: 80px; border-radius: 8px; border: 1px solid #333; }
-  #gImagePreviewWrap button {
-    display: block; margin: 4px auto 0 auto; background: none; border: none; color: #f85149; font-size: 0.75rem; cursor: pointer;
-  }
-
-  .garden-ai-input-area {
-    padding: 10px 12px;
-    background: #1c221e;
-    display: flex;
-    gap: 8px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    align-items: center;
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
-  }
-  .g-photo-btn {
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 4px 6px;
-    user-select: none;
-  }
-  #gUserInput {
-    flex: 1;
-    background: #111412;
-    border: 1px solid #333d36;
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 20px;
-    outline: none;
-    font-size: 0.95rem;
-  }
-  #gUserInput:focus { border-color: #2ea043; }
-  .g-send-btn {
-    background: #2ea043;
-    border: none;
-    color: #fff;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
-
-<script>
-  // Zerlegter Schlüssel für reibungslosen GitHub-Commit
-  const G_API_KEY = "AQ.Ab8RN" + "6Lbtc0mVi1i" + "6s-xbBC8rxW" + "rGQ6EdWxvSE" + "HbF9wRM42NIA";
-  let gChatHistory = [];
-  let gCapturedImage = null;
-  let gMsgCounter = 0;
-  let gActiveSpeechBtn = null;
-  let gartenSavedScrollY = 0;
-
-  function toggleGardenAiModal() {
-    const modal = document.getElementById('gardenAiModal');
-    if (!modal) return;
-    const isOpen = (modal.style.display === 'flex');
-
-    if (!isOpen) {
-      // 🔒 ÖFFNEN: Scrollposition merken & Hintergrund auf iOS absolut festnageln
-      gartenSavedScrollY = window.scrollY || window.pageYOffset || 0;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${gartenSavedScrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-      document.body.style.overflow = 'hidden';
-      
-      modal.style.display = 'flex';
-    } else {
-      // 🔓 SCHLIESSEN: Hintergrund entsperren und exakt zurückscrollen
-      modal.style.display = 'none';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-      window.scrollTo(0, gartenSavedScrollY);
-    }
-  }
-
-  function handleGardenPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      gCapturedImage = evt.target.result;
-      document.getElementById('gImagePreview').src = gCapturedImage;
-      document.getElementById('gImagePreviewWrap').style.display = 'block';
-      if (!document.getElementById('gUserInput').value.trim()) {
-        document.getElementById('gUserInput').value = "Was fehlt dieser Pflanze / was ist das?";
-      }
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  }
-
-  function clearGardenPhoto() {
-    gCapturedImage = null;
-    document.getElementById('gImagePreviewWrap').style.display = 'none';
-  }
-
-  function toggleGardenSpeech(btn, rawText) {
-    if (!('speechSynthesis' in window)) return;
-    if (window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
-      if (gActiveSpeechBtn) gActiveSpeechBtn.innerHTML = "🔊 Vorlesen";
-      if (gActiveSpeechBtn === btn) { gActiveSpeechBtn = null; return; }
-    }
-    const clean = rawText.replace(/[*#_`]/g, '').trim();
-    const utt = new SpeechSynthesisUtterance(clean);
-    utt.lang = 'de-DE';
-    utt.rate = 1.05;
-    utt.onend = () => { btn.innerHTML = "🔊 Vorlesen"; gActiveSpeechBtn = null; };
-    utt.onerror = () => { btn.innerHTML = "🔊 Vorlesen"; gActiveSpeechBtn = null; };
-    btn.innerHTML = "⏹️ Stop";
-    gActiveSpeechBtn = btn;
-    window.speechSynthesis.speak(utt);
-  }
-
-  function appendGardenMessage(text, sender) {
-    const chat = document.getElementById('gardenAiChat');
-    const div = document.createElement('div');
-    div.className = 'g-msg ' + sender;
-    gMsgCounter++;
-    const id = 'g-msg-' + gMsgCounter;
-    div.id = id;
-    
-    let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-    div.innerHTML = html;
-    
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-    return id;
-  }
-
-  function updateGardenBotMessage(id, rawText) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    let html = rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-    const encoded = encodeURIComponent(rawText);
-    el.innerHTML = html + `<button class="g-speak-btn" onclick="toggleGardenSpeech(this, decodeURIComponent('${encoded}'))">🔊 Vorlesen</button>`;
-    document.getElementById('gardenAiChat').scrollTop = document.getElementById('gardenAiChat').scrollHeight;
-  }
-
-  async function sendGardenAiMessage() {
-    const input = document.getElementById('gUserInput');
-    const text = input.value.trim();
-    if (!text && !gCapturedImage) return;
-
-    if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
-
-    appendGardenMessage(text || (gCapturedImage ? '📸 Foto analysieren' : ''), 'g-user');
-    input.value = '';
-
-    const contentParts = [{ text: text || "Analysiere bitte dieses Foto aus meinem Garten." }];
-    if (gCapturedImage) {
-      contentParts.push({
-        inline_data: {
-          mime_type: gCapturedImage.split(';')[0].split(':')[1] || 'image/jpeg',
-          data: gCapturedImage.split(',')[1]
-        }
-      });
-      clearGardenPhoto();
-    }
-
-    gChatHistory.push({ role: "user", parts: contentParts });
-    const botId = appendGardenMessage("Analysiere Pflanze & Boden... 🌿", 'g-bot');
-
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${G_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: gChatHistory,
-          tools: [{ google_search: {} }],
-          system_instruction: {
-            parts: [{ text: "Du bist ein erfahrener Gärtner und Pflanzen-Doktor. Analysiere Blattprobleme, Schädlinge, Gib präzise Praxis-Tipps zu Aussaat, Mischkultur, Gießen und Düngen im Garten. Antworte auf den Punkt, freundlich und praxisnah auf Deutsch." }]
-          }
-        })
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error?.message || "Verbindungsfehler");
-
-      const parts = data.candidates?.[0]?.content?.parts || [];
-      const reply = parts.map(p => p.text || '').join('').trim() || "Keine Rückmeldung.";
-
-      gChatHistory.push({ role: "model", parts: [{ text: reply }] });
-      updateGardenBotMessage(botId, reply);
-    } catch(err) {
-      const el = document.getElementById(botId);
-      if (el) el.innerHTML = "❌ Fehler: " + err.message;
-      gChatHistory.pop();
-    }
-  }
-</script>
-<!-- ========================================== -->
-<!-- 🌿 ENDE: GARTEN-KI                        -->
-<!-- ========================================== -->
 </body>
 </html>
