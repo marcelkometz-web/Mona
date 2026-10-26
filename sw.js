@@ -1,38 +1,24 @@
-const CACHE_NAME = 'ramonas-garten-v4';
-
-const CORE_ASSETS = [
-    './',
-    './index.html',
-    './style.css',
-    './app.js',
-    './Read.txt',
-    './manifest.webmanifest',
-    './apple-touch-icon.png',
-    './icon.svg'
-];
-
+// Retire the old /Mona/ app without touching the current apps or their sessions.
 self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
-    );
-    self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(keys => Promise.all(
-            keys.map(key => {
-                if (key !== CACHE_NAME) return caches.delete(key);
-            })
-        ))
-    );
-    self.clients.claim();
-});
-
-self.addEventListener('fetch', event => {
-    if (event.request.method !== 'GET') return;
-    
-    event.respondWith(
-        fetch(event.request).catch(() => caches.match(event.request))
-    );
+  event.waitUntil((async () => {
+    const scope = new URL(self.registration.scope);
+    if (scope.pathname !== '/Mona/') {
+      await self.registration.unregister();
+      return;
+    }
+    // This exact cache was created only from the former Mona CORE_ASSETS.
+    await caches.delete('ramonas-garten-v4');
+    await self.clients.claim();
+    const windows = await self.clients.matchAll({ type: 'window' });
+    await self.registration.unregister();
+    await Promise.allSettled(windows.filter(client => {
+      const url = new URL(client.url);
+      return url.origin === scope.origin &&
+        (url.pathname === '/Mona' || url.pathname.startsWith('/Mona/'));
+    }).map(client => client.navigate(client.url)));
+  })());
 });
