@@ -2,7 +2,7 @@
 
 Die alte Garten-App unter `/Mona/` wurde am 26. Oktober 2026 aus dem veröffentlichten Stand entfernt. Ohne `index.html` liefert GitHub Pages dort HTTP 404 mit einem Verweis auf die aktuellen Apps.
 
-- Garten: https://marcelkometz-web.github.io/newgarten/
+- Garten: https://marcelkometz-web.github.io/garten/
 - Rezepte: https://marcelkometz-web.github.io/rezepte/
 
 Der bisherige Quellcode ist unverändert im Branch `archive/mona-before-retirement-2026-10-26` und im Git-Verlauf erhalten. Es wurden keine Datenbanken verändert.
